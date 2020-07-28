@@ -1,0 +1,80 @@
+$headingFont: "Patrick Hand", cursive;
+$textFont: "Roboto", sans-serif;
+
+$senderTextColor: #000;
+$messageTextColor: #111;
+$senderTextColorNight: #fff;
+$messageTextColorNight: #eee;
+
+.messageBox {
+  /* background: #f3f3f3; */
+  border-radius: 20px;
+  /* padding: 5px 20px; */
+  color: white;
+  display: inline-block;
+  //   max-width: 80%;
+}
+
+.messageText {
+  width: 100%;
+  letter-spacing: 0;
+  float: left;
+  padding-left: 0.4rem;
+  font-size: 1.05rem;
+  word-wrap: break-word;
+  color: $messageTextColor;
+  font-family: $textFont;
+}
+
+.messageText img {
+  vertical-align: middle;
+}
+
+.messageContainer {
+  /* display: flex;
+  justify-content: flex-end;
+  padding: 0 5%; */
+  margin-top: 3px;
+  padding-bottom: 0.5rem;
+}
+
+.sender-text {
+  display: flex;
+  align-items: center;
+  font-family: $textFont;
+  color: $senderTextColor;
+
+  //   letter-spacing: 0.3px;
+}
+
+.pl-10 {
+  padding-left: 10px;
+}
+
+.pr-10 {
+  padding-right: 10px;
+}
+
+.justifyStart {
+  justify-content: flex-start;
+}
+
+.justifyEnd {
+  justify-content: flex-end;
+}
+
+.colorWhite {
+  color: white;
+}
+
+.colorDark {
+  color: #353535;
+}
+
+/* .backgroundBlue {
+  background: #2979ff;
+} */
+
+/* .backgroundLight {
+  background: #f3f3f3;
+} */

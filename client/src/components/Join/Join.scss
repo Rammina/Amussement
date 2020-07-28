@@ -1,20 +1,19 @@
-$main-mint: #baffed;
+$headingFont: "Patrick Hand", cursive;
+$textFont: "Roboto", sans-serif;
+
+$main-mint: #b8ffca;
 $main-black: #222;
-$color-blue: #0000ff;
-$light-mint: #aaffe8;
+$light-mint: #aaffd5;
 
 $center-margin: 0 auto;
 
 $door-img-dimension: 1.3rem;
 
-$porterBold: "porterBold", sans-serif;
-$openSans: "Open Sans", sans-serif;
-
 $tablet-width: 40.625rem;
 
 html,
 body {
-  // font-family: "Roboto", sans-serif;
+  // font-family: $textFont;
   padding: 0;
   margin: 0;
 }
@@ -47,29 +46,13 @@ body {
   width: 100%;
   max-width: $tablet-width;
   margin: 0 auto;
-}
-
-.joinInnerContainer {
-  // /* position: relative; */
-  // position: absolute;
-  // display: flex;
-  // justify-content: center;
-  // /* align-items: flex-start; */
-  // flex-wrap: wrap;
-  // /* bottom: 5rem; */
-  // left: 0;
-  // top: 0;
-  // margin: 0 auto;
-  // padding: 1.8rem 0rem;
-  // padding-top: 2.5rem;
-  // /* width: calc(100vw - (100vw - 100%)); */
   width: calc(100vw - (100vw - 100%) + 0.5rem);
   min-height: calc(100vh);
-  -webkit-box-shadow: 0 0 0 2px aliceblue;
-  box-shadow: 0 0 0 2px aliceblue;
   background-color: #333636cc;
   color: aliceblue;
   border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
+  box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
 }
 
 .join-textfield-container {
@@ -96,7 +79,7 @@ body {
   background-color: white;
   border: solid 1.5px $main-mint;
   border-radius: 5px;
-  font-family: $openSans;
+  font-family: $textFont;
   font-size: 1.03rem;
 }
 
@@ -124,7 +107,7 @@ body {
 .heading {
   color: aliceblue;
   font-size: 1.5rem;
-  font-family: "Open Sans", sans-serif;
+  font-family: $textFont;
   text-align: center;
   padding-bottom: 10px;
   text-transform: none;
@@ -136,8 +119,10 @@ body {
   margin: 0;
   color: $main-mint;
   font-size: 3.25rem;
-  font-family: $porterBold;
-  letter-spacing: 4px;
+  font-family: $headingFont;
+  // text-shadow: 1px 1px 0px #b7a2ceca, 2px 2px 1px #e3c9ffca,
+  //   2px 2px 1px #e3c9ffca, 3px 3px 1px #f4ecffca;
+  text-shadow: 0px 0px 1px #332, 1px 1px 0px #bb9bce, 1.5px 1.5px 1px #fcf;
 }
 
 .join-button-link {
@@ -155,7 +140,7 @@ body {
   display: inline-block;
   border: none;
   width: 8rem;
-  font-family: "Open Sans", sans-serif;
+  font-family: $textFont;
   font-size: 1.05rem;
 }
 

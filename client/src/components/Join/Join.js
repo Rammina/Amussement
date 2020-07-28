@@ -11,7 +11,7 @@ export default function SignIn() {
 
   return (
     <div className="joinOuterContainer">
-      <h1 className="heading-title">Chika Chat</h1>
+      <h1 className="heading-title">Amussement</h1>
       <div className="joinInnerContainer">
         <div className="door-title-container">
           <div className="door-img-container">
@@ -24,6 +24,7 @@ export default function SignIn() {
             placeholder="Name"
             className="join-textfield"
             type="text"
+            maxlength="20"
             onChange={(event) => setName(event.target.value)}
           />
         </div>

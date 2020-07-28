@@ -1,0 +1,40 @@
+$main-mint: #b8ffca;
+$main-black: #222;
+$light-mint: #aaffd5;
+
+$senderTextColor: #000;
+$messageTextColor: #111;
+$senderTextColorNight: #fff;
+$messageTextColorNight: #eee;
+
+.input-chat-form {
+  display: flex;
+  height: 3rem;
+  border-top: 2px solid #d3d3d3;
+}
+
+.input-chat-textfield {
+  border: none;
+  border-radius: 0;
+  //   padding: 5%;
+  width: 80%;
+  max-height: 3rem;
+  font-size: 1.05rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
+.sendButton {
+  color: #fff !important;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: $main-black;
+  padding: 20px;
+  display: inline-block;
+  border: none;
+  width: 20%;
+}

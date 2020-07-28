@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Roboto&display=swap");
 
-@font-face {
-  font-family: porterBold;
-  src: url(./fonts/porterBold.ttf);
-}
+/*
+font-family: 'Patrick Hand', cursive;
+font-family: 'Roboto', sans-serif; 
+*/
 
 * {
   box-sizing: border-box;
@@ -23,7 +23,7 @@ html {
 body {
   position: absolute;
   margin: 0;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.2rem;
   width: 100%;
   min-width: 100% !important;
@@ -37,9 +37,8 @@ h3,
 h4,
 h5,
 h6 {
-  /* font-family: "Cormorant Garamond", serif; */
+  /* font-family: "Patrick Hand", cursive; */
   font-size: 1.3rem;
-  text-transform: uppercase;
 }
 
 main {

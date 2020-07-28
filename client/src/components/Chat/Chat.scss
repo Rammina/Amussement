@@ -16,11 +16,12 @@ $color-blue: #0000ff;
   justify-content: space-between;
   background: #ffffff;
   border-radius: 8px;
-  height: 60%;
-  width: 35%;
+  height: 100%;
+  width: 60%;
+  border: 1px solid white;
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (min-width: 300px) and (max-width: 480px) {
   .outerContainer {
     height: 100%;
   }
