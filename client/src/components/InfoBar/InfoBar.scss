@@ -15,30 +15,33 @@ $messageTextColorNight: #eee;
   align-items: center;
   justify-content: space-between;
   background: $main-black;
-  border-radius: 4px 4px 0 0;
-  height: 60px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  // border-radius: 4px 4px 0 0;
+  height: 3.7rem;
   width: 100%;
 }
 
 .leftInnerContainer {
-  flex: 0.5;
+  // flex: 0.5;
   display: flex;
   align-items: center;
-  margin-left: 5%;
+  // margin-left: 1rem;
   color: $senderTextColorNight;
 }
 
 .rightInnerContainer {
   display: flex;
-  flex: 0.5;
+  // flex: 0.5;
   justify-content: flex-end;
-  margin-right: 5%;
+  // margin-right: 5%;
 }
 
 .onlineIcon {
-  margin-right: 5%;
+  // margin-right: 5%;
 }
 
 .room-title {
+  padding-left: 1rem;
   font-family: $textFont;
 }

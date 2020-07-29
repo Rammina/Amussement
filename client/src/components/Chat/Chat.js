@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
 
-import TextContainer from "../TextContainer/TextContainer";
+import OnlineUsersContainer from "../OnlineUsersContainer/OnlineUsersContainer";
 import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
@@ -28,7 +28,7 @@ const Chat = ({ location }) => {
     setRoom(room);
     setName(name);
 
-    socket.emit("join", { name, room }, (error) => {
+    socket.emit("join", { name, room }, error => {
       if (error) {
         alert(error);
       }
@@ -36,8 +36,8 @@ const Chat = ({ location }) => {
   }, [ENDPOINT, location.search]);
 
   useEffect(() => {
-    socket.on("message", (message) => {
-      setMessages((messages) => [...messages, message]);
+    socket.on("message", message => {
+      setMessages(messages => [...messages, message]);
     });
 
     socket.on("roomData", ({ users }) => {
@@ -45,7 +45,7 @@ const Chat = ({ location }) => {
     });
   }, []);
 
-  const sendMessage = (event) => {
+  const sendMessage = event => {
     event.preventDefault();
 
     if (message) {
@@ -64,7 +64,7 @@ const Chat = ({ location }) => {
           sendMessage={sendMessage}
         />
       </div>
-      <TextContainer users={users} />
+      <OnlineUsersContainer users={users} />
     </div>
   );
 };
