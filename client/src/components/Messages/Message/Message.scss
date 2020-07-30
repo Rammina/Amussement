@@ -8,22 +8,34 @@ $messageTextColorNight: #eee;
 
 .messageBox {
   /* background: #f3f3f3; */
+  width: 100%;
   border-radius: 20px;
   /* padding: 5px 20px; */
   color: white;
-  display: inline-block;
+  display: block;
   //   max-width: 80%;
 }
 
 .messageText {
   width: 100%;
   letter-spacing: 0;
-  float: left;
-  padding-left: 0.4rem;
+  // float: left;
+  // padding-left: 0.4rem;
+  padding-top: 0.3rem;
   font-size: 1.05rem;
   word-wrap: break-word;
   color: $messageTextColor;
   font-family: $textFont;
+}
+
+.messageText:hover {
+  background-color: #eee;
+}
+
+.messageText.no-image {
+  width: calc(100% - 3rem);
+  margin-left: 3rem;
+  padding-top: 0;
 }
 
 .messageText img {
@@ -31,18 +43,31 @@ $messageTextColorNight: #eee;
 }
 
 .messageContainer {
+  display: flex;
   /* display: flex;
   justify-content: flex-end;
   padding: 0 5%; */
-  margin-top: 3px;
-  padding-bottom: 0.5rem;
+  margin-top: 0.4rem;
+  // padding-bottom: 0.5rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid #ddd;
+  width: 100%;
+}
+.message-text-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  // align-items: center;
+  // padding-top: 1.5rem;
 }
 
 .sender-text {
-  display: flex;
-  align-items: center;
+  display: block;
+  // align-items: center;
   font-family: $textFont;
+  font-weight: bold;
   color: $senderTextColor;
+  width: 100%;
 
   //   letter-spacing: 0.3px;
 }

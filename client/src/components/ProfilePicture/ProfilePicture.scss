@@ -1,0 +1,22 @@
+$profilePictureSize: 2.5rem;
+
+.profile-picture-outer-container {
+  display: inline-block;
+  // padding: 0.5rem;
+  // height: $profilePictureSize;
+  // width: $profilePictureSize;
+  padding-right: 0.5rem;
+}
+.profile-picture-inner-container {
+  padding: 0;
+  border-radius: 50%;
+  height: $profilePictureSize;
+  width: $profilePictureSize;
+  // border: 1px solid black;
+}
+.profile-picture-image {
+  padding: 0;
+  border-radius: 50%;
+  height: $profilePictureSize;
+  width: $profilePictureSize;
+}

@@ -1,11 +1,14 @@
 import React from "react";
 
+import ProfilePicture from "../../ProfilePicture/ProfilePicture";
+
 import "./Message.scss";
 
 import ReactEmoji from "react-emoji";
 
-const Message = ({ message: { text, user }, name }) => {
+const Message = ({ message: { text, user }, name, sameSenderAsPrevMsg }) => {
   let isSentByCurrentUser = false;
+  // let sameSenderAsPrevMsg = false;
 
   const trimmedName = name.trim().toLowerCase();
 
@@ -13,21 +16,51 @@ const Message = ({ message: { text, user }, name }) => {
     isSentByCurrentUser = true;
   }
 
-  return isSentByCurrentUser ? (
-    <div className="messageContainer justifyStart">
-      <p className="sender-text">{trimmedName}</p>
-      <div className="messageBox">
-        <p className="messageText colorDark">{ReactEmoji.emojify(text)}</p>
+  const renderMessageText = textOnly => {
+    const textOnlyClass = textOnly ? "no-image" : "";
+
+    return (
+      <div className={`messageBox`}>
+        <p className={`messageText colorDark ${textOnlyClass}`}>
+          {ReactEmoji.emojify(text)}
+        </p>
       </div>
-    </div>
-  ) : (
-    <div className="messageContainer justifyStart">
-      <p className="sender-text">{user}</p>
-      <div className="messageBox">
-        <p className="messageText colorDark">{ReactEmoji.emojify(text)}</p>
+    );
+  };
+
+  const renderMessage = () => {
+    let senderText = null;
+    let senderImage = null;
+
+    if (isSentByCurrentUser) {
+      senderText = <p className="sender-text">{trimmedName}</p>;
+    } else {
+      senderText = <p className="sender-text">{user}</p>;
+    }
+
+    if (!sameSenderAsPrevMsg) {
+      senderImage = (
+        <ProfilePicture
+          imageSrc={null}
+          imageAddress={user.profilepicture || null}
+        />
+      );
+    } else {
+      return renderMessageText(true);
+    }
+
+    return (
+      <div className="messageContainer justifyStart">
+        {senderImage}
+        <div className="message-text-container">
+          {senderText}
+          {renderMessageText()}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
+
+  return renderMessage();
 };
 
 export default Message;
