@@ -19,10 +19,14 @@ $messageTextColorNight: #eee;
   border-radius: 0;
   //   padding: 5%;
   padding: 0.5rem;
-  width: calc(100% - 6rem);
+  width: calc(100% - 4rem);
   max-height: 3rem;
   font-size: 1.05rem;
   font-family: $textFont;
+}
+
+.input-chat-textfield:focus {
+  box-shadow: none;
 }
 
 input:focus,
@@ -36,11 +40,26 @@ select:focus {
   color: #fff !important;
   text-transform: uppercase;
   text-decoration: none;
-  background: $main-black;
+  // background: $main-black;
+  background-color: #0000;
   // padding: 20px;
   display: inline-block;
   outline: none;
-
   border: none;
-  width: 6rem;
+  border-top: 2px solid #d3d3d3;
+  width: 4rem;
+}
+
+.sendButton:focus {
+  box-shadow: none;
+}
+
+.send-button-image {
+  filter: invert(0%) sepia(3%) saturate(310%) hue-rotate(316deg)
+    brightness(102%) contrast(87%);
+}
+
+.send-button-image:hover {
+  filter: invert(16%) sepia(5%) saturate(19%) hue-rotate(314deg) brightness(93%)
+    contrast(85%);
 }
