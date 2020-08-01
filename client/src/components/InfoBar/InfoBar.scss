@@ -17,8 +17,8 @@ $messageTextColorNight: #eee;
   background: #333;
   // background: #222;
 
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
   // border-radius: 4px 4px 0 0;
   height: 3.7rem;
   width: 100%;
@@ -44,6 +44,27 @@ $messageTextColorNight: #eee;
 }
 
 .room-title {
-  padding-left: 1rem;
+  padding-left: 0.5rem;
   font-family: $textFont;
+}
+
+.nav-menu-icon-container,
+.users-icon-container {
+  width: 3rem;
+  height: 3rem;
+  padding: 0.5rem;
+}
+
+.nav-menu-icon-img,
+.users-icon-img {
+  filter: invert(100%) sepia(3%) saturate(7462%) hue-rotate(68deg)
+    brightness(123%) contrast(120%);
+  width: 2rem;
+  height: 2rem;
+}
+
+@media screen and (min-width: 1000px) {
+  .nav-menu-icon-container {
+    display: none;
+  }
 }

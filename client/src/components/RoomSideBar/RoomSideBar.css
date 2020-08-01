@@ -1,4 +1,4 @@
-.online-users-container {
+.room-sidebar-container {
   /* display: flex; */
   display: none;
   flex-direction: column;
@@ -19,7 +19,7 @@
   /* margin-bottom: 50%; */
 }
 
-.online-users-status {
+.room-sidebar-status {
   color: #ccc;
   text-transform: uppercase;
   font-size: 1rem;
@@ -37,18 +37,18 @@
   padding-left: 10px;
 }
 
-.online-users-container h1 {
+.room-sidebar-container h1 {
   margin-bottom: 0px;
 }
 
-@media screen and (min-width: 300px) {
-  .online-users-container {
+@media screen and (min-width: 0px) {
+  .room-sidebar-container {
     display: none;
   }
 }
 
-@media screen and (min-width: 650px) {
-  .online-users-container {
+@media screen and (min-width: 1000px) {
+  .room-sidebar-container {
     display: flex;
     width: 13rem;
   }
