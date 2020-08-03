@@ -2,9 +2,11 @@ $main-pink: #f7d2cc;
 $main-black: #222;
 $color-blue: #0000ff;
 
+$sidebarWidth: 13rem;
+
 .outerContainer {
   display: flex;
-  // justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 100vh;
   background-color: $main-black;
@@ -18,8 +20,16 @@ $color-blue: #0000ff;
   // background: #ffffff;
   border-radius: 0;
   height: 100%;
-  width: 60%;
+  width: 100vw;
+  transform: translate(-$sidebarWidth, 0);
+  // transition: transform 0.3s ease;
+  transition: none;
   // border: 1px solid white;
+}
+.container.move-left {
+  transform: translate(-2 * $sidebarWidth, 0);
+  transition: transform 0.3s ease;
+  // transition: none;
 }
 
 @media screen and (min-width: 0px) and (max-width: 650px) {
@@ -28,13 +38,22 @@ $color-blue: #0000ff;
   }
 
   .container {
-    width: 100%;
+    min-width: 100vw;
     height: 100%;
   }
 }
 
 @media screen and (min-width: 650px) {
   .container {
-    width: calc(100% - 13rem);
+    width: calc(100vw - #{$sidebarWidth});
+    min-width: calc(100vw - #{$sidebarWidth});
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .container {
+    width: calc(100vw - (2 *#{$sidebarWidth}));
+    min-width: calc(100vw - (2 *#{$sidebarWidth}));
+    transform: translate(0, 0);
   }
 }

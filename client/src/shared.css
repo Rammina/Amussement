@@ -211,3 +211,15 @@ textarea {
 /*note: implement URL changes for login  and home*/
 .google.icon {
 }
+
+.backdrop {
+  /* display: none; */
+  visibility: hidden;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: #000;
+  opacity: 0.5;
+  min-width: 100vw;
+  min-height: 100vh;
+}
