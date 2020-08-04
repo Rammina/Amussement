@@ -47,12 +47,14 @@ $sidebarWidth: 13rem;
 
 @media screen and (min-width: 650px) {
   .container {
+    transition: none;
     // width: calc(100vw - #{$sidebarWidth});
     // min-width: calc(100vw - #{$sidebarWidth});
     width: calc(100vw);
     min-width: calc(100vw);
   }
   .container.users-shown {
+    transition: none;
     transform: translate(-$sidebarWidth, 0);
     // width: calc(100vw);min-width: calc(100vw);
     width: calc(100vw - #{$sidebarWidth});
@@ -65,12 +67,16 @@ $sidebarWidth: 13rem;
 
 @media screen and (min-width: 1000px) {
   .container {
-    width: calc(100vw - (2 *#{$sidebarWidth}));
-    min-width: calc(100vw - (2 *#{$sidebarWidth}));
+    width: calc(100vw - (1 *#{$sidebarWidth}));
+    min-width: calc(100vw - (1 *#{$sidebarWidth}));
     transform: translate(0, 0);
   }
   .container.users-shown {
+    // width: calc(100vw);
+    // min-width: calc(100vw);
     transform: translate(0, 0);
+    width: calc(100vw - (2 *#{$sidebarWidth}));
+    min-width: calc(100vw - (2 *#{$sidebarWidth}));
     // transform: translate(0, 0);
     // transition: transform 0.3s ease;
     // transition: none;

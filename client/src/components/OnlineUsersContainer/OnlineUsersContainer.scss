@@ -88,6 +88,9 @@ $onlineUsersWidth: 13rem;
     width: $onlineUsersWidth;
     transform: translate(-#{$onlineUsersWidth}, 0);
   }
+  .online-users-container.show {
+    transform: translate(0, 0);
+  }
 }
 
 @keyframes users-backdrop {
