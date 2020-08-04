@@ -10,12 +10,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { NavContext } from "./AppContext";
 
 const App = () => {
-  const [messagesContainerMoveLeft, setMessagesContainerMoveLeft] = useState(
-    false
-  );
-  const [messagesContainerMoveRight, setMessagesContainerMoveRight] = useState(
-    false
-  );
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
   const [navMenuButtonClass, setNavMenuButtonClass] = useState(null);
   const [navMenuButtonTouched, setNavMenuButtonTouched] = useState(null);
@@ -30,6 +24,12 @@ const App = () => {
 
   const [onlineUsersShow, setOnlineUsersShow] = useState(
     window.innerWidth >= 650 ? true : false
+  );
+  const [messagesContainerMoveLeft, setMessagesContainerMoveLeft] = useState(
+    onlineUsersShow ? true : false
+  );
+  const [messagesContainerMoveRight, setMessagesContainerMoveRight] = useState(
+    roomSideBarShow ? true : false
   );
 
   // custom functions for the hooks

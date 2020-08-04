@@ -65,7 +65,7 @@ const Chat = ({ location }) => {
 
   const getContainerClass = () => {
     if (messagesContainerMoveLeft) {
-      return "move-left";
+      return "users-shown";
     } else if (messagesContainerMoveRight) {
       return "move-right";
     }

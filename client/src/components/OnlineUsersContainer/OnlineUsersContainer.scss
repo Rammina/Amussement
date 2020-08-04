@@ -86,7 +86,7 @@ $onlineUsersWidth: 13rem;
   .online-users-container {
     display: flex;
     width: $onlineUsersWidth;
-    transform: translate(0, 0);
+    transform: translate(-#{$onlineUsersWidth}, 0);
   }
 }
 
