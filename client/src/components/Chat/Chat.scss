@@ -13,6 +13,7 @@ $sidebarWidth: 13rem;
 }
 
 .container {
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -22,13 +23,14 @@ $sidebarWidth: 13rem;
   height: 100%;
   width: 100vw;
   transform: translate(-$sidebarWidth, 0);
-  // transition: transform 0.3s ease;
-  transition: none;
+  transition: transform 0.3s ease;
+  // transition: none;
   // border: 1px solid white;
 }
+
 .container.move-left {
   transform: translate(-2 * $sidebarWidth, 0);
-  transition: transform 0.3s ease;
+  // transition: transform 0.3s ease;
   // transition: none;
 }
 
