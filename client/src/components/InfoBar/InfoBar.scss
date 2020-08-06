@@ -16,7 +16,6 @@ $messageTextColorNight: #eee;
   justify-content: space-between;
   background: #333;
   // background: #222;
-
   padding-left: 0.6rem;
   padding-right: 0.6rem;
   // border-radius: 4px 4px 0 0;
@@ -57,10 +56,24 @@ $messageTextColorNight: #eee;
 
 .nav-menu-icon-img,
 .users-icon-img {
-  filter: invert(100%) sepia(3%) saturate(7462%) hue-rotate(68deg)
-    brightness(123%) contrast(120%);
+  filter: invert(93%) sepia(87%) saturate(5%) hue-rotate(200deg)
+    brightness(104%) contrast(73%);
   width: 2rem;
   height: 2rem;
+}
+
+.nav-menu-icon-img:hover,
+.users-icon-img:hover {
+  filter: invert(100%) sepia(3%) saturate(7462%) hue-rotate(68deg)
+    brightness(123%) contrast(120%);
+  cursor: pointer;
+}
+
+.nav-menu-icon-img.active,
+.users-icon-img.active {
+  filter: invert(100%) sepia(3%) saturate(7462%) hue-rotate(68deg)
+    brightness(123%) contrast(120%);
+  cursor: pointer;
 }
 
 @media screen and (min-width: 1000px) {

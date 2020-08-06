@@ -52,8 +52,13 @@ $onlineUsersWidth: 13rem;
 .activeItem {
   display: flex;
   align-items: center;
+  width: 100%;
   font-size: 1.15rem;
   font-weight: normal;
+}
+
+.activeItem:hover {
+  background-color: #ffffff15;
 }
 
 .activeContainer img {

@@ -78,4 +78,8 @@ $sidebarWidth: 13rem;
     transform: translate(0rem, 0);
     visibility: visible;
   }
+  .backdrop.room-sidebar.show {
+    visibility: hidden;
+    transition: none;
+  }
 }

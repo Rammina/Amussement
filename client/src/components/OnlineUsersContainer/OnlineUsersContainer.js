@@ -12,7 +12,7 @@ const OnlineUsersContainer = ({ users }) => {
     setOnlineUsersShow,
     onlineUsersButtonTouched,
     setOnlineUsersButtonTouched,
-    setMessagesContainerMoveLeft
+    setMessagesContainerMoveLeft,
   } = useContext(NavContext);
 
   const handleResize = () => {
@@ -53,14 +53,12 @@ const OnlineUsersContainer = ({ users }) => {
           <div>
             <h1 className="online-users-status">Online -- {users.length}</h1>
             <div className="activeContainer">
-              <h2>
-                {users.map(({ name }) => (
-                  <div key={name} className="activeItem">
-                    {name}
-                    <img alt="Online Icon" src={onlineIcon} />
-                  </div>
-                ))}
-              </h2>
+              {users.map(({ name }) => (
+                <div key={name} className="activeItem">
+                  <img alt="Online Icon" src={onlineIcon} />
+                  <h2>{name}</h2>
+                </div>
+              ))}
             </div>
           </div>
         ) : null}

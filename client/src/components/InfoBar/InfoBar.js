@@ -17,8 +17,18 @@ const InfoBar = ({ room }) => {
     setNavMenuButtonTouched,
     toggleOnlineUsersShow,
     onlineUsersButtonTouched,
-    setOnlineUsersButtonTouched
+    setOnlineUsersButtonTouched,
+    onlineUsersShow,
+    roomSideBarShow,
   } = useContext(NavContext);
+
+  const getRoomsButtonClass = () => {
+    return roomSideBarShow ? "active" : "inactive";
+  };
+
+  const getUsersButtonClass = () => {
+    return onlineUsersShow ? "active" : "inactive";
+  };
 
   return (
     <div className="infoBar">
@@ -31,7 +41,7 @@ const InfoBar = ({ room }) => {
           }}
         >
           <img
-            className="nav-menu-icon-img"
+            className={`nav-menu-icon-img ${getRoomsButtonClass()}`}
             src={NavMenuImg}
             alt="Navigation Menu"
           />
@@ -46,7 +56,11 @@ const InfoBar = ({ room }) => {
             setOnlineUsersButtonTouched(true);
           }}
         >
-          <img className="users-icon-img" src={UsersImg} alt="Users Icon" />
+          <img
+            className={`users-icon-img ${getUsersButtonClass()}`}
+            src={UsersImg}
+            alt="Users Icon"
+          />
         </div>
       </div>
     </div>

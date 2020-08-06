@@ -54,12 +54,23 @@ select:focus {
   box-shadow: none;
 }
 
+.sendButton.hide {
+  pointer-events: none;
+}
+
+.send-button-image.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .send-button-image {
-  filter: invert(0%) sepia(3%) saturate(310%) hue-rotate(316deg)
-    brightness(102%) contrast(87%);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  filter: invert(13%) sepia(2%) saturate(1682%) hue-rotate(161deg)
+    brightness(97%) contrast(94%);
 }
 
 .send-button-image:hover {
-  filter: invert(16%) sepia(5%) saturate(19%) hue-rotate(314deg) brightness(93%)
-    contrast(85%);
+  filter: invert(25%) sepia(7%) saturate(320%) hue-rotate(161deg)
+    brightness(93%) contrast(87%);
 }
