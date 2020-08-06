@@ -1,8 +1,21 @@
 $sidebarWidth: 13rem;
 
+.backdrop.room-sidebar {
+  opacity: 0;
+  z-index: 14;
+}
+.backdrop.room-sidebar.show {
+  visibility: visible;
+  // transition-delay: 0.17s;
+  // transition: opacity 0.2s ease 0.165s;
+  transition: opacity 0.15s ease 0.165s;
+  opacity: 0.5;
+  // animation: users-backdrop 0.3s ease;
+}
+
 .room-sidebar-container {
   // position: fixed;
-  // z-index: 10;
+  z-index: 0;
   display: flex;
   // display: none;
   min-width: $sidebarWidth;
@@ -11,7 +24,7 @@ $sidebarWidth: 13rem;
   padding: 1rem;
   color: white;
   // background-color: #222;
-  background-color: #333;
+  background-color: #232628;
 
   height: 100vh;
   justify-content: space-between;
@@ -23,6 +36,7 @@ $sidebarWidth: 13rem;
 .room-sidebar-container.show {
   visibility: visible;
   display: flex;
+  z-index: 15;
   // transform: translate(0, 0);
   // padding-left: calc(1 + $sidebarWidth);
 }

@@ -34,11 +34,12 @@ const App = () => {
 
   // custom functions for the hooks
   const toggleRoomSideBarShow = () => {
-    roomSideBarShow ? setRoomSideBarShow(false) : setRoomSideBarShow(true);
-    if (roomSideBarShow) {
+    if (!roomSideBarShow) {
       setMessagesContainerMoveRight(true);
+      setRoomSideBarShow(true);
     } else {
       setMessagesContainerMoveRight(false);
+      setRoomSideBarShow(false);
     }
   };
 

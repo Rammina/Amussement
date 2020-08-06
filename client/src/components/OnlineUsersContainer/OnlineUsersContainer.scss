@@ -4,7 +4,6 @@ $onlineUsersWidth: 13rem;
   opacity: 0;
   z-index: 9;
 }
-
 .backdrop.online-users.show {
   visibility: visible;
   // transition-delay: 0.17s;
@@ -23,7 +22,7 @@ $onlineUsersWidth: 13rem;
   padding: 1rem;
   color: white;
   // background-color: #222;
-  background-color: #333;
+  background-color: #232628;
   visibility: hidden;
   transform: translate(-2 * $onlineUsersWidth, 0);
   transition: z-index 0.3s ease;

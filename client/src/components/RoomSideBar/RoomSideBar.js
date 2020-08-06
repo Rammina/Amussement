@@ -10,7 +10,8 @@ const RoomSideBarContainer = ({ users }) => {
   const {
     navMenuButtonTouched,
     roomSideBarShow,
-    setRoomSideBarShow
+    setRoomSideBarShow,
+    setMessagesContainerMoveRight
   } = useContext(NavContext);
 
   const handleResize = () => {
@@ -36,10 +37,19 @@ const RoomSideBarContainer = ({ users }) => {
   };
 
   return (
-    <div className={`room-sidebar-container ${getContainerClass()}`}>
-      <h1 className="room-sidebar-status">Rooms</h1>
-      <div className="activeContainer"></div>
-    </div>
+    <React.Fragment>
+      <div
+        className={`room-sidebar backdrop ${getContainerClass()}`}
+        onClick={() => {
+          setRoomSideBarShow(false);
+          setMessagesContainerMoveRight(false);
+        }}
+      ></div>
+      <div className={`room-sidebar-container ${getContainerClass()}`}>
+        <h1 className="room-sidebar-status">Rooms</h1>
+        <div className="activeContainer"></div>
+      </div>
+    </React.Fragment>
   );
 };
 

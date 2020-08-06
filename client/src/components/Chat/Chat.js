@@ -19,7 +19,9 @@ const Chat = ({ location }) => {
     messagesContainerMoveLeft,
     setMessagesContainerMoveLeft,
     messagesContainerMoveRight,
-    setMessagesContainerMoveRight
+    setMessagesContainerMoveRight,
+    onlineUsersButtonTouched,
+    navMenuButtonTouched
   } = useContext(NavContext);
 
   const [name, setName] = useState("");
@@ -29,6 +31,33 @@ const Chat = ({ location }) => {
   const [messages, setMessages] = useState([]);
   // const ENDPOINT = "https://chika-chat.herokuapp.com/";
   const ENDPOINT = "localhost:5000";
+
+  const handleResize = () => {
+    if (!onlineUsersButtonTouched) {
+      if (window.innerWidth >= 650) {
+        setMessagesContainerMoveLeft(true);
+      } else {
+        setMessagesContainerMoveLeft(false);
+      }
+    }
+
+    if (!navMenuButtonTouched) {
+      if (window.innerWidth >= 1000) {
+        // setMessagesContainerMoveLeft(true);
+      } else {
+        // setMessagesContainerMoveLeft(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    // do not forget the cleanup function or else there will be errors/inconsistencies
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [handleResize]);
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
@@ -64,10 +93,12 @@ const Chat = ({ location }) => {
   };
 
   const getContainerClass = () => {
-    if (messagesContainerMoveLeft) {
+    if (messagesContainerMoveLeft && messagesContainerMoveRight) {
+      return "users-shown rooms-shown";
+    } else if (messagesContainerMoveLeft) {
       return "users-shown";
     } else if (messagesContainerMoveRight) {
-      return "move-right";
+      return "rooms-shown";
     }
     return null;
   };
