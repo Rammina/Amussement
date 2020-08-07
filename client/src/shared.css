@@ -32,6 +32,11 @@ body {
   overflow-x: hidden;
 }
 
+#root {
+  min-height: 100vh;
+  height: auto;
+}
+
 body h1,
 h2,
 h3,

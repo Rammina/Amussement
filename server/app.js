@@ -48,6 +48,8 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 const server = http.createServer(app);
 const io = socketio(server);
 
+// Cors stuff
+const allowedOrigins = ["http://http://localhost:3000/"];
 app.use(cors());
 app.use(router);
 app.use(logger("dev"));
@@ -60,6 +62,13 @@ app.use(compression()); // Compress all routes
 
 //note: this might change
 app.use(express.static(path.join(__dirname, "public")));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Connect flash
+app.use(flash());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
