@@ -126,7 +126,7 @@ io.on("connect", socket => {
   });
 });
 
-app.use("api/auth", authRoute);
+app.use("/api/auth", authRoute);
 
 server.listen(process.env.PORT || 5000, () =>
   console.log(`Server has started.`)

@@ -1,0 +1,20 @@
+$headingFont: "Patrick Hand", cursive;
+$textFont: "Roboto", sans-serif;
+
+$main-mint: #b8ffca;
+$main-black: #222;
+$light-mint: #aaffd5;
+
+$center-margin: 0 auto;
+
+.user-home-page-container {
+  margin: 0;
+  display: block;
+  // justify-content: center;
+  // text-align: center;
+  min-height: calc(100vh + 0rem);
+  height: auto;
+  // padding: 1rem;
+  // align-items: center;
+  background-color: $main-black;
+}

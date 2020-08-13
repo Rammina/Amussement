@@ -5,45 +5,46 @@ import {
   USER_LOADED,
   USER_LOADING,
   AUTH_ERROR,
-  // LOGIN_SUCCESS,
-  // LOGIN_FAIL,
-  // LOGOUT_SUCCESS,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL,
+  REGISTER_FAIL
 } from "./types";
 
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
   // User loading
   dispatch({ type: USER_LOADING });
+  console.log(tokenConfig(getState));
   serverRest
     .get("api/auth/user", tokenConfig(getState))
-    .then((res) =>
+    .then(res =>
       dispatch({
         type: USER_LOADED,
-        payload: res.data,
+        payload: res.data
       })
     )
-    .catch((err) => {
-      dispatch(returnErrors(err.response.data, err.response.status));
+    .catch(err => {
+      // dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
-        type: AUTH_ERROR,
+        type: AUTH_ERROR
       });
     });
 };
 
 // Register User
-export const registerUser = (formValues) => {
-  return async function (dispatch, getState) {
+export const registerUser = formValues => {
+  return async function(dispatch, getState) {
     serverRest
       .post("api/auth/register", formValues)
-      .then((res) => {
+      .then(res => {
         console.log(res);
         console.log(res.data);
-        history.push("/users/login");
+        history.push("/auth/login");
         dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       })
-      .catch((e) => {
+      .catch(e => {
         // this needs an error handler action creator and reducer
         // console.log(e);
         // console.log(e.response);
@@ -54,32 +55,25 @@ export const registerUser = (formValues) => {
       });
   };
 };
-/*
+
 // Login User
-export const login = ({ email, password }: IAuthFunction) => (
-  dispatch: Function
-) => {
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  // Request body
-  const body = JSON.stringify({ email, password });
-
-  axios
-    .post('/api/auth/login', body, config)
-    .then(res =>
+export const loginUser = formValues => dispatch => {
+  serverRest
+    .post("/api/auth/login", formValues)
+    .then(res => {
+      const userId = res.data.user.id;
+      // history needs to push this to the user's id address
+      history.push(`/users/${userId}/home`);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
-      })
-    )
+      });
+    })
     .catch(err => {
+      console.log(err);
+      console.log(err.response);
       dispatch(
-        returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL')
+        returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
       );
       dispatch({
         type: LOGIN_FAIL
@@ -93,9 +87,9 @@ export const logout = () => {
     type: LOGOUT_SUCCESS
   };
 };
-*/
+
 // Setup config/headers and token
-export const tokenConfig = (getState) => {
+export const tokenConfig = getState => {
   const token = getState().auth.token;
   // headers
   const config = { headers: { "Content-type": "application/json" } };

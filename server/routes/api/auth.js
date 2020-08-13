@@ -3,6 +3,8 @@ const router = express.Router();
 
 const user_controller = require("../../controllers/authController");
 
+const auth = require("../../middleware/auth");
+
 // const passport = require("passport");
 // const config = require("../config");
 // console.log(config);
@@ -28,16 +30,21 @@ const user_controller = require("../../controllers/authController");
 //   // console.log(res);
 //   res.json({ cute: "may" });
 // });
-router.post("/register", user_controller.user_register);
-/*
-// Login
-router.post("/login", (req, res, next) => {
-  passport.authenticate("local", {
-    successRedirect: "/dashboard",
-    failureRedirect: "/users/login",
-    failureFlash: true
-  })(req, res, next);
+//  load user
+router.get("/user", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) throw Error("User Does not exist");
+    res.json(user);
+  } catch (e) {
+    res.status(400).json({ msg: e.message });
+  }
 });
+
+router.post("/register", user_controller.user_register);
+
+// Login
+router.post("/login", user_controller.user_login);
 
 // Logout
 router.get("/logout", (req, res) => {
@@ -45,6 +52,5 @@ router.get("/logout", (req, res) => {
   req.flash("success_msg", "You are logged out");
   res.redirect("/users/login");
 });
-*/
 
 module.exports = router;

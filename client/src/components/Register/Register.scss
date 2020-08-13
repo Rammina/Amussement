@@ -28,6 +28,11 @@ $tablet-width: 40.625rem;
   background-image: url("../../icons/pattern.png");
 }
 
+#register-form {
+  background-color: #333636cc;
+  margin: $center-margin;
+}
+
 .registerInnerContainer {
   display: flex;
   align-content: flex-start;
@@ -36,11 +41,11 @@ $tablet-width: 40.625rem;
   // align-items: center;
   padding-bottom: 3rem;
   width: 100%;
-  max-width: $tablet-width;
+  max-width: 32rem;
+  // max-width: $tablet-width;
   margin: 0 auto;
   width: calc(100vw - (100vw - 100%) + 0.5rem);
   min-height: calc(100vh + 0rem);
-  background-color: #333636cc;
   color: aliceblue;
 }
 
@@ -148,6 +153,12 @@ button:focus {
   }
 }
 
+@media screen and (min-width: 600px) {
+  #register-form {
+    padding-top: 2rem;
+  }
+}
+
 @media screen and (min-width: 750px) and (min-height: 700px) {
   .registerOuterContainer {
     padding-top: 2rem;
@@ -160,22 +171,27 @@ button:focus {
     // margin-top: 5rem;
     text-align: center;
   }
-
+  #register-form {
+    padding: 0 1rem;
+    padding-bottom: 2rem;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
+    box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
+    max-width: 32rem;
+  }
   .registerInnerContainer {
     position: relative;
     padding: 2rem;
-
+    padding-top: 0;
     width: 80%;
     margin: $center-margin;
     top: 2rem;
     height: auto;
     min-height: 0;
     max-width: 32rem;
-    border-radius: 5px;
-    // width: 90%;
-    -webkit-box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
-    box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
   }
+
+  // width: 90%;
 
   .door-title-container {
     padding-top: 0rem;

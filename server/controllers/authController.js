@@ -164,6 +164,38 @@ exports.user_register = async (req, res) => {
   }
 };
 
+exports.user_login = async (req, res) => {
+  const { email, password } = req.body;
+
+  // Simple validation
+  if (!email || !password) {
+    return res.status(400).json({ msg: "Please enter all fields" });
+  }
+
+  try {
+    // Check for existing user
+    const user = await User.findOne({ email });
+    if (!user) throw Error("User Does not exist");
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) throw Error("Invalid credentials");
+
+    const token = jwt.sign({ id: user._id }, SECRETKEY, { expiresIn: 3600 });
+    if (!token) throw Error("Couldnt sign the token");
+
+    res.status(200).json({
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({ msg: e.message });
+  }
+};
 // handle user deletion
 exports.user_delete = async (req, res) => {
   User.findById(req.params.id)

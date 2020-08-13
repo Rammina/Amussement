@@ -15,7 +15,7 @@ $tablet-width: 40.625rem;
   box-sizing: border-box;
 }
 
-.joinOuterContainer {
+.loginOuterContainer {
   display: block;
   // justify-content: center;
   // text-align: center;
@@ -27,7 +27,7 @@ $tablet-width: 40.625rem;
   background-image: url("../../icons/pattern.png");
 }
 
-.joinInnerContainer {
+.loginInnerContainer {
   display: flex;
   align-content: flex-start;
   flex-wrap: wrap;
@@ -88,15 +88,15 @@ $tablet-width: 40.625rem;
     1.5px 1.5px 3px #fcf, -0.5px -0.5px 0px #212;
 }
 
-.join-button-container {
+.login-button-container {
   width: 100%;
 }
 
-.join-button-link {
+.login-button-link {
   margin: 0 calc(50% - 4rem);
 }
 
-.join-button {
+.login-button {
   color: black !important;
   text-transform: uppercase;
   text-decoration: none;
@@ -120,24 +120,24 @@ button:focus {
 }
 
 // @media screen and (min-height: 450px) {
-//   .joinInnerContainer {
+//   .loginInnerContainer {
 //     min-height: calc(87vh + 13rem);
 //     padding-top: 6rem;
 //   }
 // }
 
 @media screen and (min-width: 0px) and (max-width: 480px) {
-  .joinOuterContainer {
+  .loginOuterContainer {
     // height: 100%;
   }
 
-  .joinInnerContainer {
+  .loginInnerContainer {
     // width: 90%;
   }
 }
 
-@media screen and (min-width: 650px) and (min-height: 600px) {
-  .joinOuterContainer {
+@media screen and (min-width: 750px) and (min-height: 700px) {
+  .loginOuterContainer {
     padding-top: 2rem;
   }
 
@@ -149,7 +149,7 @@ button:focus {
     text-align: center;
   }
 
-  .joinInnerContainer {
+  .loginInnerContainer {
     position: relative;
     padding: 2rem;
     width: 80%;
