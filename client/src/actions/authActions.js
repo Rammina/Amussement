@@ -9,7 +9,7 @@ import {
   // LOGIN_FAIL,
   // LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
 } from "./types";
 
 // Check token & load user
@@ -18,38 +18,38 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
   serverRest
     .get("api/auth/user", tokenConfig(getState))
-    .then(res =>
+    .then((res) =>
       dispatch({
         type: USER_LOADED,
-        payload: res.data
+        payload: res.data,
       })
     )
-    .catch(err => {
+    .catch((err) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
-        type: AUTH_ERROR
+        type: AUTH_ERROR,
       });
     });
 };
 
 // Register User
-export const registerUser = formValues => {
-  return async function(dispatch, getState) {
+export const registerUser = (formValues) => {
+  return async function (dispatch, getState) {
     serverRest
       .post("api/auth/register", formValues)
-      .then(res => {
+      .then((res) => {
         console.log(res);
         console.log(res.data);
         history.push("/users/login");
         dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       })
-      .catch(e => {
+      .catch((e) => {
         // this needs an error handler action creator and reducer
-        console.log(e);
-        console.log(e.response);
-        console.log(e.response.data);
-        console.log(e.response.data.errors);
-        console.log(e.response.data.errors[0].msg);
+        // console.log(e);
+        // console.log(e.response);
+        // console.log(e.response.data);
+        // console.log(e.response.data.errors);
+        // console.log(e.response.data.errors[0].msg);
         dispatch({ type: REGISTER_FAIL });
       });
   };
@@ -95,7 +95,7 @@ export const logout = () => {
 };
 */
 // Setup config/headers and token
-export const tokenConfig = getState => {
+export const tokenConfig = (getState) => {
   const token = getState().auth.token;
   // headers
   const config = { headers: { "Content-type": "application/json" } };

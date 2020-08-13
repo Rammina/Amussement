@@ -19,19 +19,19 @@ export default function SignIn() {
           </div>
           <h2 className="heading">Join Room</h2>
         </div>
-        <div className="join-textfield-container">
+        <div className="textfield-container">
           <input
             placeholder="Name"
-            className="join-textfield"
+            className="textfield"
             type="text"
             maxlength="20"
             onChange={(event) => setName(event.target.value)}
           />
         </div>
-        <div className="join-textfield-container">
+        <div className="textfield-container">
           <input
             placeholder="Room"
-            className="join-textfield"
+            className="textfield"
             type="text"
             onChange={(event) => setRoom(event.target.value)}
           />

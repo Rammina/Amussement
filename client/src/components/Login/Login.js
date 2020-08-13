@@ -19,26 +19,26 @@ export default function SignIn() {
           </div>
           <h2 className="heading">Join Room</h2>
         </div>
-        <div className="join-textfield-container">
+        <div className="textfield-container">
           <input
             placeholder="Name"
-            className="join-textfield"
+            className="textfield"
             type="text"
             maxlength="20"
-            onChange={event => setName(event.target.value)}
+            onChange={(event) => setName(event.target.value)}
           />
         </div>
-        <div className="join-textfield-container">
+        <div className="textfield-container">
           <input
             placeholder="Room"
-            className="join-textfield"
+            className="textfield"
             type="text"
-            onChange={event => setRoom(event.target.value)}
+            onChange={(event) => setRoom(event.target.value)}
           />
         </div>
         <Link
           className="join-button-link"
-          onClick={e => (!name || !room ? e.preventDefault() : null)}
+          onClick={(e) => (!name || !room ? e.preventDefault() : null)}
           to={`/chat?name=${name}&room=${room}`}
         >
           <button className={"join-button mt-20"} type="submit">

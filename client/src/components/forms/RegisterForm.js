@@ -11,11 +11,11 @@ import { renderError, getErrorClass, validateEmail } from "../../helpers";
 
 import history from "../../history";
 
-const onInput = e => {
+const onInput = (e) => {
   e.preventDefault();
   e.stopPropagation();
 };
-const handleEnterKeyOnField = e => {
+const handleEnterKeyOnField = (e) => {
   // This prevents submission bugging or refreshing upon pressing enter
   // in an input field inside a form
   if (e.keyCode === 13) {
@@ -41,23 +41,23 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
         {...inputProps}
         {...input}
         className={`${inputProps.className} ${errorClass}`}
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           handleEnterKeyOnField(e);
         }}
-        onInput={e => {
+        onInput={(e) => {
           onInput(e);
         }}
         autoFocus={inputProps.autoFocus || false}
       />
-      {renderError(meta, "login")}
+      {renderError(meta, "register")}
     </React.Fragment>
   );
 };
 
-const RegisterForm = props => {
+const RegisterForm = (props) => {
   // const [name, setName] = useState("");
   // const [room, setRoom] = useState("");
-  const onSubmit = async formValues => {
+  const onSubmit = async (formValues) => {
     console.log(formValues);
     console.log(registerUser);
     await props.registerUser(formValues);
@@ -65,11 +65,11 @@ const RegisterForm = props => {
 
   return (
     <form id="register-form" autoComplete="off">
-      <div className="joinInnerContainer">
+      <div className="registerInnerContainer">
         <div className="door-title-container">
           <h2 className="heading">Create an account</h2>
         </div>
-        <div className="join-textfield-container">
+        <div className="textfield-container">
           <Field
             name="email"
             component={renderInput}
@@ -77,22 +77,22 @@ const RegisterForm = props => {
             props={{
               inputProps: {
                 placeholder: "Email",
-                className: "join-textfield",
+                className: "textfield",
                 maxLength: "64",
                 autoComplete: "off",
-                id: "register-form-email-field"
+                id: "register-form-email-field",
 
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Email",
-                id: "register-form-email-label"
-              }
+                id: "register-form-email-label",
+              },
             }}
           />
         </div>
-        <div className="join-textfield-container">
+        <div className="textfield-container">
           <Field
             name="username"
             component={renderInput}
@@ -100,21 +100,21 @@ const RegisterForm = props => {
             props={{
               inputProps: {
                 placeholder: "Username",
-                className: "join-textfield",
+                className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",
-                id: "register-form-username-field"
+                id: "register-form-username-field",
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Username",
-                id: "register-form-username-label"
-              }
+                id: "register-form-username-label",
+              },
             }}
           />
         </div>
-        <div className="join-textfield-container">
+        <div className="textfield-container">
           <Field
             name="password"
             component={renderInput}
@@ -122,49 +122,49 @@ const RegisterForm = props => {
             props={{
               inputProps: {
                 placeholder: "Password",
-                className: "join-textfield",
+                className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",
                 type: "password",
-                id: "register-form-password-field"
+                id: "register-form-password-field",
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Password",
-                id: "register-form-password-label"
-              }
+                id: "register-form-password-label",
+              },
             }}
           />
         </div>
-        <div className="join-textfield-container">
+        <div className="textfield-container">
           <Field
             name="date_of_birth"
             component={renderInput}
             props={{
               inputProps: {
                 placeholder: "Date of Birth",
-                className: "join-textfield",
+                className: "textfield",
                 id: "register-form-date_of_birth-field",
                 type: "date",
 
-                required: true
+                required: true,
               },
               labelProps: {
                 text: "Date of Birth",
                 class: "textfield-label",
-                id: "register-form-date_of_birth-label"
-              }
+                id: "register-form-date_of_birth-label",
+              },
             }}
           />
         </div>
-        <div className="join-button-container">
+        <div className="register-button-container">
           <button
-            className={"join-button mt-20"}
+            className={"register-button mt-20"}
             type="submit"
             onClick={props.handleSubmit(onSubmit)}
           >
-            Sign In
+            Sign Up
           </button>
         </div>
       </div>
@@ -172,7 +172,7 @@ const RegisterForm = props => {
   );
 };
 
-const validate = formValues => {
+const validate = (formValues) => {
   console.log(formValues);
   const errors = {};
   if (!formValues.email) {
@@ -195,17 +195,14 @@ const validate = formValues => {
   return errors;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error: state.error,
 });
 
-const registerForm = connect(
-  mapStateToProps,
-  { registerUser }
-)(RegisterForm);
+const registerForm = connect(mapStateToProps, { registerUser })(RegisterForm);
 
 export default reduxForm({
   form: "registerForm",
-  validate
+  validate,
 })(registerForm);

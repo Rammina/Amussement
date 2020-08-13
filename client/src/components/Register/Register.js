@@ -16,7 +16,7 @@ const Register = () => {
   // const [room, setRoom] = useState("");
 
   return (
-    <div className="joinOuterContainer">
+    <div className="registerOuterContainer">
       <h1 className="heading-title">Amussement</h1>
       <RegisterForm />
     </div>
