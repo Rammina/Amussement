@@ -1,17 +1,24 @@
 import "../shared.css";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Chat from "./Chat/Chat";
 import Join from "./Join/Join";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { connect } from "react-redux";
+import { Router, Route, Redirect, Switch } from "react-router-dom";
+import history from "../history";
 
 import { NavContext } from "./AppContext";
+import { loadUser } from "../actions/authActions";
 
-const App = () => {
+const App = props => {
+  useEffect(() => {
+    props.loadUser();
+  }, []);
+
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
   const [navMenuButtonClass, setNavMenuButtonClass] = useState(null);
   const [navMenuButtonTouched, setNavMenuButtonTouched] = useState(null);
@@ -88,10 +95,10 @@ const App = () => {
   };
 
   return (
-    <Router>
+    <Router history={history}>
       <Route path="/" exact component={Join} />
-      <Route path="/register" exact component={Register} />
-      <Route path="/login" exact component={Login} />
+      <Route path="/users/register" exact component={Register} />
+      <Route path="/users/login" exact component={Login} />
       <NavContext.Provider value={getNavContextValue()}>
         <Route path="/chat" component={Chat} />
       </NavContext.Provider>
@@ -99,4 +106,7 @@ const App = () => {
   );
 };
 
-export default App;
+export default connect(
+  null,
+  { loadUser }
+)(App);

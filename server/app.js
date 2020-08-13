@@ -20,6 +20,7 @@ const cors = require("cors");
 const compression = require("compression");
 const helmet = require("helmet");
 
+// helper functions
 const {
   addUser,
   removeUser,
@@ -27,7 +28,10 @@ const {
   getUsersInRoom
 } = require("./helpers/users");
 
+// routes
 const router = require("./router");
+const authRoute = require("./routes/api/auth");
+// const usersRoute = require("./routes/api/users");
 
 const app = express();
 // Set up mongoose connection
@@ -35,12 +39,10 @@ const mongoose = require("mongoose");
 
 const mongoPass = process.env.MONGOPASS;
 const dbName = process.env.MONGODBNAME;
-// remove this every time you upload until there is encryption
-// const dev_db_url = `mongodb+srv://AltinaSchwarzer:${mongoPass}@cluster0.wxhge.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 const dev_db_url = `mongodb://AltinaSchwarzer:${mongoPass}@cluster0-shard-00-00.wxhge.mongodb.net:27017,cluster0-shard-00-01.wxhge.mongodb.net:27017,cluster0-shard-00-02.wxhge.mongodb.net:27017/${dbName}?ssl=true&replicaSet=atlas-5i6e4z-shard-0&authSource=admin&retryWrites=true&w=majority`;
 
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
-mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
@@ -71,9 +73,9 @@ app.use(passport.session());
 app.use(flash());
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+// app.use(function(req, res, next) {
+// next(createError(404));
+// });
 
 io.on("connect", socket => {
   socket.on("join", ({ name, room }, callback) => {
@@ -123,6 +125,8 @@ io.on("connect", socket => {
     }
   });
 });
+
+app.use("api/auth", authRoute);
 
 server.listen(process.env.PORT || 5000, () =>
   console.log(`Server has started.`)

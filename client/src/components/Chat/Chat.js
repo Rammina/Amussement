@@ -120,4 +120,12 @@ const Chat = ({ location }) => {
   );
 };
 
+/*
+const mapStateToProps=(state) => {
+  return {
+    room: state.room,
+  };
+}
+*/
+
 export default Chat;
