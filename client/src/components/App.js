@@ -1,4 +1,5 @@
 import "../shared.scss";
+import "./App.scss";
 
 import React, { useState, useEffect } from "react";
 
@@ -15,7 +16,7 @@ import history from "../history";
 import { NavContext } from "./AppContext";
 import { loadUser } from "../actions/authActions";
 
-const App = props => {
+const App = (props) => {
   useEffect(() => {
     props.loadUser();
   }, []);
@@ -91,7 +92,7 @@ const App = props => {
       setOnlineUsersButtonTouched,
       onlineUsersShow,
       setOnlineUsersShow,
-      toggleOnlineUsersShow
+      toggleOnlineUsersShow,
     };
   };
 
@@ -108,7 +109,4 @@ const App = props => {
   );
 };
 
-export default connect(
-  null,
-  { loadUser }
-)(App);
+export default connect(null, { loadUser })(App);

@@ -47,6 +47,19 @@ body {
   // padding-bottom: 1rem;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill::first-line {
+  font-size: 1.2rem;
+  font-family: "Roboto", sans-serif;
+}
+
+// &:-webkit-autofill::first-line,
+// &:-webkit-autofill,
+// &:-webkit-autofill:hover,
+// &:-webkit-autofill:focus,
+// &:-webkit-autofill:active {
+// }
+
 #root {
   background-color: $main-black;
   min-height: calc(100vh);
@@ -252,15 +265,15 @@ textarea {
   flex-wrap: wrap;
   width: 100%;
   // max-height: 4rem;
-  padding: 0.7rem 3vw;
+  padding: 0.7rem 0.5rem;
   margin: $center-margin;
-  max-width: 22rem;
+  max-width: 25rem;
 }
 
 .textfield-label {
   display: block;
   width: 90%;
-  max-width: 15rem;
+  max-width: 25rem;
   margin: $center-margin;
 }
 
@@ -274,17 +287,26 @@ textarea {
   display: block;
   width: 90%;
   height: auto;
-  max-width: 15rem;
+  max-width: 25rem;
   min-height: 2.8rem;
   max-height: 3rem;
   background-color: white;
   border: solid 1.5px $main-mint;
   border-radius: 5px;
   font-family: $textFont;
-  font-size: 1.03rem;
+  font-size: 1.2rem;
+}
+
+.error {
+  width: 90%;
+  max-width: 25rem;
+  margin: 0rem auto;
+  font-size: 1.1rem;
+  color: #ffb0b0;
 }
 
 .textfield.error {
+  color: #111;
   background-color: #fdd;
   border: solid 2px #f77;
 }
@@ -310,4 +332,17 @@ textarea {
   right: 0.45rem;
   filter: invert(93%) sepia(11%) saturate(6781%) hue-rotate(297deg)
     brightness(112%) contrast(105%);
+}
+
+@media screen and (min-width: 750px) and (min-height: 700px) {
+  .textfield-container {
+    max-width: 20rem;
+  }
+
+  .textfield-label,
+  .textfield,
+  .error {
+    width: 95%;
+    max-width: 20rem;
+  }
 }

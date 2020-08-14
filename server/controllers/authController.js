@@ -22,16 +22,16 @@ const storage = multer.diskStorage({
       null,
       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
-  }
+  },
 });
 
 // init upload
 const upload = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
-  fileFilter: function(req, file, cb) {
+  fileFilter: function (req, file, cb) {
     checkFileType(/jpeg|jpg|png|gif/, file, cb);
-  }
+  },
 }).single("shoesImage");
 
 // check file type
@@ -103,6 +103,7 @@ const checkFileType = (regexp, file, cb) => {
 // Handle user create/register on POST.
 exports.user_register = async (req, res) => {
   const { email, username, password, date_of_birth } = req.body;
+  console.log("Hello");
   console.log(req.body);
   let errors = [];
 
@@ -137,14 +138,14 @@ exports.user_register = async (req, res) => {
         email,
         username,
         password: hash,
-        date_of_birth
+        date_of_birth,
       });
       const savedUser = await newUser.save();
       if (!savedUser) throw Error("Something went wrong saving the user");
       // synchronous signing of JWT token
 
       const token = jwt.sign({ id: savedUser._id }, SECRETKEY, {
-        expiresIn: 3600
+        expiresIn: 3600,
       });
 
       console.log(token);
@@ -154,8 +155,8 @@ exports.user_register = async (req, res) => {
         user: {
           id: savedUser._id,
           username: savedUser.username,
-          email: savedUser.email
-        }
+          email: savedUser.email,
+        },
       });
     } catch (e) {
       console.log(e);
@@ -188,8 +189,8 @@ exports.user_login = async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
-      }
+        email: user.email,
+      },
     });
   } catch (e) {
     console.log(e);
@@ -199,12 +200,12 @@ exports.user_login = async (req, res) => {
 // handle user deletion
 exports.user_delete = async (req, res) => {
   User.findById(req.params.id)
-    .then(user => {
+    .then((user) => {
       user.remove().then(() => {
         res.json({ success: true });
       });
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(404).json({ success: false });
     });
 };

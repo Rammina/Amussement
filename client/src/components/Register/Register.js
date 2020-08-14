@@ -16,7 +16,7 @@ const Register = () => {
   // const [room, setRoom] = useState("");
 
   return (
-    <div className="registerOuterContainer">
+    <div className="register page-container">
       <h1 className="heading-title">Amussement</h1>
       <RegisterForm />
     </div>

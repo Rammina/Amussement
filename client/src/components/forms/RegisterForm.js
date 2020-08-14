@@ -65,7 +65,7 @@ const RegisterForm = (props) => {
 
   return (
     <form id="register-form" autoComplete="off">
-      <div className="registerInnerContainer">
+      <div className="register form-content-container">
         <div className="door-title-container">
           <h2 className="heading">Create an account</h2>
         </div>
@@ -158,9 +158,9 @@ const RegisterForm = (props) => {
             }}
           />
         </div>
-        <div className="register-button-container">
+        <div className="form-button-container">
           <button
-            className={"register-button mt-20"}
+            className={"form-button submit mt-20"}
             type="submit"
             onClick={props.handleSubmit(onSubmit)}
           >

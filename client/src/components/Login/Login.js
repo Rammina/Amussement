@@ -13,7 +13,7 @@ import { renderError, getErrorClass } from "../../helpers";
 
 const Login = () => {
   return (
-    <div className="loginOuterContainer">
+    <div className="login page-container">
       <h1 className="heading-title">Amussement</h1>
       <LoginForm />
     </div>

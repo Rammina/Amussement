@@ -15,40 +15,6 @@ $tablet-width: 40.625rem;
   box-sizing: border-box;
 }
 
-.registerOuterContainer {
-  margin: 0;
-  display: block;
-  // justify-content: center;
-  // text-align: center;
-  min-height: calc(100vh + 0rem);
-  height: auto;
-  // padding: 1rem;
-  // align-items: center;
-  background-color: $main-black;
-  background-image: url("../../icons/pattern.png");
-}
-
-#register-form {
-  background-color: #333636cc;
-  margin: $center-margin;
-}
-
-.registerInnerContainer {
-  display: flex;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  justify-content: center;
-  // align-items: center;
-  padding-bottom: 3rem;
-  width: 100%;
-  max-width: 32rem;
-  // max-width: $tablet-width;
-  margin: 0 auto;
-  width: calc(100vw - (100vw - 100%) + 0.5rem);
-  min-height: calc(100vh + 0rem);
-  color: aliceblue;
-}
-
 .door-title-container {
   display: flex;
   justify-content: center;
@@ -80,118 +46,16 @@ $tablet-width: 40.625rem;
   // border-bottom: 2px solid $main-mint;
 }
 
-.heading-title {
-  display: none;
-  margin: 0;
-  color: $main-mint;
-  font-size: 3.25rem;
-  font-family: $headingFont;
-  // text-shadow: 1px 1px 0px #b7a2ceca, 2px 2px 1px #e3c9ffca,
-  //   2px 2px 1px #e3c9ffca, 3px 3px 1px #f4ecffca;
-  text-shadow: 0px 0px 1px #121, 0px 0px 1.5px #332, 1px 1px 0px #bb9bce,
-    1.5px 1.5px 3px #fcf, -0.5px -0.5px 0px #212;
-}
-
-.register-button-container {
-  width: 100%;
-  text-align: center;
-}
-
-.register-button-link {
-  margin: 0 calc(50% - 4rem);
-}
-
-.register-button {
-  position: relative;
-  color: black !important;
-  text-transform: uppercase;
-  text-decoration: none;
-  background: $light-mint;
-  padding: 0.5rem;
-  margin: $center-margin;
-  // margin-left: calc(50vw - 4rem);
-  border-radius: 5px;
-  display: inline-block;
-  border: none;
-  width: 8rem;
-  font-family: $textFont;
-  font-size: 1.05rem;
-}
-
-.mt-20 {
-  margin-top: 20px;
-}
-
-button:focus {
-  outline: 0;
-}
-
 .register.error {
-  color: #ffb0b0;
   position: relative;
-  width: 90%;
-  max-width: 15rem;
-  margin: 0rem auto;
-  font-size: 1.1rem;
   left: 0.8rem;
 }
 
-// @media screen and (min-height: 450px) {
-//   .registerInnerContainer {
-//     min-height: calc(87vh + 13rem);
-//     padding-top: 6rem;
-//   }
-// }
-
-@media screen and (min-width: 0px) and (max-width: 480px) {
-  .registerOuterContainer {
-    // height: 100%;
-  }
-
-  .registerInnerContainer {
-    // width: 90%;
-  }
-}
-
-@media screen and (min-width: 600px) {
-  #register-form {
-    padding-top: 2rem;
-  }
-}
-
 @media screen and (min-width: 750px) and (min-height: 700px) {
-  .registerOuterContainer {
-    padding-top: 2rem;
-  }
-
-  .heading-title {
-    display: block;
-    position: relative;
-    margin: 0 auto;
-    // margin-top: 5rem;
-    text-align: center;
-  }
+  .register.form-content-container,
   #register-form {
-    padding: 0 1rem;
-    padding-bottom: 2rem;
-    border-radius: 5px;
-    -webkit-box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
-    box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
-    max-width: 32rem;
+    max-width: 35rem;
   }
-  .registerInnerContainer {
-    position: relative;
-    padding: 2rem;
-    padding-top: 0;
-    width: 80%;
-    margin: $center-margin;
-    top: 2rem;
-    height: auto;
-    min-height: 0;
-    max-width: 32rem;
-  }
-
-  // width: 90%;
 
   .door-title-container {
     padding-top: 0rem;

@@ -15,34 +15,9 @@ $tablet-width: 40.625rem;
   box-sizing: border-box;
 }
 
-.joinOuterContainer {
-  display: block;
-  // justify-content: center;
-  // text-align: center;
-  min-height: 100vh;
-  height: auto;
-  // padding: 1rem;
-  // align-items: center;
-  background-color: $main-black;
-  background-image: url("../../icons/pattern.png");
-}
-
-.joinInnerContainer {
-  display: flex;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  justify-content: center;
-  // align-items: center;
-  width: 100%;
-  max-width: $tablet-width;
-  margin: 0 auto;
-  width: calc(100vw - (100vw - 100%) + 0.5rem);
-  min-height: calc(100vh);
+.join.form-content-container {
   background-color: #333636cc;
-  color: aliceblue;
-  border-radius: 5px;
-  -webkit-box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
-  box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
+  margin: $center-margin;
 }
 
 .door-title-container {
@@ -76,89 +51,33 @@ $tablet-width: 40.625rem;
   // border-bottom: 2px solid $main-mint;
 }
 
-.heading-title {
-  display: none;
-  margin: 0;
-  color: $main-mint;
-  font-size: 3.25rem;
-  font-family: $headingFont;
-  // text-shadow: 1px 1px 0px #b7a2ceca, 2px 2px 1px #e3c9ffca,
-  //   2px 2px 1px #e3c9ffca, 3px 3px 1px #f4ecffca;
-  text-shadow: 0px 0px 1px #121, 0px 0px 1.5px #332, 1px 1px 0px #bb9bce,
-    1.5px 1.5px 3px #fcf, -0.5px -0.5px 0px #212;
+.join.form-button-container {
+  // width: 8rem;
+  margin-top: 1.5rem;
 }
 
-.join-button-container {
-  width: 100%;
+#join-submit-link {
+  min-height: 3rem;
 }
 
-.join-button-link {
-  margin: 0 calc(50% - 4rem);
-}
-
-.join-button {
-  color: black !important;
-  text-transform: uppercase;
-  text-decoration: none;
-  background: $light-mint;
-  padding: 0.5rem;
-  margin: $center-margin;
-  border-radius: 5px;
-  display: inline-block;
-  border: none;
-  width: 8rem;
-  font-family: $textFont;
-  font-size: 1.05rem;
-}
-
-.mt-20 {
-  margin-top: 20px;
-}
-
-button:focus {
-  outline: 0;
+.join.form-button.submit {
+  margin-top: 0;
 }
 
 // @media screen and (min-height: 450px) {
-//   .joinInnerContainer {
+//   .join.form-content-container {
 //     min-height: calc(87vh + 13rem);
 //     padding-top: 6rem;
 //   }
 // }
 
-@media screen and (min-width: 0px) and (max-width: 480px) {
-  .joinOuterContainer {
-    // height: 100%;
-  }
-
-  .joinInnerContainer {
-    // width: 90%;
-  }
-}
-
 @media screen and (min-width: 750px) and (min-height: 700px) {
-  .joinOuterContainer {
-    padding-top: 2rem;
-  }
-
-  .heading-title {
-    display: block;
-    position: relative;
-    margin: 0 auto;
-    // margin-top: 5rem;
-    text-align: center;
-  }
-
-  .joinInnerContainer {
-    position: relative;
-    padding: 2rem;
-    width: 80%;
-    margin: $center-margin;
-    top: 2rem;
-    height: auto;
-    min-height: 0;
-    max-width: 32rem;
-    // width: 90%;
+  .join.form-content-container {
+    padding: 2rem 1rem;
+    padding-bottom: 3rem;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
+    box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
   }
 
   .door-title-container {

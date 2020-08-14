@@ -1,0 +1,125 @@
+$headingFont: "Patrick Hand", cursive;
+$textFont: "Roboto", sans-serif;
+
+$main-mint: #b8ffca;
+$main-black: #222;
+$light-mint: #aaffd5;
+
+$center-margin: 0 auto;
+
+$door-img-dimension: 1.3rem;
+
+$tablet-width: 40.625rem;
+
+.page-container {
+  margin: 0;
+  display: block;
+  min-height: calc(100vh + 0rem);
+  height: auto;
+  background-color: $main-black;
+  background-image: url("../icons/pattern.png");
+}
+
+.heading-title {
+  display: none;
+  margin: 0;
+  color: $main-mint;
+  font-size: 3.25rem;
+  font-family: $headingFont;
+  // text-shadow: 1px 1px 0px #b7a2ceca, 2px 2px 1px #e3c9ffca,
+  //   2px 2px 1px #e3c9ffca, 3px 3px 1px #f4ecffca;
+  text-shadow: 0px 0px 1px #121, 0px 0px 1.5px #332, 1px 1px 0px #bb9bce,
+    1.5px 1.5px 3px #fcf, -0.5px -0.5px 0px #212;
+}
+
+#login-form,
+#register-form,
+#join-form {
+  background-color: #333636cc;
+  margin: $center-margin;
+}
+
+.form-content-container {
+  display: flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+  // align-items: center;
+  padding-bottom: 3rem;
+  width: 100%;
+  max-width: 32rem;
+  // max-width: $tablet-width;
+  margin: 0 auto;
+  width: calc(100vw - (100vw - 100%) + 0.5rem);
+  min-height: calc(100vh + 0rem);
+  color: aliceblue;
+}
+
+.form-button-container {
+  width: 100%;
+  text-align: center;
+}
+
+.form-button-link {
+  margin: 0 calc(50% - 4rem);
+}
+
+.form-button.submit {
+  color: black !important;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: $light-mint;
+  padding: 0.5rem;
+  margin: $center-margin;
+  margin-top: 2rem;
+  border-radius: 5px;
+  display: inline-block;
+  border: none;
+  width: 8rem;
+  font-family: $textFont;
+  font-size: 1.05rem;
+}
+
+@media screen and (min-width: 600px) {
+  #register-form {
+    padding-top: 2rem;
+  }
+}
+
+@media screen and (min-width: 750px) and (min-height: 700px) {
+  .page-container {
+    padding-top: 2rem;
+  }
+
+  #register-form,
+  #login-form,
+  #join-form {
+    padding: 0 1rem;
+    padding-bottom: 2rem;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
+    box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
+    max-width: 32rem;
+  }
+
+  .form-content-container {
+    position: relative;
+    padding: 2rem;
+    padding-top: 0;
+    width: 80%;
+    margin: $center-margin;
+    top: 2rem;
+    height: auto;
+    min-height: 0;
+    max-width: 32rem;
+  }
+
+  .heading-title {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    // margin-top: 5rem;
+    text-align: center;
+    padding-bottom: 1.2rem;
+  }
+}

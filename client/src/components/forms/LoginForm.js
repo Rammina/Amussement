@@ -11,11 +11,11 @@ import { renderError, getErrorClass, validateEmail } from "../../helpers";
 
 import history from "../../history";
 
-const onInput = e => {
+const onInput = (e) => {
   e.preventDefault();
   e.stopPropagation();
 };
-const handleEnterKeyOnField = e => {
+const handleEnterKeyOnField = (e) => {
   // This prevents submission bugging or refreshing upon pressing enter
   // in an input field inside a form
   if (e.keyCode === 13) {
@@ -41,10 +41,10 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
         {...inputProps}
         {...input}
         className={`${inputProps.className} ${errorClass}`}
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           handleEnterKeyOnField(e);
         }}
-        onInput={e => {
+        onInput={(e) => {
           onInput(e);
         }}
         autoFocus={inputProps.autoFocus || false}
@@ -54,10 +54,10 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
   );
 };
 
-const LoginForm = props => {
+const LoginForm = (props) => {
   // const [name, setName] = useState("");
   // const [room, setRoom] = useState("");
-  const onSubmit = async formValues => {
+  const onSubmit = async (formValues) => {
     console.log(formValues);
     console.log(loginUser);
     await props.loginUser(formValues);
@@ -65,7 +65,7 @@ const LoginForm = props => {
 
   return (
     <form id="login-form" autoComplete="off">
-      <div className="loginInnerContainer">
+      <div className="login form-content-container">
         <div className="door-title-container">
           <h2 className="heading">Login</h2>
         </div>
@@ -80,15 +80,15 @@ const LoginForm = props => {
                 className: "textfield",
                 maxLength: "64",
                 autoComplete: "off",
-                id: "login-form-email-field"
+                id: "login-form-email-field",
 
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Email",
-                id: "login-form-email-label"
-              }
+                id: "login-form-email-label",
+              },
             }}
           />
         </div>
@@ -104,20 +104,20 @@ const LoginForm = props => {
                 maxLength: "30",
                 autoComplete: "off",
                 type: "password",
-                id: "login-form-password-field"
+                id: "login-form-password-field",
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Password",
-                id: "login-form-password-label"
-              }
+                id: "login-form-password-label",
+              },
             }}
           />
         </div>
-        <div className="login-button-container">
+        <div className="form-button-container">
           <button
-            className={"login-button mt-20"}
+            className={"form-button submit mt-20"}
             type="submit"
             onClick={props.handleSubmit(onSubmit)}
           >
@@ -129,7 +129,7 @@ const LoginForm = props => {
   );
 };
 
-const validate = formValues => {
+const validate = (formValues) => {
   console.log(formValues);
   const errors = {};
   if (!formValues.email) {
@@ -144,17 +144,14 @@ const validate = formValues => {
   return errors;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error: state.error,
 });
 
-const loginForm = connect(
-  mapStateToProps,
-  { loginUser }
-)(LoginForm);
+const loginForm = connect(mapStateToProps, { loginUser })(LoginForm);
 
 export default reduxForm({
   form: "loginForm",
-  validate
+  validate,
 })(loginForm);
