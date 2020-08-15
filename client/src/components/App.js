@@ -8,6 +8,7 @@ import Join from "./Join/Join";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 import UserHome from "./UserHome/UserHome";
+import UserAccount from "./UserAccount/UserAccount";
 
 import { connect } from "react-redux";
 import { Router, Route, Redirect, Switch } from "react-router-dom";
@@ -16,7 +17,7 @@ import history from "../history";
 import { NavContext } from "./AppContext";
 import { loadUser } from "../actions/authActions";
 
-const App = (props) => {
+const App = props => {
   useEffect(() => {
     props.loadUser();
   }, []);
@@ -92,7 +93,7 @@ const App = (props) => {
       setOnlineUsersButtonTouched,
       onlineUsersShow,
       setOnlineUsersShow,
-      toggleOnlineUsersShow,
+      toggleOnlineUsersShow
     };
   };
 
@@ -101,7 +102,7 @@ const App = (props) => {
       <Route path="/" exact component={Join} />
       <Route path="/auth/register" exact component={Register} />
       <Route path="/auth/login" exact component={Login} />
-      <Route path="/users/home" exact component={UserHome} />
+      <Route path="/users/:id/home" exact component={UserAccount} />
       <NavContext.Provider value={getNavContextValue()}>
         <Route path="/chat" component={Chat} />
       </NavContext.Provider>
@@ -109,4 +110,7 @@ const App = (props) => {
   );
 };
 
-export default connect(null, { loadUser })(App);
+export default connect(
+  null,
+  { loadUser }
+)(App);

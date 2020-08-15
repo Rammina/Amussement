@@ -1,0 +1,60 @@
+$headingFont: "Patrick Hand", cursive;
+$textFont: "Roboto", sans-serif;
+
+$main-mint: #b8ffca;
+$main-black: #222;
+$light-mint: #aaffd5;
+
+$senderTextColor: #000;
+$messageTextColor: #111;
+$senderTextColorNight: #fff;
+$messageTextColorNight: #eee;
+
+.error-notifications-container {
+  width: 90%;
+  max-width: 20rem;
+}
+
+.error-notification-container {
+  display: flex;
+  border: 1px solid #f777;
+  background-color: #fddd;
+  color: #733;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 3rem;
+  border-radius: 5px;
+  padding: 0 0.5rem;
+  transition: opacity 0.3s ease, visibility 0.01s ease 0.29s,
+    min-height 0.01s ease 0.29s, height 0.01s ease 0.29s;
+  // padding-right: 1rem;
+  // text-align: center;
+  // vertical-align: middle;
+}
+
+.error-notification-container.hide {
+  // display: none;
+  visibility: hidden;
+  min-height: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.server-side.error-image {
+  right: 0.2rem;
+  filter: invert(22%) sepia(89%) saturate(1798%) hue-rotate(340deg)
+    brightness(87%) contrast(85%);
+}
+.error-notification-text-span {
+  position: relative;
+  bottom: 0.15rem;
+  left: 0.4rem;
+}
+.server-side.error.close-button {
+  margin: 0;
+  // float: right;
+  width: 2rem;
+  background-color: #0000;
+  color: #733;
+}

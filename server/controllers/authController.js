@@ -22,16 +22,16 @@ const storage = multer.diskStorage({
       null,
       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
-  },
+  }
 });
 
 // init upload
 const upload = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
-  fileFilter: function (req, file, cb) {
+  fileFilter: function(req, file, cb) {
     checkFileType(/jpeg|jpg|png|gif/, file, cb);
-  },
+  }
 }).single("shoesImage");
 
 // check file type
@@ -49,56 +49,16 @@ const checkFileType = (regexp, file, cb) => {
   }
 };
 
-// exports.users_list = function(req, res, next) {
-//   // /*Shoes.find({}, "name brand")
-//     .populate("brand")
-//     .exec(function(err, list_shoes) {
-//       if (err) {
-//         return next(err);
-//       } else {
-//         // Successful, so render
-//         res.render("shoes_list", {
-//           title: "Shoes List",
-//           shoes_list: list_shoes
-//         });
-//       }
-//     });
-//     */
-// };
-
-// Display detail page for a specific shoes.
-// exports.user_detail = function(req, res, next) {
-//   async.parallel(
-//     {
-//       shoes: function(callback) {
-//         Shoes.findById(req.params.id)
-//           .populate("brand") /*populate brand id with actual brand information*/
-//           .populate("style") /*populate style id with actual style information*/
-//           .exec(callback);
-//       },
-//       shoes_instance: function(callback) {
-//         ShoesInstance.find({ shoes: req.params.id }).exec(callback);
-//       }
-//     },
-//     function(err, results) {
-//       if (err) {
-//         return next(err);
-//       }
-//       if (results.shoes == null) {
-//         // No results.
-//         var err = new Error("Shoes not found");
-//         err.status = 404;
-//         return next(err);
-//       }
-//       // Successful, so render.
-//       res.render("shoes_detail", {
-//         title: "Title",
-//         shoes: results.shoes,
-//         shoes_instances: results.shoes_instance
-//       });
-//     }
-//   );
-// };
+// retrieve user information upon application loading
+exports.user_load = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) throw Error("User does not exist");
+    res.json(user);
+  } catch (e) {
+    res.status(400).json({ msg: e.message });
+  }
+};
 
 // Handle user create/register on POST.
 exports.user_register = async (req, res) => {
@@ -123,29 +83,31 @@ exports.user_register = async (req, res) => {
     res.status(400).json({ errors });
   } else {
     try {
+      const emailLowerCase = email.toLowerCase();
       // check if e-mail is already taken
       const user = await User.findOne({ email });
-      if (user) throw Error("Email is already taken");
+      if (user) throw Error("Email is already taken.");
       // check if salt generation has any errors
       const salt = await bcrypt.genSalt(10);
-      if (!salt) throw Error("Something went wrong with bcrypt");
+      if (!salt)
+        throw Error("Something went wrong with encrypting the password.");
       // check if hashing the password has any errors
       const hash = await bcrypt.hash(password, salt);
-      if (!hash) throw Error("Something went wrong hashing the password");
+      if (!hash) throw Error("Something went wrong hashing the password.");
       console.log(SECRETKEY);
 
       const newUser = new User({
-        email,
+        email: emailLowerCase,
         username,
         password: hash,
-        date_of_birth,
+        date_of_birth
       });
       const savedUser = await newUser.save();
-      if (!savedUser) throw Error("Something went wrong saving the user");
+      if (!savedUser) throw Error("Failed to register the user.");
       // synchronous signing of JWT token
 
       const token = jwt.sign({ id: savedUser._id }, SECRETKEY, {
-        expiresIn: 3600,
+        expiresIn: 3600
       });
 
       console.log(token);
@@ -155,12 +117,12 @@ exports.user_register = async (req, res) => {
         user: {
           id: savedUser._id,
           username: savedUser.username,
-          email: savedUser.email,
-        },
+          email: savedUser.email.toLowerCase()
+        }
       });
     } catch (e) {
       console.log(e);
-      res.status(400).json({ error: e.message });
+      res.status(400).json({ msg: e.message });
     }
   }
 };
@@ -174,23 +136,24 @@ exports.user_login = async (req, res) => {
   }
 
   try {
+    const emailLowerCase = email.toLowerCase();
     // Check for existing user
-    const user = await User.findOne({ email });
-    if (!user) throw Error("User Does not exist");
+    const user = await User.findOne({ emailLowerCase });
+    if (!user) throw Error("User does not exist.");
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) throw Error("Invalid credentials");
+    if (!isMatch) throw Error("Invalid credentials.");
 
     const token = jwt.sign({ id: user._id }, SECRETKEY, { expiresIn: 3600 });
-    if (!token) throw Error("Couldnt sign the token");
+    if (!token) throw Error("Could not sign the token.");
 
     res.status(200).json({
       token,
       user: {
         id: user._id,
-        name: user.name,
-        email: user.email,
-      },
+        name: user.username,
+        email: user.emailLowerCase
+      }
     });
   } catch (e) {
     console.log(e);
@@ -200,12 +163,12 @@ exports.user_login = async (req, res) => {
 // handle user deletion
 exports.user_delete = async (req, res) => {
   User.findById(req.params.id)
-    .then((user) => {
+    .then(user => {
       user.remove().then(() => {
         res.json({ success: true });
       });
     })
-    .catch((error) => {
+    .catch(error => {
       res.status(404).json({ success: false });
     });
 };
