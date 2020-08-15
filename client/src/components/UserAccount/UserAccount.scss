@@ -28,8 +28,15 @@ $center-margin: 0 auto;
 }
 
 #user-account-close-button {
+  display: none;
   position: absolute;
   height: 3rem;
   width: 3rem;
   right: 0;
+}
+
+@media screen and (min-width: 750px) {
+  #user-account-close-button {
+    display: block;
+  }
 }

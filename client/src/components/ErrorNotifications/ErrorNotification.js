@@ -6,21 +6,22 @@ import { connect } from "react-redux";
 
 import { clearErrors } from "../../actions/errorActions";
 
-const ErrorNotification = props => {
+const ErrorNotification = (props) => {
   const [containerClass, setContainerClass] = useState(null);
   return (
     <div
       className={`error-notification-container ${containerClass}`}
       role="alert"
     >
-      <span className="error-notification-text-span">
+      <div className="error-notification-text-span">
         <img
           className="server-side error-image"
           src={warningImg}
           alt="warning sign"
         ></img>
+
         {props.message}
-      </span>
+      </div>
       <button
         type="button"
         className="server-side error close-button"
@@ -37,7 +38,4 @@ const ErrorNotification = props => {
   );
 };
 
-export default connect(
-  null,
-  { clearErrors }
-)(ErrorNotification);
+export default connect(null, { clearErrors })(ErrorNotification);

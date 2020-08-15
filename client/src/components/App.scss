@@ -4,6 +4,7 @@ $textFont: "Roboto", sans-serif;
 $main-mint: #b8ffca;
 $main-black: #222;
 $light-mint: #aaffd5;
+$light-mint-hover: #c6ffe2;
 
 $center-margin: 0 auto;
 
@@ -80,8 +81,14 @@ $tablet-width: 40.625rem;
   font-size: 1.05rem;
 }
 
+.form-button.submit:hover {
+  background-color: $light-mint-hover;
+}
+
 @media screen and (min-width: 600px) {
-  #register-form {
+  #register-form,
+  #login-form,
+  #join-form {
     padding-top: 2rem;
   }
 }

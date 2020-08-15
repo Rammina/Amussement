@@ -11,8 +11,8 @@ $senderTextColorNight: #fff;
 $messageTextColorNight: #eee;
 
 .error-notifications-container {
-  width: 90%;
-  max-width: 20rem;
+  width: 85%;
+  max-width: 21.5rem;
 }
 
 .error-notification-container {
@@ -41,7 +41,14 @@ $messageTextColorNight: #eee;
   opacity: 0;
 }
 
+// .error-notification.error-image-container {
+//   width: fit-content;
+//   height: 100%;
+//   margin: 0;
+// }
+
 .server-side.error-image {
+  display: none;
   right: 0.2rem;
   filter: invert(22%) sepia(89%) saturate(1798%) hue-rotate(340deg)
     brightness(87%) contrast(85%);
@@ -57,4 +64,17 @@ $messageTextColorNight: #eee;
   width: 2rem;
   background-color: #0000;
   color: #733;
+}
+
+@media screen and (min-width: 400px) {
+  .server-side.error-image {
+    display: inline;
+  }
+}
+
+@media screen and (min-width: 750px) and (min-height: 700px) {
+  .error-notifications-container {
+    width: 90%;
+    max-width: 20rem;
+  }
 }

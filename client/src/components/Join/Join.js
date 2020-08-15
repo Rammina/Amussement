@@ -24,7 +24,7 @@ export default function SignIn() {
             <div className="door-img-container">
               <img className="door-icon-img" src={DoorImg} alt="Door" />
             </div>
-            <h2 className="heading">Join Room</h2>
+            <h2 className="heading">Join as Guest</h2>
           </div>
           <div className="textfield-container">
             <input
