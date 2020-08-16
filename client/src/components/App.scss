@@ -85,6 +85,15 @@ $tablet-width: 40.625rem;
   background-color: $light-mint-hover;
 }
 
+.two-buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 24rem;
+  margin: 0 auto;
+}
+
 @media screen and (min-width: 600px) {
   #register-form,
   #login-form,

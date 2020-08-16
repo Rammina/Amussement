@@ -1,0 +1,122 @@
+$headingFont: "Patrick Hand", cursive;
+$textFont: "Roboto", sans-serif;
+
+$main-mint: #b8ffca;
+$main-black: #222;
+$light-mint: #aaffd5;
+
+$center-margin: 0 auto;
+
+$profilePictureSize: 4rem;
+
+.user-settings-page-container {
+  margin: 0;
+  display: block;
+  min-height: calc(100vh + 0rem);
+  height: auto;
+  background-color: $main-black;
+  color: white;
+}
+
+.user-settings-outer-flex-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: calc(100vh + 0rem);
+}
+
+.user-settings-sidebar-outer-container {
+  display: none;
+  padding-top: 3rem;
+  background-color: pink;
+  width: 100%;
+  height: 100%;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+#user-settings-close-button {
+  display: none;
+  position: absolute;
+  height: 3rem;
+  width: 3rem;
+  right: 0;
+}
+
+.user-settings-sidebar-navbar {
+  position: fixed;
+  top: 0;
+  display: flex;
+  width: 100%;
+  height: 3rem;
+  padding: 0 0.8rem;
+  justify-content: space-between;
+  align-items: center;
+  background-color: aliceblue;
+}
+
+.user-settings-navbar-heading {
+  display: inline-block;
+  font-size: 1.3rem;
+  // height: 1.3rem;
+}
+
+#user-settings-logout-button {
+  width: 3rem;
+  height: 3rem;
+}
+
+.user-settings-sidebar-item {
+  width: 100%;
+  height: 3rem;
+  vertical-align: middle;
+  text-align: center;
+  margin-top: 0.2rem;
+  border: 1px solid black;
+}
+
+.user-settings-content-container {
+  // display: none;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 1rem;
+}
+
+.user-settings-section-container {
+}
+
+.user-settings-profile-container {
+  display: flex;
+}
+
+#user-settings-profile-large-image-container {
+  display: inline-block;
+  width: $profilePictureSize;
+  height: $profilePictureSize;
+  border-radius: 50%;
+}
+#user-large-image {
+  display: inline-block;
+  background-color: pink;
+  width: $profilePictureSize;
+  height: $profilePictureSize;
+  border-radius: 50%;
+}
+
+.user-settings-profile-information {
+  // display: inline-block;
+  width: fit-content;
+  // margin: 0;
+}
+
+.profile-button {
+  height: 3rem;
+  width: 8rem;
+  // margin-left
+}
+
+@media screen and (min-width: 750px) {
+  #user-settings-close-button {
+    display: block;
+  }
+}
