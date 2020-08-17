@@ -2,48 +2,17 @@ $headingFont: "Patrick Hand", cursive;
 $textFont: "Roboto", sans-serif;
 
 $main-mint: #b8ffca;
-$main-black: #222;
+$main-black: #333538;
+$secondary-black: #232628;
 $light-mint: #aaffd5;
+$discord-sidebar-black: #2f3136;
+$discord-content-black: #36393f;
 
 $center-margin: 0 auto;
 
 $profilePictureSize: 4rem;
 
-.user-account-page-container {
-  margin: 0;
-  display: block;
-  min-height: calc(100vh + 0rem);
-  height: auto;
-  background-color: $main-black;
-  color: white;
-}
-
-.user-account-outer-flex-container {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  min-height: calc(100vh + 0rem);
-}
-
-.user-account-sidebar-outer-container {
-  display: none;
-  padding-top: 3rem;
-  background-color: pink;
-  width: 100%;
-  height: 100%;
-  min-width: 100vw;
-  min-height: 100vh;
-}
-
-#user-account-close-button {
-  display: none;
-  position: absolute;
-  height: 3rem;
-  width: 3rem;
-  right: 0;
-}
-
-.user-account-sidebar-navbar {
+.user-settings-content-header {
   position: fixed;
   top: 0;
   display: flex;
@@ -52,49 +21,24 @@ $profilePictureSize: 4rem;
   padding: 0 0.8rem;
   justify-content: space-between;
   align-items: center;
-  background-color: aliceblue;
+  // background-color: #111;
+  background-color: $secondary-black;
 }
 
-.user-account-navbar-heading {
-  display: inline-block;
-  font-size: 1.3rem;
-  // height: 1.3rem;
-}
-
-#user-account-logout-button {
-  width: 3rem;
-  height: 3rem;
-}
-
-.user-account-sidebar-item {
-  width: 100%;
-  height: 3rem;
-  vertical-align: middle;
-  text-align: center;
-  margin-top: 0.2rem;
-  border: 1px solid black;
-}
-
-.user-account-content-container {
-  // display: none;
-  width: 100%;
-  height: 100%;
-  padding: 0.5rem 1rem;
-}
-
-.user-account-section-container {
-}
-
-.user-account-profile-container {
+.profile-container {
   display: flex;
+  margin-top: 3rem;
 }
 
-#user-account-profile-large-image-container {
+#profile-large-image-container {
   display: inline-block;
+  position: relative;
+  left: 0.2rem;
   width: $profilePictureSize;
   height: $profilePictureSize;
   border-radius: 50%;
 }
+
 #user-large-image {
   display: inline-block;
   background-color: pink;
@@ -103,20 +47,35 @@ $profilePictureSize: 4rem;
   border-radius: 50%;
 }
 
-.user-account-profile-information {
+#profile-information-container {
+  position: relative;
+  left: 0.5rem;
+}
+
+.profile-information {
   // display: inline-block;
   width: fit-content;
   // margin: 0;
+  font-size: 1rem;
+}
+
+#profile-image-remove {
+  font-size: 1rem;
+  color: #fbb;
 }
 
 .profile-button {
-  height: 3rem;
+  margin-top: 1rem;
+  height: 2.8rem;
   width: 8rem;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  background-color: $light-mint;
+  font-family: $textFont;
+  font-size: 1.05rem;
   // margin-left
 }
 
 @media screen and (min-width: 750px) {
-  #user-account-close-button {
-    display: block;
-  }
 }

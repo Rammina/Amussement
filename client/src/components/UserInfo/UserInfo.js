@@ -11,39 +11,33 @@ import serverRest from "../../apis/serverRest";
 
 // import { renderError, getErrorClass } from "../../helpers";
 
-const UserInfo = props => {
+const UserInfo = (props) => {
   return (
-    <div className="user-account-profile-container">
-      <div className="" id="user-account-profile-large-image-container">
+    <div className="profile-container">
+      <div className="" id="profile-large-image-container">
         <img id="user-large-image" />
       </div>
-      <div className="" id="user-account-profile-information-container">
-        <p
-          className="user-account-profile-information"
-          id="user-account-profile-username"
-        >
+      <div className="" id="profile-information-container">
+        <p className="profile-information" id="profile-username">
           Sophie
         </p>
-        <p
-          className="user-account-profile-information"
-          id="user-account-profile-email"
-        >
+        <p className="profile-information" id="profile-email">
           mayiscute@Gmail.com
+        </p>
+        <p className="profile-information" id="profile-image-remove">
+          Remove Image
         </p>
       </div>
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
   // error: state.error
 });
 
-const userInfo = connect(
-  mapStateToProps,
-  {}
-)(UserInfo);
+const userInfo = connect(mapStateToProps, {})(UserInfo);
 
 export default UserInfo;
 /*

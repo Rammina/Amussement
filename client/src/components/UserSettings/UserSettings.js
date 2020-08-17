@@ -1,4 +1,4 @@
-// import DoorImg from "../../icons/door.png";
+import LogoutImg from "../../icons/logout.png";
 
 import "./UserSettings.scss";
 
@@ -13,28 +13,45 @@ import UserInfo from "../UserInfo/UserInfo";
 
 // import { renderError, getErrorClass } from "../../helpers";
 
-const UserSettings = props => {
+const UserSettings = (props) => {
   return (
     <div className="user-settings-page-container">
       <div className="user-settings-outer-flex-container">
         <div className="user-settings-sidebar-outer-container">
-          <nav className="user-settings-sidebar-navbar">
-            <h1 className="user-settings-navbar-heading">User Settings</h1>
+          <header className="user-settings-sidebar-header">
+            <h1 className="user-settings-header-heading">User Settings</h1>
             <span>
-              <button id="user-settings-logout-button">x</button>
+              <button id="user-settings-logout-button">
+                <img
+                  className="logout-icon-img"
+                  src={LogoutImg}
+                  alt="Logout Icon"
+                />
+              </button>
             </span>
-          </nav>
+          </header>
           <div className="user-settings-sidebar-inner-container">
             <ul className="user-settings-sidebar-items">
-              <li className="user-settings-sidebar-item">My Account</li>
-              <li className="user-settings-sidebar-item">Appearance</li>
-              <li className="user-settings-sidebar-item">Friends</li>
+              {
+                // <Link to={`users/${userId}/settings/account`} className="user-settings-sidebar-link">
+              }
+              <Link to={"/"} className="user-settings-sidebar-link">
+                <li className="user-settings-sidebar-item">My Account</li>
+              </Link>
+              <Link to={"/"} className="user-settings-sidebar-link">
+                <li className="user-settings-sidebar-item">Appearance</li>
+              </Link>
+              <Link to={"/"} className="user-settings-sidebar-link">
+                <li className="user-settings-sidebar-item">Friends</li>
+              </Link>
             </ul>
           </div>
         </div>
         <div className="user-settings-content-container">
           <div className="user-settings-section-container">
-            <h1 className="user-settings-section-heading">My Account</h1>
+            <div className="user-settings-content-header">
+              <h1 className="user-settings-section-heading">My Account</h1>
+            </div>
             <UserInfo />
             <div
               className="two-buttons-container"

@@ -17,7 +17,7 @@ import history from "../history";
 import { NavContext } from "./AppContext";
 import { loadUser } from "../actions/authActions";
 
-const App = props => {
+const App = (props) => {
   useEffect(() => {
     props.loadUser();
   }, []);
@@ -93,7 +93,7 @@ const App = props => {
       setOnlineUsersButtonTouched,
       onlineUsersShow,
       setOnlineUsersShow,
-      toggleOnlineUsersShow
+      toggleOnlineUsersShow,
     };
   };
 
@@ -102,7 +102,7 @@ const App = props => {
       <Route path="/" exact component={Join} />
       <Route path="/auth/register" exact component={Register} />
       <Route path="/auth/login" exact component={Login} />
-      <Route path="/users/:id/home" exact component={UserSettings} />
+      <Route path="/users/:id/settings" exact component={UserSettings} />
       <NavContext.Provider value={getNavContextValue()}>
         <Route path="/chat" component={Chat} />
       </NavContext.Provider>
@@ -110,7 +110,4 @@ const App = props => {
   );
 };
 
-export default connect(
-  null,
-  { loadUser }
-)(App);
+export default connect(null, { loadUser })(App);
