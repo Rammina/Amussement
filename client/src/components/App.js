@@ -15,9 +15,9 @@ import { Router, Route, Redirect, Switch } from "react-router-dom";
 import history from "../history";
 
 import { NavContext } from "./AppContext";
-import { loadUser } from "../actions/authActions";
+import { loadUser } from "../flux/actions/authActions";
 
-const App = (props) => {
+const App = props => {
   useEffect(() => {
     props.loadUser();
   }, []);
@@ -93,7 +93,7 @@ const App = (props) => {
       setOnlineUsersButtonTouched,
       onlineUsersShow,
       setOnlineUsersShow,
-      toggleOnlineUsersShow,
+      toggleOnlineUsersShow
     };
   };
 
@@ -110,4 +110,7 @@ const App = (props) => {
   );
 };
 
-export default connect(null, { loadUser })(App);
+export default connect(
+  null,
+  { loadUser }
+)(App);

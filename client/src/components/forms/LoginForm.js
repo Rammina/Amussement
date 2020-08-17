@@ -6,17 +6,17 @@ import serverRest from "../../apis/serverRest";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
-import { loginUser } from "../../actions/authActions";
+import { loginUser } from "../../flux/actions/authActions";
 import { renderError, getErrorClass, validateEmail } from "../../helpers";
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
 
 import history from "../../history";
 
-const onInput = (e) => {
+const onInput = e => {
   e.preventDefault();
   e.stopPropagation();
 };
-const handleEnterKeyOnField = (e) => {
+const handleEnterKeyOnField = e => {
   // This prevents submission bugging or refreshing upon pressing enter
   // in an input field inside a form
   if (e.keyCode === 13) {
@@ -42,10 +42,10 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
         {...inputProps}
         {...input}
         className={`${inputProps.className} ${errorClass}`}
-        onKeyDown={(e) => {
+        onKeyDown={e => {
           handleEnterKeyOnField(e);
         }}
-        onInput={(e) => {
+        onInput={e => {
           onInput(e);
         }}
         autoFocus={inputProps.autoFocus || false}
@@ -55,7 +55,7 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
   );
 };
 
-const LoginForm = (props) => {
+const LoginForm = props => {
   // const [name, setName] = useState("");
   // const [room, setRoom] = useState("");
 
@@ -67,7 +67,7 @@ const LoginForm = (props) => {
     return null;
   };
   // submit handler
-  const onSubmit = async (formValues) => {
+  const onSubmit = async formValues => {
     console.log(formValues);
     console.log(loginUser);
     await props.loginUser(formValues);
@@ -91,15 +91,15 @@ const LoginForm = (props) => {
                 className: "textfield",
                 maxLength: "64",
                 autoComplete: "off",
-                id: "login-form-email-field",
+                id: "login-form-email-field"
 
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Email",
-                id: "login-form-email-label",
-              },
+                id: "login-form-email-label"
+              }
             }}
           />
         </div>
@@ -115,14 +115,14 @@ const LoginForm = (props) => {
                 maxLength: "30",
                 autoComplete: "off",
                 type: "password",
-                id: "login-form-password-field",
+                id: "login-form-password-field"
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Password",
-                id: "login-form-password-label",
-              },
+                id: "login-form-password-label"
+              }
             }}
           />
         </div>
@@ -140,7 +140,7 @@ const LoginForm = (props) => {
   );
 };
 
-const validate = (formValues) => {
+const validate = formValues => {
   console.log(formValues);
   const errors = {};
   if (!formValues.email) {
@@ -155,15 +155,18 @@ const validate = (formValues) => {
   return errors;
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error,
+  error: state.error
 });
 
-const loginForm = connect(mapStateToProps, { loginUser })(LoginForm);
+const loginForm = connect(
+  mapStateToProps,
+  { loginUser }
+)(LoginForm);
 
 export default reduxForm({
   form: "loginForm",
   destroyOnUnmount: false,
-  validate,
+  validate
 })(loginForm);

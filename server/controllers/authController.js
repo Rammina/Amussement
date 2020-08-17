@@ -22,16 +22,16 @@ const storage = multer.diskStorage({
       null,
       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
-  },
+  }
 });
 
 // init upload
 const upload = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
-  fileFilter: function (req, file, cb) {
+  fileFilter: function(req, file, cb) {
     checkFileType(/jpeg|jpg|png|gif/, file, cb);
-  },
+  }
 }).single("shoesImage");
 
 // check file type
@@ -63,7 +63,6 @@ exports.user_load = async (req, res) => {
 // Handle user create/register on POST.
 exports.user_register = async (req, res) => {
   const { email, username, password, date_of_birth } = req.body;
-  console.log("Hello");
   console.log(req.body);
   let errors = [];
 
@@ -85,7 +84,7 @@ exports.user_register = async (req, res) => {
     try {
       const emailLowerCase = email.toLowerCase();
       // check if e-mail is already taken
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ email: e - emailLowerCase });
       if (user) throw Error("Email is already taken.");
       // check if salt generation has any errors
       const salt = await bcrypt.genSalt(10);
@@ -100,14 +99,14 @@ exports.user_register = async (req, res) => {
         email: emailLowerCase,
         username,
         password: hash,
-        date_of_birth,
+        date_of_birth
       });
       const savedUser = await newUser.save();
       if (!savedUser) throw Error("Failed to register the user.");
       // synchronous signing of JWT token
 
       const token = jwt.sign({ id: savedUser._id }, SECRETKEY, {
-        expiresIn: 3600,
+        expiresIn: 3600
       });
 
       console.log(token);
@@ -117,8 +116,8 @@ exports.user_register = async (req, res) => {
         user: {
           id: savedUser._id,
           username: savedUser.username,
-          email: savedUser.email.toLowerCase(),
-        },
+          email: savedUser.email.toLowerCase()
+        }
       });
     } catch (e) {
       console.log(e);
@@ -152,23 +151,89 @@ exports.user_login = async (req, res) => {
       user: {
         id: user._id,
         name: user.username,
-        email: user.emailLowerCase,
-      },
+        email: user.emailLowerCase
+      }
     });
   } catch (e) {
     console.log(e);
     res.status(400).json({ msg: e.message });
   }
 };
+
+exports.user_edit_account = async (req, res) => {
+  const { email, username, password } = req.body;
+  console.log(req.body);
+  let errors = [];
+
+  // check if any of the following fields are empty
+  if (!username || !email || !password) {
+    errors.push({ msg: "Please fill in all the fields." });
+  }
+
+  // minimum length for the password
+  if (password.length < 6) {
+    errors.push({ msg: "Password must be at least 6 characters" });
+  }
+
+  // if there are errors, re-\ render the page but with the values that were filled in
+  // note: figure out how to send errors to thefrontend
+  if (errors.length > 0) {
+    res.status(400).json({ errors });
+  } else {
+    try {
+      const emailLowerCase = email.toLowerCase();
+
+      const user = await User.findById(req.params.id);
+      if (!user) throw Error("User does not exist.");
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) throw Error("Invalid credentials.");
+      /*
+      const newUser = new User({
+        email: emailLowerCase,
+        username,
+        password: user.password,
+        date_of_birth: user.date_of_birth
+      });
+*/
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: {
+            email: emailLowerCase,
+            username
+          }
+        },
+        {
+          new: true
+        }
+      );
+      if (!updatedUser) throw Error("Failed to update the user.");
+      console.log(updatedUser);
+
+      res.status(200).json({
+        user: {
+          id: updatedUser._id,
+          username: updatedUser.username,
+          email: updatedUser.email.toLowerCase()
+        }
+      });
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ msg: e.message });
+    }
+  }
+};
+
 // handle user deletion
 exports.user_delete = async (req, res) => {
   User.findById(req.params.id)
-    .then((user) => {
+    .then(user => {
       user.remove().then(() => {
         res.json({ success: true });
       });
     })
-    .catch((error) => {
+    .catch(error => {
       res.status(404).json({ success: false });
     });
 };

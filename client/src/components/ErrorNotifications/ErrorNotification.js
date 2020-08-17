@@ -4,9 +4,9 @@ import "./ErrorNotifications.scss";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 
-import { clearErrors } from "../../actions/errorActions";
+import { clearErrors } from "../../flux/actions/errorActions";
 
-const ErrorNotification = (props) => {
+const ErrorNotification = props => {
   const [containerClass, setContainerClass] = useState(null);
   return (
     <div
@@ -38,4 +38,7 @@ const ErrorNotification = (props) => {
   );
 };
 
-export default connect(null, { clearErrors })(ErrorNotification);
+export default connect(
+  null,
+  { clearErrors }
+)(ErrorNotification);

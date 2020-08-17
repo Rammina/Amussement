@@ -6,7 +6,7 @@ import serverRest from "../../apis/serverRest";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
-import { registerUser } from "../../flux/actions/authActions";
+import { editUserAccount } from "../../flux/actions/settingsActions";
 import { renderError, getErrorClass, validateEmail } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
@@ -51,12 +51,12 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
         }}
         autoFocus={inputProps.autoFocus || false}
       />
-      {renderError(meta, "register")}
+      {renderError(meta, "edit-account")}
     </React.Fragment>
   );
 };
 
-const RegisterForm = props => {
+const EditAccount = props => {
   // const [name, setName] = useState("");
   // const [room, setRoom] = useState("");
   const renderErrorNotifications = () => {
@@ -70,40 +70,17 @@ const RegisterForm = props => {
   // submit handler
   const onSubmit = async formValues => {
     console.log(formValues);
-    console.log(registerUser);
-    await props.registerUser(formValues);
+    // run an action
+    props.editUserAccount(formValues);
   };
 
   return (
-    <form id="register-form" autoComplete="off">
-      <div className="register form-content-container">
+    <form id="edit-account" autoComplete="off">
+      <div className="edit-account form-content-container">
         <div className="door-title-container">
-          <h2 className="heading">Create an account</h2>
+          <h2 className="heading">Edit Your Account</h2>
         </div>
         {renderErrorNotifications()}
-        <div className="textfield-container">
-          <Field
-            name="email"
-            component={renderInput}
-            type="text"
-            props={{
-              inputProps: {
-                placeholder: "Email",
-                className: "textfield",
-                maxLength: "64",
-                autoComplete: "off",
-                id: "register-form-email-field"
-
-                // autoFocus: true
-              },
-              labelProps: {
-                class: "textfield-label",
-                text: "Email",
-                id: "register-form-email-label"
-              }
-            }}
-          />
-        </div>
         <div className="textfield-container">
           <Field
             name="username"
@@ -115,17 +92,41 @@ const RegisterForm = props => {
                 className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",
-                id: "register-form-username-field"
+                id: "edit-account-username-field"
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Username",
-                id: "register-form-username-label"
+                id: "edit-account-username-label"
               }
             }}
           />
         </div>
+        <div className="textfield-container">
+          <Field
+            name="email"
+            component={renderInput}
+            type="text"
+            props={{
+              inputProps: {
+                placeholder: "Email",
+                className: "textfield",
+                maxLength: "64",
+                autoComplete: "off",
+                id: "edit-account-email-field"
+
+                // autoFocus: true
+              },
+              labelProps: {
+                class: "textfield-label",
+                text: "Email",
+                id: "edit-account-email-label"
+              }
+            }}
+          />
+        </div>
+
         <div className="textfield-container">
           <Field
             name="password"
@@ -133,39 +134,18 @@ const RegisterForm = props => {
             type="password"
             props={{
               inputProps: {
-                placeholder: "Password",
+                placeholder: "Enter Password for Confirmation",
                 className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",
                 type: "password",
-                id: "register-form-password-field"
+                id: "edit-account-password-field"
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Password",
-                id: "register-form-password-label"
-              }
-            }}
-          />
-        </div>
-        <div className="textfield-container">
-          <Field
-            name="date_of_birth"
-            component={renderInput}
-            props={{
-              inputProps: {
-                placeholder: "Date of Birth",
-                className: "textfield",
-                id: "register-form-date_of_birth-field",
-                type: "date",
-
-                required: true
-              },
-              labelProps: {
-                text: "Date of Birth",
-                class: "textfield-label",
-                id: "register-form-date_of_birth-label"
+                id: "edit-account-password-label"
               }
             }}
           />
@@ -176,7 +156,7 @@ const RegisterForm = props => {
             type="submit"
             onClick={props.handleSubmit(onSubmit)}
           >
-            Sign Up
+            Save
           </button>
         </div>
       </div>
@@ -196,14 +176,8 @@ const validate = formValues => {
     errors.username = "Please input a username.";
   }
   if (!formValues.password) {
-    errors.password = "Please input a password.";
-  } else if (formValues.password.length < 6) {
-    errors.password = "Password needs to be at least 6 characters.";
+    errors.password = "Please input your password.";
   }
-  if (!formValues.date_of_birth) {
-    errors.date_of_birth = "Please input your birth date.";
-  }
-
   return errors;
 };
 
@@ -212,12 +186,14 @@ const mapStateToProps = state => ({
   error: state.error
 });
 
-const registerForm = connect(
+const editAccount = connect(
   mapStateToProps,
-  { registerUser }
-)(RegisterForm);
+  { editUserAccount }
+)(EditAccount);
 
 export default reduxForm({
-  form: "registerForm",
+  form: "editAccount",
+  keepDirtyOnReinitialize: true,
+  enableReinitialize: true,
   validate
-})(registerForm);
+})(editAccount);

@@ -28,12 +28,13 @@ const {
   getUsersInRoom
 } = require("./helpers/users");
 
+const app = express();
+
 // routes
 const router = require("./router");
 const authRoute = require("./routes/api/auth");
-// const usersRoute = require("./routes/api/users");
+const usersRoute = require("./routes/api/users");
 
-const app = express();
 // Set up mongoose connection
 const mongoose = require("mongoose");
 
@@ -127,6 +128,7 @@ io.on("connect", socket => {
 });
 
 app.use("/api/auth", authRoute);
+app.use("/api/users", usersRoute);
 
 server.listen(process.env.PORT || 5000, () =>
   console.log(`Server has started.`)

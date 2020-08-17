@@ -2,7 +2,7 @@ import LogoutImg from "../../icons/logout.png";
 
 import "./UserSettings.scss";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
@@ -13,7 +13,10 @@ import UserInfo from "../UserInfo/UserInfo";
 
 // import { renderError, getErrorClass } from "../../helpers";
 
-const UserSettings = (props) => {
+const UserSettings = props => {
+  useEffect(() => {
+    console.log(props.match.params.id);
+  }, []);
   return (
     <div className="user-settings-page-container">
       <div className="user-settings-outer-flex-container">
@@ -52,7 +55,7 @@ const UserSettings = (props) => {
             <div className="user-settings-content-header">
               <h1 className="user-settings-section-heading">My Account</h1>
             </div>
-            <UserInfo />
+            <UserInfo userId={props.match.params.id} />
             <div
               className="two-buttons-container"
               id="profile-buttons-container"
