@@ -1,0 +1,23 @@
+$headingFont: "Patrick Hand", cursive;
+$textFont: "Roboto", sans-serif;
+
+$main-mint: #b8ffca;
+$main-black: #333538;
+$secondary-black: #232628;
+$light-mint: #aaffd5;
+$discord-sidebar-black: #2f3136;
+$discord-content-black: #36393f;
+
+$center-margin: 0 auto;
+
+$profilePictureSize: 4rem;
+
+#edit-account-form {
+  z-index: 3;
+  position: absolute;
+  top: 0;
+  background-color: $main-black;
+}
+
+@media screen and (min-width: 750px) {
+}

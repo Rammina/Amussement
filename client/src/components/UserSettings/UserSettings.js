@@ -13,7 +13,22 @@ import UserInfo from "../UserInfo/UserInfo";
 
 // import { renderError, getErrorClass } from "../../helpers";
 
-const UserSettings = props => {
+const UserSettings = (props) => {
+  const [myAccountOpened, setMyAccountOpened] = useState(false);
+  const [appearanceOpened, setAppearanceOpened] = useState(false);
+  const [friendsOpened, setFriendsOpened] = useState(false);
+
+  const renderSection = () => {
+    if (myAccountOpened) {
+      console.log("Opening my account");
+      return <UserInfo userId={props.match.params.id} />;
+    } else if (appearanceOpened) {
+      // return <UserInfo userId={props.match.params.id} />;
+    } else if (friendsOpened) {
+      // return <UserInfo userId={props.match.params.id} />;
+    }
+    return null;
+  };
   useEffect(() => {
     console.log(props.match.params.id);
   }, []);
@@ -38,39 +53,41 @@ const UserSettings = props => {
               {
                 // <Link to={`users/${userId}/settings/account`} className="user-settings-sidebar-link">
               }
-              <Link to={"/"} className="user-settings-sidebar-link">
+
+              <button
+                className="user-settings-sidebar-button"
+                onClick={() => {
+                  setMyAccountOpened(true);
+                  setAppearanceOpened(false);
+                  setFriendsOpened(false);
+                }}
+              >
                 <li className="user-settings-sidebar-item">My Account</li>
-              </Link>
-              <Link to={"/"} className="user-settings-sidebar-link">
+              </button>
+              <button
+                className="user-settings-sidebar-button"
+                onClick={() => {
+                  setMyAccountOpened(false);
+                  setAppearanceOpened(true);
+                  setFriendsOpened(false);
+                }}
+              >
                 <li className="user-settings-sidebar-item">Appearance</li>
-              </Link>
-              <Link to={"/"} className="user-settings-sidebar-link">
+              </button>
+              <button
+                className="user-settings-sidebar-button"
+                onClick={() => {
+                  setMyAccountOpened(false);
+                  setAppearanceOpened(false);
+                  setFriendsOpened(true);
+                }}
+              >
                 <li className="user-settings-sidebar-item">Friends</li>
-              </Link>
+              </button>
             </ul>
           </div>
         </div>
-        <div className="user-settings-content-container">
-          <div className="user-settings-section-container">
-            <div className="user-settings-content-header">
-              <h1 className="user-settings-section-heading">My Account</h1>
-            </div>
-            <UserInfo userId={props.match.params.id} />
-            <div
-              className="two-buttons-container"
-              id="profile-buttons-container"
-            >
-              <button className="profile-button" id="profile-edit-button">
-                Edit Account
-              </button>
-              <button className="profile-button" id="profile-edit-button">
-                Change Password
-              </button>
-            </div>
-          </div>
-          <div className="user-settings-section-container"></div>
-        </div>
-
+        {renderSection()}
         <button className="" id="user-settings-close-button">
           x
         </button>

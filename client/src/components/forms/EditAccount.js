@@ -1,3 +1,5 @@
+import "./EditAccount.scss";
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -13,11 +15,11 @@ import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
 
 import history from "../../history";
 
-const onInput = e => {
+const onInput = (e) => {
   e.preventDefault();
   e.stopPropagation();
 };
-const handleEnterKeyOnField = e => {
+const handleEnterKeyOnField = (e) => {
   // This prevents submission bugging or refreshing upon pressing enter
   // in an input field inside a form
   if (e.keyCode === 13) {
@@ -43,10 +45,10 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
         {...inputProps}
         {...input}
         className={`${inputProps.className} ${errorClass}`}
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           handleEnterKeyOnField(e);
         }}
-        onInput={e => {
+        onInput={(e) => {
           onInput(e);
         }}
         autoFocus={inputProps.autoFocus || false}
@@ -56,7 +58,7 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
   );
 };
 
-const EditAccount = props => {
+const EditAccount = (props) => {
   // const [name, setName] = useState("");
   // const [room, setRoom] = useState("");
   const renderErrorNotifications = () => {
@@ -68,14 +70,15 @@ const EditAccount = props => {
     return null;
   };
   // submit handler
-  const onSubmit = async formValues => {
+  const onSubmit = async (formValues) => {
     console.log(formValues);
     // run an action
     props.editUserAccount(formValues);
+    props.closeEditAccount();
   };
 
   return (
-    <form id="edit-account" autoComplete="off">
+    <form id="edit-account-form" autoComplete="off">
       <div className="edit-account form-content-container">
         <div className="door-title-container">
           <h2 className="heading">Edit Your Account</h2>
@@ -92,14 +95,14 @@ const EditAccount = props => {
                 className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",
-                id: "edit-account-username-field"
+                id: "edit-account-username-field",
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Username",
-                id: "edit-account-username-label"
-              }
+                id: "edit-account-username-label",
+              },
             }}
           />
         </div>
@@ -114,15 +117,15 @@ const EditAccount = props => {
                 className: "textfield",
                 maxLength: "64",
                 autoComplete: "off",
-                id: "edit-account-email-field"
+                id: "edit-account-email-field",
 
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Email",
-                id: "edit-account-email-label"
-              }
+                id: "edit-account-email-label",
+              },
             }}
           />
         </div>
@@ -139,14 +142,14 @@ const EditAccount = props => {
                 maxLength: "30",
                 autoComplete: "off",
                 type: "password",
-                id: "edit-account-password-field"
+                id: "edit-account-password-field",
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Password",
-                id: "edit-account-password-label"
-              }
+                id: "edit-account-password-label",
+              },
             }}
           />
         </div>
@@ -164,7 +167,7 @@ const EditAccount = props => {
   );
 };
 
-const validate = formValues => {
+const validate = (formValues) => {
   console.log(formValues);
   const errors = {};
   if (!formValues.email) {
@@ -181,19 +184,16 @@ const validate = formValues => {
   return errors;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error: state.error,
 });
 
-const editAccount = connect(
-  mapStateToProps,
-  { editUserAccount }
-)(EditAccount);
+const editAccount = connect(mapStateToProps, { editUserAccount })(EditAccount);
 
 export default reduxForm({
   form: "editAccount",
   keepDirtyOnReinitialize: true,
   enableReinitialize: true,
-  validate
+  validate,
 })(editAccount);

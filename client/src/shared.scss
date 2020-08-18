@@ -87,6 +87,12 @@ main {
 
 button {
   border: none;
+  font-family: $textFont;
+  outline: none;
+}
+
+button:active {
+  border: none;
 }
 
 button:hover,

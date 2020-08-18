@@ -22,16 +22,16 @@ const storage = multer.diskStorage({
       null,
       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
-  }
+  },
 });
 
 // init upload
 const upload = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
-  fileFilter: function(req, file, cb) {
+  fileFilter: function (req, file, cb) {
     checkFileType(/jpeg|jpg|png|gif/, file, cb);
-  }
+  },
 }).single("shoesImage");
 
 // check file type
@@ -99,14 +99,14 @@ exports.user_register = async (req, res) => {
         email: emailLowerCase,
         username,
         password: hash,
-        date_of_birth
+        date_of_birth,
       });
       const savedUser = await newUser.save();
       if (!savedUser) throw Error("Failed to register the user.");
       // synchronous signing of JWT token
 
       const token = jwt.sign({ id: savedUser._id }, SECRETKEY, {
-        expiresIn: 3600
+        expiresIn: 28800,
       });
 
       console.log(token);
@@ -116,8 +116,8 @@ exports.user_register = async (req, res) => {
         user: {
           id: savedUser._id,
           username: savedUser.username,
-          email: savedUser.email.toLowerCase()
-        }
+          email: savedUser.email.toLowerCase(),
+        },
       });
     } catch (e) {
       console.log(e);
@@ -151,8 +151,8 @@ exports.user_login = async (req, res) => {
       user: {
         id: user._id,
         name: user.username,
-        email: user.emailLowerCase
-      }
+        email: user.emailLowerCase,
+      },
     });
   } catch (e) {
     console.log(e);
@@ -201,11 +201,11 @@ exports.user_edit_account = async (req, res) => {
         {
           $set: {
             email: emailLowerCase,
-            username
-          }
+            username,
+          },
         },
         {
-          new: true
+          new: true,
         }
       );
       if (!updatedUser) throw Error("Failed to update the user.");
@@ -215,8 +215,8 @@ exports.user_edit_account = async (req, res) => {
         user: {
           id: updatedUser._id,
           username: updatedUser.username,
-          email: updatedUser.email.toLowerCase()
-        }
+          email: updatedUser.email.toLowerCase(),
+        },
       });
     } catch (e) {
       console.log(e);
@@ -228,12 +228,12 @@ exports.user_edit_account = async (req, res) => {
 // handle user deletion
 exports.user_delete = async (req, res) => {
   User.findById(req.params.id)
-    .then(user => {
+    .then((user) => {
       user.remove().then(() => {
         res.json({ success: true });
       });
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(404).json({ success: false });
     });
 };

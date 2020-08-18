@@ -27,7 +27,8 @@ $profilePictureSize: 4rem;
 
 .profile-container {
   display: flex;
-  margin-top: 3rem;
+  justify-content: center;
+  margin-top: 4rem;
 }
 
 #profile-large-image-container {
@@ -55,8 +56,10 @@ $profilePictureSize: 4rem;
 .profile-information {
   // display: inline-block;
   width: fit-content;
+  padding-right: 1rem;
   // margin: 0;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  word-break: break-word;
 }
 
 #profile-image-remove {
@@ -64,8 +67,21 @@ $profilePictureSize: 4rem;
   color: #fbb;
 }
 
+#profile-buttons-container {
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+#profile-container,
+#profile-buttons-container {
+  max-width: 25rem;
+  margin: 0 auto;
+}
+
 .profile-button {
   margin-top: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   height: 2.8rem;
   width: 8rem;
   border: none;
