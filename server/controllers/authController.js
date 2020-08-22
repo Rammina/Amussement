@@ -2,6 +2,7 @@ require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
+const { cloudinary } = require("../utils/cloudinary");
 const SECRETKEY = process.env.SECRETKEY;
 
 // import all the mongoose models
@@ -22,16 +23,16 @@ const storage = multer.diskStorage({
       null,
       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
-  },
+  }
 });
 
 // init upload
 const upload = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
-  fileFilter: function (req, file, cb) {
+  fileFilter: function(req, file, cb) {
     checkFileType(/jpeg|jpg|png|gif/, file, cb);
-  },
+  }
 }).single("shoesImage");
 
 // check file type
@@ -99,14 +100,14 @@ exports.user_register = async (req, res) => {
         email: emailLowerCase,
         username,
         password: hash,
-        date_of_birth,
+        date_of_birth
       });
       const savedUser = await newUser.save();
       if (!savedUser) throw Error("Failed to register the user.");
       // synchronous signing of JWT token
 
       const token = jwt.sign({ id: savedUser._id }, SECRETKEY, {
-        expiresIn: 28800,
+        expiresIn: 28800
       });
 
       console.log(token);
@@ -117,7 +118,8 @@ exports.user_register = async (req, res) => {
           id: savedUser._id,
           username: savedUser.username,
           email: savedUser.email.toLowerCase(),
-        },
+          image_url: ""
+        }
       });
     } catch (e) {
       console.log(e);
@@ -143,7 +145,7 @@ exports.user_login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) throw Error("Invalid credentials.");
 
-    const token = jwt.sign({ id: user._id }, SECRETKEY, { expiresIn: 3600 });
+    const token = jwt.sign({ id: user._id }, SECRETKEY, { expiresIn: 28800 });
     if (!token) throw Error("Could not sign the token.");
 
     res.status(200).json({
@@ -152,11 +154,48 @@ exports.user_login = async (req, res) => {
         id: user._id,
         name: user.username,
         email: user.emailLowerCase,
-      },
+        image_url: user.image_url || ""
+      }
     });
   } catch (e) {
     console.log(e);
     res.status(400).json({ msg: e.message });
+  }
+};
+
+exports.user_upload_avatar = async (req, res) => {
+  try {
+    const fileStr = req.body.data;
+    const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+      upload_preset: "amussement_setups",
+      public_id: `${req.params.id}-user-avatar`
+    });
+
+    const avatarUrl = uploadedResponse.secure_url;
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          image_url: avatarUrl
+        }
+      },
+      {
+        new: true
+      }
+    );
+    if (!updatedUser) throw Error("Failed to update the user.");
+
+    res.status(200).json({
+      user: {
+        id: updatedUser._id,
+        username: updatedUser.username,
+        email: updatedUser.email.toLowerCase(),
+        image_url: uploadedResponse.secure_url
+      }
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ msg: e.message });
   }
 };
 
@@ -188,24 +227,17 @@ exports.user_edit_account = async (req, res) => {
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) throw Error("Invalid credentials.");
-      /*
-      const newUser = new User({
-        email: emailLowerCase,
-        username,
-        password: user.password,
-        date_of_birth: user.date_of_birth
-      });
-*/
+
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
         {
           $set: {
             email: emailLowerCase,
-            username,
-          },
+            username
+          }
         },
         {
-          new: true,
+          new: true
         }
       );
       if (!updatedUser) throw Error("Failed to update the user.");
@@ -216,7 +248,8 @@ exports.user_edit_account = async (req, res) => {
           id: updatedUser._id,
           username: updatedUser.username,
           email: updatedUser.email.toLowerCase(),
-        },
+          image_url: updatedUser.image_url || ""
+        }
       });
     } catch (e) {
       console.log(e);
@@ -225,15 +258,113 @@ exports.user_edit_account = async (req, res) => {
   }
 };
 
+exports.user_change_password = async (req, res) => {
+  const { password, new_password, new_password_2 } = req.body;
+  console.log(req.body);
+  let errors = [];
+
+  // check if any of the following fields are empty
+  if (!password || !new_password || !new_password_2) {
+    errors.push({ msg: "Please fill in all the fields." });
+  }
+
+  // minimum length for the password
+  if (
+    password.length < 6 ||
+    new_password.length < 6 ||
+    new_password_2.length < 6
+  ) {
+    errors.push({ msg: "Password must be at least 6 characters" });
+  }
+
+  // if there are errors, re-\ render the page but with the values that were filled in
+  // note: figure out how to send errors to thefrontend
+  if (errors.length > 0) {
+    res.status(400).json({ errors });
+  } else {
+    try {
+      const user = await User.findById(req.params.id);
+      if (!user) throw Error("User does not exist.");
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) throw Error("Invalid credentials.");
+
+      // check if salt generation has any errors
+      const salt = await bcrypt.genSalt(10);
+      if (!salt)
+        throw Error("Something went wrong with encrypting the password.");
+      // check if hashing the password has any errors
+      const hash = await bcrypt.hash(new_password, salt);
+      if (!hash) throw Error("Something went wrong hashing the password.");
+      console.log(SECRETKEY);
+
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: {
+            password: hash
+          }
+        },
+        {
+          new: true
+        }
+      );
+      if (!updatedUser) throw Error("Failed to update the user.");
+      console.log(updatedUser);
+
+      res.status(200).json({
+        user: {
+          id: updatedUser._id,
+          username: updatedUser.username,
+          email: updatedUser.email.toLowerCase(),
+          image_url: updatedUser.image_url || ""
+        }
+      });
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ msg: e.message });
+    }
+  }
+};
+
+exports.user_remove_avatar = async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          image_url: ""
+        }
+      },
+      {
+        new: true
+      }
+    );
+    if (!updatedUser) throw Error("Failed to update the user.");
+
+    res.status(200).json({
+      user: {
+        id: updatedUser._id,
+        username: updatedUser.username,
+        email: updatedUser.email.toLowerCase(),
+        image_url: updatedUser.image_url || ""
+      }
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(400).json({ msg: e.message });
+  }
+};
+
 // handle user deletion
 exports.user_delete = async (req, res) => {
   User.findById(req.params.id)
-    .then((user) => {
+    .then(user => {
       user.remove().then(() => {
         res.json({ success: true });
       });
     })
-    .catch((error) => {
+    .catch(error => {
       res.status(404).json({ success: false });
     });
 };

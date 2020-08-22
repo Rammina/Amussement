@@ -57,7 +57,16 @@ app.use(cors());
 app.use(router);
 app.use(logger("dev"));
 
+app.use(
+  "/api/users/:id/settings/upload-avatar",
+  express.json({ limit: "50mb" })
+);
+app.use(
+  "/api/users/:id/settings/upload-avatar",
+  express.urlencoded({ extended: "true" })
+);
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(helmet());

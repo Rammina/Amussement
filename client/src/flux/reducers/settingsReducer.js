@@ -1,12 +1,9 @@
+/*
+
 import {
-  USER_LOADED,
-  USER_LOADING,
   AUTH_ERROR,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT_SUCCESS,
-  REGISTER_SUCCESS,
-  REGISTER_FAIL
+  EDIT_USER_ACCOUNT_SUCCESS,
+  EDIT_USER_ACCOUNT_FAIL
 } from "../actions/types";
 
 const initialState = {
@@ -63,3 +60,4 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+*/

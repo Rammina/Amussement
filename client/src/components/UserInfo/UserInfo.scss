@@ -11,6 +11,7 @@ $discord-content-black: #36393f;
 $center-margin: 0 auto;
 
 $profilePictureSize: 4rem;
+$previewImageSize: 8rem;
 
 .user-settings-content-header {
   position: fixed;
@@ -29,20 +30,21 @@ $profilePictureSize: 4rem;
   display: flex;
   justify-content: center;
   margin-top: 4rem;
+  overflow: visible;
 }
 
 #profile-large-image-container {
   display: inline-block;
-  position: relative;
-  left: 0.2rem;
+
   width: $profilePictureSize;
   height: $profilePictureSize;
-  border-radius: 50%;
 }
 
 #user-large-image {
+  opacity: 1;
+  z-index: 20;
   display: inline-block;
-  background-color: pink;
+  // background-color: pink;
   width: $profilePictureSize;
   height: $profilePictureSize;
   border-radius: 50%;
@@ -60,11 +62,6 @@ $profilePictureSize: 4rem;
   // margin: 0;
   font-size: 1.2rem;
   word-break: break-word;
-}
-
-#profile-image-remove {
-  font-size: 1rem;
-  color: #fbb;
 }
 
 #profile-buttons-container {

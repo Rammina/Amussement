@@ -1,0 +1,102 @@
+$headingFont: "Patrick Hand", cursive;
+$textFont: "Roboto", sans-serif;
+
+$main-mint: #b8ffca;
+$main-black: #333538;
+$secondary-black: #232628;
+$light-mint: #aaffd5;
+$discord-sidebar-black: #2f3136;
+$discord-content-black: #36393f;
+
+$center-margin: 0 auto;
+
+$profilePictureSize: 4rem;
+$previewImageSize: 8rem;
+
+#user-avatar-change-container {
+  position: relative;
+  left: 0.2rem;
+  border-radius: 50%;
+  background-color: #0000;
+  width: $profilePictureSize;
+  height: $profilePictureSize;
+  overflow: visible;
+}
+
+#profile-large-image-container {
+  display: inline-block;
+
+  width: $profilePictureSize;
+  height: $profilePictureSize;
+}
+
+#user-large-image {
+  opacity: 1;
+  z-index: 20;
+  display: inline-block;
+  // background-color: pink;
+  width: $profilePictureSize;
+  height: $profilePictureSize;
+  border-radius: 50%;
+}
+
+#user-avatar-form {
+  position: absolute;
+}
+
+#user-avatar-upload-label {
+  z-index: 10;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  // opacity: 0;
+  width: $profilePictureSize;
+  height: $profilePictureSize;
+  font-size: 1rem;
+  background-color: #0000;
+  color: #0000;
+  border-radius: 50%;
+}
+
+#user-avatar-upload-label:hover {
+  background-color: #0004;
+}
+
+#user-avatar-upload {
+  position: absolute;
+  opacity: 0;
+  width: $profilePictureSize;
+  height: $profilePictureSize;
+}
+
+.user-avatar.modal {
+  display: none;
+  opacity: 1;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  position: fixed;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: $main-black;
+}
+
+.user-avatar.modal.show {
+  display: block;
+}
+
+#user-avatar-preview-image {
+  height: $previewImageSize;
+  width: $previewImageSize;
+}
+
+#user-avatar-remove {
+  font-size: 1rem;
+  color: #fbb;
+  background-color: #0000;
+  // width: fit-content;
+}
+
+@media screen and (min-width: 750px) {
+}

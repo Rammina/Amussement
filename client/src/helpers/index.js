@@ -54,6 +54,15 @@ export const standardToMilitary = function standardToMilitary(time) {
   return `${hour}:${minute}`;
 };
 
+// string FUNCTIONS
+// retrieve the file name by splitting
+export const getFilenameFromDir = (string, separator) => {
+  if (!separator) {
+    string.split("\\").pop();
+  }
+  return string.split(separator).pop();
+};
+
 // regular expression testing
 export const validateEmail = email => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

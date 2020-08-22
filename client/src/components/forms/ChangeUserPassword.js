@@ -1,4 +1,4 @@
-import "./EditAccount.scss";
+// import "./EditAccount.scss";
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ import serverRest from "../../apis/serverRest";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
-import { editUserAccount } from "../../flux/actions/settingsActions";
+import { changeUserPassword } from "../../flux/actions/settingsActions";
 import { renderError, getErrorClass, validateEmail } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
@@ -53,12 +53,12 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
         }}
         autoFocus={inputProps.autoFocus || false}
       />
-      {renderError(meta, "edit-account")}
+      {renderError(meta, "change-user-password")}
     </React.Fragment>
   );
 };
 
-const EditAccount = props => {
+const ChangeUserPassword = props => {
   // const [name, setName] = useState("");
   // const [room, setRoom] = useState("");
   const renderErrorNotifications = () => {
@@ -73,63 +73,17 @@ const EditAccount = props => {
   const onSubmit = async formValues => {
     console.log(formValues);
     // run an action
-    await props.editUserAccount(formValues);
-    props.closeEditAccount();
+    props.changeUserPassword(formValues);
+    props.closeChangePassword();
   };
 
   return (
-    <form id="edit-account-form" autoComplete="off">
-      <div className="edit-account form-content-container">
+    <form id="change-user-password-form" autoComplete="off">
+      <div className="change-user-password form-content-container">
         <div className="door-title-container">
-          <h2 className="heading">Edit Your Account</h2>
+          <h2 className="heading">Change Your Password</h2>
         </div>
         {renderErrorNotifications()}
-        <div className="textfield-container">
-          <Field
-            name="username"
-            component={renderInput}
-            type="text"
-            props={{
-              inputProps: {
-                placeholder: "Username",
-                className: "textfield",
-                maxLength: "30",
-                autoComplete: "off",
-                id: "edit-account-username-field"
-                // autoFocus: true
-              },
-              labelProps: {
-                class: "textfield-label",
-                text: "Username",
-                id: "edit-account-username-label"
-              }
-            }}
-          />
-        </div>
-        <div className="textfield-container">
-          <Field
-            name="email"
-            component={renderInput}
-            type="text"
-            props={{
-              inputProps: {
-                placeholder: "Email",
-                className: "textfield",
-                maxLength: "64",
-                autoComplete: "off",
-                id: "edit-account-email-field"
-
-                // autoFocus: true
-              },
-              labelProps: {
-                class: "textfield-label",
-                text: "Email",
-                id: "edit-account-email-label"
-              }
-            }}
-          />
-        </div>
-
         <div className="textfield-container">
           <Field
             name="password"
@@ -137,29 +91,73 @@ const EditAccount = props => {
             type="password"
             props={{
               inputProps: {
-                placeholder: "Enter Password for Confirmation",
+                placeholder: "Current Password",
                 className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",
-                type: "password",
-                id: "edit-account-password-field"
+                id: "change-user-password-password-field"
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
-                text: "Password",
-                id: "edit-account-password-label"
+                text: "Current Password",
+                id: "change-user-password-password-label"
               }
             }}
           />
         </div>
+        <div className="textfield-container">
+          <Field
+            name="new_password"
+            component={renderInput}
+            type="password"
+            props={{
+              inputProps: {
+                placeholder: "New Password",
+                className: "textfield",
+                maxLength: "30",
+                autoComplete: "off",
+                id: "change-user-password-new-password-field"
+                // autoFocus: true
+              },
+              labelProps: {
+                class: "textfield-label",
+                text: "New Password",
+                id: "change-user-password-new-password-label"
+              }
+            }}
+          />
+        </div>
+        <div className="textfield-container">
+          <Field
+            name="new_password_2"
+            component={renderInput}
+            type="password"
+            props={{
+              inputProps: {
+                placeholder: "Confirm New Password",
+                className: "textfield",
+                maxLength: "30",
+                autoComplete: "off",
+                id: "change-user-password-new-password-2-field"
+                // autoFocus: true
+              },
+              labelProps: {
+                class: "textfield-label",
+                text: "Confirm New Password",
+                id: "change-user-password-new-password-2-label"
+              }
+            }}
+          />
+        </div>
+
         <div className="form-button-container">
           <button
             className={"form-button submit mt-20"}
             type="submit"
             onClick={props.handleSubmit(onSubmit)}
           >
-            Save
+            Change Password
           </button>
         </div>
       </div>
@@ -170,16 +168,16 @@ const EditAccount = props => {
 const validate = formValues => {
   console.log(formValues);
   const errors = {};
-  if (!formValues.email) {
-    errors.email = "Please input an email.";
-  } else if (!validateEmail(formValues.email)) {
-    errors.email = "Invalid email address.";
+  if (!formValues.password || formValues.password.length < 6) {
+    errors.password = "Please input your current password.";
   }
-  if (!formValues.username) {
-    errors.username = "Please input a username.";
+  if (!formValues.new_password) {
+    errors.new_password = "Please input your new password.";
+  } else if (formValues.new_password.length < 6) {
+    errors.new_password = "Password has to be at least 6 characters long.";
   }
-  if (!formValues.password) {
-    errors.password = "Please input your password.";
+  if (!formValues.new_password_2 || formValues.new_password_2.length < 6) {
+    errors.new_password_2 = "Please repeat your new password.";
   }
   return errors;
 };
@@ -189,14 +187,14 @@ const mapStateToProps = state => ({
   error: state.error
 });
 
-const editAccount = connect(
+const changeUserPass = connect(
   mapStateToProps,
-  { editUserAccount }
-)(EditAccount);
+  { changeUserPassword }
+)(ChangeUserPassword);
 
 export default reduxForm({
-  form: "editAccount",
+  form: "changeUserPassword",
   keepDirtyOnReinitialize: true,
   enableReinitialize: true,
   validate
-})(editAccount);
+})(changeUserPass);
