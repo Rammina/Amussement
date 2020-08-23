@@ -5,6 +5,7 @@ $main-mint: #b8ffca;
 $main-black: #333538;
 $secondary-black: #232628;
 $light-mint: #aaffd5;
+$light-mint-hover: #c8ffe4;
 $discord-sidebar-black: #2f3136;
 $discord-content-black: #36393f;
 
@@ -98,6 +99,10 @@ $previewImageSize: 8rem;
   font-family: $textFont;
   font-size: 1.05rem;
   // margin-left
+}
+
+.profile-button:hover {
+  background-color: $light-mint-hover;
 }
 
 @media screen and (min-width: 750px) {

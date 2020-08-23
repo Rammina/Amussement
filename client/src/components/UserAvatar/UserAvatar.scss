@@ -61,6 +61,7 @@ $previewImageSize: 8rem;
 
 #user-avatar-upload-label:hover {
   background-color: #0004;
+  cursor: pointer;
 }
 
 #user-avatar-upload {
@@ -96,6 +97,10 @@ $previewImageSize: 8rem;
   color: #fbb;
   background-color: #0000;
   // width: fit-content;
+}
+
+#user-avatar-remove:hover {
+  color: rgb(255, 224, 224);
 }
 
 @media screen and (min-width: 750px) {
