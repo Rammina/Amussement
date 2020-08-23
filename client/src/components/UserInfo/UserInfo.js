@@ -1,5 +1,4 @@
-// 	https://api.cloudinary.com/v1_1/totooria
-// import DoorImg from "../../icons/door.png";
+import LeftArrowImg from "../../icons/left-arrow.png";
 
 import "./UserInfo.scss";
 
@@ -36,7 +35,6 @@ const UserInfo = props => {
 
   const getUsername = () => (props.user ? props.user.username : null);
   const getEmail = () => (props.user ? props.user.email : null);
-  const getAvatarUrl = () => (props.user ? props.user.image_url : null);
 
   const renderSection = () => {
     if (editAccountOpened) {
@@ -44,10 +42,8 @@ const UserInfo = props => {
       return (
         <EditAccount
           initialValues={props.user}
-          closeEditAccount={() => {
-            if (props.error.msg) {
-              setEditAccountOpened(false);
-            }
+          hideSection={() => {
+            hideSection("EditAccount");
           }}
         />
       );
@@ -55,10 +51,8 @@ const UserInfo = props => {
       console.log("Opening change password");
       return (
         <ChangeUserPassword
-          closeChangePassword={() => {
-            if (props.error.msg) {
-              setChangePasswordOpened(false);
-            }
+          hideSection={() => {
+            hideSection("ChangeUserPassword");
           }}
         />
       );
@@ -66,58 +60,38 @@ const UserInfo = props => {
     return null;
   };
 
-  const getImageUploadModalClass = () => {
-    return imageUploadModalOpen ? "show" : "hide";
-  };
-
-  const previewFile = file => {
-    console.log(file);
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      console.log(reader.result);
-      setPreviewSource(reader.result);
-    };
-  };
-
-  const handleImageInputChange = e => {
-    const file = e.target.files[0];
-    console.log(file);
-    previewFile(file);
-    /*
-    if (inputImageRef.current) {
-      setImageUploadName(getFilenameFromDir(inputImageRef.current.value, "\\"));
+  const hideSection = sectionName => {
+    console.log("hiding section");
+    console.log(props.error.msg);
+    console.log(editAccountOpened);
+    if (!props.error.msg) {
+      if (sectionName === "EditAccount" || sectionName === "edit-account") {
+        console.log("hiding edit account section");
+        setEditAccountOpened(false);
+        console.log(editAccountOpened);
+      } else if (
+        sectionName === "ChangeUserPassword" ||
+        sectionName === "change-user-password"
+      ) {
+        setChangePasswordOpened(false);
+      }
     }
-    */
-  };
-  const uploadImage = async base64EncodedImage => {
-    console.log("uploading image");
-    console.log(base64EncodedImage);
-    console.log(props.user);
-    await props.editUserAvatar(base64EncodedImage, props.user._id);
-    setImageUploadModalOpen(false);
   };
 
-  const handleSubmitFile = e => {
-    e.preventDefault();
-    console.log(previewSource);
-    console.log("hello");
-    // e.preventDefault();
-    // e.stopPropagation();
-    if (!previewSource) {
-      console.log("no submitted file");
-      return;
-    }
-    console.log("we are here");
-    uploadImage(previewSource);
-  };
-
+  // render
   return (
     <div className="user-settings-content-container">
       {renderSection()}
-      <div className="user-settings-section-container">
-        <div className="user-settings-content-header">
-          <h1 className="user-settings-section-heading">My Account</h1>
+      <div className="my-account-section-container">
+        <div className="my-account-content-header">
+          <button id="my-account-back-button" onClick={props.closeMyAccount}>
+            <img
+              className="logout-icon-img"
+              src={LeftArrowImg}
+              alt="Left Arrow Icon"
+            />
+          </button>
+          <h1 className="my-account-section-heading">My Account</h1>
         </div>
         <div className="profile-container">
           <UserAvatar />
@@ -161,7 +135,7 @@ const UserInfo = props => {
           </button>
         </div>
       </div>
-      <div className="user-settings-section-container"></div>
+      <div className="my-account-section-container"></div>
     </div>
   );
 };

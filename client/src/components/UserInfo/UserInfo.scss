@@ -13,14 +13,24 @@ $center-margin: 0 auto;
 $profilePictureSize: 4rem;
 $previewImageSize: 8rem;
 
-.user-settings-content-header {
+.my-account-content-container {
+  z-index: 2;
+  // display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 0;
+  background-color: $main-black;
+}
+
+.my-account-content-header {
   position: fixed;
   top: 0;
   display: flex;
   width: 100%;
   height: 3rem;
   padding: 0 0.8rem;
-  justify-content: space-between;
+  // justify-content: space-between;
   align-items: center;
   // background-color: #111;
   background-color: $secondary-black;

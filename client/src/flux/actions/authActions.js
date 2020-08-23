@@ -13,7 +13,7 @@ import {
 } from "./types";
 
 // Check token & load user
-export const loadUser = () => (dispatch, getState) => {
+export const loadUser = href => (dispatch, getState) => {
   // User loading
   dispatch({ type: USER_LOADING });
   console.log(tokenConfig(getState));
@@ -32,7 +32,16 @@ export const loadUser = () => (dispatch, getState) => {
       dispatch({
         type: AUTH_ERROR
       });
-      history.push(`/auth/login`);
+      // if it's register or home, do not redirect to login
+      if (
+        !(
+          href.includes("/register") ||
+          href.includes("/home") ||
+          href.includes("/guest")
+        )
+      ) {
+        history.push(`/auth/login`);
+      }
     });
 };
 
@@ -87,6 +96,7 @@ export const loginUser = formValues => dispatch => {
 
 // Logout User
 export const logout = () => {
+  history.push("/login");
   return {
     type: LOGOUT_SUCCESS
   };

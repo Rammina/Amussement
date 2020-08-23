@@ -85,7 +85,7 @@ exports.user_register = async (req, res) => {
     try {
       const emailLowerCase = email.toLowerCase();
       // check if e-mail is already taken
-      const user = await User.findOne({ email: e - emailLowerCase });
+      const user = await User.findOne({ email: emailLowerCase });
       if (user) throw Error("Email is already taken.");
       // check if salt generation has any errors
       const salt = await bcrypt.genSalt(10);
@@ -208,12 +208,10 @@ exports.user_edit_account = async (req, res) => {
   if (!username || !email || !password) {
     errors.push({ msg: "Please fill in all the fields." });
   }
-
   // minimum length for the password
   if (password.length < 6) {
     errors.push({ msg: "Password must be at least 6 characters" });
   }
-
   // if there are errors, re-\ render the page but with the values that were filled in
   // note: figure out how to send errors to thefrontend
   if (errors.length > 0) {
@@ -221,7 +219,6 @@ exports.user_edit_account = async (req, res) => {
   } else {
     try {
       const emailLowerCase = email.toLowerCase();
-
       const user = await User.findById(req.params.id);
       if (!user) throw Error("User does not exist.");
 
@@ -277,6 +274,11 @@ exports.user_change_password = async (req, res) => {
     errors.push({ msg: "Password must be at least 6 characters" });
   }
 
+  // check if the password confirmation matches
+  if (new_password !== new_password_2) {
+    errors.push({ msg: "Password confirmation does not match." });
+  }
+
   // if there are errors, re-\ render the page but with the values that were filled in
   // note: figure out how to send errors to thefrontend
   if (errors.length > 0) {
@@ -311,7 +313,6 @@ exports.user_change_password = async (req, res) => {
       );
       if (!updatedUser) throw Error("Failed to update the user.");
       console.log(updatedUser);
-
       res.status(200).json({
         user: {
           id: updatedUser._id,
@@ -341,7 +342,7 @@ exports.user_remove_avatar = async (req, res) => {
       }
     );
     if (!updatedUser) throw Error("Failed to update the user.");
-
+    console.log(updatedUser);
     res.status(200).json({
       user: {
         id: updatedUser._id,

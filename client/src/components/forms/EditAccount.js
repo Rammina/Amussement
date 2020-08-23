@@ -74,7 +74,8 @@ const EditAccount = props => {
     console.log(formValues);
     // run an action
     await props.editUserAccount(formValues);
-    props.closeEditAccount();
+    console.log(props.error.msg);
+    props.hideSection();
   };
 
   return (

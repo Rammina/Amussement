@@ -11,6 +11,8 @@ import {
   EDIT_USER_ACCOUNT_FAIL,
   EDIT_USER_AVATAR_SUCCESS,
   EDIT_USER_AVATAR_FAIL,
+  REMOVE_USER_AVATAR_SUCCESS,
+  REMOVE_USER_AVATAR_FAIL,
   CHANGE_USER_PASSWORD_SUCCESS,
   CHANGE_USER_PASSWORD_FAIL
 } from "../actions/types";
@@ -60,6 +62,11 @@ export default (state = initialState, action) => {
         ...state,
         ...action.payload
       };
+    case REMOVE_USER_AVATAR_SUCCESS:
+      return {
+        ...state,
+        ...action.payload
+      };
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
@@ -75,6 +82,7 @@ export default (state = initialState, action) => {
     case EDIT_USER_ACCOUNT_FAIL:
     case CHANGE_USER_PASSWORD_FAIL:
     case EDIT_USER_AVATAR_FAIL:
+    case REMOVE_USER_AVATAR_FAIL:
       // case :
       return { ...state };
     default:

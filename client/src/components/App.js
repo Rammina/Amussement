@@ -19,7 +19,8 @@ import { loadUser } from "../flux/actions/authActions";
 
 const App = props => {
   useEffect(() => {
-    props.loadUser();
+    console.log(window.location.href);
+    props.loadUser(window.location.href);
   }, []);
 
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
@@ -97,6 +98,7 @@ const App = props => {
     };
   };
 
+  //note: add chat for logged in users
   return (
     <Router history={history}>
       <Route path="/" exact component={Join} />

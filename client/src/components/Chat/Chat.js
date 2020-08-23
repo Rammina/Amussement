@@ -1,6 +1,7 @@
 import "./Chat.scss";
 
 import React, { useState, useEffect, useContext } from "react";
+import { connect } from "react-redux";
 import queryString from "query-string";
 import io from "socket.io-client";
 
@@ -14,7 +15,7 @@ import { NavContext } from "../AppContext";
 
 let socket;
 
-const Chat = ({ location }) => {
+const Chat = props => {
   const {
     messagesContainerMoveLeft,
     setMessagesContainerMoveLeft,
@@ -60,19 +61,23 @@ const Chat = ({ location }) => {
   }, [handleResize]);
 
   useEffect(() => {
-    const { name, room } = queryString.parse(location.search);
+    const { guestName, room } = queryString.parse(props.location.search);
 
     socket = io(ENDPOINT);
 
     setRoom(room);
-    setName(name);
+    if (props.user) {
+      setName(props.user.username || guestName || "anon");
+    } else {
+      setName(guestName || "anon");
+    }
 
     socket.emit("join", { name, room }, error => {
       if (error) {
         alert(error);
       }
     });
-  }, [ENDPOINT, location.search]);
+  }, [ENDPOINT, props.location.search]);
 
   useEffect(() => {
     socket.on("message", message => {
@@ -120,12 +125,13 @@ const Chat = ({ location }) => {
   );
 };
 
-/*
-const mapStateToProps=(state) => {
-  return {
-    room: state.room,
-  };
-}
-*/
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+  error: state.error
+});
 
-export default Chat;
+export default connect(
+  mapStateToProps,
+  {}
+)(Chat);

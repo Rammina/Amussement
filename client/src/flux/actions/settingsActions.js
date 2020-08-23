@@ -18,7 +18,7 @@ import {
 export const editUserAccount = formValues => {
   return async function(dispatch, getState) {
     const userId = getState().auth.user._id || getState().auth.user.id;
-    serverRest
+    await serverRest
       .post(`/api/users/${userId}/settings/edit-account`, formValues)
       .then(res => {
         console.log(res);
@@ -45,7 +45,7 @@ export const editUserAccount = formValues => {
 export const changeUserPassword = formValues => {
   return async function(dispatch, getState) {
     const userId = getState().auth.user._id || getState().auth.user.id;
-    serverRest
+    await serverRest
       .post(`/api/users/${userId}/settings/change-password`, formValues)
       .then(res => {
         console.log(res);
@@ -106,7 +106,7 @@ export const removeUserAvatar = id => {
         })
         .then(res => {
           console.log(res.data);
-          dispatch({ type: REMOVE_USER_AVATAR_SUCCESS });
+          dispatch({ type: REMOVE_USER_AVATAR_SUCCESS, payload: res.data });
         });
     } catch (err) {
       console.log(err);

@@ -1,3 +1,5 @@
+import DefaultAvatarImg from "../../images/default-avatar.jpg";
+
 import "./UserAvatar.scss";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -19,12 +21,20 @@ const UserAvatar = props => {
 
   useEffect(() => {
     // UserAvatar needs to get the ID from the parent component
+    console.log(getAvatarUrl());
     console.log(props.userId);
   }, []);
 
   //refs
   let inputImageRef = useRef(null);
-  const getAvatarUrl = () => (props.user ? props.user.image_url : null);
+  const getAvatarUrl = () => {
+    if (props.user) {
+      if (props.user.image_url) {
+        return props.user.image_url;
+      }
+    }
+    return "";
+  };
 
   const getImageUploadModalClass = () => {
     return imageUploadModalOpen ? "show" : "hide";
@@ -101,7 +111,10 @@ const UserAvatar = props => {
         </div>
       </form>
       <div className="" id="profile-large-image-container">
-        <img id="user-large-image" src={`${getAvatarUrl() || ""}`} />
+        <img
+          id="user-large-image"
+          src={`${getAvatarUrl()}` || DefaultAvatarImg}
+        />
       </div>
     </div>
   );

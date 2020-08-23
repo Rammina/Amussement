@@ -73,8 +73,8 @@ const ChangeUserPassword = props => {
   const onSubmit = async formValues => {
     console.log(formValues);
     // run an action
-    props.changeUserPassword(formValues);
-    props.closeChangePassword();
+    await props.changeUserPassword(formValues);
+    props.hideSection();
   };
 
   return (
@@ -95,7 +95,8 @@ const ChangeUserPassword = props => {
                 className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",
-                id: "change-user-password-password-field"
+                id: "change-user-password-password-field",
+                type: "password"
                 // autoFocus: true
               },
               labelProps: {
@@ -117,7 +118,8 @@ const ChangeUserPassword = props => {
                 className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",
-                id: "change-user-password-new-password-field"
+                id: "change-user-password-new-password-field",
+                type: "password"
                 // autoFocus: true
               },
               labelProps: {
@@ -139,7 +141,8 @@ const ChangeUserPassword = props => {
                 className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",
-                id: "change-user-password-new-password-2-field"
+                id: "change-user-password-new-password-2-field",
+                type: "password"
                 // autoFocus: true
               },
               labelProps: {
@@ -178,6 +181,9 @@ const validate = formValues => {
   }
   if (!formValues.new_password_2 || formValues.new_password_2.length < 6) {
     errors.new_password_2 = "Please repeat your new password.";
+  }
+  if (formValues.new_password !== formValues.new_password_2) {
+    errors.new_password_2 = "Password confirmation does not match.";
   }
   return errors;
 };

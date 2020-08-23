@@ -11,9 +11,11 @@ import serverRest from "../../apis/serverRest";
 
 import UserInfo from "../UserInfo/UserInfo";
 
+import { logout } from "../../flux/actions/authActions";
+
 // import { renderError, getErrorClass } from "../../helpers";
 
-const UserSettings = (props) => {
+const UserSettings = props => {
   const [myAccountOpened, setMyAccountOpened] = useState(false);
   const [appearanceOpened, setAppearanceOpened] = useState(false);
   const [friendsOpened, setFriendsOpened] = useState(false);
@@ -21,7 +23,14 @@ const UserSettings = (props) => {
   const renderSection = () => {
     if (myAccountOpened) {
       console.log("Opening my account");
-      return <UserInfo userId={props.match.params.id} />;
+      return (
+        <UserInfo
+          userId={props.match.params.id}
+          closeMyAccount={() => {
+            setMyAccountOpened(false);
+          }}
+        />
+      );
     } else if (appearanceOpened) {
       // return <UserInfo userId={props.match.params.id} />;
     } else if (friendsOpened) {
@@ -39,7 +48,7 @@ const UserSettings = (props) => {
           <header className="user-settings-sidebar-header">
             <h1 className="user-settings-header-heading">User Settings</h1>
             <span>
-              <button id="user-settings-logout-button">
+              <button id="user-settings-logout-button" onClick={props.logout}>
                 <img
                   className="logout-icon-img"
                   src={LogoutImg}
@@ -96,4 +105,9 @@ const UserSettings = (props) => {
   );
 };
 
-export default UserSettings;
+const userSettings = connect(
+  null,
+  { logout }
+)(UserSettings);
+
+export default userSettings;
