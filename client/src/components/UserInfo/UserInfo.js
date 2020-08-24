@@ -16,7 +16,7 @@ import UserAvatar from "../UserAvatar/UserAvatar";
 
 import { removeUserAvatar } from "../../flux/actions/settingsActions";
 
-const UserInfo = props => {
+const UserInfo = (props) => {
   const [editAccountOpened, setEditAccountOpened] = useState(false);
   const [changePasswordOpened, setChangePasswordOpened] = useState(false);
   const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
@@ -60,7 +60,7 @@ const UserInfo = props => {
     return null;
   };
 
-  const hideSection = sectionName => {
+  const hideSection = (sectionName) => {
     console.log("hiding section");
     console.log(props.error.msg);
     console.log(editAccountOpened);
@@ -86,7 +86,7 @@ const UserInfo = props => {
         <div className="my-account-content-header">
           <button id="my-account-back-button" onClick={props.closeMyAccount}>
             <img
-              className="logout-icon-img"
+              className="my-account left-arrow-icon-img"
               src={LeftArrowImg}
               alt="Left Arrow Icon"
             />
@@ -135,22 +135,18 @@ const UserInfo = props => {
           </button>
         </div>
       </div>
-      <div className="my-account-section-container"></div>
     </div>
   );
 };
 {
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
-  error: state.error
+  error: state.error,
 });
 
-const userInfo = connect(
-  mapStateToProps,
-  { removeUserAvatar }
-)(UserInfo);
+const userInfo = connect(mapStateToProps, { removeUserAvatar })(UserInfo);
 
 export default userInfo;
 /*

@@ -1,5 +1,7 @@
 $headingFont: "Patrick Hand", cursive;
 $textFont: "Roboto", sans-serif;
+$textFontColor: #dbdde1;
+$textFontColorHover: #feffff;
 
 $main-mint: #b8ffca;
 $main-black: #333538;
@@ -14,6 +16,12 @@ $center-margin: 0 auto;
 $profilePictureSize: 4rem;
 $previewImageSize: 8rem;
 
+#profile-container,
+#profile-buttons-container {
+  max-width: 25rem;
+  margin: 1rem auto;
+}
+
 .my-account-content-container {
   z-index: 2;
   // display: none;
@@ -27,6 +35,7 @@ $previewImageSize: 8rem;
 .my-account-content-header {
   position: fixed;
   top: 0;
+  left: 0;
   display: flex;
   width: 100%;
   height: 3rem;
@@ -35,6 +44,32 @@ $previewImageSize: 8rem;
   align-items: center;
   // background-color: #111;
   background-color: $secondary-black;
+}
+
+.my-account-section-heading {
+  position: relative;
+  // left: 0.8rem;
+}
+
+#my-account-back-button {
+  position: relative;
+  right: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.5rem;
+  background-color: #0000;
+  filter: invert(94%) sepia(4%) saturate(168%) hue-rotate(182deg)
+    brightness(95%) contrast(91%);
+}
+
+#my-account-back-button:hover {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(53deg)
+    brightness(104%) contrast(102%);
+}
+
+.left-arrow-icon-img {
+  width: 2rem;
+  height: 2rem;
 }
 
 .profile-container {
@@ -77,13 +112,7 @@ $previewImageSize: 8rem;
 
 #profile-buttons-container {
   justify-content: center;
-  margin-top: 1rem;
-}
-
-#profile-container,
-#profile-buttons-container {
-  max-width: 25rem;
-  margin: 0 auto;
+  // margin-top: 1.5rem;
 }
 
 .profile-button {
@@ -103,6 +132,31 @@ $previewImageSize: 8rem;
 
 .profile-button:hover {
   background-color: $light-mint-hover;
+}
+
+@media screen and (min-width: 450px) {
+  .my-account-content-header {
+    // left: 0;
+  }
+
+  .my-account-section-container {
+    position: relative;
+    top: 4rem;
+    padding: 1rem;
+    border: 1px solid white;
+    background-color: #292b2f;
+  }
+  .profile-container {
+    margin: 0;
+  }
+  #profile-information-container {
+    left: 1.5rem;
+    top: 0.3rem;
+  }
+  .profile-information {
+    font-size: 1.25rem;
+    margin-top: 0.15rem;
+  }
 }
 
 @media screen and (min-width: 750px) {

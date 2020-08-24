@@ -1,5 +1,7 @@
 $headingFont: "Patrick Hand", cursive;
 $textFont: "Roboto", sans-serif;
+$textFontColor: #dbdde1;
+$textFontColorHover: #feffff;
 
 $main-mint: #b8ffca;
 $main-black: #333538;
@@ -18,7 +20,7 @@ $profilePictureSize: 4rem;
   min-height: calc(100vh + 0rem);
   height: auto;
   background-color: $main-black;
-  color: aliceblue;
+  color: $textFontColor;
 }
 
 .user-settings-outer-flex-container {
@@ -93,12 +95,14 @@ $profilePictureSize: 4rem;
   text-align: left;
   padding-left: 1.2rem;
   font-size: 1.1rem;
-  color: aliceblue;
+  color: $textFontColor;
+
   // border: 1px solid black;
 }
 
 .user-settings-sidebar-item:hover {
-  background-color: #fff1;
+  color: $textFontColorHover;
+  background-color: #ffffff15;
   // color: rgb(255, 255, 255);
 }
 

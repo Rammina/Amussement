@@ -1,5 +1,7 @@
 $headingFont: "Patrick Hand", cursive;
 $textFont: "Roboto", sans-serif;
+$textFontColor: #dbdde1;
+$textFontColorHover: #feffff;
 
 $main-mint: #b8ffca;
 $main-black: #333538;
@@ -53,7 +55,7 @@ $tablet-width: 40.625rem;
   margin: 0 auto;
   width: calc(100vw - (100vw - 100%) + 0.5rem);
   min-height: calc(100vh + 0rem);
-  color: aliceblue;
+  color: $textFontColor;
 }
 
 .form-button-container {

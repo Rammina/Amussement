@@ -1,5 +1,7 @@
 $headingFont: "Patrick Hand", cursive;
 $textFont: "Roboto", sans-serif;
+$textFontColor: #dbdde1;
+$textFontColorHover: #feffff;
 
 $main-mint: #b8ffca;
 $main-black: #333538;
@@ -37,7 +39,7 @@ $tablet-width: 40.625rem;
 }
 
 .heading {
-  color: aliceblue;
+  color: $textFontColor;
   font-size: 1.5rem;
   font-family: $textFont;
   text-align: center;

@@ -1,5 +1,7 @@
 $headingFont: "Patrick Hand", cursive;
 $textFont: "Roboto", sans-serif;
+$textFontColor: #dbdde1;
+$textFontColorHover: #feffff;
 
 $main-mint: #b8ffca;
 $main-black: #333538;
@@ -11,6 +13,7 @@ $discord-content-black: #36393f;
 $center-margin: 0 auto;
 
 $profilePictureSize: 4rem;
+$profilePictureSize450w: 5.5rem;
 $previewImageSize: 8rem;
 
 #user-avatar-change-container {
@@ -101,6 +104,19 @@ $previewImageSize: 8rem;
 
 #user-avatar-remove:hover {
   color: rgb(255, 224, 224);
+}
+
+// $profilePictureSize450w: 6rem;
+
+@media screen and (min-width: 450px) {
+  #user-avatar-change-container,
+  #profile-large-image-container,
+  #user-large-image,
+  #user-avatar-upload-label,
+  #user-avatar-upload {
+    width: $profilePictureSize450w;
+    height: $profilePictureSize450w;
+  }
 }
 
 @media screen and (min-width: 750px) {

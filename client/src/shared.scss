@@ -2,6 +2,8 @@
 
 $headingFont: "Patrick Hand", cursive;
 $textFont: "Roboto", sans-serif;
+$textFontColor: #dbdde1;
+$textFontColorHover: #feffff;
 
 $main-mint: #b8ffca;
 $main-black: #333538;
@@ -154,7 +156,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 a {
   text-decoration: none;
-  color: aliceblue;
+  color: $textFontColor;
 }
 
 a:focus {
