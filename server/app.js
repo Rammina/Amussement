@@ -95,10 +95,12 @@ io.on("connect", socket => {
 
     socket.join(user.room);
 
+    // welcome message upon joining room
     socket.emit("message", {
       user: "RoroBot",
       text: `${user.name}, welcome to room ${user.room}.`
     });
+    // sends an event to all users
     socket.broadcast.to(user.room).emit("message", {
       user: "RoroBot",
       text: `${user.name} has joined!`
