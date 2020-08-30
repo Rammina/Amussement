@@ -1,8 +1,4 @@
-$main-pink: #f7d2cc;
-$main-black: #333538;
-$color-blue: #0000ff;
-
-$sidebarWidth: 13rem;
+@import "../../utils/variables.scss";
 
 .outerContainer {
   display: flex;

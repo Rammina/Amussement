@@ -1,17 +1,4 @@
-$headingFont: "Patrick Hand", cursive;
-$textFont: "Roboto", sans-serif;
-$textFontColor: #dbdde1;
-$textFontColorHover: #feffff;
-
-$main-mint: #b8ffca;
-$main-black: #333538;
-$light-mint: #aaffd5;
-
-$center-margin: 0 auto;
-
-$door-img-dimension: 1.3rem;
-
-$tablet-width: 40.625rem;
+@import "../../utils/variables.scss";
 
 * {
   box-sizing: border-box;

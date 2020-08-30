@@ -18,7 +18,7 @@ const Message = ({ message: { text, user }, name, sameSenderAsPrevMsg }) => {
     isSentByCurrentUser = true;
   }
 
-  const renderMessageText = textOnly => {
+  const renderMessageText = (textOnly) => {
     const textOnlyClass = textOnly ? "no-image" : "";
 
     return (
@@ -42,7 +42,12 @@ const Message = ({ message: { text, user }, name, sameSenderAsPrevMsg }) => {
     }
 
     if (!sameSenderAsPrevMsg) {
-      senderImage = <ProfilePicture imageSrc={user.image_url || ""} />;
+      senderImage = (
+        <ProfilePicture
+          imageSrc={user.image_url || ""}
+          componentClass="message"
+        />
+      );
     } else {
       return renderMessageText(true);
     }

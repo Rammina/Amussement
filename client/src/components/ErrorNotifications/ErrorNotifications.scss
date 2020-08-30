@@ -1,16 +1,4 @@
-$headingFont: "Patrick Hand", cursive;
-$textFont: "Roboto", sans-serif;
-$textFontColor: #dbdde1;
-$textFontColorHover: #feffff;
-
-$main-mint: #b8ffca;
-$main-black: #333538;
-$light-mint: #aaffd5;
-
-$senderTextColor: #000;
-$messageTextColor: #111;
-$senderTextColorNight: #fff;
-$messageTextColorNight: #eee;
+@import "../../utils/variables.scss";
 
 .error-notifications-container {
   width: 85%;

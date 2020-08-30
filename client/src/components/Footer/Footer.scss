@@ -1,19 +1,4 @@
-$headingFont: "Patrick Hand", cursive;
-$textFont: "Roboto", sans-serif;
-$textFontColor: #dbdde1;
-$textFontColorHover: #feffff;
-
-$main-mint: #b8ffca;
-$main-black: #333538;
-$secondary-black: #232628;
-$light-mint: #aaffd5;
-$discord-sidebar-black: #2f3136;
-$discord-footer-black: #0f1116;
-$discord-content-black: #36393f;
-
-$center-margin: 0 auto;
-
-$profilePictureSize: 4rem;
+@import "../../utils/variables.scss";
 
 #user-footer-container {
   position: fixed;

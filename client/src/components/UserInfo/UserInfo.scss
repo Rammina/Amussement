@@ -1,20 +1,4 @@
-$headingFont: "Patrick Hand", cursive;
-$textFont: "Roboto", sans-serif;
-$textFontColor: #dbdde1;
-$textFontColorHover: #feffff;
-
-$main-mint: #b8ffca;
-$main-black: #333538;
-$secondary-black: #232628;
-$light-mint: #aaffd5;
-$light-mint-hover: #c8ffe4;
-$discord-sidebar-black: #2f3136;
-$discord-content-black: #36393f;
-
-$center-margin: 0 auto;
-
-$profilePictureSize: 4rem;
-$previewImageSize: 8rem;
+@import "../../utils/variables.scss";
 
 #profile-container,
 #profile-buttons-container {

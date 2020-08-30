@@ -1,4 +1,4 @@
-$profilePictureSize: 2.5rem;
+@import "../../utils/variables.scss";
 
 .profile-picture-outer-container {
   display: inline-block;
@@ -19,4 +19,11 @@ $profilePictureSize: 2.5rem;
   border-radius: 50%;
   height: $profilePictureSize;
   width: $profilePictureSize;
+}
+
+.profile-picture-inner-container.message,
+.profile-picture-image.message {
+  height: $profilePictureSizeMessage;
+  width: $profilePictureSizeMessage;
+  // border: 1px solid black;
 }

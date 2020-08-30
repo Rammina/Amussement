@@ -4,18 +4,25 @@ $textFont: "Roboto", sans-serif;
 // color variables
 $textFontColor: #dbdde1;
 $textFontColorHover: #feffff;
+$messageTextColor: #232628;
+$senderTextColor: #232628;
+$senderTextColorNight: #fff;
 $main-mint: #b8ffca;
 $main-black: #333538;
 $secondary-black: #232628;
 $discord-sidebar-black: #2f3136;
 $discord-content-black: #36393f;
+$discord-footer-black: #0f1116;
 $light-mint: #aaffd5;
 $light-mint-hover: #c8ffe4;
 // size variables
 $center-margin: 0 auto;
 $door-img-dimension: 1.3rem;
 $tablet-width: 40.625rem;
+$onlineUsersWidth: 13rem;
+$sidebarWidth: 13rem;
 // //profile picture size variables
+$profilePictureSizeMessage: 3rem;
 $profilePictureSize: 4rem;
 $profilePictureSize450w: 5.5rem;
 $previewImageSize: 8rem;

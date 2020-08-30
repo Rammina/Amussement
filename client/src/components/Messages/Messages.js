@@ -5,7 +5,7 @@ import ScrollToBottom from "react-scroll-to-bottom";
 
 import Message from "./Message/Message";
 
-import "./Messages.css";
+import "./Messages.scss";
 
 const Messages = ({ messages, name }) => {
   let prevMessageSender = null;
@@ -36,14 +36,11 @@ const Messages = ({ messages, name }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
-  error: state.error
+  error: state.error,
   // propsInitialized: true
 });
 
-export default connect(
-  mapStateToProps,
-  {}
-)(Messages);
+export default connect(mapStateToProps, {})(Messages);

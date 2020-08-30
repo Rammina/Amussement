@@ -1,20 +1,4 @@
-$headingFont: "Patrick Hand", cursive;
-$textFont: "Roboto", sans-serif;
-$textFontColor: #dbdde1;
-$textFontColorHover: #feffff;
-
-$main-mint: #b8ffca;
-$main-black: #333538;
-$secondary-black: #232628;
-$light-mint: #aaffd5;
-$discord-sidebar-black: #2f3136;
-$discord-content-black: #36393f;
-
-$center-margin: 0 auto;
-
-$profilePictureSize: 4rem;
-$profilePictureSize450w: 5.5rem;
-$previewImageSize: 8rem;
+@import "../../utils/variables.scss";
 
 #user-avatar-change-container {
   position: relative;
