@@ -10,6 +10,7 @@ import { Field, reduxForm } from "redux-form";
 import serverRest from "../../apis/serverRest";
 
 import UserInfo from "../UserInfo/UserInfo";
+import Footer from "../Footer/Footer";
 
 import { logout } from "../../flux/actions/authActions";
 
@@ -101,6 +102,7 @@ const UserSettings = props => {
           x
         </button>
       </div>
+      <Footer />
     </div>
   );
 };

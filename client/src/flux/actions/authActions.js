@@ -37,7 +37,9 @@ export const loadUser = href => (dispatch, getState) => {
         !(
           href.includes("/register") ||
           href.includes("/home") ||
-          href.includes("/guest")
+          href.includes("/guest") ||
+          href.includes("?guest") ||
+          href === "http://localhost:3000/"
         )
       ) {
         history.push(`/auth/login`);

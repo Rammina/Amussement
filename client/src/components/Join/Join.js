@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import "./Join.scss";
 
 export default function SignIn() {
-  const [name, setName] = useState("");
+  const [guestName, setGuestName] = useState("");
   const [room, setRoom] = useState("");
 
   return (
@@ -31,8 +31,8 @@ export default function SignIn() {
               placeholder="Name"
               className="textfield"
               type="text"
-              maxlength="20"
-              onChange={event => setName(event.target.value)}
+              maxLength="20"
+              onChange={event => setGuestName(event.target.value)}
             />
           </div>
           <div className="textfield-container">
@@ -46,8 +46,8 @@ export default function SignIn() {
           <div className="form-button-container join">
             <Link
               id="join-submit-link"
-              onClick={e => (!name || !room ? e.preventDefault() : null)}
-              to={`/chat?guestName=${name}&room=${room}`}
+              onClick={e => (!guestName || !room ? e.preventDefault() : null)}
+              to={`/chat?guestName=${guestName}&room=${room}&userType=guest`}
             >
               <button className={"form-button submit mt-20 join"} type="submit">
                 Sign In

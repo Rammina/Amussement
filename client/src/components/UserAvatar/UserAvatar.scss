@@ -26,14 +26,14 @@ $previewImageSize: 8rem;
   overflow: visible;
 }
 
-#profile-large-image-container {
+.user-avatar.profile-picture-inner-container {
   display: inline-block;
 
   width: $profilePictureSize;
   height: $profilePictureSize;
 }
 
-#user-large-image {
+.user-avatar.profile-picture-image {
   opacity: 1;
   z-index: 20;
   display: inline-block;
@@ -110,10 +110,10 @@ $previewImageSize: 8rem;
 
 @media screen and (min-width: 450px) {
   #user-avatar-change-container,
-  #profile-large-image-container,
-  #user-large-image,
   #user-avatar-upload-label,
-  #user-avatar-upload {
+  #user-avatar-upload,
+  .user-avatar.profile-picture-image,
+  .user-avatar.profile-picture-inner-container {
     width: $profilePictureSize450w;
     height: $profilePictureSize450w;
   }

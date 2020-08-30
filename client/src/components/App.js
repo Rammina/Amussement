@@ -7,7 +7,7 @@ import Chat from "./Chat/Chat";
 import Join from "./Join/Join";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
-import UserHome from "./UserHome/UserHome";
+import Home from "./Home/Home";
 import UserSettings from "./UserSettings/UserSettings";
 
 import { connect } from "react-redux";
@@ -31,7 +31,7 @@ const App = props => {
   const [onlineUsersButtonTouched, setOnlineUsersButtonTouched] = useState(
     false
   );
-  const [roomSideBarShow, setRoomSideBarShow] = useState(
+  const [leftSideBarShow, setLeftSideBarShow] = useState(
     window.innerWidth >= 1000 ? true : false
   );
 
@@ -42,17 +42,17 @@ const App = props => {
     onlineUsersShow ? true : false
   );
   const [messagesContainerMoveRight, setMessagesContainerMoveRight] = useState(
-    roomSideBarShow ? true : false
+    leftSideBarShow ? true : false
   );
 
   // custom functions for the hooks
   const toggleRoomSideBarShow = () => {
-    if (!roomSideBarShow) {
+    if (!leftSideBarShow) {
       setMessagesContainerMoveRight(true);
-      setRoomSideBarShow(true);
+      setLeftSideBarShow(true);
     } else {
       setMessagesContainerMoveRight(false);
-      setRoomSideBarShow(false);
+      setLeftSideBarShow(false);
     }
   };
 
@@ -83,8 +83,8 @@ const App = props => {
       setNavMenuButtonClass,
       navMenuButtonTouched,
       setNavMenuButtonTouched,
-      roomSideBarShow,
-      setRoomSideBarShow,
+      leftSideBarShow,
+      setLeftSideBarShow,
       toggleRoomSideBarShow,
       onlineUsersButtonRef,
       setOnlineUsersButtonRef,
@@ -104,8 +104,10 @@ const App = props => {
       <Route path="/" exact component={Join} />
       <Route path="/auth/register" exact component={Register} />
       <Route path="/auth/login" exact component={Login} />
+
       <Route path="/users/:id/settings" exact component={UserSettings} />
       <NavContext.Provider value={getNavContextValue()}>
+        <Route path="/users/:id/home" exact component={Home} />
         <Route path="/chat" component={Chat} />
       </NavContext.Provider>
     </Router>

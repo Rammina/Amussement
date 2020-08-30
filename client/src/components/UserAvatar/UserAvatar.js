@@ -12,6 +12,8 @@ import cloudinaryRest from "../../apis/cloudinaryRest";
 
 import { editUserAvatar } from "../../flux/actions/settingsActions";
 
+import ProfilePicture from "../ProfilePicture/ProfilePicture";
+
 const UserAvatar = props => {
   const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
   const [imageUploadName, setImageUploadName] = useState(null);
@@ -110,12 +112,11 @@ const UserAvatar = props => {
           <button type="submit">Submit Image</button>
         </div>
       </form>
-      <div className="" id="profile-large-image-container">
-        <img
-          id="user-large-image"
-          src={`${getAvatarUrl()}` || DefaultAvatarImg}
-        />
-      </div>
+
+      <ProfilePicture
+        imageSrc={`${getAvatarUrl()}` || DefaultAvatarImg}
+        componentClass="user-avatar"
+      />
     </div>
   );
 };

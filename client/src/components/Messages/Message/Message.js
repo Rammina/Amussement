@@ -7,12 +7,14 @@ import "./Message.scss";
 import ReactEmoji from "react-emoji";
 
 const Message = ({ message: { text, user }, name, sameSenderAsPrevMsg }) => {
+  // console.log(message);
+  console.log(user);
   let isSentByCurrentUser = false;
   // let sameSenderAsPrevMsg = false;
 
-  const trimmedName = name.trim().toLowerCase();
+  const trimmedName = name.trim();
 
-  if (user === trimmedName) {
+  if (user.name === name) {
     isSentByCurrentUser = true;
   }
 
@@ -29,22 +31,18 @@ const Message = ({ message: { text, user }, name, sameSenderAsPrevMsg }) => {
   };
 
   const renderMessage = () => {
+    console.log(user.image_url);
     let senderText = null;
     let senderImage = null;
 
     if (isSentByCurrentUser) {
       senderText = <p className="sender-text">{trimmedName}</p>;
     } else {
-      senderText = <p className="sender-text">{user}</p>;
+      senderText = <p className="sender-text">{user.name}</p>;
     }
 
     if (!sameSenderAsPrevMsg) {
-      senderImage = (
-        <ProfilePicture
-          imageSrc={null}
-          imageAddress={user.profilepicture || null}
-        />
-      );
+      senderImage = <ProfilePicture imageSrc={user.image_url || ""} />;
     } else {
       return renderMessageText(true);
     }

@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 
 import ScrollToBottom from "react-scroll-to-bottom";
 
@@ -14,11 +15,13 @@ const Messages = ({ messages, name }) => {
       {messages.map((message, i) => {
         console.log(message);
         console.log(message.user);
+        console.log(message.user.name);
+        console.log(prevMessageSender);
         let sameSenderAsPrevMsg = false;
-        if (prevMessageSender === message.user) {
+        if (prevMessageSender === message.user.name) {
           sameSenderAsPrevMsg = true;
         }
-        prevMessageSender = message.user;
+        prevMessageSender = message.user.name;
         return (
           <div key={i}>
             <Message
@@ -33,4 +36,14 @@ const Messages = ({ messages, name }) => {
   );
 };
 
-export default Messages;
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
+  error: state.error
+  // propsInitialized: true
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(Messages);

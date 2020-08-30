@@ -1,0 +1,44 @@
+$headingFont: "Patrick Hand", cursive;
+$textFont: "Roboto", sans-serif;
+$textFontColor: #dbdde1;
+$textFontColorHover: #feffff;
+
+$main-mint: #b8ffca;
+$main-black: #333538;
+$secondary-black: #232628;
+$light-mint: #aaffd5;
+$discord-sidebar-black: #2f3136;
+$discord-footer-black: #0f1116;
+$discord-content-black: #36393f;
+
+$center-margin: 0 auto;
+
+$profilePictureSize: 4rem;
+
+#user-footer-container {
+  position: fixed;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  bottom: 0;
+  left: 0;
+  background-color: $discord-footer-black;
+  min-height: 3rem;
+  min-width: calc(100vw - (100vw - 100%));
+}
+.user-footer-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
+  height: 3rem;
+  background-color: #0000;
+  width: 100%;
+  color: $textFontColor;
+}
+
+.user-footer-link:hover {
+  background-color: #ffffff08;
+  color: $textFontColorHover;
+}

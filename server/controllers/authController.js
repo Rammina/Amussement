@@ -52,11 +52,13 @@ const checkFileType = (regexp, file, cb) => {
 
 // retrieve user information upon application loading
 exports.user_load = async (req, res) => {
+  console.log("loading user");
   try {
     const user = await User.findById(req.user.id).select("-password");
     if (!user) throw Error("User does not exist");
     res.json(user);
   } catch (e) {
+    console.log("loading user success");
     res.status(400).json({ msg: e.message });
   }
 };

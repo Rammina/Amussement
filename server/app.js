@@ -87,22 +87,28 @@ app.use(flash());
 // next(createError(404));
 // });
 
+//
 io.on("connect", socket => {
-  socket.on("join", ({ name, room }, callback) => {
-    const { error, user } = addUser({ id: socket.id, name, room });
+  // listen for any user join sent from the client side
+  socket.on("join", ({ name, room, image_url }, callback) => {
+    console.log(name + "name hello there");
+    console.log(room + "room hello there");
+    console.log(image_url);
+    const { error, user } = addUser({ id: socket.id, name, room, image_url });
 
     if (error) return callback(error);
 
+    // have the user join the room
     socket.join(user.room);
 
-    // welcome message upon joining room
+    // welcome message upon joining room, sent to all clients
     socket.emit("message", {
-      user: "RoroBot",
+      user: { name: "RoroBot", room: user.room },
       text: `${user.name}, welcome to room ${user.room}.`
     });
-    // sends an event to all users
+    // sends an event to all users in the said room, except the specified user
     socket.broadcast.to(user.room).emit("message", {
-      user: "RoroBot",
+      user: { name: "RoroBot", room: user.room },
       text: `${user.name} has joined!`
     });
 
@@ -114,20 +120,22 @@ io.on("connect", socket => {
     callback();
   });
 
+  // listens to an event called "sendMessage" and fires the callback function
   socket.on("sendMessage", (message, callback) => {
     const user = getUser(socket.id);
-
-    io.to(user.room).emit("message", { user: user.name, text: message });
-
+    // everyone in the room receives the message, except the sender
+    io.to(user.room).emit("message", { user: user, text: message });
+    // do something after the message is sent to thefrontend
     callback();
   });
 
+  // listen to a disconnected event and send a message that the user has disconnected
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
 
     if (user) {
       io.to(user.room).emit("message", {
-        user: "RoroBot",
+        user: { name: "RoroBot", room: user.room },
         text: `${user.name} has left.`
       });
       io.to(user.room).emit("roomData", {

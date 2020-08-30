@@ -5,18 +5,28 @@ $textFontColorHover: #feffff;
 
 $main-mint: #b8ffca;
 $main-black: #333538;
+$secondary-black: #232628;
 $light-mint: #aaffd5;
+$discord-sidebar-black: #2f3136;
+$discord-footer-black: #0f1116;
+$discord-content-black: #36393f;
 
 $center-margin: 0 auto;
+
+$profilePictureSize: 4rem;
 
 .user-home-page-container {
   margin: 0;
   display: block;
-  // justify-content: center;
-  // text-align: center;
   min-height: calc(100vh + 0rem);
   height: auto;
-  // padding: 1rem;
-  // align-items: center;
   background-color: $main-black;
+  color: $textFontColor;
+  padding-bottom: 3rem;
+}
+
+.sidebar-outer-container {
+  position: relative;
+  display: flex;
+  width: fit-content;
 }
