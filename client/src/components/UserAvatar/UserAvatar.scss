@@ -28,6 +28,7 @@
 }
 
 #user-avatar-form {
+  z-index: 21;
   position: absolute;
 }
 
@@ -54,8 +55,8 @@
 #user-avatar-upload {
   position: absolute;
   opacity: 0;
-  width: $profilePictureSize;
-  height: $profilePictureSize;
+  width: 0.1px;
+  height: 0.1px;
 }
 
 .user-avatar.modal {
@@ -95,7 +96,6 @@
 @media screen and (min-width: 450px) {
   #user-avatar-change-container,
   #user-avatar-upload-label,
-  #user-avatar-upload,
   .user-avatar.profile-picture-image,
   .user-avatar.profile-picture-inner-container {
     width: $profilePictureSize450w;
@@ -104,4 +104,13 @@
 }
 
 @media screen and (min-width: 750px) {
+  #user-avatar-change-container,
+  #user-avatar-upload-label,
+  .user-avatar.profile-picture-image,
+  .user-avatar.profile-picture-inner-container {
+    position: relative;
+    top: 0.1rem;
+    width: $profilePictureSize750w;
+    height: $profilePictureSize750w;
+  }
 }

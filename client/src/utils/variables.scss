@@ -3,6 +3,7 @@ $headingFont: "Patrick Hand", cursive;
 $textFont: "Roboto", sans-serif;
 // color variables
 $textFontColor: #dbdde1;
+$textFontColorDim: #b3b4b6;
 $textFontColorHover: #feffff;
 $messageTextColor: #232628;
 $senderTextColor: #232628;
@@ -23,8 +24,12 @@ $door-img-dimension: 1.3rem;
 $tablet-width: 40.625rem;
 $onlineUsersWidth: 13rem;
 $sidebarWidth: 13rem;
+$roomSidebarWidth: 4.5rem;
+$leftSidebarsTotalWidth: $sidebarWidth + $roomSidebarWidth;
+$rightSidebarsTotalWidth: $sidebarWidth;
 // //profile picture size variables
 $profilePictureSizeMessage: 3rem;
 $profilePictureSize: 4rem;
 $profilePictureSize450w: 5.5rem;
+$profilePictureSize750w: 7.5rem;
 $previewImageSize: 8rem;

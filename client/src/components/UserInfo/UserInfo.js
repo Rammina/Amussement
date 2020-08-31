@@ -96,9 +96,12 @@ const UserInfo = (props) => {
         <div className="profile-container">
           <UserAvatar />
           <div className="" id="profile-information-container">
+            <label className="profile-information label">USERNAME</label>
             <p className="profile-information" id="profile-username">
               {getUsername()}
             </p>
+            <label className="profile-information label">EMAIL</label>
+
             <p className="profile-information" id="profile-email">
               {getEmail()}
             </p>
@@ -126,7 +129,7 @@ const UserInfo = (props) => {
           </button>
           <button
             className="profile-button"
-            id="profile-edit-button"
+            id="profile-change-password-button"
             onClick={() => {
               setChangePasswordOpened(true);
             }}

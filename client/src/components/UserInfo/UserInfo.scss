@@ -94,6 +94,10 @@
   word-break: break-word;
 }
 
+.profile-information.label {
+  display: none;
+}
+
 #profile-buttons-container {
   justify-content: center;
   // margin-top: 1.5rem;
@@ -127,8 +131,11 @@
     position: relative;
     top: 4rem;
     padding: 1rem;
-    border: 1px solid white;
+    // border: 1px solid white;
     background-color: #292b2f;
+    max-width: 40rem;
+    border-radius: 8px;
+    margin: 0 auto;
   }
   .profile-container {
     margin: 0;
@@ -144,4 +151,45 @@
 }
 
 @media screen and (min-width: 750px) {
+  .my-account-section-container {
+    // display: flex;
+    padding: 1.5rem;
+  }
+  .profile-container {
+    position: relative;
+    // left: 1rem;
+    right: 0.5rem;
+  }
+  #profile-information-container {
+    // margin-left: 1.5rem;
+  }
+
+  #profile-buttons-container {
+    margin-top: 1.75rem;
+  }
+  .profile-information.label:first-child {
+    margin-top: 0;
+  }
+  .profile-information.label {
+    display: block;
+    font-size: 0.95rem;
+    margin-top: 1rem;
+    color: $textFontColorDim;
+  }
+  #profile-change-password-button {
+    margin-left: 2.5rem;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .my-account-section-container {
+    display: flex;
+  }
+  .profile-container {
+  }
+  .profile-information-container {
+  }
+
+  #profile-buttons-container {
+  }
 }
