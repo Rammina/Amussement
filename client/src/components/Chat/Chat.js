@@ -7,6 +7,7 @@ import io from "socket.io-client";
 
 import OnlineUsersContainer from "../OnlineUsersContainer/OnlineUsersContainer";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
+import RoomSideBar from "../RoomSideBar/RoomSideBar";
 import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
@@ -70,7 +71,6 @@ const Chat = props => {
     const { guestName, room, userType } = queryString.parse(
       props.location.search
     );
-
     // handle getting the user differently based on query string (userType)
     // guest/user/admin
     if (userType === "guest") {
@@ -105,19 +105,20 @@ const Chat = props => {
           }
         });
       }
-
-      // }
     }
     userJoinCount++;
-    // setUserJoinCount(userJoinCount + 1);
   };
 
   useEffect(() => {
+    const { userType } = queryString.parse(props.location.search);
     socket = io(ENDPOINT);
-    handleUserJoin();
-    // handleGetUser();
-
+    if (userType === "guest") {
+      handleUserJoin();
+    }
     // send join to the server
+    return () => {
+      socket.close();
+    };
   }, [ENDPOINT, props.location.search]);
 
   // re-update the user
@@ -168,7 +169,10 @@ const Chat = props => {
       console.log(room);
       return (
         <React.Fragment>
-          <LeftSideBar heading={room} />
+          <div className="chat sidebar-outer-container">
+            <RoomSideBar />
+            <LeftSideBar heading={room} />
+          </div>
           <div className={`container ${getContainerClass()}`}>
             <InfoBar room={room} />
             <Messages messages={messages} name={name} />

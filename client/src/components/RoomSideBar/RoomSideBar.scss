@@ -1,11 +1,13 @@
+@import "../../utils/variables.scss";
 .room-sidebar-outer-container {
   position: relative;
-  z-index: 15;
+  z-index: 20;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background-color: pink;
-  width: 3.5rem;
+  background-color: $discord-roomlist-black;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+  width: 4.5rem;
   height: 100vh;
 }

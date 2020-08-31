@@ -28,7 +28,7 @@
 
 .messageText.no-image {
   width: calc(100% - 3rem);
-  margin-left: 3rem;
+  margin-left: 3.5rem;
   padding-top: 0;
 }
 
@@ -54,6 +54,9 @@
   width: 100%;
   // align-items: center;
   // padding-top: 1.5rem;
+}
+
+.message-text-container {
 }
 
 .sender-text {

@@ -82,6 +82,12 @@
   margin: 0 auto;
 }
 
+.sidebar-outer-container {
+  position: relative;
+  display: flex;
+  width: fit-content;
+}
+
 @media screen and (min-width: 600px) {
   #register-form,
   #login-form,

@@ -25,7 +25,7 @@ const Home = props => {
   return (
     <React.Fragment>
       <div className="user-home-page-container">
-        <div className="sidebar-outer-container">
+        <div className="home sidebar-outer-container">
           <RoomSideBar />
           <LeftSideBar
             heading="Direct Messages"

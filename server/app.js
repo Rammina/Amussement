@@ -131,6 +131,8 @@ io.on("connect", socket => {
 
   // listen to a disconnected event and send a message that the user has disconnected
   socket.on("disconnect", () => {
+    console.log("disconnect message:" + socket.id);
+    console.log(getUsersInRoom());
     const user = removeUser(socket.id);
 
     if (user) {

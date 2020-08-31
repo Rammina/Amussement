@@ -10,10 +10,18 @@ import RoomItem from "./RoomItem/RoomItem";
 import { NavContext } from "../AppContext";
 
 const RoomSideBar = props => {
+  console.log(props.user);
   return (
     <React.Fragment>
       <div className="room-sidebar-outer-container">
-        <RoomItem room={{ name: "mad Max" }} />
+        <RoomItem room={{ name: "madMax" }} user={props.user} />
+        <RoomItem
+          room={{
+            name: "I love Emilia",
+            image_url: `https://res.cloudinary.com/rammina/image/upload/v1598598880/amussement-avatars/5f423937dd4b511da81e2af1-user-avatar.png`
+          }}
+          user={props.user}
+        />
       </div>
     </React.Fragment>
   );

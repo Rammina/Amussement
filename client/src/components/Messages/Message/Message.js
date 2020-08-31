@@ -18,12 +18,15 @@ const Message = ({ message: { text, user }, name, sameSenderAsPrevMsg }) => {
     isSentByCurrentUser = true;
   }
 
-  const renderMessageText = (textOnly) => {
+  const renderMessageText = textOnly => {
     const textOnlyClass = textOnly ? "no-image" : "";
+    let sameSenderClass = sameSenderAsPrevMsg ? "same-sender" : "";
 
     return (
       <div className={`messageBox`}>
-        <p className={`messageText colorDark ${textOnlyClass}`}>
+        <p
+          className={`messageText colorDark ${textOnlyClass} ${sameSenderClass}`}
+        >
           {ReactEmoji.emojify(text)}
         </p>
       </div>
@@ -36,9 +39,9 @@ const Message = ({ message: { text, user }, name, sameSenderAsPrevMsg }) => {
     let senderImage = null;
 
     if (isSentByCurrentUser) {
-      senderText = <p className="sender-text">{trimmedName}</p>;
+      senderText = <p className={`sender-text`}>{trimmedName}</p>;
     } else {
-      senderText = <p className="sender-text">{user.name}</p>;
+      senderText = <p className={`sender-text `}>{user.name}</p>;
     }
 
     if (!sameSenderAsPrevMsg) {
@@ -55,7 +58,7 @@ const Message = ({ message: { text, user }, name, sameSenderAsPrevMsg }) => {
     return (
       <div className="messageContainer justifyStart">
         {senderImage}
-        <div className="message-text-container">
+        <div className={`message-text-container `}>
           {senderText}
           {renderMessageText()}
         </div>

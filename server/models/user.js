@@ -8,6 +8,17 @@ const userSchema = new Schema({
   date_of_birth: { type: Date, required: true },
   image_url: { type: String, minlength: 0, maxlength: 500 },
   registered_on: { type: Date, default: Date.now() }
+  /*
+  friends: [{ type: Schema.Types.ObjectId, ref: 'Friends'}]
+    }, {timestamps: true})
+    */
+  /*
+  friends: [{user :  {
+                type : mongoose.Schema.Types.ObjectId,
+                ref : 'User'
+            }}]
+
+            */
 });
 
 module.exports = mongoose.model("User", userSchema);

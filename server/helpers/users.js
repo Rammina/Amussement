@@ -1,6 +1,8 @@
+// this should be replaced by a database collection instead
 const users = [];
 
 const addUser = ({ id, name, room, image_url }) => {
+  console.log(users);
   name = name.trim();
   room = room.trim();
 
@@ -21,7 +23,7 @@ const addUser = ({ id, name, room, image_url }) => {
     return { error: "Username and room are required." };
   }
   if (existingUser) return { error: "Username and id is taken." };
-
+  console.log("it gets through anyway");
   const user = { id, name, room, image_url };
 
   users.push(user);
