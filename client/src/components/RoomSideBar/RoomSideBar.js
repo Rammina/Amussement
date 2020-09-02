@@ -17,7 +17,7 @@ const RoomSideBar = props => {
         <RoomItem room={{ name: "madMax" }} user={props.user} />
         <RoomItem
           room={{
-            name: "I love Emilia",
+            name: "IloveEmilia",
             image_url: `https://res.cloudinary.com/rammina/image/upload/v1598598880/amussement-avatars/5f423937dd4b511da81e2af1-user-avatar.png`
           }}
           user={props.user}

@@ -1,7 +1,7 @@
 import "./RoomItem.scss";
 
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import queryString from "query-string";
 
@@ -12,10 +12,17 @@ import queryString from "query-string";
 const RoomItem = props => {
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const [isSelectedRoom, setIsSelectedRoom] = useState(false);
+  const location = useLocation();
+  console.log(location);
+  // console.log(props.location);
 
   useEffect(() => {
     checkSelectedRoom();
-  }, [window.location.search]);
+
+    return () => {
+      // setIsSelectedRoom(false);
+    };
+  }, [location.search]);
 
   console.log(props.user);
   const getUserType = () => (props.user ? "user" : "guest");
@@ -25,7 +32,7 @@ const RoomItem = props => {
       setIsSelectedRoom(false);
     }
 
-    let search = window.location.search;
+    let search = location.search;
     let params = new URLSearchParams(search);
     let currentRoom = params.get("room");
 
@@ -34,6 +41,8 @@ const RoomItem = props => {
     }
     if (currentRoom === props.room.name) {
       setIsSelectedRoom(true);
+    } else {
+      setIsSelectedRoom(false);
     }
   };
 

@@ -37,18 +37,21 @@
   position: absolute;
   display: flex;
   align-items: center;
+  justify-content: center;
   text-align: center;
+  text-transform: uppercase;
   // opacity: 0;
   width: $profilePictureSize;
   height: $profilePictureSize;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
   background-color: #0000;
   color: #0000;
   border-radius: 50%;
 }
 
 #user-avatar-upload-label:hover {
-  background-color: #0004;
+  background-color: #0007;
   cursor: pointer;
 }
 
@@ -100,6 +103,10 @@
   .user-avatar.profile-picture-inner-container {
     width: $profilePictureSize450w;
     height: $profilePictureSize450w;
+  }
+  #user-avatar-upload-label:hover {
+    color: #fff;
+    text-shadow: 1px 1px 0 #123;
   }
 }
 

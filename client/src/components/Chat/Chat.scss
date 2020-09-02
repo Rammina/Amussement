@@ -21,6 +21,7 @@
   width: 100vw;
   transform: translate(-$sidebarWidth, 0);
   transition: transform 0.3s ease;
+  overflow-x: hidden;
   // transition: none;
   // border: 1px solid white;H
 }

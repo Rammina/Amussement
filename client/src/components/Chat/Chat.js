@@ -1,6 +1,7 @@
 import "./Chat.scss";
 
 import React, { useState, useEffect, useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import queryString from "query-string";
 import io from "socket.io-client";
@@ -16,14 +17,14 @@ import { NavContext } from "../AppContext";
 
 let socket;
 
-const Chat = (props) => {
+const Chat = props => {
   const {
     messagesContainerMoveLeft,
     setMessagesContainerMoveLeft,
     messagesContainerMoveRight,
     setMessagesContainerMoveRight,
     onlineUsersButtonTouched,
-    navMenuButtonTouched,
+    navMenuButtonTouched
   } = useContext(NavContext);
 
   const [name, setName] = useState("");
@@ -33,6 +34,8 @@ const Chat = (props) => {
   const [userRetrievalAttempts, setUserRetrievalAttempts] = useState(0);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+
+  const location = useLocation();
 
   //component variables
   let userJoinCount = 0;
@@ -80,7 +83,7 @@ const Chat = (props) => {
       setName(guestName || "anon");
       setRoom(room);
       const name = guestName || "anon";
-      socket.emit("join", { name, room }, (error) => {
+      socket.emit("join", { name, room }, error => {
         console.log("join attempt");
         if (error) {
           // send a browser alert
@@ -97,7 +100,7 @@ const Chat = (props) => {
         const name = props.user.username || "anon";
         const image_url = props.user.image_url || "";
         console.log(image_url);
-        socket.emit("join", { name, room, image_url }, (error) => {
+        socket.emit("join", { name, room, image_url }, error => {
           if (error) {
             // send a browser alert
             // note:this should be replaced with redux action for error handling
@@ -112,6 +115,9 @@ const Chat = (props) => {
   useEffect(() => {
     const { userType } = queryString.parse(props.location.search);
     socket = io(ENDPOINT);
+    /*temporary stopgap measure to clear messages every time the URL changes*/
+    setMessages([]);
+
     if (userType === "guest") {
       handleUserJoin();
     }
@@ -119,29 +125,33 @@ const Chat = (props) => {
     return () => {
       socket.close();
     };
-  }, [ENDPOINT, props.location.search]);
+  }, [ENDPOINT, location.search]);
 
   // re-update the user
   useEffect(() => {
-    handleUserJoin();
-  }, [props.user]);
+    console.log(props.user);
+    console.log("I happened twice");
+    if (!props.isloading && props.user) {
+      handleUserJoin();
+    }
+  }, [props.user, location.search]);
 
   // useEffect(() => {}, [name, room]);
 
   useEffect(() => {
-    socket.on("message", (message) => {
+    socket.on("message", message => {
       // non-\ mutational push to the messages array
       console.log(message);
-      setMessages((messages) => [...messages, message]);
+      setMessages(messages => [...messages, message]);
     });
 
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-  }, []);
+  }, [props.user, location.search]);
 
   // handles the sending of messages
-  const sendMessage = (event) => {
+  const sendMessage = event => {
     // prevent page refresh
     event.preventDefault();
     console.log(message);
@@ -164,6 +174,7 @@ const Chat = (props) => {
 
   const renderChatContent = () => {
     // console.log(props.propsInitialized);
+    console.log(messages);
     if (name && room) {
       console.log(name);
       console.log(room);
@@ -192,11 +203,15 @@ const Chat = (props) => {
   return <div className="outerContainer">{renderChatContent()}</div>;
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.auth.user,
   error: state.error,
+  isLoading: state.auth.isLoading
   // propsInitialized: true
 });
 
-export default connect(mapStateToProps, {})(Chat);
+export default connect(
+  mapStateToProps,
+  {}
+)(Chat);
