@@ -5,6 +5,11 @@
 }
 
 .messages-container {
+  overflow-x: hidden;
   padding: 1rem;
   /* border: 1px solid white; */
+}
+
+.messages-inner-container {
+  overflow-x: hidden;
 }

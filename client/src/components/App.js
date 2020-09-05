@@ -8,6 +8,7 @@ import Join from "./Join/Join";
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 import Home from "./Home/Home";
+import Friends from "./Friends/Friends";
 import UserSettings from "./UserSettings/UserSettings";
 
 import { connect } from "react-redux";
@@ -106,6 +107,7 @@ const App = props => {
       <Route path="/auth/login" exact component={Login} />
 
       <Route path="/users/:id/settings" exact component={UserSettings} />
+      <Route path="/users/:id/friends" exact component={Friends} />
       <NavContext.Provider value={getNavContextValue()}>
         <Route path="/users/:id/home" exact component={Home} />
         <Route path="/chat" component={Chat} />

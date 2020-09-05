@@ -69,7 +69,7 @@ const InfoBar = ({ room }) => {
 };
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  user: state.auth.user,
+  user: state.user.info,
   error: state.error
   // propsInitialized: true
 });

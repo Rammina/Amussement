@@ -33,7 +33,7 @@ const Footer = props => {
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.user
+  user: state.user.info
 });
 
 const footer = connect(

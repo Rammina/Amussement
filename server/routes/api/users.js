@@ -2,8 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const settings_controller = require("../../controllers/authController");
+// const friends_controller = require("../../controllers/friendsController");
 
 const auth = require("../../middleware/auth");
+// nested routes
+const friendsRouter = require("./friends");
+router.use("/:id/friends/", friendsRouter);
 
 // edit user settings
 router.post(
@@ -26,12 +30,4 @@ router.post(
   settings_controller.user_remove_avatar
 );
 
-//note: deal with payload too large issue
-/*
-router.use("/:id/settings/upload-avatar", express.json({ limit: "50mb" }));
-router.use(
-  "/:id/settings/upload-avatar",
-  express.urlencoded({ extended: "true" })
-);
-*/
 module.exports = router;

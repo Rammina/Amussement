@@ -17,7 +17,7 @@ import {
 // edit account
 export const editUserAccount = formValues => {
   return async function(dispatch, getState) {
-    const userId = getState().auth.user._id || getState().auth.user.id;
+    const userId = getState().user.info._id || getState().user.info.id;
     await serverRest
       .post(`/api/users/${userId}/settings/edit-account`, formValues)
       .then(res => {
@@ -44,7 +44,7 @@ export const editUserAccount = formValues => {
 // change password
 export const changeUserPassword = formValues => {
   return async function(dispatch, getState) {
-    const userId = getState().auth.user._id || getState().auth.user.id;
+    const userId = getState().user.info._id || getState().user.info.id;
     await serverRest
       .post(`/api/users/${userId}/settings/change-password`, formValues)
       .then(res => {
@@ -70,7 +70,7 @@ export const changeUserPassword = formValues => {
 
 export const editUserAvatar = (base64EncodedImage, id) => {
   return async function(dispatch, getState) {
-    const userId = id || getState().auth.user._id || getState().auth.user.id;
+    const userId = id || getState().user.info._id || getState().user.info.id;
     console.log("hello");
     try {
       await cloudinaryRest
@@ -98,7 +98,7 @@ export const editUserAvatar = (base64EncodedImage, id) => {
 
 export const removeUserAvatar = id => {
   return async function(dispatch, getState) {
-    const userId = id || getState().auth.user._id || getState().auth.user.id;
+    const userId = id || getState().user.info._id || getState().user.info.id;
     try {
       await cloudinaryRest
         .post(`/api/users/${userId}/settings/remove-avatar`, {

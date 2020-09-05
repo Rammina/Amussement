@@ -27,6 +27,7 @@ const addUser = ({ id, name, room, image_url }) => {
   const user = { id, name, room, image_url };
 
   users.push(user);
+  console.log(users);
 
   return { user };
 };

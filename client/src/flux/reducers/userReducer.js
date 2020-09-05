@@ -18,13 +18,11 @@ import {
 } from "../actions/types";
 
 const initialState = {
-  token: localStorage.getItem("token"),
-  isAuthenticated: false,
   isLoading: false,
-  userId: null
+  info: null
 };
 
-let sanitizedAuthPayload = {};
+let sanitizedUserPayload = null;
 
 // const initialState = null;
 
@@ -36,34 +34,36 @@ export default (state = initialState, action) => {
         isLoading: true
       };
     case USER_LOADED:
-      console.log(`loading user, here is the payload `);
-      console.log(action.payload);
-      sanitizedAuthPayload = {
-        isAuthenticated: true,
-        isLoading: false,
-        userId: action.payload._id
-      };
       return {
         ...state,
-        ...sanitizedAuthPayload
+
+        isLoading: false,
+        info: action.payload
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      console.log(`loading user, here is the payload `);
-      console.log(action.payload);
-      // put the token here and set is authenticated to true
-      sanitizedAuthPayload = {
-        ...action.payload,
-        userId: action.payload.user._id,
-        isAuthenticated: true,
+    case EDIT_USER_ACCOUNT_SUCCESS:
+    case CHANGE_USER_PASSWORD_SUCCESS:
+      sanitizedUserPayload = {
+        info: { ...action.payload.user },
         isLoading: false
       };
-      console.log(sanitizedAuthPayload);
+      console.log(sanitizedUserPayload);
+
       return {
         ...state,
-        ...sanitizedAuthPayload
+        ...sanitizedUserPayload
       };
-
+    case EDIT_USER_AVATAR_SUCCESS:
+      return {
+        ...state,
+        info: action.payload.user
+      };
+    case REMOVE_USER_AVATAR_SUCCESS:
+      return {
+        ...state,
+        info: action.payload.user
+      };
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
@@ -71,12 +71,15 @@ export default (state = initialState, action) => {
       localStorage.removeItem("token");
       return {
         ...state,
-        userId: null,
-        token: null,
-        isAuthenticated: false,
+        info: null,
         isLoading: false
       };
-
+    case EDIT_USER_ACCOUNT_FAIL:
+    case CHANGE_USER_PASSWORD_FAIL:
+    case EDIT_USER_AVATAR_FAIL:
+    case REMOVE_USER_AVATAR_FAIL:
+      // case :
+      return { ...state };
     default:
       return state;
   }

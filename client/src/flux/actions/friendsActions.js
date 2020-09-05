@@ -2,16 +2,63 @@ import serverRest from "../../apis/serverRest";
 import history from "../../history";
 import { returnErrors } from "./errorActions";
 import {
-  USER_LOADED,
-  USER_LOADING,
-  AUTH_ERROR,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT_SUCCESS,
-  REGISTER_SUCCESS,
-  REGISTER_FAIL
+  compareValues,
+  comparePriorityValues,
+  compareKeysInProp,
+  objectToArray
+  // cryptography functions
+  // encrypt,
+  // decrypt,
+  // decryptedMsgToString
+} from "../../helpers";
+import {
+  GET_ALL_FRIENDS_SUCCESS,
+  GET_ALL_FRIENDS_FAIL,
+  GET_FRIEND_SUCCESS,
+  GET_FRIEND_FAIL,
+  ADD_FRIEND_SUCCESS,
+  ADD_FRIEND_FAIL,
+  REMOVE_FRIEND_SUCCESS,
+  REMOVE_FRIEND_FAIL
 } from "./types";
 
+export const getAllFriends = id => (dispatch, getState) => {
+  console.log("getting all friends");
+  const userId = id || getState().user.info._id || getState().user.info.id;
+
+  serverRest
+    .get(`/api/users/${userId}/friends/`)
+    .then(res => {
+      let friends = res.data;
+      let sortedData = null;
+      console.log(friends);
+
+      // first check if it contains friends
+      if (typeof friends !== "undefined" && friends.length > 0) {
+        // the array is defined and has at least one element
+        let data = null;
+        console.log(friends);
+        sortedData = friends.sort(compareValues("username"));
+        console.log(sortedData);
+      }
+      dispatch({
+        type: GET_ALL_FRIENDS_SUCCESS,
+        payload: sortedData || friends
+      });
+
+      // history.push(`/users/${userId}/home`);
+    })
+    .catch(err => {
+      console.log(err);
+      console.log(err.response);
+      // dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: GET_ALL_FRIENDS_FAIL
+      });
+    });
+};
+
+/*
 // Check token & load user
 export const loadUser = href => (dispatch, getState) => {
   // User loading
@@ -24,7 +71,7 @@ export const loadUser = href => (dispatch, getState) => {
         type: USER_LOADED,
         payload: res.data
       });
-      const userId = getState().user.info._id || getState().user.info.id;
+      getState().user.info._id || getState().user.info.id;
       // history.push(`/users/${userId}/home`);
     })
     .catch(err => {
@@ -33,7 +80,6 @@ export const loadUser = href => (dispatch, getState) => {
         type: AUTH_ERROR
       });
       // if it's register or home, do not redirect to login
-      // note :\colon there are still missing routes that should be excluded
       if (
         !(
           href.includes("/register") ||
@@ -118,3 +164,4 @@ export const tokenConfig = getState => {
   }
   return config;
 };
+*/

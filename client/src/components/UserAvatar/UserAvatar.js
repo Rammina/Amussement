@@ -121,7 +121,7 @@ const UserAvatar = props => {
   );
 };
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  user: state.user.info,
   error: state.error
 });
 

@@ -43,7 +43,7 @@
   // opacity: 0;
   width: $profilePictureSize;
   height: $profilePictureSize;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: bold;
   background-color: #0000;
   color: #0000;
@@ -119,5 +119,8 @@
     top: 0.1rem;
     width: $profilePictureSize750w;
     height: $profilePictureSize750w;
+  }
+  .user-avatar.profile-picture-image {
+    top: 0;
   }
 }

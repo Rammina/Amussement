@@ -23,7 +23,7 @@ const Messages = ({ messages, name }) => {
         }
         prevMessageSender = message.user.name;
         return (
-          <div key={i}>
+          <div key={i} className="messages messages-inner-container">
             <Message
               message={message}
               name={name}
@@ -36,11 +36,14 @@ const Messages = ({ messages, name }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  user: state.auth.user,
-  error: state.error,
+  user: state.user.info,
+  error: state.error
   // propsInitialized: true
 });
 
-export default connect(mapStateToProps, {})(Messages);
+export default connect(
+  mapStateToProps,
+  {}
+)(Messages);

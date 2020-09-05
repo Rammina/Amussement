@@ -154,7 +154,7 @@ exports.user_login = async (req, res) => {
       token,
       user: {
         id: user._id,
-        name: user.username,
+        username: user.username,
         email: user.emailLowerCase,
         image_url: user.image_url || ""
       }

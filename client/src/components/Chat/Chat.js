@@ -136,6 +136,15 @@ const Chat = props => {
     }
   }, [props.user, location.search]);
 
+  // re-update the user
+  useEffect(() => {
+    console.log(props.user);
+    console.log("I happened twice");
+    if (!props.isloading && props.user) {
+      // handleUserJoin();
+    }
+  }, []);
+
   // useEffect(() => {}, [name, room]);
 
   useEffect(() => {
@@ -205,7 +214,7 @@ const Chat = props => {
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
-  user: state.auth.user,
+  user: state.user.info,
   error: state.error,
   isLoading: state.auth.isLoading
   // propsInitialized: true
