@@ -54,7 +54,9 @@ const checkFileType = (regexp, file, cb) => {
 exports.user_load = async (req, res) => {
   console.log("loading user");
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id)
+      .select("-password")
+      .populate("friends");
     if (!user) throw Error("User does not exist");
     res.json(user);
   } catch (e) {
@@ -119,6 +121,7 @@ exports.user_register = async (req, res) => {
         user: {
           id: savedUser._id,
           username: savedUser.username,
+          friends: [],
           email: savedUser.email.toLowerCase(),
           image_url: ""
         }
@@ -155,6 +158,7 @@ exports.user_login = async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
+        friends: user.friends || [],
         email: user.emailLowerCase,
         image_url: user.image_url || ""
       }
@@ -191,6 +195,7 @@ exports.user_upload_avatar = async (req, res) => {
       user: {
         id: updatedUser._id,
         username: updatedUser.username,
+        friends: updatedUser.friends || [],
         email: updatedUser.email.toLowerCase(),
         image_url: uploadedResponse.secure_url
       }
@@ -246,6 +251,7 @@ exports.user_edit_account = async (req, res) => {
         user: {
           id: updatedUser._id,
           username: updatedUser.username,
+          friends: updatedUser.friends || [],
           email: updatedUser.email.toLowerCase(),
           image_url: updatedUser.image_url || ""
         }
@@ -319,6 +325,7 @@ exports.user_change_password = async (req, res) => {
         user: {
           id: updatedUser._id,
           username: updatedUser.username,
+          friends: updatedUser.friends || [],
           email: updatedUser.email.toLowerCase(),
           image_url: updatedUser.image_url || ""
         }
@@ -349,6 +356,7 @@ exports.user_remove_avatar = async (req, res) => {
       user: {
         id: updatedUser._id,
         username: updatedUser.username,
+        friends: updatedUser.friends || [],
         email: updatedUser.email.toLowerCase(),
         image_url: updatedUser.image_url || ""
       }

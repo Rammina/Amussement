@@ -27,3 +27,10 @@
   width: $profilePictureSizeMessage;
   // border: 1px solid black;
 }
+
+.profile-picture-inner-container.friend,
+.profile-picture-image.friend {
+  height: $profilePictureSizeFriend;
+  width: $profilePictureSizeFriend;
+  // border: 1px solid black;
+}

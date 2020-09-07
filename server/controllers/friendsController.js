@@ -11,15 +11,16 @@ const path = require("path");
 // retrieve friends list
 exports.get_all_friends = async (req, res) => {
   console.log("retrieving friends list");
+
   try {
     // just for testing
-    // User.requestFriend(req.params.id, "5f48bc666a979915d8a0999d");
+    // User.requestFriend("5f37968791a1101ad49b2fc2", req.params.id);
     const user = await User.findById(req.params.id).select("_id");
     if (!user) throw Error("User does not exist.");
 
     const getFriendsCb = (err, friends) => {
       {
-        if (err) throw Error("Error retrieving friends list.");
+        if (err) throw Error("Error retrieving friend list.");
         res.status(200).json(friends);
       }
     };
@@ -36,13 +37,16 @@ exports.get_friend = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select("_id");
     if (!user) throw Error("User does not exist.");
-    const friend = await User.getFriends(user, { _id: req.params.id });
-    console.log(friend);
-    if (!friend) throw Error("Error retrieving specified friend.");
-
-    res.status(200).json({ friend });
+    const getFriendCb = (err, friend) => {
+      {
+        if (err) throw Error("Error retrieving friend.");
+        res.status(200).json(friend);
+      }
+    };
+    User.getFriends(user, { _id: req.params.receiverId }, null, getFriendCb);
   } catch (e) {
     console.log(e);
+
     res.status(400).json({ msg: e.message });
   }
 };
@@ -56,11 +60,11 @@ exports.add_friend = async (req, res) => {
     const receiver = await User.findById(req.params.receiverId).select("_id");
     if (!receiver)
       throw Error("Receiver of the friend request does not exist.");
-    await sender.requestFriend(receiver, err => {
-      console.log(err);
-      throw Error("Failed to send friend request.");
-    });
-    res.status(200).json({ success: true });
+    const requestFriendCb = err => {
+      if (err) throw Error("Failed to send friend request.");
+      res.status(200).json({ success: true });
+    };
+    User.requestFriend(sender._id, receiver.friend._id, requestFriendCb);
   } catch (e) {
     console.log(e);
     res.status(400).json({ msg: e.message });
@@ -76,11 +80,11 @@ exports.remove_friend = async (req, res) => {
     const receiver = await User.findById(req.params.receiverId).select("_id");
     if (!receiver)
       throw Error("The user you are about to unfriend does not exist.");
-    await sender.removeFriend(receiver, err => {
-      console.log(err);
-      throw Error("Failed to remove a user from the friend list.");
-    });
-    res.status(200).json({ success: true });
+    const removeFriendCb = err => {
+      if (err) throw Error("Failed to remove friend.");
+      res.status(200).json({ success: true });
+    };
+    User.removeFriend(sender._id, receiver.friend._id, removeFriendCb);
   } catch (e) {
     console.log(e);
     res.status(400).json({ msg: e.message });
