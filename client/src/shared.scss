@@ -255,6 +255,16 @@ textarea {
   min-height: 100vh;
 }
 
+.modal {
+  z-index: 100;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: $main-black;
+  width: 100vw;
+  height: 100vh;
+}
+
 .textfield-container {
   display: flex;
   justify-content: center;

@@ -1,6 +1,7 @@
 import serverRest from "../../apis/serverRest";
 import history from "../../history";
-import { returnErrors } from "./errorActions";
+import { returnErrors, clearErrors } from "./errorActions";
+
 import {
   compareValues,
   comparePriorityValues,
@@ -45,6 +46,7 @@ export const getAllFriends = id => (dispatch, getState) => {
         type: GET_ALL_FRIENDS_SUCCESS,
         payload: sortedData || friends
       });
+      dispatch(clearErrors());
 
       // history.push(`/users/${userId}/home`);
     })
@@ -54,6 +56,31 @@ export const getAllFriends = id => (dispatch, getState) => {
       // dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: GET_ALL_FRIENDS_FAIL
+      });
+    });
+};
+// there should be addfriend using ID and username
+export const addFriendWithUsername = formValues => (dispatch, getState) => {
+  console.log("adding a friend ");
+  const userId = getState().user.info._id || getState().user.info.id;
+  const friendName = formValues.username;
+
+  serverRest
+    .post(`/api/users/${userId}/friends/add`, formValues)
+    .then(res => {
+      dispatch({
+        type: ADD_FRIEND_SUCCESS
+      });
+      getAllFriends(userId);
+      history.push(`/users/${userId}/friends`);
+      dispatch(clearErrors());
+    })
+    .catch(err => {
+      console.log(err);
+      console.log(err.response);
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: ADD_FRIEND_FAIL
       });
     });
 };

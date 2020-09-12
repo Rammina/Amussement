@@ -1,6 +1,6 @@
 import serverRest from "../../apis/serverRest";
 import history from "../../history";
-import { returnErrors } from "./errorActions";
+import { returnErrors, clearErrors } from "./errorActions";
 import {
   USER_LOADED,
   USER_LOADING,
@@ -56,9 +56,11 @@ export const registerUser = formValues => {
       .then(res => {
         console.log(res);
         console.log(res.data);
-        history.push("/auth/login");
         dispatch({ type: REGISTER_SUCCESS, payload: res.data });
         localStorage.setItem("token", res.data.token);
+        // redirect to another page and clear the errors so it doesn't carry over
+        history.push("/auth/login");
+        dispatch(clearErrors());
       })
       .catch(err => {
         // this needs an error handler action creator and reducer
@@ -77,13 +79,14 @@ export const loginUser = formValues => dispatch => {
     .post("/api/auth/login", formValues)
     .then(res => {
       const userId = res.data.user.id;
-      // history needs to push this to the user's id address
-      history.push(`/users/${userId}/home`);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
       });
       localStorage.setItem("token", res.data.token);
+      // redirect and remove errors
+      history.push(`/users/${userId}/home`);
+      dispatch(clearErrors());
     })
     .catch(err => {
       console.log(err);
@@ -98,8 +101,9 @@ export const loginUser = formValues => dispatch => {
 };
 
 // Logout User
-export const logout = () => {
+export const logout = dispatch => {
   history.push("/auth/login");
+  dispatch(clearErrors());
   return {
     type: LOGOUT_SUCCESS
   };

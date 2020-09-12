@@ -106,7 +106,7 @@ const App = props => {
       <Route path="/auth/register" exact component={Register} />
       <Route path="/auth/login" exact component={Login} />
 
-      <Route path="/users/:id/settings" exact component={UserSettings} />
+      <Route path="/users/:id/settings" component={UserSettings} />
       {/*note: try to figure out a way to make this one work when selecting/clicking a friend*/}
       <Route path="/users/:id/friends" component={Friends} />
       <NavContext.Provider value={getNavContextValue()}>

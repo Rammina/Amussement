@@ -8,7 +8,9 @@ const friends_controller = require("../../controllers/friendsController");
 router.get("/", friends_controller.get_all_friends);
 // get a specific friend
 router.get("/:friendId", friends_controller.get_friend);
-// add a user as friend
+// add a user as friend using username
+router.post("/add", friends_controller.add_friend_with_username);
+// add a user as friend using ID
 router.post("/:friendId/add", friends_controller.add_friend);
 
 // remove a user from the friendlist

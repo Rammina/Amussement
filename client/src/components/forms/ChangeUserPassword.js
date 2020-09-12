@@ -74,7 +74,12 @@ const ChangeUserPassword = props => {
     console.log(formValues);
     // run an action
     await props.changeUserPassword(formValues);
-    props.hideSection();
+    /*
+    // double guard to prevent the modal from closing
+    if (!props.error.msg) {
+      props.hideSection();
+    }
+    */
   };
 
   return (

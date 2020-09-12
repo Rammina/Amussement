@@ -20,6 +20,11 @@ export default (state = initialState, action) => {
       console.log(action.payload);
       // note: should probably sort them alphabetically
       return [...action.payload];
+    case ADD_FRIEND_SUCCESS:
+      return [...state];
+    case GET_ALL_FRIENDS_FAIL:
+    case ADD_FRIEND_FAIL:
+      return state;
     default:
       return state;
   }

@@ -15,3 +15,5 @@ export const clearErrors = () => {
     type: CLEAR_ERRORS
   };
 };
+
+// note: make a clear errors version that is selective

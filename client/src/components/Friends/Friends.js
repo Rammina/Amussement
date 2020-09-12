@@ -1,7 +1,7 @@
 import "./Friends.scss";
 
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Route, Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 // import { Field, reduxForm } from "redux-form";
 
@@ -9,6 +9,7 @@ import serverRest from "../../apis/serverRest";
 
 import Footer from "../Footer/Footer";
 import Friend from "./Friend/Friend";
+import AddFriend from "../forms/AddFriend";
 
 import { getAllFriends } from "../../flux/actions/friendsActions";
 
@@ -16,11 +17,32 @@ import { getAllFriends } from "../../flux/actions/friendsActions";
 
 const Friends = props => {
   const [friendsList, setFriendsList] = useState(null);
+  const [addFriendOpened, setAddFriendOpened] = useState(false);
 
   useEffect(() => {
     console.log(props.match.params.id);
     props.getAllFriends(props.match.params.id);
   }, []);
+
+  const location = useLocation();
+  console.log(location.pathname);
+  /*
+  const hideSection = sectionName => {
+    if (!props.error.msg) {
+      if (sectionName === "AddFriend" || sectionName === "add-friend") {
+        setAddFriendOpened(false);
+      }
+    }
+  };
+  hideSection={() => {
+    hideSection("AddFriend");
+  }}
+
+*/
+  const renderAddFriendModal = () => {
+    console.log("rendering add friend");
+    if (!addFriendOpened) return null;
+  };
 
   const renderFriends = category => {
     // category - string
@@ -42,36 +64,42 @@ const Friends = props => {
       <Friend key={i} friend={friend} />
     ));
   };
-  /*
-  const renderRequested = () => {
-    const requestedFriends = props.friends.filter(friend => {
-      return friend.status === "pending";
-    });
-    return requestedFriends.map((friend, i) => <Friend key={i} friend={friend} status="Sent Friend Request"/>);
-  };
 
-  const renderPending = () => {
-    const pendingFriends = props.friends.filter(friend => {
-      return friend.status === "pending";
-    });
-    return pendingFriends.map((friend, i) => <Friend key={i} friend={friend} status="Incoming Friend Request"/>);
-  };
-*/
+  return !props.user ? null : (
+    <React.Fragment>
+      <div className="friends-page-container">
+        <div className="friends-outer-flex-container">
+          <section className="friends-section-outer-container">
+            <header className="friends-section-header">
+              <h1 className="friends-header-heading">Friends</h1>
+              <Link
+                to={`/users/${props.user.id}/friends/add`}
+                className="friends-header-link"
+              >
+                <button
+                  className="friends-header-button"
+                  id="add-friend-button"
+                  onClick={() => {
+                    // add friend modal
+                    // setAddFriendOpened(true);
+                  }}
+                >
+                  Add Friend
+                </button>
+              </Link>
+            </header>
 
-  return (
-    <div className="friends-page-container">
-      <div className="friends-outer-flex-container">
-        <div className="friends-sidebar-outer-container">
-          <header className="friends-sidebar-header">
-            <h1 className="friends-header-heading">Friends</h1>
-          </header>
-          <div className="friends-sidebar-inner-container">
-            <ul className="friends-sidebar-items">{renderFriends()}</ul>
-          </div>
+            <div className="friends-section-inner-container">
+              <ul className="friends-section-items">{renderFriends()}</ul>
+            </div>
+          </section>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+      <Route path={`/users/:userId/friends/add`} exact>
+        <AddFriend />
+      </Route>
+    </React.Fragment>
   );
 };
 

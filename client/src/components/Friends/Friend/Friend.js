@@ -1,7 +1,8 @@
 import "./Friend.scss";
 
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Route, Link, useLocation } from "react-router-dom";
+// import { Router, Route, Redirect, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 // import { Field, reduxForm } from "redux-form";
 
@@ -10,27 +11,34 @@ import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 // import { renderError, getErrorClass } from "../../helpers";
 
 const Friend = props => {
+  const [friendInfoModalOpen, setFriendInfoModalOpen] = useState(false);
   useEffect(() => {
     console.log(props.friend);
   }, []);
 
+  // friend variables from props
+  const { friend, status } = props.friend;
   const location = useLocation();
 
+  const getFriendInfoModalClass = () => {
+    return friendInfoModalOpen ? "show" : "hide";
+  };
+
   const renderAvatar = () => {
-    const avatarUrl = props.friend.friend.image_url;
+    const avatarUrl = friend.image_url;
     return (
       <ProfilePicture imageSrc={avatarUrl || ""} componentClass="friend" />
     );
   };
 
   const renderStatus = () => {
-    if (props.friend.status === "pending") {
+    if (status === "pending") {
       return (
         <div className="friend-item-div status pending">
           Incoming friend request
         </div>
       );
-    } else if (props.friend.status === "requested") {
+    } else if (status === "requested") {
       return (
         <div className="friend-item-div status requested">
           Sent friend request
@@ -40,27 +48,62 @@ const Friend = props => {
     return <div className="friend-item-div status added"></div>;
   };
 
+  const renderFriendInfoModal = () => {
+    return (
+      <Route path="/users/:id/friends/:friendId" exact>
+        <div className={`friend modal ${getFriendInfoModalClass()}`}>
+          <h3 className="friend modal-heading">friend.username</h3>
+          {renderAvatar()}
+
+          {/*<button type="submit">Submit Image</button>*/}
+        </div>
+      </Route>
+    );
+  };
+
   const renderFriend = () => {
     return (
-      <Link
-        to={`${location.pathname}/${props.friend.friend._id}`}
-        className="friend-item-link"
-      >
-        <li className="friend-item">
-          <div className="friend-item-div information">
-            <div className="friend-item-avatar-container">{renderAvatar()}</div>
-            <span className="friend-item-username">
-              {props.friend.friend.username}
-            </span>
-          </div>
-          {renderStatus()}
-          <div className="friend-item-div actions">
-            <button className="friend-item-div-button"> call</button>
-            {/*note:this should lead to a direct message instance/component*/}
-            <Link className="friend-item-div-button">direct message</Link>
-          </div>
-        </li>
-      </Link>
+      <React.Fragment>
+        <Link
+          to={`${location.pathname}/${friend._id}`}
+          className="friend-item-link"
+          onClick={() => {
+            setFriendInfoModalOpen(true);
+          }}
+        >
+          <li className="friend-item">
+            <div className="friend-item-div information">
+              <div className="friend-item-avatar-container">
+                {renderAvatar()}
+              </div>
+              <span className="friend-item-username">{friend.username}</span>
+            </div>
+            {renderStatus()}
+            <div className="friend-item-div actions">
+              <button
+                className="friend-item-div-button"
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              >
+                {" "}
+                call
+              </button>
+              {/*note:this should lead to a direct message instance/component*/}
+              <button
+                className="friend-item-div-button"
+                onClick={e => {
+                  e.stopPropagation();
+                }}
+              >
+                direct message
+              </button>
+            </div>
+          </li>
+        </Link>
+        {renderFriendInfoModal()}
+      </React.Fragment>
     );
   };
 

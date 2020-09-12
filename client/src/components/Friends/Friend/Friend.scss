@@ -53,6 +53,25 @@
   width: 3rem;
   height: 3rem;
 }
+
+// friend modals
+
+.friend.modal {
+  display: none;
+  opacity: 1;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  position: fixed;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: $main-black;
+}
+
+.friend.modal.show {
+  display: block;
+}
+
 @media screen and (min-width: 750px) {
   .friend-item-div.status {
     display: flex;

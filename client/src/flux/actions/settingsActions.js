@@ -1,7 +1,7 @@
 import serverRest from "../../apis/serverRest";
 import cloudinaryRest from "../../apis/cloudinaryRest";
 import history from "../../history";
-import { returnErrors } from "./errorActions";
+import { returnErrors, clearErrors } from "./errorActions";
 import {
   AUTH_ERROR,
   EDIT_USER_ACCOUNT_SUCCESS,
@@ -23,8 +23,10 @@ export const editUserAccount = formValues => {
       .then(res => {
         console.log(res);
         console.log(res.data);
-        history.push(`/users/${userId}/settings`);
+
         dispatch({ type: EDIT_USER_ACCOUNT_SUCCESS, payload: res.data });
+        history.push(`/users/${userId}/settings`);
+        dispatch(clearErrors());
       })
       .catch(err => {
         // this needs an error handler action creator and reducer
@@ -50,8 +52,9 @@ export const changeUserPassword = formValues => {
       .then(res => {
         console.log(res);
         console.log(res.data);
-        history.push(`/users/${userId}/settings`);
         dispatch({ type: CHANGE_USER_PASSWORD_SUCCESS, payload: res.data });
+        history.push(`/users/${userId}/settings`);
+        dispatch(clearErrors());
       })
       .catch(err => {
         // this needs an error handler action creator and reducer

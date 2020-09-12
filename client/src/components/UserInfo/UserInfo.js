@@ -3,7 +3,7 @@ import LeftArrowImg from "../../icons/left-arrow.png";
 import "./UserInfo.scss";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 
@@ -16,7 +16,7 @@ import UserAvatar from "../UserAvatar/UserAvatar";
 
 import { removeUserAvatar } from "../../flux/actions/settingsActions";
 
-const UserInfo = (props) => {
+const UserInfo = props => {
   const [editAccountOpened, setEditAccountOpened] = useState(false);
   const [changePasswordOpened, setChangePasswordOpened] = useState(false);
   const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
@@ -47,20 +47,19 @@ const UserInfo = (props) => {
           }}
         />
       );
-    } else if (changePasswordOpened) {
+    } /*else if (changePasswordOpened) {
       console.log("Opening change password");
       return (
-        <ChangeUserPassword
-          hideSection={() => {
-            hideSection("ChangeUserPassword");
-          }}
-        />
+        <Route path={`/users/:userId/settings/change_password`}>
+          <ChangeUserPassword />
+        </Route>
       );
     }
+    */
     return null;
   };
 
-  const hideSection = (sectionName) => {
+  const hideSection = sectionName => {
     console.log("hiding section");
     console.log(props.error.msg);
     console.log(editAccountOpened);
@@ -69,12 +68,16 @@ const UserInfo = (props) => {
         console.log("hiding edit account section");
         setEditAccountOpened(false);
         console.log(editAccountOpened);
-      } else if (
+      } /*else if (
         sectionName === "ChangeUserPassword" ||
         sectionName === "change-user-password"
       ) {
         setChangePasswordOpened(false);
+        hideSection={() => {
+          hideSection("ChangeUserPassword");
+        }}
       }
+      */
     }
   };
 
@@ -82,6 +85,9 @@ const UserInfo = (props) => {
   return (
     <div className="user-settings-content-container">
       {renderSection()}
+      <Route path={`/users/:userId/settings/change_password`} exact>
+        <ChangeUserPassword />
+      </Route>
       <div className="my-account-section-container">
         <div className="my-account-content-header">
           <button id="my-account-back-button" onClick={props.closeMyAccount}>
@@ -127,15 +133,20 @@ const UserInfo = (props) => {
           >
             Edit Account
           </button>
-          <button
-            className="profile-button"
-            id="profile-change-password-button"
-            onClick={() => {
-              setChangePasswordOpened(true);
-            }}
+          <Link
+            className="profile-button-link"
+            to={`/users/${props.user.id}/settings/change_password`}
           >
-            Change Password
-          </button>
+            <button
+              className="profile-button"
+              id="profile-change-password-button"
+              onClick={() => {
+                // setChangePasswordOpened(true);
+              }}
+            >
+              Change Password
+            </button>
+          </Link>
         </div>
       </div>
     </div>
@@ -143,13 +154,16 @@ const UserInfo = (props) => {
 };
 {
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
-  error: state.error,
+  error: state.error
 });
 
-const userInfo = connect(mapStateToProps, { removeUserAvatar })(UserInfo);
+const userInfo = connect(
+  mapStateToProps,
+  { removeUserAvatar }
+)(UserInfo);
 
 export default userInfo;
 /*

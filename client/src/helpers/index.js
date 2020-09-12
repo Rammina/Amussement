@@ -255,6 +255,18 @@ export const objectToArray = (
   }
   return array;
 };
+
+export const arrayHasObjectWithPropAndValue = (array, propName, value) => {
+  console.log(array);
+  if (Array.isArray(array)) {
+    return false;
+  }
+  // e.g. array = friends, propName = "username", value = "pillowOwO"
+  for (let item of array) {
+    if (item[propName] === value) return true;
+  }
+  return false;
+};
 /*
 // CryptoJS functions
 const keySize = 256;
