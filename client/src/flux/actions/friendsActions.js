@@ -71,7 +71,7 @@ export const addFriendWithUsername = formValues => (dispatch, getState) => {
       dispatch({
         type: ADD_FRIEND_SUCCESS
       });
-      getAllFriends(userId);
+      dispatch(getAllFriends(userId));
       history.push(`/users/${userId}/friends`);
       dispatch(clearErrors());
     })
@@ -81,6 +81,30 @@ export const addFriendWithUsername = formValues => (dispatch, getState) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: ADD_FRIEND_FAIL
+      });
+    });
+};
+
+export const removeFriend = friendId => (dispatch, getState) => {
+  console.log("adding a friend ");
+  const userId = getState().user.info._id || getState().user.info.id;
+
+  serverRest
+    .post(`/api/users/${userId}/friends/${friendId}/remove`)
+    .then(res => {
+      dispatch({
+        type: REMOVE_FRIEND_SUCCESS
+      });
+      dispatch(getAllFriends(userId));
+      history.push(`/users/${userId}/friends`);
+      dispatch(clearErrors());
+    })
+    .catch(err => {
+      console.log(err);
+      console.log(err.response);
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: REMOVE_FRIEND_FAIL
       });
     });
 };

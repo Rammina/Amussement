@@ -7,7 +7,7 @@ const User = require("../models/user");
 
 const async = require("async");
 const path = require("path");
-const { arrayHasObjectWithPropAndValue } = require("../helpers");
+const { arrayHasObjectWithPropAndValue, isAddedFriend } = require("../helpers");
 // retrieve friends list
 exports.get_all_friends = async (req, res) => {
   console.log("retrieving friends list");
@@ -64,21 +64,33 @@ exports.add_friend_with_username = async (req, res) => {
     const sender = await User.findById(req.params.id).select("_id");
     if (!sender) throw Error("Sender of the friend request does not exist.");
     // check if friend is already added/invited
+    // let isFriend = null;
     const getFriendsCb = (err, friends) => {
-      if (err) throw Error("Error retrieving friend list.");
-      console.log(friends);
-      if (arrayHasObjectWithPropAndValue(friends, "username", username)) {
-        console.log("it breaks online 71");
-        throw Error("User has already been added/invited.");
+      try {
+        if (err) throw Error("Error retrieving friend list.");
+        console.log(friends);
+        if (isAddedFriend(friends, username)) {
+          console.log("it breaks online 71");
+          throw Error("User has already been added/invited.");
+          // isFriend = true;
+        }
+      } catch (e) {
+        console.log(e);
+        res.status(400).json({ msg: e.message });
       }
     };
-    User.getFriends(sender, {}, getFriendsCb);
+
+    await User.getFriends(sender, {}, getFriendsCb);
+
+    // if (isFriend) throw Error("User has already been added/invited.");
 
     const receiver = await User.findOne({ username: username }).select("_id");
     if (!receiver)
       throw Error("Receiver of the friend request does not exist.");
+    console.log("does line eighty 5 run");
     const requestFriendCb = err => {
       if (err) throw Error("Failed to send friend request.");
+      console.log("do we get here?");
       res.status(200).json({ success: true });
     };
     User.requestFriend(sender._id, receiver._id, requestFriendCb);
@@ -113,7 +125,7 @@ exports.remove_friend = async (req, res) => {
   try {
     const sender = await User.findById(req.params.id).select("_id");
     if (!sender) throw Error("Sender does not exist.");
-    const receiver = await User.findById(req.params.receiverId).select("_id");
+    const receiver = await User.findById(req.params.friendId).select("_id");
     if (!receiver)
       throw Error("The user you are about to unfriend does not exist.");
     const removeFriendCb = err => {

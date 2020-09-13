@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 
 import serverRest from "../../../apis/serverRest";
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
+import RemoveFriend from "../../RemoveFriend/RemoveFriend";
 // import { renderError, getErrorClass } from "../../helpers";
 
 const Friend = props => {
@@ -80,6 +81,7 @@ const Friend = props => {
             </div>
             {renderStatus()}
             <div className="friend-item-div actions">
+              <RemoveFriend friend={friend} />
               <button
                 className="friend-item-div-button"
                 onClick={e => {

@@ -15,3 +15,19 @@ exports.arrayHasObjectWithPropAndValue = (array, propName, value) => {
   }
   return false;
 };
+
+exports.isAddedFriend = (friends, usernameToAdd) => {
+  if (!Array.isArray(friends)) {
+    return false;
+  }
+  for (let friend of friends) {
+    let { username } = friend.friend;
+    console.log(`${username} === ${usernameToAdd}`);
+    if (username === usernameToAdd) {
+      if (friend.status === "requested" || friend.status === "accepted") {
+        return true;
+      }
+    }
+  }
+  return false;
+};
