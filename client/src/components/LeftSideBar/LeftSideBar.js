@@ -36,7 +36,7 @@ const LeftSideBarContainer = props => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [handleResize]);
+  }, []);
 
   const getContainerClass = () => {
     if (props.alwaysShow) {

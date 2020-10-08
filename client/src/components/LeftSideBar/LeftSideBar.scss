@@ -26,7 +26,7 @@
   // background-color: #222;
   background-color: #232628;
 
-  height: 100vh;
+  height: calc(100vh - 3rem);
   justify-content: space-between;
   visibility: hidden;
   // transform: translate(-$sidebarWidth, 0);
@@ -72,11 +72,12 @@
 @media screen and (min-width: 0px) {
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1200px) {
   .left-sidebar-container {
     display: flex;
     transform: translate(0rem, 0);
     visibility: visible;
+    height: 100vh;
   }
   .backdrop.left-sidebar.show {
     visibility: hidden;

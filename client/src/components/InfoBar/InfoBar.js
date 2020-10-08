@@ -7,7 +7,7 @@ import React, { useContext } from "react";
 import { connect } from "react-redux";
 
 import onlineIcon from "../../icons/onlineIcon.png";
-import closeIcon from "../../icons/closeIcon.png";
+import closeIcon from "../../icons/close-icon.png";
 
 import { NavContext } from "../AppContext";
 

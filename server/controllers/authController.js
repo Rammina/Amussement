@@ -159,7 +159,7 @@ exports.user_login = async (req, res) => {
         id: user._id,
         username: user.username,
         friends: user.friends || [],
-        email: user.emailLowerCase,
+        email: user.email,
         image_url: user.image_url || ""
       }
     });

@@ -1,6 +1,7 @@
 import "./EditAccount.scss";
 
 import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
 
 import serverRest from "../../apis/serverRest";
@@ -78,93 +79,104 @@ const EditAccount = props => {
     props.hideSection();
   };
 
-  return (
-    <form id="edit-account-form" autoComplete="off">
-      <div className="edit-account form-content-container">
-        <div className="door-title-container">
-          <h2 className="heading">Edit Your Account</h2>
-        </div>
-        {renderErrorNotifications()}
-        <div className="textfield-container">
-          <Field
-            name="username"
-            component={renderInput}
-            type="text"
-            props={{
-              inputProps: {
-                placeholder: "Username",
-                className: "textfield",
-                maxLength: "30",
-                autoComplete: "off",
-                id: "edit-account-username-field"
-                // autoFocus: true
-              },
-              labelProps: {
-                class: "textfield-label",
-                text: "Username",
-                id: "edit-account-username-label"
-              }
-            }}
-          />
-        </div>
-        <div className="textfield-container">
-          <Field
-            name="email"
-            component={renderInput}
-            type="text"
-            props={{
-              inputProps: {
-                placeholder: "Email",
-                className: "textfield",
-                maxLength: "64",
-                autoComplete: "off",
-                id: "edit-account-email-field"
+  return ReactDOM.createPortal(
+    <React.Fragment>
+      <div
+        className="backdrop show edit-account"
+        onClick={() => {
+          props.hideSection();
+        }}
+      ></div>
+      <div className="modal edit-account">
+        <form id="edit-account-form" autoComplete="off">
+          <div className="edit-account form-content-container modal-form-content">
+            <div className="modal-heading-container">
+              <h2 className="modal-heading">Edit Your Account</h2>
+            </div>
+            {renderErrorNotifications()}
+            <div className="textfield-container">
+              <Field
+                name="username"
+                component={renderInput}
+                type="text"
+                props={{
+                  inputProps: {
+                    placeholder: "Username",
+                    className: "textfield",
+                    maxLength: "30",
+                    autoComplete: "off",
+                    id: "edit-account-username-field"
+                    // autoFocus: true
+                  },
+                  labelProps: {
+                    class: "textfield-label",
+                    text: "Username",
+                    id: "edit-account-username-label"
+                  }
+                }}
+              />
+            </div>
+            <div className="textfield-container">
+              <Field
+                name="email"
+                component={renderInput}
+                type="text"
+                props={{
+                  inputProps: {
+                    placeholder: "Email",
+                    className: "textfield",
+                    maxLength: "64",
+                    autoComplete: "off",
+                    id: "edit-account-email-field"
 
-                // autoFocus: true
-              },
-              labelProps: {
-                class: "textfield-label",
-                text: "Email",
-                id: "edit-account-email-label"
-              }
-            }}
-          />
-        </div>
+                    // autoFocus: true
+                  },
+                  labelProps: {
+                    class: "textfield-label",
+                    text: "Email",
+                    id: "edit-account-email-label"
+                  }
+                }}
+              />
+            </div>
 
-        <div className="textfield-container">
-          <Field
-            name="password"
-            component={renderInput}
-            type="password"
-            props={{
-              inputProps: {
-                placeholder: "Enter Password for Confirmation",
-                className: "textfield",
-                maxLength: "30",
-                autoComplete: "off",
-                type: "password",
-                id: "edit-account-password-field"
-                // autoFocus: true
-              },
-              labelProps: {
-                class: "textfield-label",
-                text: "Password",
-                id: "edit-account-password-label"
-              }
-            }}
-          />
-        </div>
-        <div className="form-button-container">
-          <button
-            className={"form-button submit mt-20"}
-            type="submit"
-            onClick={props.handleSubmit(onSubmit)}
-          >
-            Save
-          </button>
-        </div>
+            <div className="textfield-container">
+              <Field
+                name="password"
+                component={renderInput}
+                type="password"
+                props={{
+                  inputProps: {
+                    placeholder: "Enter Password for Confirmation",
+                    className: "textfield",
+                    maxLength: "30",
+                    autoComplete: "off",
+                    type: "password",
+                    id: "edit-account-password-field"
+                    // autoFocus: true
+                  },
+                  labelProps: {
+                    class: "textfield-label",
+                    text: "Password",
+                    id: "edit-account-password-label"
+                  }
+                }}
+              />
+            </div>
+            <div className="form-button-container">
+              <button
+                className={"form-button submit mt-20"}
+                type="submit"
+                onClick={props.handleSubmit(onSubmit)}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
-    </form>
+    </React.Fragment>,
+    document.getElementById("modal")
   );
 };
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import serverRest from "../../apis/serverRest";
 
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, reset } from "redux-form";
 import { connect } from "react-redux";
 
 import { loginUser } from "../../flux/actions/authActions";
@@ -71,6 +71,7 @@ const LoginForm = props => {
     console.log(formValues);
     console.log(loginUser);
     await props.loginUser(formValues);
+    // props.dispatch(reset("loginForm"));
   };
 
   return (

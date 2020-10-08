@@ -1,6 +1,7 @@
 import serverRest from "../../apis/serverRest";
 import history from "../../history";
 import { returnErrors, clearErrors } from "./errorActions";
+import { reset } from "redux-form";
 import {
   USER_LOADED,
   USER_LOADING,
@@ -78,12 +79,14 @@ export const loginUser = formValues => dispatch => {
   serverRest
     .post("/api/auth/login", formValues)
     .then(res => {
+      console.log(res.data);
       const userId = res.data.user.id;
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
       });
       localStorage.setItem("token", res.data.token);
+      dispatch(reset("loginForm"));
       // redirect and remove errors
       history.push(`/users/${userId}/home`);
       dispatch(clearErrors());
@@ -101,7 +104,7 @@ export const loginUser = formValues => dispatch => {
 };
 
 // Logout User
-export const logout = dispatch => {
+export const logout = () => dispatch => {
   history.push("/auth/login");
   dispatch(clearErrors());
   return {

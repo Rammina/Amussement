@@ -3,9 +3,15 @@
 .user-home-page-container {
   margin: 0;
   display: block;
-  min-height: calc(100vh + 0rem);
+  // min-height: calc(100vh + 0rem);
   height: auto;
   background-color: $main-black;
   color: $textFontColor;
   padding-bottom: 3rem;
+}
+@media screen and (min-width: 1200px) {
+  .user-home-page-container {
+    // height: 100%;
+    padding-bottom: 0;
+  }
 }

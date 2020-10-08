@@ -36,6 +36,15 @@ body {
   // padding-bottom: 1rem;
 }
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill::first-line {
   font-size: 1.2rem;
@@ -92,15 +101,18 @@ input[type="submit"] {
 /* note: try adding the loader for the page & the list */
 button:focus {
   outline: none;
-  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1),
-    0px 0px 0px 2.5px rgba(255, 255, 255, 1) 0px 0px 0px 3px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1), 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 3px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1), 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 3px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9) 0px 0px 0px 3px
+      rgba(0, 0, 0, 0.95);
+  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.95);
+  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.95);
   /* -webkit-box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696, */
   /* 0px 0px 2px 3px #000000, 0 0 3px 4px #fff; */
   /* box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696, */
@@ -111,18 +123,18 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  -webkit-box-shadow: inset 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    inset 0px 0px 0px 1.5px rgba(0, 0, 0, 1),
-    inset 0px 0px 0px 2.5px rgba(255, 255, 255, 1) 0px 0px 0px 3px
-      rgba(0, 0, 0, 1);
-  -moz-box-shadow: inset 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    inset 0px 0px 0px 1.5px rgba(0, 0, 0, 1),
-    inset 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
-    inset 0px 0px 0px 3px rgba(0, 0, 0, 1);
-  box-shadow: inset 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    inset 0px 0px 0px 1.5px rgba(0, 0, 0, 1),
-    inset 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
-    inset 0px 0px 0px 3px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    inset 0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    inset 0px 0px 0px 2.5px rgba(255, 255, 255, 0.9) 0px 0px 0px 3px
+      rgba(0, 0, 0, 0.95);
+  -moz-box-shadow: inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    inset 0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    inset 0px 0px 0px 2.5px rgba(255, 255, 255, 0.9),
+    inset 0px 0px 0px 3px rgba(0, 0, 0, 0.95);
+  box-shadow: inset 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    inset 0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    inset 0px 0px 0px 2.5px rgba(255, 255, 255, 0.9),
+    inset 0px 0px 0px 3px rgba(0, 0, 0, 0.95);
 }
 
 input[type="checkbox"]:hover {
@@ -148,28 +160,34 @@ a {
 
 a:focus {
   outline: none;
-  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1),
-    0px 0px 0px 2.5px rgba(255, 255, 255, 1) 0px 0px 0px 3px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1), 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 3px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1), 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 3px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9) 0px 0px 0px 3px
+      rgba(0, 0, 0, 0.95);
+  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.95);
+  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.95);
 }
 
 div:focus {
   outline: none;
-  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1),
-    0px 0px 0px 2.5px rgba(255, 255, 255, 1) 0px 0px 0px 3px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1), 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 3px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1), 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 3px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9) 0px 0px 0px 3px
+      rgba(0, 0, 0, 0.95);
+  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.95);
+  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.95);
 }
 
 li {
@@ -222,15 +240,18 @@ textarea {
 
 .ui.google.button:focus {
   outline: none;
-  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1),
-    0px 0px 0px 2.5px rgba(255, 255, 255, 1) 0px 0px 0px 3px rgba(0, 0, 0, 1);
-  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1), 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 3px rgba(0, 0, 0, 1);
-  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 1.5px rgba(0, 0, 0, 1), 0px 0px 0px 2.5px rgba(255, 255, 255, 1),
-    0px 0px 0px 3px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9) 0px 0px 0px 3px
+      rgba(0, 0, 0, 0.95);
+  -moz-box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.95);
+  box-shadow: 0px 0px 0px 0.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 1.5px rgba(0, 0, 0, 0.95),
+    0px 0px 0px 2.5px rgba(255, 255, 255, 0.9),
+    0px 0px 0px 3px rgba(0, 0, 0, 0.95);
 }
 
 .ui.primary.google.button {
@@ -244,25 +265,98 @@ textarea {
 }
 
 .backdrop {
+  z-index: 99;
   /* display: none; */
   visibility: hidden;
   position: fixed;
   left: 0;
   top: 0;
   background-color: #000;
-  opacity: 0.5;
+  opacity: 0.7;
   min-width: 100vw;
   min-height: 100vh;
 }
 
+.backdrop.show {
+  visibility: visible;
+}
+
+// this is the one that is in the public index.html file
+#modal {
+  z-index: 100;
+}
 .modal {
   z-index: 100;
   position: fixed;
   left: 0;
   top: 0;
+  margin: 0 auto;
   background-color: $main-black;
   width: 100vw;
+  min-height: 100vh;
   height: 100vh;
+  overflow-y: auto;
+}
+.modal-content-container {
+  display: flex;
+
+  // justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
+}
+.modal-heading-container {
+  padding: 0.5rem;
+}
+.modal-header-content-container.modal-heading-container {
+  width: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+.modal-header-heading,
+.modal-header-heading.modal-heading {
+  display: inline-block;
+  width: fit-content;
+}
+.modal-header-heading.modal-heading {
+  position: relative;
+  right: 0.5rem;
+}
+.modal-heading,
+.modal-paragraph {
+  display: block;
+  width: 100%;
+  // text-align: center;
+  color: $textFontColor;
+  height: fit-content;
+}
+.modal-heading {
+  text-transform: uppercase;
+  font-size: 1.4rem;
+  text-shadow: 0 1px 2px #345;
+}
+.modal-paragraph {
+  font-size: 1.1rem;
+}
+
+.two-buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 24rem;
+  margin: 0 auto;
+  margin-top: 1rem;
+  // padding-bottom: 1rem;
+}
+
+.modal-button {
+  display: block;
+  height: 3rem;
+  margin: 0 1rem;
 }
 
 .textfield-container {
@@ -280,6 +374,7 @@ textarea {
   display: block;
   width: 90%;
   max-width: 25rem;
+  font-size: 1.05rem;
   margin: $center-margin;
 }
 
@@ -300,7 +395,7 @@ textarea {
   border: solid 1.5px $main-mint;
   border-radius: 5px;
   font-family: $textFont;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 
 .error {
@@ -350,5 +445,32 @@ textarea {
   .error {
     width: 95%;
     max-width: 20rem;
+  }
+}
+@media screen and (min-width: 1200px) {
+}
+@media screen and (min-width: 1200px) and (min-height: 600px) {
+  .modal {
+    width: fit-content;
+    height: auto;
+    min-height: 0;
+    // max-height: 40rem;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    right: 0;
+    border: 2px solid $modalBorderColor;
+    border-radius: 4px;
+    padding-bottom: 2rem; // bottom: 8vh;
+  }
+  .form-content-container.modal-form-content {
+    min-height: 0;
+    height: auto;
+  }
+  .modal-header-content-container.modal-heading-container {
+    justify-content: space-between;
+  }
+  .modal-header-heading.modal-heading {
+    right: 0;
   }
 }

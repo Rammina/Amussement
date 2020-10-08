@@ -16,45 +16,10 @@
   background-color: $main-black;
 }
 
-.my-account-content-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  height: 3rem;
-  padding: 0 0.8rem;
-  // justify-content: space-between;
-  align-items: center;
-  // background-color: #111;
-  background-color: $secondary-black;
-}
-
-.my-account-section-heading {
-  position: relative;
-  // left: 0.8rem;
-}
-
-#my-account-back-button {
-  position: relative;
-  right: 0.5rem;
-  width: 3rem;
-  height: 3rem;
-  padding: 0.5rem;
-  background-color: #0000;
-  filter: invert(94%) sepia(4%) saturate(168%) hue-rotate(182deg)
-    brightness(95%) contrast(91%);
-}
-
-#my-account-back-button:hover {
-  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(53deg)
-    brightness(104%) contrast(102%);
-}
-
-.left-arrow-icon-img {
-  width: 2rem;
-  height: 2rem;
-}
+// #my-account-back-button {
+//   position: relative;
+//   right: 0.8rem;
+// }
 
 .profile-container {
   display: flex;
@@ -122,11 +87,7 @@
   background-color: $light-mint-hover;
 }
 
-@media screen and (min-width: 450px) {
-  .my-account-content-header {
-    // left: 0;
-  }
-
+@media screen and (min-width: 450px) and (min-height: 350px) {
   .my-account-section-container {
     position: relative;
     top: 4rem;
@@ -150,7 +111,7 @@
   }
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 750px) and (min-height: 450px) {
   .my-account-section-container {
     // display: flex;
     padding: 1.5rem;
@@ -172,7 +133,7 @@
   }
   .profile-information.label {
     display: block;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     margin-top: 1rem;
     color: $textFontColorDim;
   }
@@ -181,9 +142,16 @@
   }
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1200px) {
   .my-account-section-container {
     display: flex;
+    margin: 0;
+    top: 0;
+  }
+  .my-account-section-heading.desktop {
+    padding: 1rem 0;
+    padding-bottom: 1.5rem;
+    text-transform: uppercase;
   }
   .profile-container {
   }

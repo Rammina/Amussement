@@ -4,6 +4,7 @@ $textFont: "Roboto", sans-serif;
 // color variables
 $textFontColor: #dbdde1;
 $textFontColorDim: #b3b4b6;
+$textFontColorDimmer: #909193;
 $textFontColorHover: #feffff;
 $messageTextColor: #232628;
 $senderTextColor: #232628;
@@ -18,6 +19,8 @@ $discord-footer-black: #07050f;
 $grayblue: #567;
 $light-mint: #aaffd5;
 $light-mint-hover: #c8ffe4;
+$warningTextColor: #f88;
+$warningTextColorHover: #fbb;
 // size variables
 $center-margin: 0 auto;
 $door-img-dimension: 1.3rem;
@@ -34,3 +37,9 @@ $profilePictureSize: 4rem;
 $profilePictureSize450w: 5.5rem;
 $profilePictureSize750w: 7.5rem;
 $previewImageSize: 8rem;
+$previewImageSize400w400h: 9rem;
+$previewImageSize500w450h: 12rem;
+$previewImageSize600w500h: 14rem;
+$previewImageSize1200w600h: 17rem;
+// modal variables
+$modalBorderColor: #efe4;

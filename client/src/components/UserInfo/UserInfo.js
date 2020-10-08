@@ -13,6 +13,7 @@ import cloudinaryRest from "../../apis/cloudinaryRest";
 import EditAccount from "../forms/EditAccount";
 import ChangeUserPassword from "../forms/ChangeUserPassword";
 import UserAvatar from "../UserAvatar/UserAvatar";
+import BackButton from "../buttons/BackButton";
 
 import { removeUserAvatar } from "../../flux/actions/settingsActions";
 
@@ -35,6 +36,11 @@ const UserInfo = props => {
 
   const getUsername = () => (props.user ? props.user.username : null);
   const getEmail = () => (props.user ? props.user.email : null);
+
+  const renderDesktopHeading = () => {
+    if (!props.isDesktopWidth) return null;
+    return <h1 className="my-account-section-heading desktop">My Account</h1>;
+  };
 
   const renderSection = () => {
     if (editAccountOpened) {
@@ -83,73 +89,81 @@ const UserInfo = props => {
 
   // render
   return (
-    <div className="user-settings-content-container">
-      {renderSection()}
-      <Route path={`/users/:userId/settings/change_password`} exact>
-        <ChangeUserPassword />
-      </Route>
-      <div className="my-account-section-container">
-        <div className="my-account-content-header">
-          <button id="my-account-back-button" onClick={props.closeMyAccount}>
-            <img
-              className="my-account left-arrow-icon-img"
-              src={LeftArrowImg}
-              alt="Left Arrow Icon"
+    props.user && (
+      <div className="user-settings-content-container">
+        {renderDesktopHeading()}
+        {renderSection()}
+        <Route path={`/users/:userId/settings/change_password`} exact>
+          <ChangeUserPassword />
+        </Route>
+        <div className="my-account-section-container">
+          <div className="user-settings-content-header">
+            <BackButton
+              componentClass="my-account"
+              buttonId="my-account-back-button"
+              hideOnDesktop={true}
+              onClickHandler={props.closeMyAccount}
             />
-          </button>
-          <h1 className="my-account-section-heading">My Account</h1>
-        </div>
-        <div className="profile-container">
-          <UserAvatar />
-          <div className="" id="profile-information-container">
-            <label className="profile-information label">USERNAME</label>
-            <p className="profile-information" id="profile-username">
-              {getUsername()}
-            </p>
-            <label className="profile-information label">EMAIL</label>
 
-            <p className="profile-information" id="profile-email">
-              {getEmail()}
-            </p>
-            <button
-              className="profile-information"
-              id="user-avatar-remove"
-              onClick={() => {
-                props.removeUserAvatar();
-              }}
+            <h1
+              id="my-account-section-heading"
+              className="user-settings-content-header-heading"
             >
-              Remove Image
-            </button>
+              My Account
+            </h1>
           </div>
-        </div>
+          <div className="profile-container">
+            <UserAvatar />
+            <div className="" id="profile-information-container">
+              <label className="profile-information label">USERNAME</label>
+              <p className="profile-information" id="profile-username">
+                {getUsername()}
+              </p>
+              <label className="profile-information label">EMAIL</label>
 
-        <div className="two-buttons-container" id="profile-buttons-container">
-          <button
-            className="profile-button"
-            id="profile-edit-button"
-            onClick={() => {
-              setEditAccountOpened(true);
-            }}
-          >
-            Edit Account
-          </button>
-          <Link
-            className="profile-button-link"
-            to={`/users/${props.user.id}/settings/change_password`}
-          >
+              <p className="profile-information" id="profile-email">
+                {getEmail()}
+              </p>
+              <button
+                className="profile-information"
+                id="user-avatar-remove"
+                onClick={() => {
+                  props.removeUserAvatar();
+                }}
+              >
+                Remove Image
+              </button>
+            </div>
+          </div>
+
+          <div className="two-buttons-container" id="profile-buttons-container">
             <button
               className="profile-button"
-              id="profile-change-password-button"
+              id="profile-edit-button"
               onClick={() => {
-                // setChangePasswordOpened(true);
+                setEditAccountOpened(true);
               }}
             >
-              Change Password
+              Edit Account
             </button>
-          </Link>
+            <Link
+              className="profile-button-link"
+              to={`/users/${props.user.id}/settings/change_password`}
+            >
+              <button
+                className="profile-button"
+                id="profile-change-password-button"
+                onClick={() => {
+                  // setChangePasswordOpened(true);
+                }}
+              >
+                Change Password
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 };
 {

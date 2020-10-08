@@ -1,0 +1,30 @@
+@import "../../utils/variables.scss";
+
+.close-button {
+  width: 3rem;
+  height: 3rem;
+  background-color: #0000;
+}
+
+.close-icon-img {
+  background-color: #0000;
+  width: 1.5rem;
+  height: 1.5rem;
+  filter: invert(91%) sepia(2%) saturate(416%) hue-rotate(182deg)
+    brightness(96%) contrast(96%);
+}
+
+.modal-heading-container.modal-header-content-container > .close-button {
+  position: relative;
+  left: 0.7rem;
+}
+
+.close-button.hide-on-mobile {
+  display: none;
+}
+
+@media screen and (min-width: 1200px) and (min-height: 600px) {
+  .close-button.hide-on-mobile {
+    display: block;
+  }
+}
