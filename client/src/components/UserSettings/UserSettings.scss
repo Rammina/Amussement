@@ -167,7 +167,7 @@
     display: block;
     position: fixed;
     top: 2rem;
-    right: calc(22vw - 7.5rem);
+    right: calc(22vw - 9.5rem);
     box-shadow: 0 0 0 2px $textFontColorDimmer;
     height: 2.5rem;
     margin: 0;
@@ -188,7 +188,7 @@
     display: block;
     position: fixed;
     top: 5rem;
-    right: calc(22vw - 7.15rem);
+    right: calc(22vw - 9.07rem);
     text-transform: uppercase;
     color: $textFontColorDimmer;
     font-size: 0.9rem;
@@ -252,7 +252,7 @@
   }
 
   #user-settings-close-label {
-    right: calc(60vw - 39.65rem);
+    right: calc(60vw - 39.57rem);
   }
 }
 @media screen and (min-width: 1600px) {
@@ -261,6 +261,6 @@
   }
 
   #user-settings-close-label {
-    right: calc(65vw - 43.65rem);
+    right: calc(65vw - 43.57rem);
   }
 }

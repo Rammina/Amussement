@@ -84,6 +84,7 @@ const EditAccount = props => {
       <div
         className="backdrop show edit-account"
         onClick={() => {
+          console.log("closing modal");
           props.hideSection();
         }}
       ></div>

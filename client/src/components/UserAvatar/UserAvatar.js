@@ -76,7 +76,7 @@ const UserAvatar = props => {
   const renderImageUploadModal = () => {
     console.log(imageUploadName);
     if (!imageUploadModalOpen) return null;
-    return ReactDOM.createPortal(
+    return (
       <React.Fragment>
         <div
           className={`backdrop ${getImageUploadModalClass()} user-avatar`}
@@ -139,8 +139,7 @@ const UserAvatar = props => {
             </div>
           </div>
         </div>{" "}
-      </React.Fragment>,
-      document.getElementById("modal")
+      </React.Fragment>
     );
   };
 
