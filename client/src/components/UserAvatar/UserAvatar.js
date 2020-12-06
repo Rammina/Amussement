@@ -126,6 +126,11 @@ const UserAvatar = props => {
               <button
                 id="user-avatar-image-cancel"
                 className="user-avatar modal-button"
+                onClick={e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setImageUploadModalOpen(false);
+                }}
               >
                 Cancel
               </button>

@@ -1,4 +1,4 @@
-import "./Modal.scss";
+// import "./Modal.scss";
 
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
@@ -6,59 +6,47 @@ import BackButton from "../buttons/BackButton";
 import CloseButton from "../buttons/CloseButton";
 // should also import modal header component
 
-const Modal = props => {
-  const [modalOpen, setModalOpen] = useState(false);
+const ModalHeader = props => {
+  // simplify/return properties from parent component (e.g. className)
+  const getClassName = () => (props.componentClass ? props.componentClass : "");
 
-  useEffect(() => {}, []);
-
-  const getModalOpenClass = () => {
-    return modalOpen ? "show" : "hide";
+  const renderBackButton = () => {
+    // do not render a back button
+    // if there is a property that tells it to be removed
+    if (props.noBackButton) return null;
+    return (
+      <BackButton
+        componentClass={props.componentClass}
+        hideOnDesktop={true}
+        onClickHandler={() => {
+          // this needs to be flexible
+          // setImageUploadModalOpen(false); should be replaced with
+          props.onModalClose();
+        }}
+      />
+    );
   };
 
-  return ReactDOM.createPortal(
-    <React.Fragment>
-      <div
-        className={`backdrop ${getModalOpenClass()} ${getComponentClass()}`}
-        onClick={() => {
-          setModalOpen(false);
-        }}
-      ></div>
-      <div className={`modal ${getModalOpenClass()} ${getComponentClass()}`}>
-        {
-          /*should make headers and headings be recyclable*/
-          <ModalHeader
-            componentClass={`${getComponentClass}`}
-            onCloseHandler={() => {}}
-            headingText={props.headingText || null}
-          />
-        }
-
-        <header className="user-settings-sidebar-header user-avatar">
-          <div className="modal-heading-container modal-header-content-container">
-            <BackButton
-              componentClass="user-avatar"
-              hideOnDesktop={true}
-              onClickHandler={() => {
-                setImageUploadModalOpen(false);
-              }}
-            />
-            <h3 className="user-avatar modal-heading modal-header-heading">
-              Upload Avatar
-            </h3>
-            <CloseButton
-              componentClass="user-avatar"
-              hideOnMobile={true}
-              onClickHandler={() => {
-                setImageUploadModalOpen(false);
-              }}
-            />
-          </div>
-        </header>
-        {/*should also make modal content reusable*/}
-        {renderModalContent()}
-      </div>{" "}
-    </React.Fragment>,
-    document.getElementById("modal")
+  return (
+    <header className={`modal-header ${props.componentClass}`}>
+      <div className="modal-heading-container modal-header-content-container">
+        {renderBackButton()}
+        <h3
+          className={`modal-heading modal-header-heading ${props.componentClass} `}
+        >
+          {props.modalHeaderText}
+        </h3>
+        <CloseButton
+          componentClass={`${props.componentClass}`}
+          hideOnMobile={true}
+          onClickHandler={() => {
+            // this needs to be flexible
+            // setImageUploadModalOpen(false); should be replaced with
+            props.onModalClose();
+          }}
+        />
+      </div>
+    </header>
   );
 };
-export default Modal;
+export default ModalHeader;

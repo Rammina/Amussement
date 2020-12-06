@@ -193,21 +193,7 @@ const UserSettings = props => {
           </div>
         </div>
         {renderSection()}
-        <CloseButton
-          componentClass="user-settings"
-          buttonId="user-settings-close-button"
-          imageId="user-setting-close-image"
-          buttonLabel={
-            <span className="close-button-label" id="user-settings-close-label">
-              esc
-            </span>
-          }
-          onClickHandler={() => {
-            //note: re-\ implement this because it's buggy right now
-            // history.goBack();
-            history.push(`/users/${id}/home`);
-          }}
-        />
+
         {/*  <button
           className=""
           id="user-settings-close-button"

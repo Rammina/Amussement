@@ -3,17 +3,20 @@ import LeftArrowImg from "../../icons/left-arrow.png";
 import "./UserInfo.scss";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Route, Link } from "react-router-dom";
+import { Route, Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 
 import serverRest from "../../apis/serverRest";
 import cloudinaryRest from "../../apis/cloudinaryRest";
 
+import history from "../../history";
+
 import EditAccount from "../forms/EditAccount";
 import ChangeUserPassword from "../forms/ChangeUserPassword";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import BackButton from "../buttons/BackButton";
+import CloseButton from "../buttons/CloseButton";
 
 import { removeUserAvatar } from "../../flux/actions/settingsActions";
 
@@ -25,6 +28,7 @@ const UserInfo = props => {
   const [fileInputState, setFileInputState] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
   const [previewSource, setPreviewSource] = useState("");
+  const { id } = useParams();
 
   useEffect(() => {
     // userinfo needs to get the ID from the parent component
@@ -39,7 +43,26 @@ const UserInfo = props => {
 
   const renderDesktopHeading = () => {
     if (!props.isDesktopWidth) return null;
-    return <h1 className="my-account-section-heading desktop">My Account</h1>;
+    return (
+      <div className="my-account-section-heading-container desktop">
+        <h1 className="my-account-section-heading desktop">My Account</h1>
+        <CloseButton
+          componentClass="user-settings"
+          buttonId="user-settings-close-button"
+          imageId="user-setting-close-image"
+          buttonLabel={
+            <span className="close-button-label" id="user-settings-close-label">
+              esc
+            </span>
+          }
+          onClickHandler={() => {
+            //note: re-\ implement this because it's buggy right now
+            // history.goBack();
+            history.push(`/users/${id}/home`);
+          }}
+        />
+      </div>
+    );
   };
 
   const renderSection = () => {

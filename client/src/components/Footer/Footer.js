@@ -23,7 +23,7 @@ const Footer = props => {
           Friends
         </Link>
         <Link className="user-footer-link" to={`/users/${userId}/settings`}>
-          Account
+          Settings
         </Link>
       </footer>
     );

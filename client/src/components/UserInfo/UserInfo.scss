@@ -148,6 +148,12 @@
     margin: 0;
     top: 0;
   }
+  .my-account-section-heading-container.desktop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 45rem;
+  }
   .my-account-section-heading.desktop {
     padding: 1rem 0;
     padding-bottom: 1.5rem;

@@ -19,12 +19,14 @@
   left: 0.7rem;
 }
 
-.close-button.hide-on-mobile {
+.close-button.hide-on-mobile,
+.close-button-container.hide-on-mobile {
   display: none;
 }
 
 @media screen and (min-width: 1200px) and (min-height: 600px) {
-  .close-button.hide-on-mobile {
+  .close-button.hide-on-mobile,
+  .close-button-container.hide-on-mobile {
     display: block;
   }
 }

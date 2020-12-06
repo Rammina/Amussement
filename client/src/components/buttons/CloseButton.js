@@ -26,28 +26,32 @@ const CloseButton = props => {
 
   return (
     <React.Fragment>
-      {renderButtonLabel()}
-      <button
-        // ref={context.setCloseButtonRef}
-
-        className={`close-button ${getClassName()} ${getHideOnMobileClass()} ${getHideOnDesktopClass()}`}
-        id={`${getButtonId()}`}
-        onClick={onClickHandler}
-        onKeyDown={e => {
-          if (e.shiftKey && e.key === "Tab") {
-            e.preventDefault();
-            e.stopPropagation();
-          }
-        }}
-        // there should be an image here instead
+      <div
+        className={`close-button-container ${getClassName()} ${getHideOnMobileClass()} ${getHideOnDesktopClass()}`}
       >
-        <img
-          id={`${getImageId()}`}
-          className={`close-icon-img ${getClassName()}`}
-          src={CloseIconImg}
-          alt="X Icon"
-        />
-      </button>
+        <button
+          // ref={context.setCloseButtonRef}
+
+          className={`close-button ${getClassName()} ${getHideOnMobileClass()} ${getHideOnDesktopClass()}`}
+          id={`${getButtonId()}`}
+          onClick={onClickHandler}
+          onKeyDown={e => {
+            if (e.shiftKey && e.key === "Tab") {
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          }}
+          // there should be an image here instead
+        >
+          <img
+            id={`${getImageId()}`}
+            className={`close-icon-img ${getClassName()}`}
+            src={CloseIconImg}
+            alt="X Icon"
+          />
+        </button>
+        {renderButtonLabel()}
+      </div>
     </React.Fragment>
   );
 };
