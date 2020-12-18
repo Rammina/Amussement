@@ -14,14 +14,14 @@ import {
   REMOVE_USER_AVATAR_SUCCESS,
   REMOVE_USER_AVATAR_FAIL,
   CHANGE_USER_PASSWORD_SUCCESS,
-  CHANGE_USER_PASSWORD_FAIL
+  CHANGE_USER_PASSWORD_FAIL,
 } from "../actions/types";
 
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: false,
   isLoading: false,
-  userId: null
+  userId: null,
 };
 
 let sanitizedAuthPayload = {};
@@ -33,7 +33,7 @@ export default (state = initialState, action) => {
     case USER_LOADING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case USER_LOADED:
       console.log(`loading user, here is the payload `);
@@ -41,11 +41,11 @@ export default (state = initialState, action) => {
       sanitizedAuthPayload = {
         isAuthenticated: true,
         isLoading: false,
-        userId: action.payload._id
+        userId: action.payload._id,
       };
       return {
         ...state,
-        ...sanitizedAuthPayload
+        ...sanitizedAuthPayload,
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
@@ -56,12 +56,12 @@ export default (state = initialState, action) => {
         ...action.payload,
         userId: action.payload.user._id,
         isAuthenticated: true,
-        isLoading: false
+        isLoading: false,
       };
       console.log(sanitizedAuthPayload);
       return {
         ...state,
-        ...sanitizedAuthPayload
+        ...sanitizedAuthPayload,
       };
 
     case AUTH_ERROR:
@@ -74,7 +74,7 @@ export default (state = initialState, action) => {
         userId: null,
         token: null,
         isAuthenticated: false,
-        isLoading: false
+        isLoading: false,
       };
 
     default:

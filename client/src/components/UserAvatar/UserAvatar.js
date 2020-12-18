@@ -9,26 +9,56 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import BackButton from "../buttons/BackButton";
 import CloseButton from "../buttons/CloseButton";
+import Modal from "../Modal/Modal";
 
 import serverRest from "../../apis/serverRest";
 import cloudinaryRest from "../../apis/cloudinaryRest";
 
 import { editUserAvatar } from "../../flux/actions/settingsActions";
+import * as constants from "../../utils/constants.js";
+
+// import { ModalContext } from "../AppContext";
 
 import ProfilePicture from "../ProfilePicture/ProfilePicture";
 
-const UserAvatar = props => {
+const UserAvatar = (props) => {
+  const { DESKTOP_WIDTH, DESKTOP_HEIGHT } = constants;
+  const [isDesktopWidth, setIsDesktopWidth] = useState(false);
+  const [isDesktopHeight, setIsDesktopHeight] = useState(false);
   const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
   const [imageUploadName, setImageUploadName] = useState(null);
   const [fileInputState, setFileInputState] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
   const [previewSource, setPreviewSource] = useState("");
 
+  const handleResize = () => {
+    if (window.innerWidth >= DESKTOP_WIDTH) {
+      setIsDesktopWidth(true);
+      console.log("desktop with");
+    } else {
+      setIsDesktopWidth(false);
+      console.log("not desktop with");
+    }
+    if (window.innerHeight >= DESKTOP_HEIGHT) {
+      setIsDesktopHeight(true);
+      console.log("desktop height");
+    } else {
+      setIsDesktopHeight(false);
+      console.log("no desktop height");
+    }
+  };
   useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    handleResize();
     // UserAvatar needs to get the ID from the parent component
     console.log(getAvatarUrl());
     console.log(props.userId);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
+
+  useEffect(() => {}, []);
 
   //refs
   let inputImageRef = useRef(null);
@@ -45,7 +75,7 @@ const UserAvatar = props => {
     return imageUploadModalOpen ? "show" : "hide";
   };
 
-  const previewFile = file => {
+  const previewFile = (file) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
@@ -53,19 +83,19 @@ const UserAvatar = props => {
     };
   };
 
-  const handleImageInputChange = e => {
+  const handleImageInputChange = (e) => {
     const file = e.target.files[0];
     console.log(file);
     setImageUploadName(file.name);
     previewFile(file);
   };
 
-  const uploadImage = async base64EncodedImage => {
+  const uploadImage = async (base64EncodedImage) => {
     await props.editUserAvatar(base64EncodedImage, props.user._id);
     setImageUploadModalOpen(false);
   };
 
-  const handleSubmitFile = e => {
+  const handleSubmitFile = (e) => {
     e.preventDefault();
     if (!previewSource) {
       return;
@@ -75,37 +105,73 @@ const UserAvatar = props => {
 
   const renderImageUploadModal = () => {
     console.log(imageUploadName);
+    console.log(imageUploadModalOpen);
+    // do not render until image is chosen
     if (!imageUploadModalOpen) return null;
+    // render a mobile version until desktop dimensions
+    if (!isDesktopWidth || !isDesktopHeight) {
+      return ReactDOM.createPortal(
+        <React.Fragment>
+          <Modal
+            componentClass="user-avatar"
+            onModalClose={() => {
+              console.log("this is automatically closing");
+              setImageUploadModalOpen(false);
+            }}
+            headerClassName="user-settings-sidebar-header"
+            headingText="Upload Avatar"
+            modalContent={
+              <div className={`user-avatar modal-content-container`}>
+                {previewSource && (
+                  <img
+                    id="user-avatar-preview-image"
+                    src={previewSource}
+                    alt="Chosen Image"
+                  />
+                )}
+                <p className="user-avatar modal-paragraph">{imageUploadName}</p>
+
+                <div
+                  className="two-buttons-container"
+                  id="user-avatar-buttons-container"
+                >
+                  <button
+                    id="user-avatar-image-cancel"
+                    className="user-avatar modal-button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setImageUploadModalOpen(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    id="user-avatar-image-submit"
+                    className="user-avatar modal-button"
+                    type="submit"
+                  >
+                    Submit Image
+                  </button>
+                </div>
+              </div>
+            }
+          />
+        </React.Fragment>,
+        document.getElementById("modal")
+      );
+    }
+    // otherwise, render the desktop version
     return (
-      <React.Fragment>
-        <div
-          className={`backdrop ${getImageUploadModalClass()} user-avatar`}
-          onClick={() => {
-            setImageUploadModalOpen(false);
-          }}
-        ></div>
-        <div className={`user-avatar modal ${getImageUploadModalClass()}`}>
-          <header className="user-settings-sidebar-header user-avatar">
-            <div className="modal-heading-container modal-header-content-container">
-              <BackButton
-                componentClass="user-avatar"
-                hideOnDesktop={true}
-                onClickHandler={() => {
-                  setImageUploadModalOpen(false);
-                }}
-              />
-              <h3 className="user-avatar modal-heading modal-header-heading">
-                Upload Avatar
-              </h3>
-              <CloseButton
-                componentClass="user-avatar"
-                hideOnMobile={true}
-                onClickHandler={() => {
-                  setImageUploadModalOpen(false);
-                }}
-              />
-            </div>
-          </header>
+      <Modal
+        componentClass="user-avatar"
+        onModalClose={() => {
+          console.log("this is automatically closing");
+          setImageUploadModalOpen(false);
+        }}
+        headerClassName="user-settings-sidebar-header"
+        headingText="Upload Avatar"
+        modalContent={
           <div className={`user-avatar modal-content-container`}>
             {previewSource && (
               <img
@@ -115,10 +181,7 @@ const UserAvatar = props => {
               />
             )}
             <p className="user-avatar modal-paragraph">{imageUploadName}</p>
-            {/*<p className="user-avatar modal-paragraph">
-            Would you like to select this image as your avatar?
-          </p>
-          */}
+
             <div
               className="two-buttons-container"
               id="user-avatar-buttons-container"
@@ -126,7 +189,7 @@ const UserAvatar = props => {
               <button
                 id="user-avatar-image-cancel"
                 className="user-avatar modal-button"
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   setImageUploadModalOpen(false);
@@ -143,8 +206,8 @@ const UserAvatar = props => {
               </button>
             </div>
           </div>
-        </div>{" "}
-      </React.Fragment>
+        }
+      />
     );
   };
 
@@ -169,7 +232,7 @@ const UserAvatar = props => {
           name="profile-avatar"
           accept="image/*"
           value={fileInputState}
-          onChange={e => {
+          onChange={(e) => {
             // e.stopPropagation();
             console.log("hello");
             setImageUploadModalOpen(true);
@@ -186,14 +249,11 @@ const UserAvatar = props => {
     </div>
   );
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user.info,
-  error: state.error
+  error: state.error,
 });
 
-const userAvatar = connect(
-  mapStateToProps,
-  { editUserAvatar }
-)(UserAvatar);
+const userAvatar = connect(mapStateToProps, { editUserAvatar })(UserAvatar);
 
 export default userAvatar;

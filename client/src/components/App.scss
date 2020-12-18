@@ -65,6 +65,7 @@
   display: inline-block;
   border: none;
   width: 8rem;
+  min-height: 3rem;
   font-family: $textFont;
   font-size: 1.05rem;
 }
@@ -79,6 +80,14 @@
   width: fit-content;
 }
 
+.form-submit-loader-container {
+  position: relative;
+  top: 0.7rem;
+  width: 100%;
+  text-align: center;
+  // margin-top: 1rem;
+}
+
 @media screen and (min-width: 600px) {
   #register-form,
   #login-form,
@@ -87,7 +96,7 @@
   }
 }
 
-@media screen and (min-width: 750px) and (min-height: 700px) {
+@media screen and (min-width: 750px) and (min-height: 600px) {
   .page-container {
     padding-top: 2rem;
   }
@@ -106,7 +115,7 @@
   .form-content-container {
     position: relative;
     padding: 2rem;
-    padding-top: 0;
+    // padding-top: 0;
     width: 80%;
     margin: $center-margin;
     top: 2rem;
@@ -122,5 +131,11 @@
     // margin-top: 5rem;
     text-align: center;
     padding-bottom: 1.2rem;
+  }
+}
+
+@media screen and (min-width: 1200px) and (min-height: 600px) {
+  .form-content-container {
+    padding-top: 0;
   }
 }

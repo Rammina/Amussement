@@ -19,8 +19,9 @@ import BackButton from "../buttons/BackButton";
 import CloseButton from "../buttons/CloseButton";
 
 import { removeUserAvatar } from "../../flux/actions/settingsActions";
+import { clearErrors } from "../../flux/actions/errorActions";
 
-const UserInfo = props => {
+const UserInfo = (props) => {
   const [editAccountOpened, setEditAccountOpened] = useState(false);
   const [changePasswordOpened, setChangePasswordOpened] = useState(false);
   const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
@@ -76,38 +77,41 @@ const UserInfo = props => {
           }}
         />
       );
-    } /*else if (changePasswordOpened) {
+    } else if (changePasswordOpened) {
       console.log("Opening change password");
       return (
-        <Route path={`/users/:userId/settings/change_password`}>
-          <ChangeUserPassword />
-        </Route>
+        <ChangeUserPassword
+          hideSection={() => {
+            hideSection("ChangeUserPassword");
+          }}
+        />
       );
     }
-    */
     return null;
   };
 
-  const hideSection = sectionName => {
+  const hideSection = (sectionName) => {
     console.log("hiding section");
     console.log(props.error.msg);
     console.log(editAccountOpened);
-    if (!props.error.msg) {
-      if (sectionName === "EditAccount" || sectionName === "edit-account") {
-        console.log("hiding edit account section");
-        setEditAccountOpened(false);
-        console.log(editAccountOpened);
-      } /*else if (
-        sectionName === "ChangeUserPassword" ||
-        sectionName === "change-user-password"
-      ) {
-        setChangePasswordOpened(false);
+
+    if (sectionName === "EditAccount" || sectionName === "edit-account") {
+      console.log("hiding edit account section");
+      setEditAccountOpened(false);
+      console.log(editAccountOpened);
+    } else if (
+      sectionName === "ChangeUserPassword" ||
+      sectionName === "change-user-password"
+    ) {
+      setChangePasswordOpened(false);
+      /*
         hideSection={() => {
           hideSection("ChangeUserPassword");
         }}
-      }
-      */
+        */
     }
+    // clear errors when closing a modal
+    props.clearErrors();
   };
 
   // render
@@ -116,9 +120,7 @@ const UserInfo = props => {
       <div className="user-settings-content-container">
         {renderDesktopHeading()}
         {renderSection()}
-        <Route path={`/users/:userId/settings/change_password`} exact>
-          <ChangeUserPassword />
-        </Route>
+
         <div className="my-account-section-container">
           <div className="user-settings-content-header">
             <BackButton
@@ -169,20 +171,16 @@ const UserInfo = props => {
             >
               Edit Account
             </button>
-            <Link
-              className="profile-button-link"
-              to={`/users/${props.user.id}/settings/change_password`}
+
+            <button
+              className="profile-button"
+              id="profile-change-password-button"
+              onClick={() => {
+                setChangePasswordOpened(true);
+              }}
             >
-              <button
-                className="profile-button"
-                id="profile-change-password-button"
-                onClick={() => {
-                  // setChangePasswordOpened(true);
-                }}
-              >
-                Change Password
-              </button>
-            </Link>
+              Change Password
+            </button>
           </div>
         </div>
       </div>
@@ -191,16 +189,15 @@ const UserInfo = props => {
 };
 {
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
-  error: state.error
+  error: state.error,
 });
 
-const userInfo = connect(
-  mapStateToProps,
-  { removeUserAvatar }
-)(UserInfo);
+const userInfo = connect(mapStateToProps, { removeUserAvatar, clearErrors })(
+  UserInfo
+);
 
 export default userInfo;
 /*

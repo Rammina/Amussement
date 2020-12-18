@@ -88,7 +88,7 @@ exports.add_friend_with_username = async (req, res) => {
     if (!receiver)
       throw Error("Receiver of the friend request does not exist.");
     console.log("does line eighty 5 run");
-    const requestFriendCb = err => {
+    const requestFriendCb = (err) => {
       if (err) throw Error("Failed to send friend request.");
       console.log("do we get here?");
       res.status(200).json({ success: true });
@@ -108,7 +108,7 @@ exports.add_friend = async (req, res) => {
     const receiver = await User.findById(req.params.friendId).select("_id");
     if (!receiver)
       throw Error("Receiver of the friend request does not exist.");
-    const requestFriendCb = err => {
+    const requestFriendCb = (err) => {
       if (err) throw Error("Failed to send friend request.");
       res.status(200).json({ success: true });
     };
@@ -128,7 +128,7 @@ exports.remove_friend = async (req, res) => {
     const receiver = await User.findById(req.params.friendId).select("_id");
     if (!receiver)
       throw Error("The user you are about to unfriend does not exist.");
-    const removeFriendCb = err => {
+    const removeFriendCb = (err) => {
       if (err) throw Error("Failed to remove friend.");
       res.status(200).json({ success: true });
     };

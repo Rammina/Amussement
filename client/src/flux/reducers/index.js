@@ -4,6 +4,8 @@ import authReducer from "./authReducer.js";
 import errorReducer from "./errorReducer.js";
 import userReducer from "./userReducer.js";
 import friendsReducer from "./friendsReducer.js";
+import modalSubmitReducer from "./modalSubmitReducer.js";
+import loaderReducer from "./loaderReducer.js";
 // import authReducer from "./authReducer.js";
 
 export default combineReducers({
@@ -11,5 +13,7 @@ export default combineReducers({
   auth: authReducer,
   user: userReducer,
   friends: friendsReducer,
-  error: errorReducer
+  error: errorReducer,
+  modalSubmit: modalSubmitReducer,
+  loader: loaderReducer,
 });

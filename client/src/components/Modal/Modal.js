@@ -1,13 +1,29 @@
 import "./Modal.scss";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import ReactDOM from "react-dom";
 import BackButton from "../buttons/BackButton";
 import CloseButton from "../buttons/CloseButton";
 import ModalHeader from "./ModalHeader/ModalHeader";
 
-const Modal = props => {
-  const [modalOpen, setModalOpen] = useState(false);
+// import { ModalContext } from "../AppContext";
+
+const Modal = (props) => {
+  const [modalOpen, setModalOpen] = useState(true);
+
+  /*
+  const {
+    componentClass,
+    buttonId,
+    buttonLabel,
+    imageId,
+    headingText,
+    hideOnDesktop,
+    onModalClose,
+    noHeader,
+    modalContent,
+  } = useContext(ModalContext);
+*/
 
   useEffect(() => {}, []);
 
@@ -29,6 +45,7 @@ const Modal = props => {
     return (
       <ModalHeader
         componentClass={`${getClassName()}`}
+        headerClassName={props.headerClassName}
         onModalClose={() => {
           props.onModalClose();
         }}
@@ -37,6 +54,7 @@ const Modal = props => {
     );
   };
   const renderModalContent = () => {
+    console.log("trying to render modal content");
     if (!props.modalContent) return null;
     return props.modalContent;
   };
@@ -46,11 +64,10 @@ const Modal = props => {
       <div
         className={`backdrop ${getModalOpenClass()} ${getClassName()}`}
         onClick={() => {
-          setModalOpen(false);
+          props.onModalClose();
         }}
       ></div>
       <div className={`modal ${getModalOpenClass()} ${getClassName()}`}>
-        /*should make headers and headings be recyclable*/
         {renderModalHeader()}
         {renderModalContent()}
       </div>{" "}

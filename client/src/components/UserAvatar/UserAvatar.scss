@@ -92,13 +92,7 @@
   background-color: #232628;
 }
 */
-.user-settings-sidebar-header.user-avatar {
-  display: flex;
-  align-items: center;
 
-  position: relative;
-  background-color: #232628;
-}
 .user-avatar.modal-content-container {
   padding: 1rem;
   max-width: 40rem;
@@ -150,7 +144,7 @@
   }
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 750px) and (min-height: 450px) {
   #user-avatar-change-container,
   #user-avatar-upload-label,
   .user-avatar.profile-picture-image,

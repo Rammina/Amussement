@@ -43,6 +43,7 @@
 }
 
 .user-settings-sidebar-header {
+  // z-index: 100;
   position: fixed;
   top: 0;
   display: flex;
@@ -126,6 +127,14 @@
   // background-color: #111;
   background-color: $secondary-black;
 }
+
+// .user-settings-sidebar-header {
+//   display: flex;
+//   align-items: center;
+//
+//   position: relative;
+//   background-color: #232628;
+// }
 
 .user-settings-section-container {
 }
@@ -227,7 +236,7 @@
   }
   .user-settings-sidebar-header {
     position: relative;
-    background-color: #0000;
+    // background-color: #0000;
     margin: 0;
   }
   .user-settings-sidebar-item,

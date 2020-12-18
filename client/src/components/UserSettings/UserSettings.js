@@ -16,15 +16,16 @@ import CloseButton from "../buttons/CloseButton";
 
 import { logout } from "../../flux/actions/authActions";
 
+import * as constants from "../../utils/constants.js";
 // import { renderError, getErrorClass } from "../../helpers";
 
-const UserSettings = props => {
-  const DESKTOP_WIDTH = 1200;
+const UserSettings = (props) => {
+  const { DESKTOP_WIDTH } = constants;
+  const [isDesktopWidth, setIsDesktopWidth] = useState(false);
   const { id } = useParams();
   const [myAccountOpened, setMyAccountOpened] = useState(false);
   const [appearanceOpened, setAppearanceOpened] = useState(false);
   const [friendsOpened, setFriendsOpened] = useState(false);
-  const [isDesktopWidth, setIsDesktopWidth] = useState(false);
 
   const handleResize = () => {
     if (window.innerWidth >= DESKTOP_WIDTH) {
@@ -212,9 +213,6 @@ const UserSettings = props => {
   );
 };
 
-const userSettings = connect(
-  null,
-  { logout }
-)(UserSettings);
+const userSettings = connect(null, { logout })(UserSettings);
 
 export default userSettings;

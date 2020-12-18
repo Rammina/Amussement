@@ -1,6 +1,7 @@
 import serverRest from "../../apis/serverRest";
 import history from "../../history";
 import { returnErrors, clearErrors } from "./errorActions";
+import { formShowLoader } from "./loaderActions";
 import { reset } from "redux-form";
 import {
   USER_LOADED,
@@ -10,28 +11,28 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
 } from "./types";
 
 // Check token & load user
-export const loadUser = href => (dispatch, getState) => {
+export const loadUser = (href) => (dispatch, getState) => {
   // User loading
   dispatch({ type: USER_LOADING });
   console.log(tokenConfig(getState));
   serverRest
     .get("api/auth/user", tokenConfig(getState))
-    .then(res => {
+    .then((res) => {
       dispatch({
         type: USER_LOADED,
-        payload: res.data
+        payload: res.data,
       });
       const userId = getState().user.info._id || getState().user.info.id;
       // history.push(`/users/${userId}/home`);
     })
-    .catch(err => {
+    .catch((err) => {
       // dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
-        type: AUTH_ERROR
+        type: AUTH_ERROR,
       });
       // if it's register or home, do not redirect to login
       // note :\colon there are still missing routes that should be excluded
@@ -50,11 +51,11 @@ export const loadUser = href => (dispatch, getState) => {
 };
 
 // Register User
-export const registerUser = formValues => {
-  return async function(dispatch, getState) {
+export const registerUser = (formValues) => {
+  return async function (dispatch, getState) {
     serverRest
       .post("api/auth/register", formValues)
-      .then(res => {
+      .then((res) => {
         console.log(res);
         console.log(res.data);
         dispatch({ type: REGISTER_SUCCESS, payload: res.data });
@@ -63,7 +64,7 @@ export const registerUser = formValues => {
         history.push("/auth/login");
         dispatch(clearErrors());
       })
-      .catch(err => {
+      .catch((err) => {
         // this needs an error handler action creator and reducer
         console.log(err);
         dispatch(
@@ -75,15 +76,15 @@ export const registerUser = formValues => {
 };
 
 // Login User
-export const loginUser = formValues => dispatch => {
+export const loginUser = (formValues) => (dispatch) => {
   serverRest
     .post("/api/auth/login", formValues)
-    .then(res => {
+    .then((res) => {
       console.log(res.data);
       const userId = res.data.user.id;
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data
+        payload: res.data,
       });
       localStorage.setItem("token", res.data.token);
       dispatch(reset("loginForm"));
@@ -91,29 +92,32 @@ export const loginUser = formValues => dispatch => {
       history.push(`/users/${userId}/home`);
       dispatch(clearErrors());
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       console.log(err.response);
       dispatch(
         returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
       );
       dispatch({
-        type: LOGIN_FAIL
+        type: LOGIN_FAIL,
       });
+    })
+    .finally(() => {
+      dispatch(formShowLoader("loginForm", false));
     });
 };
 
 // Logout User
-export const logout = () => dispatch => {
+export const logout = () => (dispatch) => {
   history.push("/auth/login");
   dispatch(clearErrors());
   return {
-    type: LOGOUT_SUCCESS
+    type: LOGOUT_SUCCESS,
   };
 };
 
 // Setup config/headers and token
-export const tokenConfig = getState => {
+export const tokenConfig = (getState) => {
   console.log(localStorage.getItem("token"));
   // const token = getState().auth.token || localStorage.getItem("token");
   const token = getState().auth.token;

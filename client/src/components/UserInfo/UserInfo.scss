@@ -23,7 +23,8 @@
 
 .profile-container {
   display: flex;
-  justify-content: center;
+  // justify-content: center;
+  margin: 0 0.7rem;
   margin-top: 4rem;
   overflow: visible;
 }
@@ -46,8 +47,9 @@
 }
 
 #profile-information-container {
+  margin-left: 1rem;
   position: relative;
-  left: 0.5rem;
+  // left: 0.5rem;
 }
 
 .profile-information {
@@ -55,8 +57,13 @@
   width: fit-content;
   padding-right: 1rem;
   // margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   word-break: break-word;
+}
+
+#profile-email {
+  font-size: 1rem;
+  color: $textFontColorDim;
 }
 
 .profile-information.label {
@@ -65,6 +72,7 @@
 
 #profile-buttons-container {
   justify-content: center;
+  max-width: none;
   // margin-top: 1.5rem;
 }
 
@@ -73,7 +81,7 @@
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   height: 2.8rem;
-  width: 8rem;
+  width: 44%;
   border: none;
   border-radius: 3px;
   outline: none;
@@ -94,20 +102,35 @@
     padding: 1rem;
     // border: 1px solid white;
     background-color: #292b2f;
-    max-width: 40rem;
+    width: 75%;
+    max-width: 35rem;
     border-radius: 8px;
     margin: 0 auto;
   }
   .profile-container {
-    margin: 0;
+    margin: 0 1rem;
+    margin-left: 0.5rem;
   }
   #profile-information-container {
-    left: 1.5rem;
+    // left: 1.5rem;
     top: 0.3rem;
   }
   .profile-information {
     font-size: 1.25rem;
     margin-top: 0.15rem;
+  }
+}
+@media screen and (min-width: 600px) and (min-height: 350px) {
+  .profile-container {
+    // margin: 0 1rem;
+    margin-left: 0.8rem;
+  }
+}
+
+@media screen and (min-width: 700px) and (min-height: 400px) {
+  .profile-container {
+    justify-content: flex-start;
+    margin-left: 1rem;
   }
 }
 
@@ -117,9 +140,6 @@
     padding: 1.5rem;
   }
   .profile-container {
-    position: relative;
-    // left: 1rem;
-    right: 0.5rem;
   }
   #profile-information-container {
     // margin-left: 1.5rem;
@@ -137,6 +157,9 @@
     margin-top: 1rem;
     color: $textFontColorDim;
   }
+  #profile-email {
+    color: $textFontColor;
+  }
   #profile-change-password-button {
     // margin-left: 2.5rem;
   }
@@ -144,7 +167,7 @@
 
 @media screen and (min-width: 1200px) {
   .my-account-section-container {
-    display: flex;
+    // display: flex;
     margin: 0;
     top: 0;
   }
@@ -165,5 +188,7 @@
   }
 
   #profile-buttons-container {
+    width: 100%;
+    max-width: none;
   }
 }

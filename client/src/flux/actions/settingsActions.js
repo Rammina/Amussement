@@ -2,6 +2,7 @@ import serverRest from "../../apis/serverRest";
 import cloudinaryRest from "../../apis/cloudinaryRest";
 import history from "../../history";
 import { returnErrors, clearErrors } from "./errorActions";
+import { formShowLoader } from "./loaderActions";
 import {
   AUTH_ERROR,
   EDIT_USER_ACCOUNT_SUCCESS,
@@ -11,16 +12,16 @@ import {
   REMOVE_USER_AVATAR_SUCCESS,
   REMOVE_USER_AVATAR_FAIL,
   CHANGE_USER_PASSWORD_SUCCESS,
-  CHANGE_USER_PASSWORD_FAIL
+  CHANGE_USER_PASSWORD_FAIL,
 } from "./types";
 
 // edit account
-export const editUserAccount = formValues => {
-  return async function(dispatch, getState) {
+export const editUserAccount = (formValues) => {
+  return async function (dispatch, getState) {
     const userId = getState().user.info._id || getState().user.info.id;
     await serverRest
       .post(`/api/users/${userId}/settings/edit-account`, formValues)
-      .then(res => {
+      .then((res) => {
         console.log(res);
         console.log(res.data);
 
@@ -28,7 +29,7 @@ export const editUserAccount = formValues => {
         history.push(`/users/${userId}/settings`);
         dispatch(clearErrors());
       })
-      .catch(err => {
+      .catch((err) => {
         // this needs an error handler action creator and reducer
         console.log(err);
         dispatch(
@@ -39,24 +40,28 @@ export const editUserAccount = formValues => {
           )
         );
         dispatch({ type: EDIT_USER_ACCOUNT_FAIL });
+      })
+      .finally(() => {
+        dispatch(formShowLoader("editAccountForm", false));
       });
   };
 };
 
 // change password
-export const changeUserPassword = formValues => {
-  return async function(dispatch, getState) {
+export const changeUserPassword = (formValues) => {
+  return async function (dispatch, getState) {
     const userId = getState().user.info._id || getState().user.info.id;
     await serverRest
       .post(`/api/users/${userId}/settings/change-password`, formValues)
-      .then(res => {
+      .then((res) => {
         console.log(res);
         console.log(res.data);
         dispatch({ type: CHANGE_USER_PASSWORD_SUCCESS, payload: res.data });
         history.push(`/users/${userId}/settings`);
         dispatch(clearErrors());
+        return true;
       })
-      .catch(err => {
+      .catch((err) => {
         // this needs an error handler action creator and reducer
         console.log(err);
         dispatch(
@@ -67,12 +72,16 @@ export const changeUserPassword = formValues => {
           )
         );
         dispatch({ type: CHANGE_USER_PASSWORD_FAIL });
+        return false;
+      })
+      .finally(() => {
+        dispatch(formShowLoader("changeUserPasswordForm", false));
       });
   };
 };
 
 export const editUserAvatar = (base64EncodedImage, id) => {
-  return async function(dispatch, getState) {
+  return async function (dispatch, getState) {
     const userId = id || getState().user.info._id || getState().user.info.id;
     console.log("hello");
     try {
@@ -81,7 +90,7 @@ export const editUserAvatar = (base64EncodedImage, id) => {
           `/api/users/${userId}/settings/upload-avatar`,
           JSON.stringify({ data: base64EncodedImage })
         )
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           dispatch({ type: EDIT_USER_AVATAR_SUCCESS, payload: res.data });
         });
@@ -99,15 +108,15 @@ export const editUserAvatar = (base64EncodedImage, id) => {
   };
 };
 
-export const removeUserAvatar = id => {
-  return async function(dispatch, getState) {
+export const removeUserAvatar = (id) => {
+  return async function (dispatch, getState) {
     const userId = id || getState().user.info._id || getState().user.info.id;
     try {
       await cloudinaryRest
         .post(`/api/users/${userId}/settings/remove-avatar`, {
-          message: "remove avatar"
+          message: "remove avatar",
         })
-        .then(res => {
+        .then((res) => {
           console.log(res.data);
           dispatch({ type: REMOVE_USER_AVATAR_SUCCESS, payload: res.data });
         });
