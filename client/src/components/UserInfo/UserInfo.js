@@ -24,6 +24,8 @@ import { clearErrors } from "../../flux/actions/errorActions";
 const UserInfo = (props) => {
   const [editAccountOpened, setEditAccountOpened] = useState(false);
   const [changePasswordOpened, setChangePasswordOpened] = useState(false);
+  const [disableAccountOpened, setDisableAccountOpened] = useState(false);
+  const [deleteAccountOpened, setDeleteAccountOpened] = useState(false);
   const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
   const [imageUploadName, setImageUploadName] = useState(null);
   const [fileInputState, setFileInputState] = useState("");
@@ -86,6 +88,24 @@ const UserInfo = (props) => {
           }}
         />
       );
+    } else if (disableAccountOpened) {
+      console.log("opening disable account");
+      return (
+        <DisableAccount
+          hideSection={() => {
+            hideSection("DisableAccount");
+          }}
+        />
+      );
+    } else if (deleteAccountOpened) {
+      console.log("opening disable account");
+      return (
+        <DeleteAccount
+          hideSection={() => {
+            hideSection("DeleteAccount");
+          }}
+        />
+      );
     }
     return null;
   };
@@ -104,11 +124,16 @@ const UserInfo = (props) => {
       sectionName === "change-user-password"
     ) {
       setChangePasswordOpened(false);
-      /*
-        hideSection={() => {
-          hideSection("ChangeUserPassword");
-        }}
-        */
+    } else if (
+      sectionName === "DisableAccount" ||
+      sectionName === "disable-account"
+    ) {
+      setDisableAccountOpened(false);
+    } else if (
+      sectionName === "DeleteAccount" ||
+      sectionName === "delete-account"
+    ) {
+      setDeleteAccountOpened(false);
     }
     // clear errors when closing a modal
     props.clearErrors();
@@ -183,6 +208,29 @@ const UserInfo = (props) => {
             </button>
           </div>
         </div>
+        {/*
+        <div className="my-account-section-container">
+          <h2 className="section-header">Account Management</h2>
+          <ul className="account-management-items">
+            <button
+              className="account-management-button"
+              onClick={() => {
+                setDisableAccountOpened(true)
+              }}
+            >
+              <li className={`account-management-item`}>Disable Account</li>
+            </button>
+            <button
+              className="account-management-button"
+              onClick={() => {
+                setDeleteAccountOpened(true)
+              }}
+            >
+              <li className={`account-management-item`}>Delete Account</li>
+            </button>
+          </ul>
+        </div>
+      */}
       </div>
     )
   );
