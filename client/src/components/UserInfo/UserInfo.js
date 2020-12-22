@@ -14,6 +14,8 @@ import history from "../../history";
 
 import EditAccount from "../forms/EditAccount";
 import ChangeUserPassword from "../forms/ChangeUserPassword";
+import DisableAccount from "../forms/DisableAccount";
+import DeleteAccount from "../forms/DeleteAccount";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import BackButton from "../buttons/BackButton";
 import CloseButton from "../buttons/CloseButton";
@@ -146,7 +148,7 @@ const UserInfo = (props) => {
         {renderDesktopHeading()}
         {renderSection()}
 
-        <div className="my-account-section-container">
+        <div className="my-account-section-container profile-outer-container">
           <div className="user-settings-content-header">
             <BackButton
               componentClass="my-account"
@@ -208,14 +210,14 @@ const UserInfo = (props) => {
             </button>
           </div>
         </div>
-        {/*
-        <div className="my-account-section-container">
-          <h2 className="section-header">Account Management</h2>
+
+        <div className="my-account-section-container white-border-top mt-1-r">
+          <h2 className="section-heading my-account">Account Management</h2>
           <ul className="account-management-items">
             <button
               className="account-management-button"
               onClick={() => {
-                setDisableAccountOpened(true)
+                setDisableAccountOpened(true);
               }}
             >
               <li className={`account-management-item`}>Disable Account</li>
@@ -223,14 +225,18 @@ const UserInfo = (props) => {
             <button
               className="account-management-button"
               onClick={() => {
-                setDeleteAccountOpened(true)
+                setDeleteAccountOpened(true);
               }}
             >
-              <li className={`account-management-item`}>Delete Account</li>
+              <li
+                id="delete-account-button-item"
+                className={`account-management-item`}
+              >
+                Delete Account
+              </li>
             </button>
           </ul>
         </div>
-      */}
       </div>
     )
   );

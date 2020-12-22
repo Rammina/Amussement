@@ -118,7 +118,7 @@ const EditAccount = (props) => {
                       maxLength: "30",
                       autoComplete: "off",
                       id: "edit-account-username-field",
-                      // autoFocus: true
+                      autoFocus: true,
                     },
                     labelProps: {
                       class: "textfield-label",

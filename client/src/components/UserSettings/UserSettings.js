@@ -20,8 +20,9 @@ import * as constants from "../../utils/constants.js";
 // import { renderError, getErrorClass } from "../../helpers";
 
 const UserSettings = (props) => {
-  const { DESKTOP_WIDTH } = constants;
+  const { DESKTOP_WIDTH, DESKTOP_HEIGHT } = constants;
   const [isDesktopWidth, setIsDesktopWidth] = useState(false);
+  const [isDesktopHeight, setIsDesktopHeight] = useState(false);
   const { id } = useParams();
   const [myAccountOpened, setMyAccountOpened] = useState(false);
   const [appearanceOpened, setAppearanceOpened] = useState(false);
@@ -30,28 +31,46 @@ const UserSettings = (props) => {
   const handleResize = () => {
     if (window.innerWidth >= DESKTOP_WIDTH) {
       setIsDesktopWidth(true);
-      // if none of them are opened, default render my account
-      if (!(myAccountOpened && appearanceOpened && friendsOpened)) {
-        setMyAccountOpened(true);
-      }
+
       console.log("desktop with");
     } else {
       setIsDesktopWidth(false);
       console.log("not desktop with");
+    }
+
+    if (window.innerHeight >= DESKTOP_HEIGHT) {
+      setIsDesktopHeight(true);
+      console.log("desktop height");
+    } else {
+      setIsDesktopHeight(false);
+      console.log("no desktop height");
+    }
+    if (
+      window.innerHeight >= DESKTOP_HEIGHT &&
+      window.innerWidth >= DESKTOP_WIDTH
+    ) {
+      // if none of them are opened, default render my account
+      if (!(myAccountOpened && appearanceOpened && friendsOpened)) {
+        setMyAccountOpened(true);
+      }
     }
   };
   useEffect(() => {
     console.log(id);
     window.addEventListener("resize", handleResize);
     handleResize();
-    if (window.innerWidth >= DESKTOP_WIDTH) setMyAccountOpened(true);
+    if (
+      window.innerWidth >= DESKTOP_WIDTH &&
+      window.innerHeight >= DESKTOP_HEIGHT
+    )
+      setMyAccountOpened(true);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   const renderSection = () => {
-    if (!isDesktopWidth) {
+    if (!isDesktopWidth || !isDesktopHeight) {
       // if(isDesktopWidth) return null;
       if (myAccountOpened) {
         console.log("Opening my account");

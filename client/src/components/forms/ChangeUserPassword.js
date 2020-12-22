@@ -1,6 +1,7 @@
 // import "./EditAccount.scss";
 
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
 
 import serverRest from "../../apis/serverRest";
@@ -15,6 +16,7 @@ import { renderError, getErrorClass, validateEmail } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
 import Modal from "../Modal/Modal";
+import LoadingSpinner from "../loaders/LoadingSpinner";
 
 import history from "../../history";
 
@@ -100,7 +102,7 @@ const ChangeUserPassword = (props) => {
       : "Change Password";
   };
 
-  return (
+  return ReactDOM.createPortal(
     <Modal
       componentClass="change-user-password"
       onModalClose={() => {
@@ -126,7 +128,7 @@ const ChangeUserPassword = (props) => {
                     autoComplete: "off",
                     id: "change-user-password-password-field",
                     type: "password",
-                    // autoFocus: true
+                    autoFocus: true,
                   },
                   labelProps: {
                     class: "textfield-label",
@@ -195,7 +197,8 @@ const ChangeUserPassword = (props) => {
           </div>
         </form>
       }
-    />
+    />,
+    document.getElementById("modal")
   );
 };
 

@@ -121,40 +121,44 @@ const UserAvatar = (props) => {
             headerClassName="user-settings-sidebar-header"
             headingText="Upload Avatar"
             modalContent={
-              <div className={`user-avatar modal-content-container`}>
-                {previewSource && (
-                  <img
-                    id="user-avatar-preview-image"
-                    src={previewSource}
-                    alt="Chosen Image"
-                  />
-                )}
-                <p className="user-avatar modal-paragraph">{imageUploadName}</p>
+              <form encType="multipart/form-data" onSubmit={handleSubmitFile}>
+                <div className={`user-avatar modal-content-container`}>
+                  {previewSource && (
+                    <img
+                      id="user-avatar-preview-image"
+                      src={previewSource}
+                      alt="Chosen Image"
+                    />
+                  )}
+                  <p className="user-avatar modal-paragraph">
+                    {imageUploadName}
+                  </p>
 
-                <div
-                  className="two-buttons-container"
-                  id="user-avatar-buttons-container"
-                >
-                  <button
-                    id="user-avatar-image-cancel"
-                    className="user-avatar modal-button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setImageUploadModalOpen(false);
-                    }}
+                  <div
+                    className="two-buttons-container"
+                    id="user-avatar-buttons-container"
                   >
-                    Cancel
-                  </button>
-                  <button
-                    id="user-avatar-image-submit"
-                    className="user-avatar modal-button"
-                    type="submit"
-                  >
-                    Submit Image
-                  </button>
+                    <button
+                      id="user-avatar-image-cancel"
+                      className="user-avatar modal-button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setImageUploadModalOpen(false);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      id="user-avatar-image-submit"
+                      className="user-avatar modal-button"
+                      type="submit"
+                    >
+                      Submit Image
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </form>
             }
           />
         </React.Fragment>,
@@ -162,7 +166,7 @@ const UserAvatar = (props) => {
       );
     }
     // otherwise, render the desktop version
-    return (
+    return ReactDOM.createPortal(
       <Modal
         componentClass="user-avatar"
         onModalClose={() => {
@@ -172,42 +176,45 @@ const UserAvatar = (props) => {
         headerClassName="user-settings-sidebar-header"
         headingText="Upload Avatar"
         modalContent={
-          <div className={`user-avatar modal-content-container`}>
-            {previewSource && (
-              <img
-                id="user-avatar-preview-image"
-                src={previewSource}
-                alt="Chosen Image"
-              />
-            )}
-            <p className="user-avatar modal-paragraph">{imageUploadName}</p>
+          <form encType="multipart/form-data" onSubmit={handleSubmitFile}>
+            <div className={`user-avatar modal-content-container`}>
+              {previewSource && (
+                <img
+                  id="user-avatar-preview-image"
+                  src={previewSource}
+                  alt="Chosen Image"
+                />
+              )}
+              <p className="user-avatar modal-paragraph">{imageUploadName}</p>
 
-            <div
-              className="two-buttons-container"
-              id="user-avatar-buttons-container"
-            >
-              <button
-                id="user-avatar-image-cancel"
-                className="user-avatar modal-button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setImageUploadModalOpen(false);
-                }}
+              <div
+                className="two-buttons-container"
+                id="user-avatar-buttons-container"
               >
-                Cancel
-              </button>
-              <button
-                id="user-avatar-image-submit"
-                className="user-avatar modal-button"
-                type="submit"
-              >
-                Submit Image
-              </button>
+                <button
+                  id="user-avatar-image-cancel"
+                  className="user-avatar modal-button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setImageUploadModalOpen(false);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  id="user-avatar-image-submit"
+                  className="user-avatar modal-button"
+                  type="submit"
+                >
+                  Submit Image
+                </button>
+              </div>
             </div>
-          </div>
+          </form>
         }
-      />
+      />,
+      document.getElementById("modal")
     );
   };
 

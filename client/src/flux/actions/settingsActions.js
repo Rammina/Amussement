@@ -1,3 +1,4 @@
+import axios from "axios";
 import serverRest from "../../apis/serverRest";
 import cloudinaryRest from "../../apis/cloudinaryRest";
 import history from "../../history";
@@ -13,6 +14,10 @@ import {
   REMOVE_USER_AVATAR_FAIL,
   CHANGE_USER_PASSWORD_SUCCESS,
   CHANGE_USER_PASSWORD_FAIL,
+  DISABLE_USER_ACCOUNT_SUCCESS,
+  DISABLE_USER_ACCOUNT_FAIL,
+  DELETE_USER_ACCOUNT_SUCCESS,
+  DELETE_USER_ACCOUNT_FAIL,
 } from "./types";
 
 // edit account
@@ -20,7 +25,7 @@ export const editUserAccount = (formValues) => {
   return async function (dispatch, getState) {
     const userId = getState().user.info._id || getState().user.info.id;
     await serverRest
-      .post(`/api/users/${userId}/settings/edit-account`, formValues)
+      .patch(`/api/users/${userId}/settings/edit-account`, formValues)
       .then((res) => {
         console.log(res);
         console.log(res.data);
@@ -52,7 +57,7 @@ export const changeUserPassword = (formValues) => {
   return async function (dispatch, getState) {
     const userId = getState().user.info._id || getState().user.info.id;
     await serverRest
-      .post(`/api/users/${userId}/settings/change-password`, formValues)
+      .patch(`/api/users/${userId}/settings/change-password`, formValues)
       .then((res) => {
         console.log(res);
         console.log(res.data);
@@ -86,7 +91,7 @@ export const editUserAvatar = (base64EncodedImage, id) => {
     console.log("hello");
     try {
       await cloudinaryRest
-        .post(
+        .patch(
           `/api/users/${userId}/settings/upload-avatar`,
           JSON.stringify({ data: base64EncodedImage })
         )
@@ -113,7 +118,7 @@ export const removeUserAvatar = (id) => {
     const userId = id || getState().user.info._id || getState().user.info.id;
     try {
       await cloudinaryRest
-        .post(`/api/users/${userId}/settings/remove-avatar`, {
+        .patch(`/api/users/${userId}/settings/remove-avatar`, {
           message: "remove avatar",
         })
         .then((res) => {
@@ -133,6 +138,96 @@ export const removeUserAvatar = (id) => {
     }
   };
 };
+
+// disable account should take in the user's password'
+export const disableUserAccount = (formValues) => {
+  return async function (dispatch, getState) {
+    const userId = getState().user.info._id || getState().user.info.id;
+
+    /*
+      await serverRest
+        .post(`/api/users/${userId}/settings/change-password`, formValues)
+      */
+    // note: figure out if disable account is a post or delete Rest API method
+    await serverRest
+      .patch(`/api/users/${userId}/settings/disable-account`, {
+        data: formValues,
+      })
+      .then((res) => {
+        console.log(res.data);
+        // const userId = res.data.user.id;
+        dispatch({
+          type: DISABLE_USER_ACCOUNT_SUCCESS,
+          payload: res.data,
+        });
+
+        history.push(`/auth/login`);
+        dispatch(clearErrors());
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        dispatch(
+          returnErrors(
+            err.response.data,
+            err.response.status,
+            "DISABLE_USER_ACCOUNT_FAIL"
+          )
+        );
+        dispatch({
+          type: DISABLE_USER_ACCOUNT_FAIL,
+        });
+      })
+      .finally(() => {
+        dispatch(formShowLoader("disableAccountForm", false));
+      });
+  };
+};
+
+// disable account should take in the user's password'
+export const deleteUserAccount = (formValues) => {
+  return async function (dispatch, getState) {
+    const userId = getState().user.info._id || getState().user.info.id;
+
+    await axios
+      .delete(
+        `http://localhost:5000/api/users/${userId}/settings/delete-account`,
+        { data: formValues }
+      )
+      /*
+    await serverRest
+      .delete(`/api/users/${userId}/settings/delete-account`, formValues)
+      */
+      .then((res) => {
+        console.log(res.data);
+        // const userId = res.data.user.id;
+        dispatch({
+          type: DELETE_USER_ACCOUNT_SUCCESS,
+          payload: res.data,
+        });
+        history.push(`/auth/login`);
+        dispatch(clearErrors());
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(err.response);
+        dispatch(
+          returnErrors(
+            err.response.data,
+            err.response.status,
+            "DELETE_USER_ACCOUNT_FAIL"
+          )
+        );
+        dispatch({
+          type: DELETE_USER_ACCOUNT_FAIL,
+        });
+      })
+      .finally(() => {
+        dispatch(formShowLoader("deleteAccountForm", false));
+      });
+  };
+};
+
 /*
 // Setup config/headers and token
 export const tokenConfig = getState => {

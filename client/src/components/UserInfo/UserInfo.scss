@@ -20,6 +20,10 @@
 //   position: relative;
 //   right: 0.8rem;
 // }
+.my-account-section-container {
+  position: relative;
+  padding: 1rem;
+}
 
 .profile-container {
   display: flex;
@@ -95,17 +99,67 @@
   background-color: $light-mint-hover;
 }
 
+.account-management-items {
+  margin-top: 0.7rem;
+}
+
+.account-management-button {
+  width: 100%;
+  height: 3rem;
+  margin-top: 0.2rem;
+  background-color: #0000;
+  font-family: "Roboto", sans-serif;
+}
+.account-management-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 3rem;
+  vertical-align: middle;
+  text-align: left;
+  padding-left: 0.5rem;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  color: $textFontColor;
+}
+.account-management-item:hover {
+  color: $textFontColorHover;
+  background-color: #ffffff0d;
+  // color: rgb(255, 255, 255);
+}
+
+#delete-account-button-item {
+  color: $dangerTextColor;
+}
+
+#delete-account-button-item:hover {
+  color: $dangerTextColorHover;
+  background-color: #f772;
+}
+
 @media screen and (min-width: 450px) and (min-height: 350px) {
   .my-account-section-container {
     position: relative;
     top: 4rem;
-    padding: 1rem;
+
     // border: 1px solid white;
-    background-color: #292b2f;
-    width: 75%;
+    width: 85%;
     max-width: 35rem;
-    border-radius: 8px;
     margin: 0 auto;
+    padding-left: 0;
+  }
+  .my-account-section-container.mt-1-r {
+    margin-top: 1rem;
+  }
+  .my-account.section-heading {
+    position: relative;
+    // right: 1rem;
+  }
+
+  .profile-outer-container {
+    background-color: #292b2f;
+    border-radius: 8px;
+    padding: 1rem;
   }
   .profile-container {
     margin: 0 1rem;
@@ -138,6 +192,11 @@
   .my-account-section-container {
     // display: flex;
     padding: 1.5rem;
+    width: 80%;
+    max-width: 38rem;
+  }
+  .my-account-section-container.mt-1-r {
+    margin-top: 1rem;
   }
   .profile-container {
   }
@@ -165,11 +224,16 @@
   }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1200px) and (min-height: 600px) {
   .my-account-section-container {
     // display: flex;
     margin: 0;
     top: 0;
+    width: 85%;
+    max-width: 40rem;
+  }
+  .my-account-section-container.mt-1-r {
+    margin-top: 1rem;
   }
   .my-account-section-heading-container.desktop {
     display: flex;

@@ -13,11 +13,11 @@ import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
 
 import history from "../../history";
 
-const onInput = e => {
+const onInput = (e) => {
   e.preventDefault();
   e.stopPropagation();
 };
-const handleEnterKeyOnField = e => {
+const handleEnterKeyOnField = (e) => {
   // This prevents submission bugging or refreshing upon pressing enter
   // in an input field inside a form
   if (e.keyCode === 13) {
@@ -43,10 +43,10 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
         {...inputProps}
         {...input}
         className={`${inputProps.className} ${errorClass}`}
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           handleEnterKeyOnField(e);
         }}
-        onInput={e => {
+        onInput={(e) => {
           onInput(e);
         }}
         autoFocus={inputProps.autoFocus || false}
@@ -56,7 +56,7 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
   );
 };
 
-const RegisterForm = props => {
+const RegisterForm = (props) => {
   // const [name, setName] = useState("");
   // const [room, setRoom] = useState("");
   const renderErrorNotifications = () => {
@@ -68,7 +68,7 @@ const RegisterForm = props => {
     return null;
   };
   // submit handler
-  const onSubmit = async formValues => {
+  const onSubmit = async (formValues) => {
     console.log(formValues);
     console.log(registerUser);
     await props.registerUser(formValues);
@@ -92,15 +92,15 @@ const RegisterForm = props => {
                 className: "textfield",
                 maxLength: "64",
                 autoComplete: "off",
-                id: "register-form-email-field"
+                id: "register-form-email-field",
 
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Email",
-                id: "register-form-email-label"
-              }
+                id: "register-form-email-label",
+              },
             }}
           />
         </div>
@@ -115,14 +115,14 @@ const RegisterForm = props => {
                 className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",
-                id: "register-form-username-field"
+                id: "register-form-username-field",
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Username",
-                id: "register-form-username-label"
-              }
+                id: "register-form-username-label",
+              },
             }}
           />
         </div>
@@ -138,14 +138,14 @@ const RegisterForm = props => {
                 maxLength: "30",
                 autoComplete: "off",
                 type: "password",
-                id: "register-form-password-field"
+                id: "register-form-password-field",
                 // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
                 text: "Password",
-                id: "register-form-password-label"
-              }
+                id: "register-form-password-label",
+              },
             }}
           />
         </div>
@@ -160,13 +160,13 @@ const RegisterForm = props => {
                 id: "register-form-date_of_birth-field",
                 type: "date",
 
-                required: true
+                required: true,
               },
               labelProps: {
                 text: "Date of Birth",
                 class: "textfield-label",
-                id: "register-form-date_of_birth-label"
-              }
+                id: "register-form-date_of_birth-label",
+              },
             }}
           />
         </div>
@@ -179,12 +179,15 @@ const RegisterForm = props => {
             Sign Up
           </button>
         </div>
+        <Link id="login-text-link" className="small-text-link" to={`/auth/login`}>
+          Click here to login instead.
+        </Link>
       </div>
     </form>
   );
 };
 
-const validate = formValues => {
+const validate = (formValues) => {
   console.log(formValues);
   const errors = {};
   if (!formValues.email) {
@@ -207,17 +210,14 @@ const validate = formValues => {
   return errors;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
+  error: state.error,
 });
 
-const registerForm = connect(
-  mapStateToProps,
-  { registerUser }
-)(RegisterForm);
+const registerForm = connect(mapStateToProps, { registerUser })(RegisterForm);
 
 export default reduxForm({
   form: "registerForm",
-  validate
+  validate,
 })(registerForm);

@@ -119,13 +119,13 @@
 
 #user-avatar-remove {
   font-size: 1rem;
-  color: $warningTextColor;
+  color: $dangerTextColor;
   background-color: #0000;
   // width: fit-content;
 }
 
 #user-avatar-remove:hover {
-  color: $warningTextColorHover;
+  color: $dangerTextColorHover;
 }
 
 // $profilePictureSize450w: 6rem;

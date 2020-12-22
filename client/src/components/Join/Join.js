@@ -14,7 +14,7 @@ export default function SignIn() {
       <h1 className="heading-title">Amussement</h1>
       <form
         id="join-form"
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
         }}
@@ -32,7 +32,7 @@ export default function SignIn() {
               className="textfield"
               type="text"
               maxLength="20"
-              onChange={event => setGuestName(event.target.value)}
+              onChange={(event) => setGuestName(event.target.value)}
             />
           </div>
           <div className="textfield-container">
@@ -40,18 +40,34 @@ export default function SignIn() {
               placeholder="Room"
               className="textfield"
               type="text"
-              onChange={event => setRoom(event.target.value)}
+              onChange={(event) => setRoom(event.target.value)}
             />
           </div>
           <div className="form-button-container join">
             <Link
               id="join-submit-link"
-              onClick={e => (!guestName || !room ? e.preventDefault() : null)}
+              onClick={(e) => (!guestName || !room ? e.preventDefault() : null)}
               to={`/chat?guestName=${guestName}&room=${room}&userType=guest`}
             >
               <button className={"form-button submit mt-20 join"} type="submit">
-                Sign In
+                Guest Join
               </button>
+            </Link>
+          </div>
+          <div className="join two-buttons-container">
+            <Link
+              id="login-text-link"
+              className="small-text-link"
+              to={`/auth/login`}
+            >
+              Login
+            </Link>
+            <Link
+              id="register-text-link"
+              className="small-text-link"
+              to={`/auth/register`}
+            >
+              Register for an account
             </Link>
           </div>
         </div>

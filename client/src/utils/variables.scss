@@ -3,9 +3,11 @@ $headingFont: "Patrick Hand", cursive;
 $textFont: "Roboto", sans-serif;
 // color variables
 $textFontColor: #dbdde1;
+$textFontColorSlightDim: #c3c4c6;
 $textFontColorDim: #b3b4b6;
 $textFontColorDimmer: #909193;
 $textFontColorHover: #feffff;
+$textFontWhite: #fff;
 $messageTextColor: #232628;
 $senderTextColor: #232628;
 $senderTextColorNight: #fff;
@@ -19,8 +21,14 @@ $discord-footer-black: #07050f;
 $grayblue: #567;
 $light-mint: #aaffd5;
 $light-mint-hover: #c8ffe4;
-$warningTextColor: #f88;
-$warningTextColorHover: #fbb;
+$warningTextColor: #fa8;
+$warningTextColorHover: #fdb;
+$warningBackgroundColor: #fdb;
+$warningBackgroundColorHover: #fed;
+$dangerTextColor: #f88;
+$dangerTextColorHover: #fbb;
+$dangerBackgroundColor: #f04747;
+$dangerBackgroundColorHover: #d02727;
 // size variables
 $center-margin: 0 auto;
 $door-img-dimension: 1.3rem;

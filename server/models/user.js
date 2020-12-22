@@ -9,7 +9,8 @@ const userSchema = new Schema({
   // friends: [{status: String, }]
   date_of_birth: { type: Date, required: true },
   image_url: { type: String, minlength: 0, maxlength: 500 },
-  registered_on: { type: Date, default: Date.now() }
+  registered_on: { type: Date, default: Date.now() },
+  disabled: { type: Boolean, default: false },
 });
 
 userSchema.plugin(mongooseFriends({ pathName: "friends" }));

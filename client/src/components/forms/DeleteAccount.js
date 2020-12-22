@@ -1,4 +1,4 @@
-import "./DisableAccount.scss";
+import "./DeleteAccount.scss";
 
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
@@ -8,7 +8,7 @@ import serverRest from "../../apis/serverRest";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
-import { disableUserAccount } from "../../flux/actions/settingsActions";
+import { deleteUserAccount } from "../../flux/actions/settingsActions";
 import { modalStatusReset } from "../../flux/actions/modalActions";
 import { formShowLoader } from "../../flux/actions/loaderActions";
 import { renderError, getErrorClass } from "../../helpers";
@@ -57,15 +57,22 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
         }}
         autoFocus={inputProps.autoFocus || false}
       />
-      {renderError(meta, "disable-account")}
+      {renderError(meta, "delete-account")}
     </React.Fragment>
   );
 };
 
-const DisableAccount = (props) => {
+const DeleteAccount = (props) => {
+  /*
   useEffect(() => {
-    props.formShowLoader("disableAccountForm", false);
-  }, []);
+    console.log("this runs upon render");
+    if (props.deleteAccountSubmitSuccess) {
+      props.hideSection();
+      // reset success status through MODAL_STATUS_RESET
+      props.modalStatusReset();
+    }
+  }, [props.deleteAccountSubmitSuccess]);
+  */
 
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
@@ -83,38 +90,37 @@ const DisableAccount = (props) => {
   // submit handler
   const onSubmit = async (formValues) => {
     console.log(formValues);
-    props.formShowLoader("disableAccountForm", true);
-    await props.disableUserAccount(formValues);
+    props.formShowLoader("deleteAccountForm", true);
+    await props.deleteUserAccount(formValues);
   };
   return ReactDOM.createPortal(
     <React.Fragment>
       <Modal
-        componentClass="disable-account"
+        componentClass="delete-account"
         onModalClose={() => {
-          console.log("closing disable-account modal");
+          console.log("closing delete-account modal");
           props.hideSection();
         }}
         headerClassName="user-settings-sidebar-header"
-        headingText="Disable Account"
+        headingText="Delete Account"
         modalContent={
-          <form id="disable-account-form" autoComplete="off">
-            <div className="disable-account form-content-container modal-form-content">
-              <p className="modal-paragraph disable-account">
-                Would you like to disable your account?
+          <form id="delete-account-form" autoComplete="off">
+            <div className="delete-account form-content-container modal-form-content">
+              <p className="modal-paragraph delete-account">
+                Are you sure you want to delete your account?
               </p>
               <p
-                id="disable-account-description-paragraph"
-                className="modal-paragraph small-text disable-account"
+                id="delete-account-description-paragraph"
+                className="modal-paragraph small-text delete-account"
               >
-                (Others will be unable to interact with your account until it is
-                activated again on the next login.)
+                (Warning: Deleted accounts cannot be restored.)
               </p>
 
               {renderErrorNotifications()}
 
               <div
                 className="textfield-container"
-                id="disable-account-password-container"
+                id="delete-account-password-container"
               >
                 <Field
                   name="password"
@@ -127,25 +133,26 @@ const DisableAccount = (props) => {
                       maxLength: "30",
                       autoComplete: "off",
                       type: "password",
-                      id: "disable-account-password-field",
+                      id: "delete-account-password-field",
+
                       autoFocus: true,
                     },
                     labelProps: {
                       class: "textfield-label",
                       text: "Password",
-                      id: "disable-account-password-label",
+                      id: "delete-account-password-label",
                     },
                   }}
                 />
               </div>
               <div className="form-button-container">
                 <button
-                  id="disable-account-submit"
-                  className={"form-button submit mt-20 warning"}
+                  id="delete-account-submit"
+                  className={"form-button submit mt-20 danger"}
                   type="submit"
                   onClick={props.handleSubmit(onSubmit)}
                 >
-                  {renderLoader()} Disable Account
+                  {renderLoader()} Delete Account
                 </button>
               </div>
             </div>
@@ -170,19 +177,19 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
   // I doubt this matters because you should just link to sign up page after disabling account
-  // disableAccountSubmitSuccess: state.modalSubmit.disableAccountSubmitSuccess,
-  showLoader: state.loader.showDisableAccountFormLoader,
+  // deleteAccountSubmitSuccess: state.modalSubmit.deleteAccountSubmitSuccess,
+  showLoader: state.loader.showDeleteAccountFormLoader,
 });
 
-const disableAccount = connect(mapStateToProps, {
-  disableUserAccount,
+const deleteAccount = connect(mapStateToProps, {
+  deleteUserAccount,
   modalStatusReset,
   formShowLoader,
-})(DisableAccount);
+})(DeleteAccount);
 
 export default reduxForm({
-  form: "disableAccount",
+  form: "deleteAccount",
   keepDirtyOnReinitialize: true,
   enableReinitialize: true,
   validate,
-})(disableAccount);
+})(deleteAccount);

@@ -146,6 +146,13 @@ const LoginForm = (props) => {
             {renderLoader()} Sign In
           </button>
         </div>
+        <Link
+          id="register-text-link"
+          className="small-text-link"
+          to={`/auth/register`}
+        >
+          Don't have an account? Register here.
+        </Link>
       </div>
     </form>
   );

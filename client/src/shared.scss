@@ -345,6 +345,10 @@ textarea {
 .modal-paragraph {
   font-size: 1.1rem;
 }
+.modal-paragraph.small-text {
+  font-size: 0.95rem;
+  color: $textFontColorSlightDim;
+}
 
 .modal-form-content {
   padding-top: 4rem;
@@ -409,7 +413,7 @@ textarea {
   min-height: 2.8rem;
   max-height: 3rem;
   background-color: white;
-  border: solid 1.5px $main-mint;
+  border: solid 1.5px $grayblue;
   border-radius: 5px;
   font-family: $textFont;
   font-size: 1.1rem;

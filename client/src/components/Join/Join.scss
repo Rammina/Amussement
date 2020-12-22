@@ -53,6 +53,11 @@
   margin-top: 0;
 }
 
+.join.two-buttons-container {
+  max-width: none;
+  width: 100%;
+}
+
 // @media screen and (min-height: 450px) {
 //   .join.form-content-container {
 //     min-height: calc(87vh + 13rem);

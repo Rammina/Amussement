@@ -154,14 +154,18 @@
     brightness(93%) contrast(108%);
 }
 #user-settings-desktop-logout {
-  color: $warningTextColor;
+  color: $dangerTextColor;
 }
 #user-settings-desktop-logout:hover {
-  color: $warningTextColorHover;
+  color: $dangerTextColorHover;
   background-color: #f772;
 }
 
-@media screen and (min-width: 1200px) {
+.close-button-container.user-settings {
+  display: none;
+}
+
+@media screen and (min-width: 1200px) and (min-height: 600px) {
   .user-settings-outer-flex-container {
     display: flex;
     width: 100%;

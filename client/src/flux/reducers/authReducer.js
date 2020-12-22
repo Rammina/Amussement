@@ -15,6 +15,10 @@ import {
   REMOVE_USER_AVATAR_FAIL,
   CHANGE_USER_PASSWORD_SUCCESS,
   CHANGE_USER_PASSWORD_FAIL,
+  DISABLE_USER_ACCOUNT_SUCCESS,
+  DISABLE_USER_ACCOUNT_FAIL,
+  DELETE_USER_ACCOUNT_SUCCESS,
+  DELETE_USER_ACCOUNT_FAIL,
 } from "../actions/types";
 
 const initialState = {
@@ -68,6 +72,8 @@ export default (state = initialState, action) => {
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
+    case DISABLE_USER_ACCOUNT_SUCCESS:
+    case DELETE_USER_ACCOUNT_SUCCESS:
       localStorage.removeItem("token");
       return {
         ...state,

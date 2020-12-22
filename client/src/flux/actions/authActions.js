@@ -12,6 +12,10 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  DISABLE_USER_ACCOUNT_SUCCESS,
+  DISABLE_USER_ACCOUNT_FAIL,
+  DELETE_USER_ACCOUNT_SUCCESS,
+  DELETE_USER_ACCOUNT_FAIL,
 } from "./types";
 
 // Check token & load user
@@ -77,6 +81,7 @@ export const registerUser = (formValues) => {
 
 // Login User
 export const loginUser = (formValues) => (dispatch) => {
+  console.log("logging in the user");
   serverRest
     .post("/api/auth/login", formValues)
     .then((res) => {

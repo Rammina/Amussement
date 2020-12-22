@@ -23,16 +23,16 @@ const storage = multer.diskStorage({
       null,
       file.fieldname + "-" + Date.now() + path.extname(file.originalname)
     );
-  }
+  },
 });
 
 // init upload
 const upload = multer({
   storage: storage,
   limits: { fileSize: 1000000 },
-  fileFilter: function(req, file, cb) {
+  fileFilter: function (req, file, cb) {
     checkFileType(/jpeg|jpg|png|gif/, file, cb);
-  }
+  },
 }).single("shoesImage");
 
 // check file type
@@ -104,14 +104,14 @@ exports.user_register = async (req, res) => {
         email: emailLowerCase,
         username,
         password: hash,
-        date_of_birth
+        date_of_birth,
       });
       const savedUser = await newUser.save();
       if (!savedUser) throw Error("Failed to register the user.");
       // synchronous signing of JWT token
 
       const token = jwt.sign({ id: savedUser._id }, SECRETKEY, {
-        expiresIn: 28800
+        expiresIn: 28800,
       });
 
       console.log(token);
@@ -123,8 +123,8 @@ exports.user_register = async (req, res) => {
           username: savedUser.username,
           friends: [],
           email: savedUser.email.toLowerCase(),
-          image_url: ""
-        }
+          image_url: "",
+        },
       });
     } catch (e) {
       console.log(e);
@@ -160,8 +160,9 @@ exports.user_login = async (req, res) => {
         username: user.username,
         friends: user.friends || [],
         email: user.email,
-        image_url: user.image_url || ""
-      }
+        image_url: user.image_url || "",
+        disabled: false,
+      },
     });
   } catch (e) {
     console.log(e);
@@ -174,7 +175,7 @@ exports.user_upload_avatar = async (req, res) => {
     const fileStr = req.body.data;
     const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
       upload_preset: "amussement_setups",
-      public_id: `${req.params.id}-user-avatar`
+      public_id: `${req.params.id}-user-avatar`,
     });
 
     const avatarUrl = uploadedResponse.secure_url;
@@ -182,23 +183,23 @@ exports.user_upload_avatar = async (req, res) => {
       req.params.id,
       {
         $set: {
-          image_url: avatarUrl
-        }
+          image_url: avatarUrl,
+        },
       },
       {
-        new: true
+        new: true,
       }
     );
     if (!updatedUser) throw Error("Failed to update the user.");
-
+    console.log("succeeded in uploading the avatar");
     res.status(200).json({
       user: {
         id: updatedUser._id,
         username: updatedUser.username,
         friends: updatedUser.friends || [],
         email: updatedUser.email.toLowerCase(),
-        image_url: uploadedResponse.secure_url
-      }
+        image_url: uploadedResponse.secure_url,
+      },
     });
   } catch (e) {
     console.error(e);
@@ -237,11 +238,11 @@ exports.user_edit_account = async (req, res) => {
         {
           $set: {
             email: emailLowerCase,
-            username
-          }
+            username,
+          },
         },
         {
-          new: true
+          new: true,
         }
       );
       if (!updatedUser) throw Error("Failed to update the user.");
@@ -253,8 +254,8 @@ exports.user_edit_account = async (req, res) => {
           username: updatedUser.username,
           friends: updatedUser.friends || [],
           email: updatedUser.email.toLowerCase(),
-          image_url: updatedUser.image_url || ""
-        }
+          image_url: updatedUser.image_url || "",
+        },
       });
     } catch (e) {
       console.log(e);
@@ -312,11 +313,11 @@ exports.user_change_password = async (req, res) => {
         req.params.id,
         {
           $set: {
-            password: hash
-          }
+            password: hash,
+          },
         },
         {
-          new: true
+          new: true,
         }
       );
       if (!updatedUser) throw Error("Failed to update the user.");
@@ -327,8 +328,8 @@ exports.user_change_password = async (req, res) => {
           username: updatedUser.username,
           friends: updatedUser.friends || [],
           email: updatedUser.email.toLowerCase(),
-          image_url: updatedUser.image_url || ""
-        }
+          image_url: updatedUser.image_url || "",
+        },
       });
     } catch (e) {
       console.log(e);
@@ -343,11 +344,11 @@ exports.user_remove_avatar = async (req, res) => {
       req.params.id,
       {
         $set: {
-          image_url: ""
-        }
+          image_url: "",
+        },
       },
       {
-        new: true
+        new: true,
       }
     );
     if (!updatedUser) throw Error("Failed to update the user.");
@@ -358,8 +359,8 @@ exports.user_remove_avatar = async (req, res) => {
         username: updatedUser.username,
         friends: updatedUser.friends || [],
         email: updatedUser.email.toLowerCase(),
-        image_url: updatedUser.image_url || ""
-      }
+        image_url: updatedUser.image_url || "",
+      },
     });
   } catch (e) {
     console.log(e);
@@ -367,15 +368,101 @@ exports.user_remove_avatar = async (req, res) => {
   }
 };
 
-// handle user deletion
-exports.user_delete = async (req, res) => {
-  User.findById(req.params.id)
-    .then(user => {
-      user.remove().then(() => {
-        res.json({ success: true });
+exports.user_disable_account = async (req, res) => {
+  const { password } = req.body;
+  console.log(req.body);
+  let errors = [];
+
+  // check if any of the following fields are empty
+  if (!password) {
+    errors.push({ msg: "Please fill in the password field." });
+  }
+  // minimum length for the password
+  if (password.length < 6) {
+    errors.push({ msg: "Password must be at least 6 characters" });
+  }
+  // if there are errors, re-\ render the page but with the values that were filled in
+  // note: figure out how to send errors to thefrontend
+  if (errors.length > 0) {
+    res.status(400).json({ errors });
+  } else {
+    try {
+      const user = await User.findById(req.params.id);
+      if (!user) throw Error("User does not exist.");
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) throw Error("Invalid credentials.");
+
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: {
+            disabled: true,
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      if (!updatedUser) throw Error("Failed to update the user.");
+      console.log(updatedUser);
+
+      res.status(200).json({
+        user: {
+          id: updatedUser._id,
+          username: updatedUser.username,
+          friends: updatedUser.friends || [],
+          email: updatedUser.email.toLowerCase(),
+          image_url: updatedUser.image_url || "",
+          disabled: true,
+        },
       });
-    })
-    .catch(error => {
-      res.status(404).json({ success: false });
-    });
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ msg: e.message });
+    }
+  }
+};
+
+exports.user_delete_account = async (req, res) => {
+  const { password } = req.body;
+  console.log(req.body);
+  console.log("430 delete account;");
+  let errors = [];
+
+  // check if any of the following fields are empty
+  if (!password) {
+    errors.push({ msg: "Please fill in the password field." });
+  }
+  console.log(password);
+  // minimum length for the password
+  if (password.length < 6) {
+    errors.push({ msg: "Password must be at least 6 characters" });
+  }
+  // if there are errors, re-\ render the page but with the values that were filled in
+  // note: figure out how to send errors to thefrontend
+  if (errors.length > 0) {
+    res.status(400).json({ errors });
+  } else {
+    try {
+      const user = await User.findById(req.params.id);
+      if (!user) throw Error("User does not exist.");
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) throw Error("Invalid credentials.");
+
+      User.findById(req.params.id)
+        .then((user) => {
+          user.remove().then(() => {
+            res.status(200).json({ success: true });
+          });
+        })
+        .catch((e) => {
+          res.status(400).json({ msg: e.message });
+        });
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ msg: e.message });
+    }
+  }
 };

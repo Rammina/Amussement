@@ -14,12 +14,16 @@ import {
   REMOVE_USER_AVATAR_SUCCESS,
   REMOVE_USER_AVATAR_FAIL,
   CHANGE_USER_PASSWORD_SUCCESS,
-  CHANGE_USER_PASSWORD_FAIL
+  CHANGE_USER_PASSWORD_FAIL,
+  DISABLE_USER_ACCOUNT_SUCCESS,
+  DISABLE_USER_ACCOUNT_FAIL,
+  DELETE_USER_ACCOUNT_SUCCESS,
+  DELETE_USER_ACCOUNT_FAIL,
 } from "../actions/types";
 
 const initialState = {
   isLoading: false,
-  info: null
+  info: null,
 };
 
 let sanitizedUserPayload = null;
@@ -31,14 +35,14 @@ export default (state = initialState, action) => {
     case USER_LOADING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case USER_LOADED:
       return {
         ...state,
 
         isLoading: false,
-        info: action.payload
+        info: action.payload,
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
@@ -46,33 +50,35 @@ export default (state = initialState, action) => {
     case CHANGE_USER_PASSWORD_SUCCESS:
       sanitizedUserPayload = {
         info: { ...action.payload.user },
-        isLoading: false
+        isLoading: false,
       };
       console.log(sanitizedUserPayload);
 
       return {
         ...state,
-        ...sanitizedUserPayload
+        ...sanitizedUserPayload,
       };
     case EDIT_USER_AVATAR_SUCCESS:
       return {
         ...state,
-        info: action.payload.user
+        info: action.payload.user,
       };
     case REMOVE_USER_AVATAR_SUCCESS:
       return {
         ...state,
-        info: action.payload.user
+        info: action.payload.user,
       };
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
+    case DISABLE_USER_ACCOUNT_SUCCESS:
+    case DELETE_USER_ACCOUNT_SUCCESS:
       localStorage.removeItem("token");
       return {
         ...state,
         info: null,
-        isLoading: false
+        isLoading: false,
       };
     case EDIT_USER_ACCOUNT_FAIL:
     case CHANGE_USER_PASSWORD_FAIL:
