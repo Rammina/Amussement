@@ -2,9 +2,6 @@
 
 #user-footer-container {
   position: fixed;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
   z-index: 80;
   bottom: 0;
   left: 0;
@@ -13,6 +10,15 @@
   height: 3rem;
   min-width: 100vw;
 }
+
+#user-footer-content-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
 .user-footer-link {
   display: flex;
   justify-content: center;
@@ -27,6 +33,13 @@
 .user-footer-link:hover {
   background-color: #ffffff08;
   color: $textFontColorHover;
+}
+
+.footer-button-image {
+  width: 1.5rem;
+  height: 1.5rem;
+  filter: invert(96%) sepia(5%) saturate(133%) hue-rotate(181deg)
+    brightness(93%) contrast(92%);
 }
 
 @media screen and (min-width: 1200px) {

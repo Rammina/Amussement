@@ -1,3 +1,7 @@
+import ChatBubbleImg from "../../icons/chat.png";
+import FriendsImg from "../../icons/friends.png";
+import SettingsImg from "../../icons/settings.png";
+
 import "./Footer.scss";
 
 import React, { useState, useEffect } from "react";
@@ -16,17 +20,31 @@ const Footer = props => {
     }
     return (
       <footer className="" id="user-footer-container">
+      <div className="" id="user-footer-content-container">
         <Link className="user-footer-link" to={`/users/${userId}/home`}>
-          Chat
+        <img
+          className={`footer-button-image`}
+          src={ChatBubbleImg}
+          alt="Message Bubble"
+        />
         </Link>
         <Link className="user-footer-link" to={`/users/${userId}/friends`}>
-          Friends
+        <img
+          className={`footer-button-image`}
+          src={FriendsImg}
+          alt="Friends Icon"
+        />
         </Link>
         <Link className="user-footer-link" to={`/users/${userId}/settings`}>
-          Settings
+        <img
+          className={`footer-button-image`}
+          src={SettingsImg}
+          alt="Gear Icon"
+        />
         </Link>
-      </footer>
-    );
+      </div>
+  </footer>
+);
   };
 
   return <React.Fragment>{renderFooter()}</React.Fragment>;
