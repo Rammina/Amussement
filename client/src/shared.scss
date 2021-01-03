@@ -473,6 +473,7 @@ textarea {
     width: fit-content;
     height: auto;
     min-height: 0;
+    max-height: 95vh;
     // max-height: 40rem;
     top: 50%;
     transform: translateY(-50%);

@@ -114,7 +114,7 @@
   border-radius: 4px;
   // text-align: center;
   margin: 0 auto;
-  // margin-top: 1rem;
+  margin-top: 3rem;
 }
 
 #user-avatar-remove {
@@ -162,7 +162,7 @@
   #user-avatar-preview-image {
     height: $previewImageSize400w400h;
     width: $previewImageSize400w400h;
-    margin-top: 1rem;
+    // margin-top: 1rem;
   }
   #user-avatar-buttons-container {
     margin-top: 2rem;
@@ -173,6 +173,7 @@
   #user-avatar-preview-image {
     height: $previewImageSize500w450h;
     width: $previewImageSize500w450h;
+    margin-top: 4rem;
   }
 }
 

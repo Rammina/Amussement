@@ -15,6 +15,7 @@ import { renderError, getErrorClass } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
 import Modal from "../Modal/Modal";
+import CancelButton from "../buttons/CancelButton";
 import LoadingSpinner from "../loaders/LoadingSpinner";
 
 import history from "../../history";
@@ -145,7 +146,10 @@ const DeleteAccount = (props) => {
                   }}
                 />
               </div>
-              <div className="form-button-container">
+              <div className="form-button-container two-buttons-container mt-2-rem">
+              <CancelButton hideOnMobile={true} onClickHandler={() => {
+          props.hideSection();
+        }}/>
                 <button
                   id="delete-account-submit"
                   className={"form-button submit mt-20 danger"}

@@ -60,12 +60,13 @@
   background: $light-mint;
   padding: 0.5rem;
   margin: $center-margin;
-  margin-top: 2rem;
+  margin-top: 0.25rem;
   border-radius: 5px;
   display: inline-block;
   border: none;
   width: 85%;
   max-width: 22rem;
+  min-width: 11rem;
   min-height: 3rem;
   font-family: $textFont;
   font-size: 1.05rem;
@@ -191,5 +192,20 @@
 
   .form-content-container {
     padding-top: 0;
+  }
+  .form-button-container.two-buttons-container {
+    margin-top: 1rem;
+    max-width: 20rem;
+  }
+  .form-button.submit {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    width: fit-content;
+    min-width: 6rem;
+    max-width: 22rem;
+    margin: 0 1rem;
+  }
+  .form-button-container.two-buttons-container.mt-2-rem {
+    margin-top: 2rem;
   }
 }

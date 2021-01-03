@@ -16,6 +16,7 @@ import { renderError, getErrorClass, validateEmail } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
 import Modal from "../Modal/Modal";
+import CancelButton from "../buttons/CancelButton";
 import LoadingSpinner from "../loaders/LoadingSpinner";
 
 import history from "../../history";
@@ -175,7 +176,12 @@ const EditAccount = (props) => {
                   }}
                 />
               </div>
-              <div className="form-button-container">
+              <div className="form-button-container two-buttons-container" >
+
+             <CancelButton hideOnMobile={true} onClickHandler={() => {
+          console.log("closing edit-account modal");
+          props.hideSection();
+        }}/>
                 <button
                   className={"form-button submit mt-20"}
                   type="submit"

@@ -140,7 +140,7 @@ const UserAvatar = (props) => {
                   >
                     <button
                       id="user-avatar-image-cancel"
-                      className="user-avatar modal-button"
+                      className="user-avatar modal-button cancel-button hide-on-mobile"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -151,7 +151,7 @@ const UserAvatar = (props) => {
                     </button>
                     <button
                       id="user-avatar-image-submit"
-                      className="user-avatar modal-button"
+                      className="user-avatar modal-button form-button submit"
                       type="submit"
                     >
                       Submit Image
@@ -193,7 +193,7 @@ const UserAvatar = (props) => {
               >
                 <button
                   id="user-avatar-image-cancel"
-                  className="user-avatar modal-button"
+                  className="user-avatar modal-button cancel-button"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -204,7 +204,7 @@ const UserAvatar = (props) => {
                 </button>
                 <button
                   id="user-avatar-image-submit"
-                  className="user-avatar modal-button"
+                  className="user-avatar modal-button form-button submit"
                   type="submit"
                 >
                   Submit Image

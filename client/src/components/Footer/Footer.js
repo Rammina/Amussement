@@ -21,21 +21,21 @@ const Footer = props => {
     return (
       <footer className="" id="user-footer-container">
       <div className="" id="user-footer-content-container">
-        <Link className="user-footer-link" to={`/users/${userId}/home`}>
+        <Link className="user-footer-link" to={`/users/${userId}/home`} title="Chat">
         <img
           className={`footer-button-image`}
           src={ChatBubbleImg}
           alt="Message Bubble"
         />
         </Link>
-        <Link className="user-footer-link" to={`/users/${userId}/friends`}>
+        <Link className="user-footer-link" to={`/users/${userId}/friends`} title="Friends">
         <img
           className={`footer-button-image`}
           src={FriendsImg}
           alt="Friends Icon"
         />
         </Link>
-        <Link className="user-footer-link" to={`/users/${userId}/settings`}>
+        <Link className="user-footer-link" to={`/users/${userId}/settings`} title="Settings">
         <img
           className={`footer-button-image`}
           src={SettingsImg}
