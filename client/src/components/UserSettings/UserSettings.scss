@@ -8,7 +8,7 @@
   height: auto;
   background-color: $main-black;
   color: $textFontColor;
-  // padding-bottom: 3rem;
+  // padding-bottom: 5rem;
   overflow: hidden;
 }
 
@@ -18,7 +18,7 @@
   height: auto;
   // min-height: 100%;
   min-height: 100vh;
-  padding-bottom: 3rem;
+  padding-bottom: 5rem;
 }
 
 .user-settings-sidebar-outer-container {
@@ -107,7 +107,6 @@
   width: 100%;
   height: 100%;
   padding: 0.5rem 0;
-
   background-color: $main-black;
   overflow-x: hidden;
 }
@@ -165,6 +164,10 @@
   display: none;
 }
 
+.user-settings-sidebar-outer-container.fake {
+  display: none;
+}
+
 @media screen and (min-width: 1200px) and (min-height: 600px) {
   .user-settings-outer-flex-container {
     display: flex;
@@ -174,7 +177,18 @@
     min-height: 100%;
     padding-bottom: 0rem;
   }
-
+  .user-settings-sidebar-outer-container {
+    z-index: 20;
+    position: fixed;
+    min-height: 100vh;
+  }
+  .user-settings-sidebar-outer-container.fake {
+    z-index: 0;
+    display: block;
+    position: relative;
+    visibility: hidden;
+    width: 45vw;
+  }
   .close-button-container.user-settings {
     display: flex;
     position: relative;
@@ -228,12 +242,13 @@
     padding-top: 0rem;
     padding: 0.5rem;
     padding-right: 1rem;
-    width: 31%;
+    width: 31vw;
     max-width: 36.8125rem;
     // height: 100%;
     min-width: 13rem;
     min-height: 100vh;
     // text-align: right;
+    overflow: hidden;
   }
   .user-settings-sidebar-middle-container {
     max-width: 14rem;
@@ -257,8 +272,10 @@
     padding: 2rem;
     padding-left: 2.6rem;
     padding-bottom: 0;
+    // margin-left: 24%;
     // min-height: 100vh;
     max-width: 60rem;
+    // overflow-y: scroll;
   }
   .user-settings-content-header {
     // I think this should be replaced with a heading only
@@ -278,5 +295,17 @@
 @media screen and (min-width: 1200px) and (max-width: 1399px) {
   .user-settings-sidebar-outer-container {
     max-width: 16.5rem;
+  }
+}
+
+@media screen and (min-width: 1600px) and (min-height: 600px) {
+  .user-settings-sidebar-outer-container.fake {
+    width: 43vw;
+  }
+}
+
+@media screen and (min-width: 1650px) and (min-height: 600px) {
+  .user-settings-sidebar-outer-container.fake {
+    width: 33vw;
   }
 }

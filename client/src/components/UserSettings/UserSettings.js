@@ -94,6 +94,7 @@ const UserSettings = (props) => {
         return (
           <UserInfo
             isDesktopWidth={true}
+            isDesktopHeight={true}
             userId={id}
             closeMyAccount={() => {
               setMyAccountOpened(false);
@@ -212,6 +213,10 @@ const UserSettings = (props) => {
             </div>
           </div>
         </div>
+        <div className="user-settings-sidebar-outer-container fake">
+          
+        </div>
+        
         {renderSection()}
 
         {/*  <button

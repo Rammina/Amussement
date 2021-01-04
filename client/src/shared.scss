@@ -18,6 +18,7 @@ html {
   min-width: 100% !important;
   margin: 0;
   min-height: 100vh;
+  height: 100%;
   padding: 0;
   scroll-behavior: smooth;
 }
@@ -117,6 +118,23 @@ button:focus {
   /* 0px 0px 2px 3px #000000, 0 0 3px 4px #fff; */
   /* box-shadow: 0px 0px 0.5px 1px #ffffff, 0px 0px 1px 2px #969696, */
   /* 0px 0px 2px 3px #000000, 0 0 3px 4px #fff; */
+}
+
+button.transparent-bg {
+  background-color: #0000;
+  border: 2px solid white;
+  color: $textFontWhite;
+}
+
+button.transparent-bg.danger {
+  color: $dangerTextColor;
+  border: 2px solid $dangerTextColor;
+}
+
+button.transparent-bg.danger:hover {
+  background-color: #0000;
+  color: $dangerTextColorHover;
+  border: 2px solid $dangerTextColorHover;
 }
 
 input:focus,

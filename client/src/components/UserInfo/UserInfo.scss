@@ -137,6 +137,10 @@
   background-color: #f772;
 }
 
+#account-management-section-container {
+  padding-bottom: 4rem;
+}
+
 @media screen and (min-width: 450px) and (min-height: 350px) {
   .my-account-section-container {
     position: relative;
@@ -246,6 +250,9 @@
     padding-bottom: 1.5rem;
     text-transform: uppercase;
   }
+  #account-management-section-container {
+    padding-bottom: 6rem;
+  }
   .profile-container {
   }
   .profile-information-container {
@@ -254,5 +261,26 @@
   #profile-buttons-container {
     width: 100%;
     max-width: none;
+  }
+  .account-management.two-buttons-container {
+    justify-content: flex-start;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .account-management-button {
+    width: fit-content;
+    height: 3rem;
+    background-color: $dangerBackgroundColor;
+    color: $textFontWhite;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  .account-management-button:hover {
+    background-color: $dangerBackgroundColorHover;
+  }
+  #delete-account-button {
+    margin-left: 1rem;
   }
 }
