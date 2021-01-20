@@ -12,18 +12,18 @@ import { addFriendWithUsername } from "../../flux/actions/friendsActions";
 import {
   renderError,
   getErrorClass,
-  arrayHasObjectWithPropAndValue
+  arrayHasObjectWithPropAndValue,
 } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
 
 import history from "../../history";
 
-const onInput = e => {
+const onInput = (e) => {
   e.preventDefault();
   e.stopPropagation();
 };
-const handleEnterKeyOnField = e => {
+const handleEnterKeyOnField = (e) => {
   // This prevents submission bugging or refreshing upon pressing enter
   // in an input field inside a form
   if (e.keyCode === 13) {
@@ -49,10 +49,10 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
         {...inputProps}
         {...input}
         className={`${inputProps.className} ${errorClass}`}
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           handleEnterKeyOnField(e);
         }}
-        onInput={e => {
+        onInput={(e) => {
           onInput(e);
         }}
         autoFocus={inputProps.autoFocus || false}
@@ -62,7 +62,7 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
   );
 };
 
-const AddFriend = props => {
+const AddFriend = (props) => {
   // const [name, setName] = useState("");
   // const [room, setRoom] = useState("");
   console.log(props.friends);
@@ -75,7 +75,7 @@ const AddFriend = props => {
     return null;
   };
   // submit handler
-  const onSubmit = async formValues => {
+  const onSubmit = async (formValues) => {
     console.log(formValues);
     // run an action
     await props.addFriendWithUsername(formValues);
@@ -102,14 +102,14 @@ const AddFriend = props => {
                     maxLength: "30",
                     autoComplete: "off",
                     id: "add-friend-username-field",
-                    type: "text"
+                    type: "text",
                     // autoFocus: true
                   },
                   labelProps: {
                     class: "textfield-label",
                     text: "Friend Username",
-                    id: "add-friend-username-label"
-                  }
+                    id: "add-friend-username-label",
+                  },
                 }}
               />
             </div>
@@ -131,7 +131,7 @@ const AddFriend = props => {
   );
 };
 
-const validate = formValues => {
+const validate = (formValues) => {
   console.log(formValues);
 
   const errors = {};
@@ -155,21 +155,18 @@ const validate = formValues => {
   return errors;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   friends: state.friends,
-  error: state.error
+  error: state.error,
 });
 
-const addFriendComponent = connect(
-  mapStateToProps,
-  {
-    addFriendWithUsername
-  }
-)(AddFriend);
+const addFriendComponent = connect(mapStateToProps, {
+  addFriendWithUsername,
+})(AddFriend);
 
 export default reduxForm({
   form: "addFriend",
   keepDirtyOnReinitialize: true,
   enableReinitialize: true,
-  validate
+  validate,
 })(addFriendComponent);

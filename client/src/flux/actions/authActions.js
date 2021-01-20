@@ -75,6 +75,9 @@ export const registerUser = (formValues) => {
           returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
         );
         dispatch({ type: REGISTER_FAIL });
+      })
+      .finally(() => {
+        dispatch(formShowLoader("registerForm", false));
       });
   };
 };

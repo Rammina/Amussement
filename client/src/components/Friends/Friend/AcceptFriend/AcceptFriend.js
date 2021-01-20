@@ -5,32 +5,29 @@ import React, { useState } from "react";
 
 import { connect } from "react-redux";
 
-import { removeFriend } from "../../flux/actions/friendsActions";
+import { removeFriend } from "../../../../flux/actions/friendsActions";
 
 import "./RemoveFriend.scss";
 
-const RemoveFriend = props => {
+const RemoveFriend = (props) => {
   return (
     <button
-      onClick={e => {
+      onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
         // remove this friend
         props.removeFriend(props.friend._id);
       }}
     >
-      Remove Friend
+      {props.text || "Remove Friend"}
     </button>
   );
 };
 
-const mapStateToProps = state => ({
-  user: state.user.info
+const mapStateToProps = (state) => ({
+  user: state.user.info,
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    removeFriend
-  }
-)(RemoveFriend);
+export default connect(mapStateToProps, {
+  removeFriend,
+})(RemoveFriend);

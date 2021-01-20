@@ -109,6 +109,8 @@ export const editUserAvatar = (base64EncodedImage, id) => {
         )
       );
       dispatch({ type: EDIT_USER_AVATAR_FAIL });
+    } finally {
+      dispatch(formShowLoader("uploadAvatarForm", false));
     }
   };
 };

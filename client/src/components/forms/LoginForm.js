@@ -68,9 +68,7 @@ const LoginForm = (props) => {
     return null;
   };
 
-  const renderLoader = () => {
-    return <LoadingSpinner showLoader={props.showLoader} />;
-  };
+  const renderLoader = () => <LoadingSpinner showLoader={props.showLoader} />;
 
   // submit handler
   const onSubmit = async (formValues) => {

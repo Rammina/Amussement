@@ -7,9 +7,11 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
 import { registerUser } from "../../flux/actions/authActions";
+import { formShowLoader } from "../../flux/actions/loaderActions";
 import { renderError, getErrorClass, validateEmail } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
+import LoadingSpinner from "../loaders/LoadingSpinner";
 
 import history from "../../history";
 
@@ -67,10 +69,14 @@ const RegisterForm = (props) => {
     }
     return null;
   };
+
+  const renderLoader = () => <LoadingSpinner showLoader={props.showLoader} />;
+
   // submit handler
   const onSubmit = async (formValues) => {
     console.log(formValues);
     console.log(registerUser);
+    props.formShowLoader("registerForm", true);
     await props.registerUser(formValues);
   };
 
@@ -93,8 +99,7 @@ const RegisterForm = (props) => {
                 maxLength: "64",
                 autoComplete: "off",
                 id: "register-form-email-field",
-
-                // autoFocus: true
+                autoFocus: true,
               },
               labelProps: {
                 class: "textfield-label",
@@ -176,10 +181,14 @@ const RegisterForm = (props) => {
             type="submit"
             onClick={props.handleSubmit(onSubmit)}
           >
-            Sign Up
+            {renderLoader()} Sign Up
           </button>
         </div>
-        <Link id="login-text-link" className="small-text-link" to={`/auth/login`}>
+        <Link
+          id="login-text-link"
+          className="small-text-link"
+          to={`/auth/login`}
+        >
           Click here to login instead.
         </Link>
       </div>
@@ -213,9 +222,12 @@ const validate = (formValues) => {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
+  showLoader: state.loader.showRegisterFormLoader,
 });
 
-const registerForm = connect(mapStateToProps, { registerUser })(RegisterForm);
+const registerForm = connect(mapStateToProps, { registerUser, formShowLoader })(
+  RegisterForm
+);
 
 export default reduxForm({
   form: "registerForm",

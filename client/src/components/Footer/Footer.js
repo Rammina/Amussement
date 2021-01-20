@@ -15,6 +15,13 @@ const Footer = (props) => {
 
   useEffect(() => {}, []);
 
+  const getHomeButtonClass = () =>
+    pathname.includes("/home") ? "selected" : "";
+  const getFriendsButtonClass = () =>
+    pathname.includes("/friends") ? "selected" : "";
+  const getSettingsButtonClass = () =>
+    pathname.includes("/settings") ? "selected" : "";
+
   const renderFooter = () => {
     // do not render on higher width breakpoint
     if (window.innerWidth >= 1000) {
@@ -24,9 +31,9 @@ const Footer = (props) => {
       <footer className="" id="user-footer-container">
         <div className="" id="user-footer-content-container">
           <Link
-            className="user-footer-link"
+            className={`user-footer-link ${getHomeButtonClass()}`}
             to={`/users/${userId}/home`}
-            title="Chat"
+            title="Home"
           >
             <img
               className={`footer-button-image`}
@@ -35,7 +42,7 @@ const Footer = (props) => {
             />
           </Link>
           <Link
-            className="user-footer-link"
+            className={`user-footer-link ${getFriendsButtonClass()}`}
             to={`/users/${userId}/friends`}
             title="Friends"
           >
@@ -46,7 +53,7 @@ const Footer = (props) => {
             />
           </Link>
           <Link
-            className="user-footer-link"
+            className={`user-footer-link ${getSettingsButtonClass()}`}
             to={`/users/${userId}/settings`}
             title="Settings"
           >

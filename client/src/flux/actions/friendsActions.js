@@ -6,7 +6,7 @@ import {
   compareValues,
   comparePriorityValues,
   compareKeysInProp,
-  objectToArray
+  objectToArray,
   // cryptography functions
   // encrypt,
   // decrypt,
@@ -20,16 +20,16 @@ import {
   ADD_FRIEND_SUCCESS,
   ADD_FRIEND_FAIL,
   REMOVE_FRIEND_SUCCESS,
-  REMOVE_FRIEND_FAIL
+  REMOVE_FRIEND_FAIL,
 } from "./types";
 
-export const getAllFriends = id => (dispatch, getState) => {
+export const getAllFriends = (id) => (dispatch, getState) => {
   console.log("getting all friends");
   const userId = id || getState().user.info._id || getState().user.info.id;
 
   serverRest
     .get(`/api/users/${userId}/friends/`)
-    .then(res => {
+    .then((res) => {
       let friends = res.data;
       let sortedData = null;
       console.log(friends);
@@ -44,67 +44,93 @@ export const getAllFriends = id => (dispatch, getState) => {
       }
       dispatch({
         type: GET_ALL_FRIENDS_SUCCESS,
-        payload: sortedData || friends
+        payload: sortedData || friends,
       });
       dispatch(clearErrors());
 
       // history.push(`/users/${userId}/home`);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       console.log(err.response);
       // dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
-        type: GET_ALL_FRIENDS_FAIL
+        type: GET_ALL_FRIENDS_FAIL,
       });
     });
 };
 // there should be addfriend using ID and username
-export const addFriendWithUsername = formValues => (dispatch, getState) => {
+export const addFriendWithUsername = (formValues) => (dispatch, getState) => {
   console.log("adding a friend ");
   const userId = getState().user.info._id || getState().user.info.id;
   const friendName = formValues.username;
 
   serverRest
     .post(`/api/users/${userId}/friends/add`, formValues)
-    .then(res => {
+    .then((res) => {
       dispatch({
-        type: ADD_FRIEND_SUCCESS
+        type: ADD_FRIEND_SUCCESS,
       });
       dispatch(getAllFriends(userId));
       history.push(`/users/${userId}/friends`);
       dispatch(clearErrors());
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       console.log(err.response);
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
-        type: ADD_FRIEND_FAIL
+        type: ADD_FRIEND_FAIL,
       });
     });
 };
 
-export const removeFriend = friendId => (dispatch, getState) => {
+export const addFriendWithId = (formValues) => (dispatch, getState) => {
+  console.log("adding a friend using friendId");
+  const userId = getState().user.info._id || getState().user.info.id;
+  // note: try simplifying this to just id instead of using formvalues
+  const friendId = formValues.id;
+
+  serverRest
+    .post(`/api/users/${userId}/friends/add`, friendId)
+    .then((res) => {
+      dispatch({
+        type: ADD_FRIEND_SUCCESS,
+      });
+      dispatch(getAllFriends(userId));
+      // history.push(`/users/${userId}/friends`);
+      dispatch(clearErrors());
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(err.response);
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: ADD_FRIEND_FAIL,
+      });
+    });
+};
+
+export const removeFriend = (friendId) => (dispatch, getState) => {
   console.log("adding a friend ");
   const userId = getState().user.info._id || getState().user.info.id;
 
   serverRest
     .post(`/api/users/${userId}/friends/${friendId}/remove`)
-    .then(res => {
+    .then((res) => {
       dispatch({
-        type: REMOVE_FRIEND_SUCCESS
+        type: REMOVE_FRIEND_SUCCESS,
       });
       dispatch(getAllFriends(userId));
       history.push(`/users/${userId}/friends`);
       dispatch(clearErrors());
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       console.log(err.response);
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
-        type: REMOVE_FRIEND_FAIL
+        type: REMOVE_FRIEND_FAIL,
       });
     });
 };

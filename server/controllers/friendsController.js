@@ -79,9 +79,7 @@ exports.add_friend_with_username = async (req, res) => {
         res.status(400).json({ msg: e.message });
       }
     };
-
     await User.getFriends(sender, {}, getFriendsCb);
-
     // if (isFriend) throw Error("User has already been added/invited.");
 
     const receiver = await User.findOne({ username: username }).select("_id");
@@ -100,9 +98,15 @@ exports.add_friend_with_username = async (req, res) => {
   }
 };
 
-exports.add_friend = async (req, res) => {
+exports.add_friend_with_id = async (req, res) => {
   console.log("sending a friend request");
   try {
+    console.log(req.body);
+    const friendId = req.body;
+    if (!friendId) {
+      throw Error("Please provide friend ID.");
+    }
+
     const sender = await User.findById(req.params.id).select("_id");
     if (!sender) throw Error("Sender of the friend request does not exist.");
     const receiver = await User.findById(req.params.friendId).select("_id");

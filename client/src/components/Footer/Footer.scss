@@ -32,7 +32,11 @@
 
 .user-footer-link:hover {
   background-color: #ffffff08;
-  color: $textFontColorHover;
+}
+
+.user-footer-link.selected,
+.user-footer-link.selected:hover {
+  background-color: #ffffff15;
 }
 
 .footer-button-image {

@@ -14,12 +14,14 @@ import Modal from "../Modal/Modal";
 import serverRest from "../../apis/serverRest";
 import cloudinaryRest from "../../apis/cloudinaryRest";
 
+import { formShowLoader } from "../../flux/actions/loaderActions";
 import { editUserAvatar } from "../../flux/actions/settingsActions";
 import * as constants from "../../utils/constants.js";
 
 // import { ModalContext } from "../AppContext";
 
 import ProfilePicture from "../ProfilePicture/ProfilePicture";
+import LoadingSpinner from "../loaders/LoadingSpinner";
 
 const UserAvatar = (props) => {
   const { DESKTOP_WIDTH, DESKTOP_HEIGHT } = constants;
@@ -97,11 +99,15 @@ const UserAvatar = (props) => {
 
   const handleSubmitFile = (e) => {
     e.preventDefault();
+
     if (!previewSource) {
       return;
     }
+    props.formShowLoader("uploadAvatarForm", true);
     uploadImage(previewSource);
   };
+
+  const renderLoader = () => <LoadingSpinner showLoader={props.showLoader} />;
 
   const renderImageUploadModal = () => {
     console.log(imageUploadName);
@@ -154,7 +160,7 @@ const UserAvatar = (props) => {
                       className="user-avatar modal-button form-button submit"
                       type="submit"
                     >
-                      Submit Image
+                      {renderLoader()} Submit Image
                     </button>
                   </div>
                 </div>
@@ -207,7 +213,7 @@ const UserAvatar = (props) => {
                   className="user-avatar modal-button form-button submit"
                   type="submit"
                 >
-                  Submit Image
+                  {renderLoader()} Submit Image
                 </button>
               </div>
             </div>
@@ -259,8 +265,11 @@ const UserAvatar = (props) => {
 const mapStateToProps = (state) => ({
   user: state.user.info,
   error: state.error,
+  showLoader: state.loader.showUploadAvatarFormLoader,
 });
 
-const userAvatar = connect(mapStateToProps, { editUserAvatar })(UserAvatar);
+const userAvatar = connect(mapStateToProps, { editUserAvatar, formShowLoader })(
+  UserAvatar
+);
 
 export default userAvatar;

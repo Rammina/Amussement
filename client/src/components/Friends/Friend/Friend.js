@@ -8,10 +8,10 @@ import { connect } from "react-redux";
 
 import serverRest from "../../../apis/serverRest";
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
-import RemoveFriend from "../../RemoveFriend/RemoveFriend";
+import RemoveFriend from "./RemoveFriend/RemoveFriend";
 // import { renderError, getErrorClass } from "../../helpers";
 
-const Friend = props => {
+const Friend = (props) => {
   const [friendInfoModalOpen, setFriendInfoModalOpen] = useState(false);
   useEffect(() => {
     console.log(props.friend);
@@ -49,6 +49,53 @@ const Friend = props => {
     return <div className="friend-item-div status added"></div>;
   };
 
+  const renderFriendActionButtons = () => {
+    console.log(status);
+    const renderButtons = () => {
+      if (status === "requested") {
+        return (
+          <>
+            <RemoveFriend friend={friend} text="Cancel Request" />
+          </>
+        );
+      } else if (status === "pending") {
+        return (
+          <>
+            <AddFriend />
+            <RemoveFriend friend={friend} text="Reject" />
+          </>
+        );
+      } else if (status === "accepted") {
+        return (
+          <>
+            <RemoveFriend friend={friend} text="Remove Friend" />
+            <button
+              className="friend-item-div-button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              {" "}
+              call
+            </button>
+            {/*note:this should lead to a direct message instance/component*/}
+            <button
+              className="friend-item-div-button"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              direct message
+            </button>
+          </>
+        );
+      }
+    };
+
+    return <div className="friend-item-div actions">{renderButtons()}</div>;
+  };
+
   const renderFriendInfoModal = () => {
     return (
       <Route path="/users/:id/friends/:friendId" exact>
@@ -80,28 +127,8 @@ const Friend = props => {
               <span className="friend-item-username">{friend.username}</span>
             </div>
             {renderStatus()}
-            <div className="friend-item-div actions">
-              <RemoveFriend friend={friend} />
-              <button
-                className="friend-item-div-button"
-                onClick={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                }}
-              >
-                {" "}
-                call
-              </button>
-              {/*note:this should lead to a direct message instance/component*/}
-              <button
-                className="friend-item-div-button"
-                onClick={e => {
-                  e.stopPropagation();
-                }}
-              >
-                direct message
-              </button>
-            </div>
+            {/*friend action buttons should be here*/}
+            {renderFriendActionButtons()}
           </li>
         </Link>
         {renderFriendInfoModal()}
@@ -118,9 +145,6 @@ const mapStateToProps = state => ({
   error: state.error
 });
 */
-const friendComponent = connect(
-  null,
-  {}
-)(Friend);
+const friendComponent = connect(null, {})(Friend);
 
 export default friendComponent;
