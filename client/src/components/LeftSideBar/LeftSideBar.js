@@ -4,15 +4,18 @@ import React, { useContext, useEffect } from "react";
 
 import onlineIcon from "../../icons/onlineIcon.png";
 
-import { NavContext } from "../AppContext";
+import RoomSideBar from "../RoomSideBar/RoomSideBar";
 
-const LeftSideBarContainer = props => {
+import { NavContext, FooterContext } from "../AppContext";
+
+const LeftSideBarContainer = (props) => {
   const {
     navMenuButtonTouched,
     leftSideBarShow,
     setLeftSideBarShow,
-    setMessagesContainerMoveRight
+    setMessagesContainerMoveRight,
   } = useContext(NavContext);
+  const { setShowFooter } = useContext(FooterContext);
 
   const handleResize = () => {
     if (!navMenuButtonTouched) {
@@ -52,11 +55,15 @@ const LeftSideBarContainer = props => {
         onClick={() => {
           setLeftSideBarShow(false);
           setMessagesContainerMoveRight(false);
+          setShowFooter(false);
         }}
       ></div>
       <div className={`left-sidebar-container ${getContainerClass()}`}>
-        <h1 className="left-sidebar-status">{props.heading || null}</h1>
-        {renderContent()}
+        <RoomSideBar />
+        <div className={`left-sidebar-room-information-outer-container`}>
+          <h1 className="left-sidebar-status">{props.heading || null}</h1>
+          {renderContent()}
+        </div>
       </div>
     </React.Fragment>
   );

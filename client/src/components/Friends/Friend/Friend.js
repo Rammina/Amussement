@@ -7,8 +7,15 @@ import { connect } from "react-redux";
 // import { Field, reduxForm } from "redux-form";
 
 import serverRest from "../../../apis/serverRest";
+
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
+import AcceptFriend from "./AcceptFriend/AcceptFriend";
 import RemoveFriend from "./RemoveFriend/RemoveFriend";
+import FriendProfileModal from "./FriendProfileModal/FriendProfileModal";
+import UserProfileCard from "../../UserProfileCard/UserProfileCard";
+
+import { UserProfileCardContext } from "../../AppContext";
+
 // import { renderError, getErrorClass } from "../../helpers";
 
 const Friend = (props) => {
@@ -21,14 +28,19 @@ const Friend = (props) => {
   const { friend, status } = props.friend;
   const location = useLocation();
 
+  // get value  of UserProfileCardContext using this function
+  const getUserProfileCardContextValue = () => {
+    return { selectedUser: friend, friendStatus: status };
+  };
+
   const getFriendInfoModalClass = () => {
     return friendInfoModalOpen ? "show" : "hide";
   };
 
-  const renderAvatar = () => {
+  const renderAvatar = (className) => {
     const avatarUrl = friend.image_url;
     return (
-      <ProfilePicture imageSrc={avatarUrl || ""} componentClass="friend" />
+      <ProfilePicture imageSrc={avatarUrl || ""} componentClass={className} />
     );
   };
 
@@ -61,7 +73,7 @@ const Friend = (props) => {
       } else if (status === "pending") {
         return (
           <>
-            <AddFriend />
+            <AcceptFriend friend={friend} />
             <RemoveFriend friend={friend} text="Reject" />
           </>
         );
@@ -97,24 +109,25 @@ const Friend = (props) => {
   };
 
   const renderFriendInfoModal = () => {
-    return (
-      <Route path="/users/:id/friends/:friendId" exact>
-        <div className={`friend modal ${getFriendInfoModalClass()}`}>
-          <h3 className="friend modal-heading">friend.username</h3>
-          {renderAvatar()}
+    if (!friendInfoModalOpen) return null;
 
-          {/*<button type="submit">Submit Image</button>*/}
-        </div>
-      </Route>
+    return (
+      <UserProfileCardContext.Provider value={getUserProfileCardContextValue()}>
+        <UserProfileCard
+          componentClass="friend-profile"
+          onModalClose={() => {
+            setFriendInfoModalOpen(false);
+          }}
+        />
+      </UserProfileCardContext.Provider>
     );
   };
 
   const renderFriend = () => {
     return (
       <React.Fragment>
-        <Link
-          to={`${location.pathname}/${friend._id}`}
-          className="friend-item-link"
+        <button
+          className="friend-item-button"
           onClick={() => {
             setFriendInfoModalOpen(true);
           }}
@@ -122,7 +135,7 @@ const Friend = (props) => {
           <li className="friend-item">
             <div className="friend-item-div information">
               <div className="friend-item-avatar-container">
-                {renderAvatar()}
+                {renderAvatar("friend-list")}
               </div>
               <span className="friend-item-username">{friend.username}</span>
             </div>
@@ -130,7 +143,7 @@ const Friend = (props) => {
             {/*friend action buttons should be here*/}
             {renderFriendActionButtons()}
           </li>
-        </Link>
+        </button>
         {renderFriendInfoModal()}
       </React.Fragment>
     );

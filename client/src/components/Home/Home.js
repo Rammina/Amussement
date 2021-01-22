@@ -15,7 +15,7 @@ import Footer from "../Footer/Footer";
 
 // import { renderError, getErrorClass } from "../../helpers";
 
-const Home = props => {
+const Home = (props) => {
   const userId = props.user ? props.user._id || props.user.id : null;
 
   useEffect(() => {
@@ -26,7 +26,6 @@ const Home = props => {
     <React.Fragment>
       <div className="user-home-page-container">
         <div className="home sidebar-outer-container">
-          <RoomSideBar />
           <LeftSideBar
             heading="Direct Messages"
             alwaysShow={true}
@@ -34,20 +33,16 @@ const Home = props => {
           />
         </div>
       </div>
-      <Footer />
     </React.Fragment>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
-  error: state.error
+  error: state.error,
 });
 
-const home = connect(
-  mapStateToProps,
-  {}
-)(Home);
+const home = connect(mapStateToProps, {})(Home);
 
 export default home;

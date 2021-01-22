@@ -15,6 +15,7 @@ import Footer from "../Footer/Footer";
 import CloseButton from "../buttons/CloseButton";
 
 import { logout } from "../../flux/actions/authActions";
+import { clearFriendsList } from "../../flux/actions/friendsActions";
 
 import * as constants from "../../utils/constants.js";
 // import { renderError, getErrorClass } from "../../helpers";
@@ -69,6 +70,13 @@ const UserSettings = (props) => {
     };
   }, []);
 
+  // function handlers
+  const onLogoutClick = () => {
+    props.logout();
+    props.clearFriendsList();
+  };
+
+  // render functions
   const renderSection = () => {
     if (!isDesktopWidth || !isDesktopHeight) {
       // if(isDesktopWidth) return null;
@@ -110,7 +118,7 @@ const UserSettings = (props) => {
     if (isDesktopWidth) return null;
     return (
       <span>
-        <button id="user-settings-logout-button" onClick={props.logout}>
+        <button id="user-settings-logout-button" onClick={onLogoutClick}>
           <img className="logout-icon-img" src={LogoutImg} alt="Logout Icon" />
         </button>
       </span>
@@ -123,9 +131,7 @@ const UserSettings = (props) => {
       <button
         className="user-settings-sidebar-button"
         id="user-settings-desktop-logout-button"
-        onClick={() => {
-          props.logout();
-        }}
+        onClick={onLogoutClick}
       >
         <li
           className={`user-settings-sidebar-item`}
@@ -213,10 +219,8 @@ const UserSettings = (props) => {
             </div>
           </div>
         </div>
-        <div className="user-settings-sidebar-outer-container fake">
-          
-        </div>
-        
+        <div className="user-settings-sidebar-outer-container fake"></div>
+
         {renderSection()}
 
         {/*  <button
@@ -232,11 +236,10 @@ const UserSettings = (props) => {
         </button>
         */}
       </div>
-      <Footer />
     </div>
   );
 };
 
-const userSettings = connect(null, { logout })(UserSettings);
+const userSettings = connect(null, { logout, clearFriendsList })(UserSettings);
 
 export default userSettings;

@@ -15,7 +15,7 @@ import { getAllFriends } from "../../flux/actions/friendsActions";
 
 // import { renderError, getErrorClass } from "../../helpers";
 
-const Friends = props => {
+const Friends = (props) => {
   const [friendsList, setFriendsList] = useState(null);
   const [addFriendOpened, setAddFriendOpened] = useState(false);
 
@@ -44,7 +44,7 @@ const Friends = props => {
     if (!addFriendOpened) return null;
   };
 
-  const renderFriends = category => {
+  const renderFriends = (category) => {
     // category - string
     console.log(props.friends);
     console.log(props.friends.length);
@@ -57,7 +57,7 @@ const Friends = props => {
         <Friend key={i} friend={friend} />
       ));
 
-    const filteredFriends = props.friends.filter(friend => {
+    const filteredFriends = props.friends.filter((friend) => {
       return friend.status === category;
     });
     return filteredFriends.map((friend, i) => (
@@ -94,7 +94,6 @@ const Friends = props => {
             </div>
           </section>
         </div>
-        <Footer />
       </div>
       <Route path={`/users/:userId/friends/add`} exact>
         <AddFriend />
@@ -103,15 +102,12 @@ const Friends = props => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user.info,
   friends: state.friends,
-  error: state.error
+  error: state.error,
 });
 
-const friendsComponent = connect(
-  mapStateToProps,
-  { getAllFriends }
-)(Friends);
+const friendsComponent = connect(mapStateToProps, { getAllFriends })(Friends);
 
 export default friendsComponent;

@@ -21,6 +21,7 @@ import {
   ADD_FRIEND_FAIL,
   REMOVE_FRIEND_SUCCESS,
   REMOVE_FRIEND_FAIL,
+  CLEAR_FRIENDS_LIST,
 } from "./types";
 
 export const getAllFriends = (id) => (dispatch, getState) => {
@@ -85,14 +86,11 @@ export const addFriendWithUsername = (formValues) => (dispatch, getState) => {
     });
 };
 
-export const addFriendWithId = (formValues) => (dispatch, getState) => {
+export const addFriendWithId = (friendId) => (dispatch, getState) => {
   console.log("adding a friend using friendId");
   const userId = getState().user.info._id || getState().user.info.id;
-  // note: try simplifying this to just id instead of using formvalues
-  const friendId = formValues.id;
-
   serverRest
-    .post(`/api/users/${userId}/friends/add`, friendId)
+    .post(`/api/users/${userId}/friends/${friendId}/add`, friendId)
     .then((res) => {
       dispatch({
         type: ADD_FRIEND_SUCCESS,
@@ -112,7 +110,7 @@ export const addFriendWithId = (formValues) => (dispatch, getState) => {
 };
 
 export const removeFriend = (friendId) => (dispatch, getState) => {
-  console.log("adding a friend ");
+  console.log("removing a friend ");
   const userId = getState().user.info._id || getState().user.info.id;
 
   serverRest
@@ -134,111 +132,9 @@ export const removeFriend = (friendId) => (dispatch, getState) => {
       });
     });
 };
-
-/*
-// Check token & load user
-export const loadUser = href => (dispatch, getState) => {
-  // User loading
-  dispatch({ type: USER_LOADING });
-  console.log(tokenConfig(getState));
-  serverRest
-    .get("api/auth/user", tokenConfig(getState))
-    .then(res => {
-      dispatch({
-        type: USER_LOADED,
-        payload: res.data
-      });
-      getState().user.info._id || getState().user.info.id;
-      // history.push(`/users/${userId}/home`);
-    })
-    .catch(err => {
-      // dispatch(returnErrors(err.response.data, err.response.status));
-      dispatch({
-        type: AUTH_ERROR
-      });
-      // if it's register or home, do not redirect to login
-      if (
-        !(
-          href.includes("/register") ||
-          href.includes("/home") ||
-          href.includes("/guest") ||
-          href.includes("?guest") ||
-          href === "http://localhost:3000/"
-        )
-      ) {
-        history.push(`/auth/login`);
-      }
-    });
-};
-
-// Register User
-export const registerUser = formValues => {
-  return async function(dispatch, getState) {
-    serverRest
-      .post("api/auth/register", formValues)
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-        history.push("/auth/login");
-        dispatch({ type: REGISTER_SUCCESS, payload: res.data });
-        localStorage.setItem("token", res.data.token);
-      })
-      .catch(err => {
-        // this needs an error handler action creator and reducer
-        console.log(err);
-        dispatch(
-          returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
-        );
-        dispatch({ type: REGISTER_FAIL });
-      });
-  };
-};
-
-// Login User
-export const loginUser = formValues => dispatch => {
-  serverRest
-    .post("/api/auth/login", formValues)
-    .then(res => {
-      const userId = res.data.user.id;
-      // history needs to push this to the user's id address
-      history.push(`/users/${userId}/home`);
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: res.data
-      });
-      localStorage.setItem("token", res.data.token);
-    })
-    .catch(err => {
-      console.log(err);
-      console.log(err.response);
-      dispatch(
-        returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
-      );
-      dispatch({
-        type: LOGIN_FAIL
-      });
-    });
-};
-
-// Logout User
-export const logout = () => {
-  history.push("/auth/login");
+// clears the friend list in the frontend
+export const clearFriendsList = () => {
   return {
-    type: LOGOUT_SUCCESS
+    type: CLEAR_FRIENDS_LIST,
   };
 };
-
-// Setup config/headers and token
-export const tokenConfig = getState => {
-  console.log(localStorage.getItem("token"));
-  // const token = getState().auth.token || localStorage.getItem("token");
-  const token = getState().auth.token;
-  // headers
-  const config = { headers: { "Content-type": "application/json" } };
-  // if token has a value
-  if (token) {
-    config.headers["x-auth-token"] = token;
-  }
-  return config;
-};
-*/

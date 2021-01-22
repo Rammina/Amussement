@@ -19,7 +19,9 @@
   border-radius: 0;
   height: 100%;
   width: 100vw;
-  transform: translate(-$sidebarWidth, 0);
+  min-width: calc(100vw);
+  // min-width: calc(100vw - 4.5rem);
+  transform: translate(-$sidebarWidth, 0) translate(-$roomSidebarWidth, 0);
   transition: transform 0.3s ease;
   overflow-x: hidden;
   // transition: none;
@@ -40,24 +42,12 @@
   // transition: none;
 }
 
-@media screen and (min-width: 0px) and (max-width: 650px) {
-  .outerContainer {
-    height: 100vh;
-  }
-
-  .chat-area-container {
-    min-width: 100vw;
-    height: 100%;
-  }
-}
-
 @media screen and (min-width: 650px) {
   .chat-area-container {
     transition: none;
     // width: calc(100vw - #{$sidebarWidth});
     // min-width: calc(100vw - #{$sidebarWidth});
     width: calc(100vw);
-    min-width: calc(100vw);
   }
   .chat-area-container.users-shown {
     transition: none;

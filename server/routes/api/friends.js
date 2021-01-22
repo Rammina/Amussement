@@ -11,7 +11,7 @@ router.get("/:friendId", friends_controller.get_friend);
 // add a user as friend using username
 router.post("/add", friends_controller.add_friend_with_username);
 // add a user as friend using ID
-router.post("/:friendId/add", friends_controller.add_friend);
+router.post("/:friendId/add", friends_controller.add_friend_with_id);
 
 // remove a user from the friendlist
 router.post("/:friendId/remove", friends_controller.remove_friend);

@@ -2,6 +2,9 @@ import "../shared.scss";
 import "./App.scss";
 
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { Router, Route, Redirect, Switch } from "react-router-dom";
+import history from "../history";
 
 import Chat from "./Chat/Chat";
 import Join from "./Join/Join";
@@ -10,15 +13,12 @@ import Login from "./Login/Login";
 import Home from "./Home/Home";
 import Friends from "./Friends/Friends";
 import UserSettings from "./UserSettings/UserSettings";
+import Footer from "./Footer/Footer";
 
-import { connect } from "react-redux";
-import { Router, Route, Redirect, Switch } from "react-router-dom";
-import history from "../history";
-
-import { NavContext } from "./AppContext";
+import { NavContext, FooterContext } from "./AppContext";
 import { loadUser } from "../flux/actions/authActions";
 
-const App = props => {
+const App = (props) => {
   useEffect(() => {
     console.log(window.location.href);
     props.loadUser(window.location.href);
@@ -27,6 +27,7 @@ const App = props => {
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
   const [navMenuButtonClass, setNavMenuButtonClass] = useState(null);
   const [navMenuButtonTouched, setNavMenuButtonTouched] = useState(null);
+  const [showFooter, setShowFooter] = useState(true);
   const [onlineUsersButtonRef, setOnlineUsersButtonRef] = useState(null);
   const [onlineUsersButtonClass, setOnlineUsersButtonClass] = useState(null);
   const [onlineUsersButtonTouched, setOnlineUsersButtonTouched] = useState(
@@ -72,6 +73,13 @@ const App = props => {
     }
   };
 
+  const getFooterContextValue = () => {
+    return {
+      showFooter,
+      setShowFooter,
+    };
+  };
+
   const getNavContextValue = () => {
     return {
       messagesContainerMoveLeft,
@@ -95,7 +103,7 @@ const App = props => {
       setOnlineUsersButtonTouched,
       onlineUsersShow,
       setOnlineUsersShow,
-      toggleOnlineUsersShow
+      toggleOnlineUsersShow,
     };
   };
 
@@ -109,15 +117,15 @@ const App = props => {
       <Route path="/users/:id/settings" component={UserSettings} />
       {/*note: try to figure out a way to make this one work when selecting/clicking a friend*/}
       <Route path="/users/:id/friends" component={Friends} />
-      <NavContext.Provider value={getNavContextValue()}>
-        <Route path="/users/:id/home" exact component={Home} />
-        <Route path="/chat" component={Chat} />
-      </NavContext.Provider>
+      <FooterContext.Provider value={getFooterContextValue()}>
+        <NavContext.Provider value={getNavContextValue()}>
+          <Route path="/users/:id/home" exact component={Home} />
+          <Route path="/chat" component={Chat} />
+        </NavContext.Provider>
+        <Footer />
+      </FooterContext.Provider>
     </Router>
   );
 };
 
-export default connect(
-  null,
-  { loadUser }
-)(App);
+export default connect(null, { loadUser })(App);

@@ -6,7 +6,8 @@ import {
   ADD_FRIEND_SUCCESS,
   ADD_FRIEND_FAIL,
   REMOVE_FRIEND_SUCCESS,
-  REMOVE_FRIEND_FAIL
+  REMOVE_FRIEND_FAIL,
+  CLEAR_FRIENDS_LIST,
 } from "../actions/types";
 
 // Array of objects(friends)
@@ -27,6 +28,8 @@ export default (state = initialState, action) => {
     case ADD_FRIEND_FAIL:
     case REMOVE_FRIEND_FAIL:
       return state;
+    case CLEAR_FRIENDS_LIST:
+      return [];
     default:
       return state;
   }

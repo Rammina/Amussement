@@ -4,23 +4,26 @@ import SettingsImg from "../../icons/settings.png";
 
 import "./Footer.scss";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
+
+import { FooterContext } from "../AppContext";
 
 const Footer = (props) => {
   const userId = props.user ? props.user._id || props.user.id : null;
   const pathname = useLocation().pathname;
-  console.log(pathname);
-
+  const { showFooter } = useContext(FooterContext);
   useEffect(() => {}, []);
 
   const getHomeButtonClass = () =>
-    pathname.includes("/home") ? "selected" : "";
+    pathname.includes("/home") || pathname.includes("/chat") ? "selected" : "";
   const getFriendsButtonClass = () =>
     pathname.includes("/friends") ? "selected" : "";
   const getSettingsButtonClass = () =>
     pathname.includes("/settings") ? "selected" : "";
+
+  const getShowFooterClass = () => (showFooter ? "show" : "hide");
 
   const renderFooter = () => {
     // do not render on higher width breakpoint
@@ -28,7 +31,7 @@ const Footer = (props) => {
       // return null;
     }
     return (
-      <footer className="" id="user-footer-container">
+      <footer className={`${getShowFooterClass()}`} id="user-footer-container">
         <div className="" id="user-footer-content-container">
           <Link
             className={`user-footer-link ${getHomeButtonClass()}`}

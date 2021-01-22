@@ -28,9 +28,16 @@
   // border: 1px solid black;
 }
 
-.profile-picture-inner-container.friend,
-.profile-picture-image.friend {
-  height: $profilePictureSizeFriend;
-  width: $profilePictureSizeFriend;
+.profile-picture-inner-container.friend-list,
+.profile-picture-image.friend-list {
+  height: $profilePictureSizeFriendList;
+  width: $profilePictureSizeFriendList;
+  // border: 1px solid black;
+}
+
+.profile-picture-inner-container.user-profile-card,
+.profile-picture-image.user-profile-card {
+  height: $profilePictureSizeUserProfileCard;
+  width: $profilePictureSizeUserProfileCard;
   // border: 1px solid black;
 }

@@ -1,4 +1,5 @@
 @import "../../utils/variables.scss";
+
 .room-sidebar-outer-container {
   position: relative;
   z-index: 20;
@@ -8,6 +9,6 @@
   background-color: $discord-roomlist-black;
   padding-top: 1rem;
   padding-bottom: 3rem;
-  width: 4.5rem;
+  width: $roomSidebarWidth;
   height: 100vh;
 }

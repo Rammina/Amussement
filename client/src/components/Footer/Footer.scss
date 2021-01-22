@@ -9,6 +9,11 @@
   min-height: 3rem;
   height: 3rem;
   min-width: 100vw;
+  transition: transform 0.3s ease;
+}
+
+#user-footer-container.hide {
+  transform: translateY(3rem);
 }
 
 #user-footer-content-container {

@@ -5,21 +5,21 @@ import React, { useState } from "react";
 
 import { connect } from "react-redux";
 
-import { removeFriend } from "../../../../flux/actions/friendsActions";
+import { addFriendWithId } from "../../../../flux/actions/friendsActions";
 
-import "./RemoveFriend.scss";
+import "./AcceptFriend.scss";
 
-const RemoveFriend = (props) => {
+const AcceptFriend = (props) => {
   return (
     <button
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        // remove this friend
-        props.removeFriend(props.friend._id);
+        // accept request by adding this friend (sending another friend request in response changes the status to accepted)
+        props.addFriendWithId(props.friend._id);
       }}
     >
-      {props.text || "Remove Friend"}
+      {props.text || "accept friend"}
     </button>
   );
 };
@@ -29,5 +29,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  removeFriend,
-})(RemoveFriend);
+  addFriendWithId,
+})(AcceptFriend);

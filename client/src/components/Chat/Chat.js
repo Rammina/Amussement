@@ -8,24 +8,25 @@ import io from "socket.io-client";
 
 import OnlineUsersContainer from "../OnlineUsersContainer/OnlineUsersContainer";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
-import RoomSideBar from "../RoomSideBar/RoomSideBar";
+
 import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
 
-import { NavContext } from "../AppContext";
+import { NavContext, FooterContext } from "../AppContext";
 
 let socket;
 
-const Chat = props => {
+const Chat = (props) => {
   const {
     messagesContainerMoveLeft,
     setMessagesContainerMoveLeft,
     messagesContainerMoveRight,
     setMessagesContainerMoveRight,
     onlineUsersButtonTouched,
-    navMenuButtonTouched
+    navMenuButtonTouched,
   } = useContext(NavContext);
+  const { setShowFooter } = useContext(FooterContext);
 
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
@@ -83,7 +84,7 @@ const Chat = props => {
       setName(guestName || "anon");
       setRoom(room);
       const name = guestName || "anon";
-      socket.emit("join", { name, room }, error => {
+      socket.emit("join", { name, room }, (error) => {
         console.log("join attempt");
         if (error) {
           // send a browser alert
@@ -100,7 +101,7 @@ const Chat = props => {
         const name = props.user.username || "anon";
         const image_url = props.user.image_url || "";
         console.log(image_url);
-        socket.emit("join", { name, room, image_url }, error => {
+        socket.emit("join", { name, room, image_url }, (error) => {
           if (error) {
             // send a browser alert
             // note:this should be replaced with redux action for error handling
@@ -138,6 +139,7 @@ const Chat = props => {
 
   // re-update the user
   useEffect(() => {
+    setShowFooter(false);
     console.log(props.user);
     console.log("I happened twice");
     if (!props.isloading && props.user) {
@@ -148,10 +150,10 @@ const Chat = props => {
   // useEffect(() => {}, [name, room]);
 
   useEffect(() => {
-    socket.on("message", message => {
+    socket.on("message", (message) => {
       // non-\ mutational push to the messages array
       console.log(message);
-      setMessages(messages => [...messages, message]);
+      setMessages((messages) => [...messages, message]);
     });
 
     socket.on("roomData", ({ users }) => {
@@ -160,7 +162,7 @@ const Chat = props => {
   }, [props.user, location.search]);
 
   // handles the sending of messages
-  const sendMessage = event => {
+  const sendMessage = (event) => {
     // prevent page refresh
     event.preventDefault();
     console.log(message);
@@ -190,7 +192,6 @@ const Chat = props => {
       return (
         <React.Fragment>
           <div className="chat sidebar-outer-container">
-            <RoomSideBar />
             <LeftSideBar heading={room} />
           </div>
           <div className={`chat-area-container ${getContainerClass()}`}>
@@ -212,15 +213,12 @@ const Chat = props => {
   return <div className="outerContainer">{renderChatContent()}</div>;
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
   error: state.error,
-  isLoading: state.auth.isLoading
+  isLoading: state.auth.isLoading,
   // propsInitialized: true
 });
 
-export default connect(
-  mapStateToProps,
-  {}
-)(Chat);
+export default connect(mapStateToProps, {})(Chat);

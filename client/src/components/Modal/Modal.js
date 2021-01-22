@@ -34,6 +34,7 @@ const Modal = (props) => {
   const getClassName = () => (props.componentClass ? props.componentClass : "");
   const getButtonId = () => (props.buttonId ? props.buttonId : "");
   const getImageId = () => (props.imageId ? props.imageId : "");
+  const getIsSlideUpClass = () => (props.isSlideUp ? "slide-up" : "");
   const getHideOnDesktopClass = () =>
     props.hideOnDesktop ? "hide-on-desktop" : "";
 
@@ -67,7 +68,10 @@ const Modal = (props) => {
           props.onModalClose();
         }}
       ></div>
-      <div className={`modal ${getModalOpenClass()} ${getClassName()}`}>
+      <div
+        className={`modal ${getModalOpenClass()} ${getClassName()} ${getIsSlideUpClass()}`}
+        style={props.modalStyle || {}}
+      >
         {renderModalHeader()}
         {renderModalContent()}
       </div>{" "}

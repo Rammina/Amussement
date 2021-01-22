@@ -18,16 +18,16 @@
   z-index: 0;
   display: flex;
   // display: none;
-  min-width: $sidebarWidth;
-  width: $sidebarWidth;
-  flex-direction: column;
-  padding: 1rem;
+  min-width: calc(#{$sidebarWidth} + #{$roomSidebarWidth});
+  width: calc(#{$sidebarWidth} + #{$roomSidebarWidth});
+  min-height: 100vh;
+  // flex-direction: column;
+  // padding: 1rem;
   color: white;
   // background-color: #222;
   background-color: #232628;
-
-  height: calc(100vh - 3rem);
-  justify-content: space-between;
+  height: calc(100vh);
+  justify-content: flex-start;
   visibility: hidden;
   // transform: translate(-$sidebarWidth, 0);
   // transition: transform 0.3s ease;
@@ -67,6 +67,11 @@
 
 .left-sidebar-container h1 {
   margin-bottom: 0px;
+}
+
+.left-sidebar-room-information-outer-container {
+  width: calc($sidebarWidth);
+  padding: 0.5rem;
 }
 
 @media screen and (min-width: 0px) {
