@@ -1,3 +1,5 @@
+import CloseIconImg from "../../../../icons/close-icon.png";
+
 import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 
@@ -12,6 +14,8 @@ import "./RemoveFriend.scss";
 const RemoveFriend = (props) => {
   return (
     <button
+      className="friend-item-div-button"
+      title={props.text || "Remove Friend"}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -19,7 +23,11 @@ const RemoveFriend = (props) => {
         props.removeFriend(props.friend._id);
       }}
     >
-      {props.text || "Remove Friend"}
+      <img
+        className={`friend-action-button-image danger`}
+        src={CloseIconImg}
+        alt="X Icon"
+      />
     </button>
   );
 };

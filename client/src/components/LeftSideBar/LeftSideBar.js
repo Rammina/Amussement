@@ -17,6 +17,14 @@ const LeftSideBarContainer = (props) => {
   } = useContext(NavContext);
   const { setShowFooter } = useContext(FooterContext);
 
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    // do not forget the cleanup function or else there will be errors/inconsistencies
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const handleResize = () => {
     if (!navMenuButtonTouched) {
       if (window.innerWidth >= 1000) {
@@ -32,14 +40,6 @@ const LeftSideBarContainer = (props) => {
     }
     return null;
   };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    // do not forget the cleanup function or else there will be errors/inconsistencies
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const getContainerClass = () => {
     if (props.alwaysShow) {

@@ -1,6 +1,7 @@
 import serverRest from "../../apis/serverRest";
 import history from "../../history";
 import { returnErrors, clearErrors } from "./errorActions";
+import { formShowLoader } from "./loaderActions";
 
 import {
   compareValues,
@@ -83,6 +84,9 @@ export const addFriendWithUsername = (formValues) => (dispatch, getState) => {
       dispatch({
         type: ADD_FRIEND_FAIL,
       });
+    })
+    .finally(() => {
+      formShowLoader("addFriendForm", false);
     });
 };
 

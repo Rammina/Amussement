@@ -1,3 +1,5 @@
+import AddUserImg from "../../icons/add-user.png";
+
 import "./Friends.scss";
 
 import React, { useState, useEffect } from "react";
@@ -6,6 +8,7 @@ import { connect } from "react-redux";
 // import { Field, reduxForm } from "redux-form";
 
 import serverRest from "../../apis/serverRest";
+import history from "../../history";
 
 import Footer from "../Footer/Footer";
 import Friend from "./Friend/Friend";
@@ -39,6 +42,10 @@ const Friends = (props) => {
   }}
 
 */
+
+  const closeAddFriendModalHandler = () => {
+    history.push(`/users/${props.user._id}/friends`);
+  };
   const renderAddFriendModal = () => {
     console.log("rendering add friend");
     if (!addFriendOpened) return null;
@@ -73,7 +80,7 @@ const Friends = (props) => {
             <header className="friends-section-header">
               <h1 className="friends-header-heading">Friends</h1>
               <Link
-                to={`/users/${props.user.id}/friends/add`}
+                to={`/users/${props.user._id}/friends/add`}
                 className="friends-header-link"
               >
                 <button
@@ -84,7 +91,11 @@ const Friends = (props) => {
                     // setAddFriendOpened(true);
                   }}
                 >
-                  Add Friend
+                  <img
+                    className={`friends-button-image`}
+                    src={AddUserImg}
+                    alt="Add User Icon"
+                  />
                 </button>
               </Link>
             </header>
@@ -96,7 +107,7 @@ const Friends = (props) => {
         </div>
       </div>
       <Route path={`/users/:userId/friends/add`} exact>
-        <AddFriend />
+        <AddFriend onModalClose={closeAddFriendModalHandler} />
       </Route>
     </React.Fragment>
   );

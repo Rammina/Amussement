@@ -9,6 +9,7 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
 import { addFriendWithUsername } from "../../flux/actions/friendsActions";
+import { formShowLoader } from "../../flux/actions/loaderActions";
 import {
   renderError,
   getErrorClass,
@@ -16,8 +17,9 @@ import {
 } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
-
-import history from "../../history";
+import Modal from "../Modal/Modal";
+import CancelButton from "../buttons/CancelButton";
+import LoadingSpinner from "../loaders/LoadingSpinner";
 
 const onInput = (e) => {
   e.preventDefault();
@@ -74,21 +76,30 @@ const AddFriend = (props) => {
     }
     return null;
   };
+
   // submit handler
   const onSubmit = async (formValues) => {
     console.log(formValues);
     // run an action
+    props.formShowLoader("addFriendForm", true);
     await props.addFriendWithUsername(formValues);
   };
 
+  const renderLoader = () => {
+    return <LoadingSpinner showLoader={props.showLoader} />;
+  };
+
   return (
-    <React.Fragment>
-      <div className="modal add-friend">
+    <Modal
+      componentClass="add-friend"
+      onModalClose={() => {
+        props.onModalClose();
+      }}
+      headerClassName="user-settings-sidebar-header"
+      headingText="Add Friend"
+      modalContent={
         <form id="add-friend-form" autoComplete="off">
-          <div className="add-friend form-content-container">
-            <div className="heading-container">
-              <h2 className="heading">Add Friend</h2>
-            </div>
+          <div className="add-friend form-content-container modal-form-content">
             {renderErrorNotifications()}
             <div className="textfield-container">
               <Field
@@ -113,21 +124,25 @@ const AddFriend = (props) => {
                 }}
               />
             </div>
-
-            <div className="form-button-container">
+            <div className="form-button-container two-buttons-container">
+              <CancelButton
+                hideOnMobile={true}
+                onClickHandler={() => {
+                  props.onModalClose();
+                }}
+              />
               <button
                 className={"form-button submit mt-20"}
                 type="submit"
                 onClick={props.handleSubmit(onSubmit)}
               >
-                Send Friend Request
+                {renderLoader()} Send Request
               </button>
             </div>
           </div>
         </form>
-      </div>
-      <div className="backdrop" id="add-friend-modal-backdrop"></div>
-    </React.Fragment>
+      }
+    />
   );
 };
 
@@ -158,10 +173,12 @@ const validate = (formValues) => {
 const mapStateToProps = (state) => ({
   friends: state.friends,
   error: state.error,
+  showLoader: state.loader.showAddFriendFormLoader,
 });
 
 const addFriendComponent = connect(mapStateToProps, {
   addFriendWithUsername,
+  formShowLoader,
 })(AddFriend);
 
 export default reduxForm({
@@ -170,3 +187,30 @@ export default reduxForm({
   enableReinitialize: true,
   validate,
 })(addFriendComponent);
+/*
+return (
+  <React.Fragment>
+    <div className="modal add-friend">
+      <form id="add-friend-form" autoComplete="off">
+        <div className="add-friend form-content-container">
+          <div className="heading-container">
+            <h2 className="heading">Add Friend</h2>
+          </div>
+          {renderErrorNotifications()}
+
+          <div className="form-button-container">
+            <button
+              className={"form-button submit mt-20"}
+              type="submit"
+              onClick={props.handleSubmit(onSubmit)}
+            >
+              Send Friend Request
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div className="backdrop" id="add-friend-modal-backdrop"></div>
+  </React.Fragment>
+);
+*/

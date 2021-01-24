@@ -61,8 +61,32 @@
   display: none;
 }
 .friend-item-div-button {
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.75rem;
+  background-color: $secondary-black;
+  border-radius: 50%;
+}
+
+.friend-item-div-button:hover {
+  background-color: $secondary-black-hover;
+}
+
+.friend-action-button-image {
+  width: 1rem;
+  height: 1rem;
+  filter: invert(93%) sepia(4%) saturate(207%) hue-rotate(182deg)
+    brightness(98%) contrast(86%);
+}
+
+.friend-action-button-image.danger {
+  filter: invert(70%) sepia(5%) saturate(5309%) hue-rotate(312deg)
+    brightness(97%) contrast(108%);
+}
+
+.friend-action-button-image.danger:hover {
+  filter: invert(71%) sepia(3%) saturate(3986%) hue-rotate(312deg)
+    brightness(111%) contrast(103%);
 }
 
 // friend modals
