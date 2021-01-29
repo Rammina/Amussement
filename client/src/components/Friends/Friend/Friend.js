@@ -80,7 +80,6 @@ const Friend = (props) => {
       } else if (status === "accepted") {
         return (
           <>
-            <RemoveFriend friend={friend} text="Remove Friend" />
             <button
               className="friend-item-div-button"
               onClick={(e) => {
@@ -126,8 +125,8 @@ const Friend = (props) => {
   const renderFriend = () => {
     return (
       <React.Fragment>
-        <button
-          className="friend-item-button"
+        <div
+          className="friend-item-container"
           onClick={() => {
             setFriendInfoModalOpen(true);
           }}
@@ -143,7 +142,7 @@ const Friend = (props) => {
             {/*friend action buttons should be here*/}
             {renderFriendActionButtons()}
           </li>
-        </button>
+        </div>
         {renderFriendInfoModal()}
       </React.Fragment>
     );

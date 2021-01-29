@@ -87,7 +87,8 @@ const DisableAccount = (props) => {
     props.formShowLoader("disableAccountForm", true);
     await props.disableUserAccount(formValues);
   };
-  return ReactDOM.createPortal(
+
+  const content = (
     <React.Fragment>
       <Modal
         componentClass="disable-account"
@@ -140,10 +141,12 @@ const DisableAccount = (props) => {
                 />
               </div>
               <div className="form-button-container two-buttons-container mt-2-rem">
-              <CancelButton hideOnMobile={true} onClickHandler={() => {
-          
-          props.hideSection();
-        }}/>
+                <CancelButton
+                  hideOnMobile={true}
+                  onClickHandler={() => {
+                    props.hideSection();
+                  }}
+                />
                 <button
                   id="disable-account-submit"
                   className={"form-button submit mt-20 warning"}
@@ -157,9 +160,10 @@ const DisableAccount = (props) => {
           </form>
         }
       />
-    </React.Fragment>,
-    document.getElementById("modal")
+    </React.Fragment>
   );
+  // render
+  return ReactDOM.createPortal(content, document.getElementById("modal"));
 };
 
 const validate = (formValues) => {

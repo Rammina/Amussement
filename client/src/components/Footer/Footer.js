@@ -26,6 +26,7 @@ const Footer = (props) => {
   const getShowFooterClass = () => (showFooter ? "show" : "hide");
 
   const renderFooter = () => {
+    if (!props.user) return null;
     // do not render on higher width breakpoint
     if (window.innerWidth >= 1000) {
       // return null;

@@ -1,6 +1,7 @@
 import "./AddFriend.scss";
 
 import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
 
 import serverRest from "../../apis/serverRest";
@@ -89,7 +90,7 @@ const AddFriend = (props) => {
     return <LoadingSpinner showLoader={props.showLoader} />;
   };
 
-  return (
+  const content = (
     <Modal
       componentClass="add-friend"
       onModalClose={() => {
@@ -144,6 +145,9 @@ const AddFriend = (props) => {
       }
     />
   );
+
+  // render
+  return ReactDOM.createPortal(content, document.getElementById("modal"));
 };
 
 const validate = (formValues) => {

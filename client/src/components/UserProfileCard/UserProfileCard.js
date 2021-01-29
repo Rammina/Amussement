@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { Route, Link } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -12,9 +13,14 @@ import Notes from "./Notes/Notes";
 import "./UserProfileCard.scss";
 
 const UserProfileCard = (props) => {
-  // const
+  const [modalHeight, setModalHeight] = useState(0);
+  const modalElement = useRef(null);
 
-  return (
+  useEffect(() => {
+    if (modalElement) setModalHeight(modalElement.current.clientHeight);
+  }, []);
+
+  const content = (
     <React.Fragment>
       <Modal
         componentClass={`user-profile-card ${props.componentClass}`}
@@ -22,10 +28,15 @@ const UserProfileCard = (props) => {
         isSlideUp={true}
         onModalClose={props.onModalClose}
         // should translate based on how tall the Modal is
-        modalStyle={{ transform: "translateY(100vh) translateY(-30rem)" }}
+        modalStyle={{
+          transform: `translateY(100vh) translateY(-${modalHeight}px)`,
+        }}
         modalContent={
           <React.Fragment>
-            <div className="user-profile-card-outer-container">
+            <div
+              className="user-profile-card-outer-container"
+              ref={modalElement}
+            >
               <section className="user-profile-card-section-container">
                 <UserIdentity selectedUser={props.selectedUser} />
                 <UserCommunications selectedUser={props.selectedUser} />
@@ -40,6 +51,8 @@ const UserProfileCard = (props) => {
       />
     </React.Fragment>
   );
+  // render using portal
+  return ReactDOM.createPortal(content, document.getElementById("modal"));
 };
 
 const mapStateToProps = (state) => ({

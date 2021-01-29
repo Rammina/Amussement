@@ -103,7 +103,7 @@ const ChangeUserPassword = (props) => {
       : "Change Password";
   };
 
-  return ReactDOM.createPortal(
+  const content = (
     <Modal
       componentClass="change-user-password"
       onModalClose={() => {
@@ -187,10 +187,12 @@ const ChangeUserPassword = (props) => {
             </div>
 
             <div className="form-button-container two-buttons-container">
-            <CancelButton hideOnMobile={true} onClickHandler={() => {
-          
-          props.hideSection();
-        }}/>
+              <CancelButton
+                hideOnMobile={true}
+                onClickHandler={() => {
+                  props.hideSection();
+                }}
+              />
               <button
                 className={"form-button submit mt-20"}
                 type="submit"
@@ -202,9 +204,10 @@ const ChangeUserPassword = (props) => {
           </div>
         </form>
       }
-    />,
-    document.getElementById("modal")
+    />
   );
+
+  return ReactDOM.createPortal(content, document.getElementById("modal"));
 };
 
 const validate = (formValues) => {

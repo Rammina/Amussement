@@ -94,7 +94,8 @@ const DeleteAccount = (props) => {
     props.formShowLoader("deleteAccountForm", true);
     await props.deleteUserAccount(formValues);
   };
-  return ReactDOM.createPortal(
+
+  const content = (
     <React.Fragment>
       <Modal
         componentClass="delete-account"
@@ -147,9 +148,12 @@ const DeleteAccount = (props) => {
                 />
               </div>
               <div className="form-button-container two-buttons-container mt-2-rem">
-              <CancelButton hideOnMobile={true} onClickHandler={() => {
-          props.hideSection();
-        }}/>
+                <CancelButton
+                  hideOnMobile={true}
+                  onClickHandler={() => {
+                    props.hideSection();
+                  }}
+                />
                 <button
                   id="delete-account-submit"
                   className={"form-button submit mt-20 danger"}
@@ -163,9 +167,11 @@ const DeleteAccount = (props) => {
           </form>
         }
       />
-    </React.Fragment>,
-    document.getElementById("modal")
+    </React.Fragment>
   );
+
+  // render
+  return ReactDOM.createPortal(content, document.getElementById("modal"));
 };
 
 const validate = (formValues) => {

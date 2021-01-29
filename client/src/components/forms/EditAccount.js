@@ -93,7 +93,8 @@ const EditAccount = (props) => {
     props.formShowLoader("editAccountForm", true);
     await props.editUserAccount(formValues);
   };
-  return ReactDOM.createPortal(
+
+  const content = (
     <React.Fragment>
       <Modal
         componentClass="edit-account"
@@ -176,12 +177,14 @@ const EditAccount = (props) => {
                   }}
                 />
               </div>
-              <div className="form-button-container two-buttons-container" >
-
-             <CancelButton hideOnMobile={true} onClickHandler={() => {
-          console.log("closing edit-account modal");
-          props.hideSection();
-        }}/>
+              <div className="form-button-container two-buttons-container">
+                <CancelButton
+                  hideOnMobile={true}
+                  onClickHandler={() => {
+                    console.log("closing edit-account modal");
+                    props.hideSection();
+                  }}
+                />
                 <button
                   className={"form-button submit mt-20"}
                   type="submit"
@@ -194,9 +197,10 @@ const EditAccount = (props) => {
           </form>
         }
       />
-    </React.Fragment>,
-    document.getElementById("modal")
+    </React.Fragment>
   );
+
+  return ReactDOM.createPortal(content, document.getElementById("modal"));
 };
 
 const validate = (formValues) => {

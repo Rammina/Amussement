@@ -31,13 +31,16 @@ const Input = ({ setMessage, sendMessage, message }) => {
         placeholder="Type a message..."
         value={message}
         onChange={({ target: { value } }) => {
+          console.log(value);
           setMessage(value);
           setSendButtonClass(value === "" ? "hide" : "show");
           setSendButtonDisabled(value === "" ? true : false);
         }}
-        onKeyPress={(event) =>
-          event.key === "Enter" ? sendMessage(event) : null
-        }
+        onKeyPress={(event) => {
+          console.log("keypressed on the input field");
+          if (event.key === "Enter") sendMessage(event);
+          // event.key === "Enter" ? sendMessage(event) : null;
+        }}
       />
       {renderSendButton()}
     </form>
