@@ -1,6 +1,7 @@
 @import "../../utils/variables.scss";
 
 .user-profile-card-outer-container {
+  overflow-y: auto;
 }
 
 .user-profile-card-section-container {
@@ -46,10 +47,33 @@
 }
 
 .user-communication-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   width: 33.2%;
   height: 3rem;
   background-color: #0000;
   color: $textFontColor;
+}
+
+.user-communcation-button-image-container {
+  display: block;
+  width: 100%;
+  position: relative;
+  top: 0.25rem;
+}
+
+.user-communication-button-image {
+  width: 1.1rem;
+  height: 1.1rem;
+  filter: invert(96%) sepia(8%) saturate(98%) hue-rotate(183deg) brightness(92%)
+    contrast(92%);
+}
+
+.user-communication-button-text {
+  position: relative;
+  bottom: 0.25rem;
 }
 
 .user-profile-card-section-header {

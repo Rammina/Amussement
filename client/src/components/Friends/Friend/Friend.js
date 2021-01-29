@@ -11,6 +11,8 @@ import serverRest from "../../../apis/serverRest";
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 import AcceptFriend from "./AcceptFriend/AcceptFriend";
 import RemoveFriend from "./RemoveFriend/RemoveFriend";
+import CallButton from "./CallButton/CallButton";
+import DirectMessage from "./DirectMessage/DirectMessage";
 import FriendProfileModal from "./FriendProfileModal/FriendProfileModal";
 import UserProfileCard from "../../UserProfileCard/UserProfileCard";
 
@@ -80,25 +82,9 @@ const Friend = (props) => {
       } else if (status === "accepted") {
         return (
           <>
-            <button
-              className="friend-item-div-button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-            >
-              {" "}
-              call
-            </button>
+            <CallButton />
             {/*note:this should lead to a direct message instance/component*/}
-            <button
-              className="friend-item-div-button"
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              direct message
-            </button>
+            <DirectMessage />
           </>
         );
       }

@@ -76,6 +76,7 @@ const Friends = (props) => {
     <React.Fragment>
       <div className="friends-page-container">
         <div className="friends-outer-flex-container">
+          <div className="friends-sidebar-outer-container"> </div>
           <section className="friends-section-outer-container">
             <header className="friends-section-header">
               <h1 className="friends-header-heading">Friends</h1>
@@ -104,6 +105,7 @@ const Friends = (props) => {
               <ul className="friends-section-items">{renderFriends()}</ul>
             </div>
           </section>
+          <div className="friends-sidebar-outer-container"> </div>
         </div>
       </div>
       <Route path={`/users/:userId/friends/add`} exact>

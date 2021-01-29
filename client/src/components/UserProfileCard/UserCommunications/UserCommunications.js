@@ -1,3 +1,5 @@
+import ChatIconImg from "../../../icons/chat.png";
+
 import React from "react";
 
 const UserCommunications = (props) => {
@@ -8,7 +10,14 @@ const UserCommunications = (props) => {
       id="user-communication-buttons-container"
     >
       <button className="user-communication-button" onClick={() => {}}>
-        Message
+        <div className="user-communcation-button-image-container">
+          <img
+            className={`user-communication-button-image`}
+            src={ChatIconImg}
+            alt="Chat Bubble Icon"
+          />
+        </div>
+        <span className="user-communication-button-text">Message</span>
       </button>
       <button className="user-communication-button" onClick={() => {}}>
         Call
