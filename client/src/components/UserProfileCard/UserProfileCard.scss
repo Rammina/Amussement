@@ -32,11 +32,16 @@
 
 #user-profile-card-ellipsis-button {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 0.1rem;
+  right: 0.1rem;
   height: 3rem;
   width: 3rem;
   background-color: #0000;
+  border-radius: 50%;
+}
+
+#user-profile-card-ellipsis-button:hover {
+  background-color: #fff1;
 }
 
 .ellipsis-icon-img {
@@ -55,6 +60,10 @@
   height: 3rem;
   background-color: #0000;
   color: $textFontColor;
+}
+
+.user-communication-button:hover {
+  background-color: #fff1;
 }
 
 .user-communcation-button-image-container {
