@@ -99,6 +99,8 @@ const Chat = (props) => {
       // if(props.propsInitialized) {
       if (props.user) {
         const name = props.user.username || "anon";
+        console.log(name);
+        // const id = props.user._id || "";
         const image_url = props.user.image_url || "";
         console.log(image_url);
         socket.emit("join", { name, room, image_url }, (error) => {
@@ -114,27 +116,43 @@ const Chat = (props) => {
   };
 
   useEffect(() => {
+    console.log("endpoint and location useEffect");
     const { userType } = queryString.parse(props.location.search);
     socket = io(ENDPOINT);
+    // note: this should be changed once database for room messages is used
     /*temporary stopgap measure to clear messages every time the URL changes*/
+
     setMessages([]);
+    console.log(
+      "it doesn't clean up the messages state, so all it does is appending"
+    );
+    socket.on("load all messages", (retrievedMessages) => {
+      console.log(retrievedMessages);
+      // console.log([...messages, ...retrievedMessages]);
+      // setMessages([...messages,...retrievedMessages]);
+      setMessages([...retrievedMessages]);
+    });
 
     if (userType === "guest") {
       handleUserJoin();
     }
-    // send join to the server
+
     return () => {
       socket.close();
+      // setMessages([]);
     };
   }, [ENDPOINT, location.search]);
 
-  // re-update the user
+  // re-update the user and users list
   useEffect(() => {
     console.log(props.user);
     console.log("I happened twice");
     if (!props.isloading && props.user) {
       handleUserJoin();
     }
+    socket.on("roomData", ({ users }) => {
+      setUsers(users);
+    });
   }, [props.user, location.search]);
 
   // re-update the user
@@ -147,28 +165,27 @@ const Chat = (props) => {
     }
   }, []);
 
-  // useEffect(() => {}, [name, room]);
-
+  // attach another listener every time the address/room changes
   useEffect(() => {
     socket.on("message", (message) => {
       // non-\ mutational push to the messages array
       console.log(message);
       setMessages((messages) => [...messages, message]);
     });
-
-    socket.on("roomData", ({ users }) => {
-      setUsers(users);
-    });
-  }, [props.user, location.search]);
+  }, [location.search]);
 
   // handles the sending of messages
   const sendMessage = (event) => {
     // prevent page refresh
     event.preventDefault();
     console.log(message);
+    // should send the object of the user as well
+
     // if message exists, send the event
     if (message) {
-      socket.emit("sendMessage", message, () => setMessage(""));
+      socket.emit("sendMessage", { message, user: props.user, room }, () =>
+        setMessage("")
+      );
     }
   };
 
@@ -186,6 +203,8 @@ const Chat = (props) => {
   const renderChatContent = () => {
     // console.log(props.propsInitialized);
     console.log(messages);
+    console.log(name);
+    // console.log(props.user.username);
     if (name && room) {
       console.log(name);
       console.log(room);

@@ -12,7 +12,10 @@ const Input = ({ setMessage, sendMessage, message }) => {
     return (
       <button
         className={`sendButton ${sendButtonClass}`}
-        onClick={(e) => sendMessage(e)}
+        onClick={(e) => {
+          sendMessage(e);
+          setSendButtonClass("hide");
+        }}
         disabled={sendButtonDisabled}
       >
         <img
@@ -37,8 +40,12 @@ const Input = ({ setMessage, sendMessage, message }) => {
           setSendButtonDisabled(value === "" ? true : false);
         }}
         onKeyPress={(event) => {
-          console.log("keypressed on the input field");
-          if (event.key === "Enter") sendMessage(event);
+          // console.log("keypressed on the input field");
+          if (event.key === "Enter") {
+            console.log("pressed enter on the input field");
+            sendMessage(event);
+            setSendButtonClass("hide");
+          }
           // event.key === "Enter" ? sendMessage(event) : null;
         }}
       />

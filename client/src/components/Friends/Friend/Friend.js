@@ -13,7 +13,6 @@ import AcceptFriend from "./AcceptFriend/AcceptFriend";
 import RemoveFriend from "./RemoveFriend/RemoveFriend";
 import CallButton from "./CallButton/CallButton";
 import DirectMessage from "./DirectMessage/DirectMessage";
-import FriendProfileModal from "./FriendProfileModal/FriendProfileModal";
 import UserProfileCard from "../../UserProfileCard/UserProfileCard";
 
 import { UserProfileCardContext } from "../../AppContext";

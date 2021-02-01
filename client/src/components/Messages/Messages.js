@@ -9,19 +9,26 @@ import "./Messages.scss";
 
 const Messages = ({ messages, name }) => {
   let prevMessageSender = null;
-
+  console.log("the name is " + name);
+  // guards against empty messages array
+  console.log(messages);
+  if (!messages || messages.length < 1) return null;
   return (
     <ScrollToBottom className="messages messages-container">
       {messages.map((message, i) => {
         console.log(message);
-        console.log(message.user);
-        console.log(message.user.name);
         console.log(prevMessageSender);
         let sameSenderAsPrevMsg = false;
-        if (prevMessageSender === message.user.name) {
+        if (
+          // prevMessageSender === message.username ||
+          prevMessageSender === message.user.username ||
+          prevMessageSender === message.user.name
+        ) {
           sameSenderAsPrevMsg = true;
         }
-        prevMessageSender = message.user.name;
+        prevMessageSender =
+          // message.username ||
+          message.user.username || message.user.name;
         return (
           <div key={i} className="messages messages-inner-container">
             <Message
@@ -36,14 +43,11 @@ const Messages = ({ messages, name }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
-  error: state.error
+  error: state.error,
   // propsInitialized: true
 });
 
-export default connect(
-  mapStateToProps,
-  {}
-)(Messages);
+export default connect(mapStateToProps, {})(Messages);
