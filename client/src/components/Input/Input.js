@@ -32,6 +32,7 @@ const Input = ({ setMessage, sendMessage, message }) => {
         className="input-chat-textfield"
         type="text"
         placeholder="Type a message..."
+        autoFocus={true}
         value={message}
         onChange={({ target: { value } }) => {
           console.log(value);

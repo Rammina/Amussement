@@ -68,7 +68,7 @@ export const addFriendWithUsername = (formValues) => (dispatch, getState) => {
   const friendName = formValues.username;
 
   serverRest
-    .post(`/api/users/${userId}/friends/add`, formValues)
+    .post(`/api/users/${userId}/friends`, formValues)
     .then((res) => {
       dispatch({
         type: ADD_FRIEND_SUCCESS,
@@ -86,7 +86,7 @@ export const addFriendWithUsername = (formValues) => (dispatch, getState) => {
       });
     })
     .finally(() => {
-      formShowLoader("addFriendForm", false);
+      dispatch(formShowLoader("addFriendForm", false));
     });
 };
 
@@ -94,7 +94,7 @@ export const addFriendWithId = (friendId) => (dispatch, getState) => {
   console.log("adding a friend using friendId");
   const userId = getState().user.info._id || getState().user.info.id;
   serverRest
-    .post(`/api/users/${userId}/friends/${friendId}/add`, friendId)
+    .post(`/api/users/${userId}/friends/${friendId}`, friendId)
     .then((res) => {
       dispatch({
         type: ADD_FRIEND_SUCCESS,
@@ -111,6 +111,11 @@ export const addFriendWithId = (friendId) => (dispatch, getState) => {
         type: ADD_FRIEND_FAIL,
       });
     });
+  /*
+    .finally(() => {
+        dispatch(formShowLoader("addFriendForm", false));
+      });
+      */
 };
 
 export const removeFriend = (friendId) => (dispatch, getState) => {
@@ -118,7 +123,7 @@ export const removeFriend = (friendId) => (dispatch, getState) => {
   const userId = getState().user.info._id || getState().user.info.id;
 
   serverRest
-    .post(`/api/users/${userId}/friends/${friendId}/remove`)
+    .delete(`/api/users/${userId}/friends/${friendId}`)
     .then((res) => {
       dispatch({
         type: REMOVE_FRIEND_SUCCESS,

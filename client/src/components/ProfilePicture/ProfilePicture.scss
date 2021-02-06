@@ -27,7 +27,10 @@
   width: $profilePictureSizeMessage;
   // border: 1px solid black;
 }
-
+.profile-picture-image.message {
+  position: relative;
+  bottom: 0.2rem;
+}
 .profile-picture-inner-container.friend-list,
 .profile-picture-image.friend-list {
   height: $profilePictureSizeFriendList;

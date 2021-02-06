@@ -27,7 +27,10 @@ const {
   getUser,
   getUsersInRoom,
 } = require("./helpers/users");
-const { storeMessageToDb } = require("./helpers/messages");
+const {
+  storeMessageToDb,
+  retrieveMessagesFromDB,
+} = require("./helpers/messages");
 
 const app = express();
 
@@ -93,16 +96,13 @@ app.use(flash());
 // triggers when the user connects
 io.on("connect", (socket) => {
   // listen for any user join sent from the client side
-  socket.on("join", ({ name, room, image_url }, callback) => {
+  socket.on("join", ({ name, room }, callback) => {
     console.log(name + "name hello there");
     console.log(room + "room hello there");
-    console.log(image_url);
-    //note: should get the user 's\z ID from mongoose'
     const { error, user } = addUser({
       id: socket.id,
       name,
       room,
-      image_url,
     });
     console.log("the current users after adding are:");
     console.log(getUsersInRoom(room));
@@ -111,66 +111,63 @@ io.on("connect", (socket) => {
 
     // have the user join the room
     socket.join(user.room);
-
-    // retrieve from the database 10 messages sorted by date
-    //note: do some processing to retrieve username and image_url dynamically instead of statically
-    // so it always retrieves them in sync with updated ones
-    Message.find({ room: user.room })
-      .populate("user")
-      .sort({ createdAt: -1 })
-      .limit(10)
+    // this helper function returns messages from a room
+    retrieveMessagesFromDB(user.room)
       .then((messages) => {
         console.log(messages);
         io.emit("load all messages", messages.reverse());
+      })
+      .then(() => {
+        // welcome message upon joining room, sent to all clients
+        socket.emit("message", {
+          user: { name: "RoroBot", room: user.room },
+          text: `${user.name}, welcome to room ${user.room}.`,
+        });
+        // sends an event to all users in the said room, except the specified user
+        socket.broadcast.to(user.room).emit("message", {
+          user: { name: "RoroBot", room: user.room },
+          text: `${user.name} has joined!`,
+        });
+
+        io.to(user.room).emit("roomData", {
+          room: user.room,
+          users: getUsersInRoom(user.room),
+        });
       });
-
-    // welcome message upon joining room, sent to all clients
-    socket.emit("message", {
-      user: { name: "RoroBot", room: user.room },
-      text: `${user.name}, welcome to room ${user.room}.`,
-    });
-    // sends an event to all users in the said room, except the specified user
-    socket.broadcast.to(user.room).emit("message", {
-      user: { name: "RoroBot", room: user.room },
-      text: `${user.name} has joined!`,
-    });
-
-    io.to(user.room).emit("roomData", {
-      room: user.room,
-      users: getUsersInRoom(user.room),
-    });
 
     callback();
   });
 
   // listens to an event called "sendMessage" and fires the callback function
   socket.on("sendMessage", ({ message, user, room }, callback) => {
-    // note: how to deal with guest in which there is no user?
-    // const user = getUser(socket.id);
-    // just going to check how many times this runs
     console.log("sendMessage event triggered");
     console.log(message);
     console.log(user);
     console.log(`the name of the room is ${room}`);
-    // the ID that is being sent should be from mongoose, not socket
-    console.log(user._id);
-    console.log(socket.id);
     let messageAttributes = {
       text: message,
       username: user.username,
-      user: user._id,
+      user: user._id || user.id,
       image_url: user.image_url,
       room,
     };
     console.log(messageAttributes);
+
     const emitMessageCb = () => {
       console.log("successfully stored the message in the database");
       // everyone in the room receives the message, except the sender
       io.to(room).emit("message", { user: user, text: message });
     };
-    storeMessageToDb(messageAttributes, emitMessageCb);
-    // do something after the message is sent to the backend frontend
-    callback();
+    try {
+      storeMessageToDb(messageAttributes).then(() => {
+        emitMessageCb();
+      });
+      // do something after the message is sent to the backend frontend
+      callback();
+    } catch (e) {
+      // should have proper error handling, state that it failed to store the message
+      console.log(e);
+    }
   });
 
   // listen to a disconnected event and send a message that the user has disconnected
@@ -178,7 +175,6 @@ io.on("connect", (socket) => {
     console.log("disconnect message:" + socket.id);
     console.log(getUsersInRoom());
     const user = removeUser(socket.id);
-
     if (user) {
       io.to(user.room).emit("message", {
         user: { name: "RoroBot", room: user.room },

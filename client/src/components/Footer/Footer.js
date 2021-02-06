@@ -27,6 +27,8 @@ const Footer = (props) => {
 
   const renderFooter = () => {
     if (!props.user) return null;
+    if (pathname.includes("/register") || pathname.includes("login"))
+      return null;
     // do not render on higher width breakpoint
     if (window.innerWidth >= 1000) {
       // return null;

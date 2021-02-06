@@ -21,11 +21,11 @@
   color: $messageTextColor;
   font-family: $textFont;
 }
-
+/*
 .messageText:hover {
   background-color: #eee;
 }
-
+*/
 .messageText.no-image {
   width: calc(100% - 3rem);
   margin-left: 3.5rem;
@@ -38,14 +38,22 @@
 
 .messageContainer {
   display: flex;
-  /* display: flex;
-  justify-content: flex-end;
-  padding: 0 5%; */
   margin-top: 0.4rem;
-  // padding-bottom: 0.5rem;
-  padding-top: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  padding-bottom: 0.07rem;
   border-top: 1px solid #ddd;
   width: 100%;
+}
+
+.messageContainer.text-only {
+  padding-top: 0.07rem;
+
+  margin-top: 0;
+  border-top: none;
+}
+
+.messageContainer:hover {
+  background-color: #eee;
 }
 
 .message-text-container {

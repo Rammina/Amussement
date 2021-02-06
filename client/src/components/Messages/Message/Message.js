@@ -7,15 +7,12 @@ import "./Message.scss";
 import ReactEmoji from "react-emoji";
 
 const Message = ({ message, name, sameSenderAsPrevMsg }) => {
-  console.log(message);
-  console.log(name);
-  // console.log(user);
+  const onContextMenuHandler = () => {
+    // render as a right-click menu it should have edit and delete message functions/buttons
+  };
+
   let isSentByCurrentUser = false;
-  // let sameSenderAsPrevMsg = false;
-
   const trimmedName = name.trim();
-
-  console.log(name);
   if (
     // message.username === name ||
     message.user.name === name
@@ -44,19 +41,8 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
     console.log(message.image_url);
     let senderText = null;
     let senderImage = null;
-
-    if (isSentByCurrentUser) {
-      senderText = <p className={`sender-text`}>{trimmedName}</p>;
-    } else {
-      senderText = (
-        <p className={`sender-text `}>
-          {
-            // message.username ||
-            message.user.username || message.user.name
-          }
-        </p>
-      );
-    }
+    let messageContainerClass = null;
+    let isTextOnly = true;
 
     if (!sameSenderAsPrevMsg) {
       senderImage = (
@@ -68,16 +54,34 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
           componentClass="message"
         />
       );
+      if (isSentByCurrentUser) {
+        senderText = <p className={`sender-text`}>{trimmedName}</p>;
+      } else {
+        senderText = (
+          <p className={`sender-text `}>
+            {
+              // message.username ||
+              message.user.username || message.user.name
+            }
+          </p>
+        );
+      }
+      isTextOnly = false;
     } else {
-      return renderMessageText(true);
+      messageContainerClass = "text-only";
     }
 
     return (
-      <div className="messageContainer justifyStart">
+      <div
+        className={`messageContainer justifyStart ${messageContainerClass}`}
+        onContextMenu={(e) => {
+          // e.preventDefault();
+        }}
+      >
         {senderImage}
         <div className={`message-text-container `}>
           {senderText}
-          {renderMessageText()}
+          {renderMessageText(isTextOnly)}
         </div>
       </div>
     );

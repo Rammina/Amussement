@@ -119,7 +119,7 @@ exports.user_register = async (req, res) => {
       res.status(200).json({
         token,
         user: {
-          id: savedUser._id,
+          _id: savedUser._id,
           username: savedUser.username,
           friends: [],
           email: savedUser.email.toLowerCase(),
@@ -156,7 +156,7 @@ exports.user_login = async (req, res) => {
     res.status(200).json({
       token,
       user: {
-        id: user._id,
+        _id: user._id,
         username: user.username,
         friends: user.friends || [],
         email: user.email,
@@ -194,7 +194,7 @@ exports.user_upload_avatar = async (req, res) => {
     console.log("succeeded in uploading the avatar");
     res.status(200).json({
       user: {
-        id: updatedUser._id,
+        _id: updatedUser._id,
         username: updatedUser.username,
         friends: updatedUser.friends || [],
         email: updatedUser.email.toLowerCase(),
@@ -250,7 +250,7 @@ exports.user_edit_account = async (req, res) => {
 
       res.status(200).json({
         user: {
-          id: updatedUser._id,
+          _id: updatedUser._id,
           username: updatedUser.username,
           friends: updatedUser.friends || [],
           email: updatedUser.email.toLowerCase(),
@@ -324,7 +324,7 @@ exports.user_change_password = async (req, res) => {
       console.log(updatedUser);
       res.status(200).json({
         user: {
-          id: updatedUser._id,
+          _id: updatedUser._id,
           username: updatedUser.username,
           friends: updatedUser.friends || [],
           email: updatedUser.email.toLowerCase(),
@@ -355,7 +355,7 @@ exports.user_remove_avatar = async (req, res) => {
     console.log(updatedUser);
     res.status(200).json({
       user: {
-        id: updatedUser._id,
+        _id: updatedUser._id,
         username: updatedUser.username,
         friends: updatedUser.friends || [],
         email: updatedUser.email.toLowerCase(),
@@ -409,7 +409,7 @@ exports.user_disable_account = async (req, res) => {
 
       res.status(200).json({
         user: {
-          id: updatedUser._id,
+          _id: updatedUser._id,
           username: updatedUser.username,
           friends: updatedUser.friends || [],
           email: updatedUser.email.toLowerCase(),

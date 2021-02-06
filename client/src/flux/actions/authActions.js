@@ -65,7 +65,9 @@ export const registerUser = (formValues) => {
         dispatch({ type: REGISTER_SUCCESS, payload: res.data });
         localStorage.setItem("token", res.data.token);
         // redirect to another page and clear the errors so it doesn't carry over
-        history.push("/auth/login");
+        // history.push("/auth/login");
+        const userId = res.data.user._id;
+        history.push(`/users/${userId}/home`);
         dispatch(clearErrors());
       })
       .catch((err) => {
@@ -89,7 +91,7 @@ export const loginUser = (formValues) => (dispatch) => {
     .post("/api/auth/login", formValues)
     .then((res) => {
       console.log(res.data);
-      const userId = res.data.user.id;
+      const userId = res.data.user._id;
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data,
