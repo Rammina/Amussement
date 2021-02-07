@@ -24,7 +24,9 @@
   // background-color: #222;
   background-color: #232628;
   visibility: hidden;
-  transform: translate(-2 * $onlineUsersWidth, 0);
+  // transform: translate(-2 * $onlineUsersWidth, 0);
+  transform: translate(-2 * $onlineUsersWidth, 0)
+    translate(-$roomSidebarWidth, 0);
   transition: z-index 0.3s ease;
 
   height: 100vh;
@@ -38,7 +40,9 @@
 
 .activeContainer {
   display: flex;
+  flex-direction: column;
   align-items: center;
+  // justify-content: center;
   /* margin-bottom: 50%; */
 }
 
@@ -79,7 +83,7 @@
   .online-users-container {
     display: flex;
     width: $onlineUsersWidth;
-    transform: translate(-$onlineUsersWidth, 0);
+    transform: translate(-$onlineUsersWidth, 0) translate(-$roomSidebarWidth, 0);
   }
   .online-users-container.hide {
     visibility: hidden;
@@ -90,7 +94,7 @@
   .online-users-container {
     display: flex;
     width: $onlineUsersWidth;
-    transform: translate(-#{$onlineUsersWidth}, 0);
+    transform: translate(-$onlineUsersWidth, 0) translate(-$roomSidebarWidth, 0);
   }
   .online-users-container.show {
     transform: translate(0, 0);

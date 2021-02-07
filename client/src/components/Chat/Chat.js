@@ -43,23 +43,6 @@ const Chat = (props) => {
   // const ENDPOINT = "https://chika-chat.herokuapp.com/";
   const ENDPOINT = "localhost:5000";
 
-  const handleResize = () => {
-    if (!onlineUsersButtonTouched) {
-      if (window.innerWidth >= 650) {
-        setMessagesContainerMoveLeft(true);
-      } else {
-        setMessagesContainerMoveLeft(false);
-      }
-    }
-    if (!navMenuButtonTouched) {
-      if (window.innerWidth >= 1000) {
-        // setMessagesContainerMoveLeft(true);
-      } else {
-        // setMessagesContainerMoveLeft(false);
-      }
-    }
-  };
-
   const getUserFromProps = () => {
     // setUserRetrievalAttempts(userRetrievalAttempts + 1);
     if (!props.user) {
@@ -241,3 +224,22 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {})(Chat);
+
+// const handleResize = () => {
+//   if (!onlineUsersButtonTouched) {
+//     if (window.innerWidth >= 1200) {
+//       // setOnlineUsersShow(true);
+//       setMessagesContainerMoveLeft(true);
+//     } else {
+//       // setOnlineUsersShow(false);
+//       setMessagesContainerMoveLeft(false);
+//     }
+//   }
+//   if (!navMenuButtonTouched) {
+//     if (window.innerWidth >= 1000) {
+//       // setMessagesContainerMoveLeft(true);
+//     } else {
+//       // setMessagesContainerMoveLeft(false);
+//     }
+//   }
+// };

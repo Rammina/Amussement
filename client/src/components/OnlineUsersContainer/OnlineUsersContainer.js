@@ -10,19 +10,18 @@ const OnlineUsersContainer = ({ users }) => {
   const {
     onlineUsersShow,
     setOnlineUsersShow,
-    onlineUsersButtonTouched,
-    setOnlineUsersButtonTouched,
+    getOnlineUsersButtonTouched,
     setMessagesContainerMoveLeft,
   } = useContext(NavContext);
 
   const handleResize = () => {
-    if (!onlineUsersButtonTouched) {
-      if (window.innerWidth >= 650) {
+    if (!getOnlineUsersButtonTouched()) {
+      if (window.innerWidth >= 1000) {
         setOnlineUsersShow(true);
-        console.log(onlineUsersShow);
+        setMessagesContainerMoveLeft(true);
       } else {
         setOnlineUsersShow(false);
-        console.log(onlineUsersShow);
+        setMessagesContainerMoveLeft(false);
       }
     }
   };
@@ -33,7 +32,7 @@ const OnlineUsersContainer = ({ users }) => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [handleResize]);
+  }, []);
 
   const getContainerClass = () => {
     return onlineUsersShow ? "show" : "hide";

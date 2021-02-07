@@ -22,7 +22,7 @@ const InfoBar = ({ room }) => {
     onlineUsersShow,
     roomSideBarShow,
   } = useContext(NavContext);
-  const { setShowFooter } = useContext(FooterContext);
+  const { showFooter, setShowFooter } = useContext(FooterContext);
 
   const getRoomsButtonClass = () => {
     return roomSideBarShow ? "active" : "inactive";

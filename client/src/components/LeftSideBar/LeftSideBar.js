@@ -10,7 +10,7 @@ import { NavContext, FooterContext } from "../AppContext";
 
 const LeftSideBarContainer = (props) => {
   const {
-    navMenuButtonTouched,
+    getNavMenuButtonTouched,
     leftSideBarShow,
     setLeftSideBarShow,
     setMessagesContainerMoveRight,
@@ -26,11 +26,19 @@ const LeftSideBarContainer = (props) => {
   }, []);
 
   const handleResize = () => {
-    if (!navMenuButtonTouched) {
-      if (window.innerWidth >= 1000) {
+    console.log("This triggers");
+    console.log(getNavMenuButtonTouched());
+
+    if (!getNavMenuButtonTouched()) {
+      if (window.innerWidth >= 1200) {
         setLeftSideBarShow(true);
+        setMessagesContainerMoveRight(true);
+        setShowFooter(false);
       } else {
+        console.log("This triggers");
         setLeftSideBarShow(false);
+        setMessagesContainerMoveRight(false);
+        setShowFooter(false);
       }
     }
   };

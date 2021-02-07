@@ -68,14 +68,36 @@
 }
 
 .sender-text {
-  display: block;
+  display: inline-block;
   // align-items: center;
   font-family: $textFont;
   font-weight: bold;
   color: $senderTextColor;
-  width: 100%;
+  width: fit-content;
 
   //   letter-spacing: 0.3px;
+}
+
+.sender-text:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.message-timestamp {
+  font-size: 0.8rem;
+  color: #455;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.message-timestamp.beside-sender {
+  position: relative;
+  top: 0.35rem;
+  left: 0.5rem;
+}
+
+.message-timestamp.beside-sender:hover {
+  text-decoration: none;
 }
 
 .pl-10 {

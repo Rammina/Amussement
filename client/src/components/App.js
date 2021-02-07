@@ -18,6 +18,9 @@ import Footer from "./Footer/Footer";
 import { NavContext, FooterContext } from "./AppContext";
 import { loadUser } from "../flux/actions/authActions";
 
+let navMenuButtonTouched = false;
+let onlineUsersButtonTouched = false;
+
 const App = (props) => {
   useEffect(() => {
     console.log(window.location.href);
@@ -26,19 +29,16 @@ const App = (props) => {
 
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
   const [navMenuButtonClass, setNavMenuButtonClass] = useState(null);
-  const [navMenuButtonTouched, setNavMenuButtonTouched] = useState(null);
   const [showFooter, setShowFooter] = useState(true);
   const [onlineUsersButtonRef, setOnlineUsersButtonRef] = useState(null);
   const [onlineUsersButtonClass, setOnlineUsersButtonClass] = useState(null);
-  const [onlineUsersButtonTouched, setOnlineUsersButtonTouched] = useState(
-    false
-  );
+
   const [leftSideBarShow, setLeftSideBarShow] = useState(
-    window.innerWidth >= 1000 ? true : false
+    window.innerWidth >= 1200 ? true : false
   );
 
   const [onlineUsersShow, setOnlineUsersShow] = useState(
-    window.innerWidth >= 650 ? true : false
+    window.innerWidth >= 1000 ? true : false
   );
   const [messagesContainerMoveLeft, setMessagesContainerMoveLeft] = useState(
     onlineUsersShow ? true : false
@@ -46,6 +46,16 @@ const App = (props) => {
   const [messagesContainerMoveRight, setMessagesContainerMoveRight] = useState(
     leftSideBarShow ? true : false
   );
+
+  const setNavMenuButtonTouched = (bool) => {
+    navMenuButtonTouched = bool;
+  };
+  const getNavMenuButtonTouched = () => navMenuButtonTouched;
+
+  const setOnlineUsersButtonTouched = (bool) => {
+    onlineUsersButtonTouched = bool;
+  };
+  const getOnlineUsersButtonTouched = () => onlineUsersButtonTouched;
 
   // custom functions for the hooks
   const toggleRoomSideBarShow = () => {
@@ -90,8 +100,8 @@ const App = (props) => {
       setNavMenuButtonRef,
       navMenuButtonClass,
       setNavMenuButtonClass,
-      navMenuButtonTouched,
       setNavMenuButtonTouched,
+      getNavMenuButtonTouched,
       leftSideBarShow,
       setLeftSideBarShow,
       toggleRoomSideBarShow,
@@ -99,7 +109,7 @@ const App = (props) => {
       setOnlineUsersButtonRef,
       onlineUsersButtonClass,
       setOnlineUsersButtonClass,
-      onlineUsersButtonTouched,
+      getOnlineUsersButtonTouched,
       setOnlineUsersButtonTouched,
       onlineUsersShow,
       setOnlineUsersShow,

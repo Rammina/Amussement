@@ -54,18 +54,18 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
           componentClass="message"
         />
       );
-      if (isSentByCurrentUser) {
-        senderText = <p className={`sender-text`}>{trimmedName}</p>;
-      } else {
-        senderText = (
+      senderText = (
+        <>
           <p className={`sender-text `}>
-            {
-              // message.username ||
-              message.user.username || message.user.name
-            }
+            {isSentByCurrentUser
+              ? trimmedName
+              : message.user.username || message.user.name}
           </p>
-        );
-      }
+          <span className="message-timestamp beside-sender">
+            Today at 6:49 PM
+          </span>
+        </>
+      );
       isTextOnly = false;
     } else {
       messageContainerClass = "text-only";

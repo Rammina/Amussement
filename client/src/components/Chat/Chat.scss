@@ -51,7 +51,7 @@
   }
   .chat-area-container.users-shown {
     transition: none;
-    transform: translate(-$sidebarWidth, 0);
+    transform: translate(-$sidebarWidth, 0) translate(-$roomSidebarWidth, 0);
     // width: calc(100vw);min-width: calc(100vw);
     width: calc(100vw - #{$sidebarWidth});
     min-width: calc(100vw - #{$sidebarWidth});
@@ -74,11 +74,13 @@
     // width: calc(100vw);
     // min-width: calc(100vw);
     transform: translate(0, 0);
-    width: calc(100vw - (2 *#{$sidebarWidth}));
-    min-width: calc(100vw - (2 *#{$sidebarWidth}));
+    width: calc(100vw - (2 *#{$sidebarWidth}) - #{$roomSidebarWidth});
+    min-width: calc(100vw - (2 *#{$sidebarWidth}) - #{$roomSidebarWidth});
     // transform: translate(0, 0);
     // transition: transform 0.3s ease;
     // transition: none;
+    // width: calc((100vw - (2 *#{$sidebarWidth})) -$roomSidebarWidth);
+    // min-width: calc((100vw - (2 *#{$sidebarWidth})) -$roomSidebarWidth);
   }
   .chat-area-container.rooms-shown {
   }
