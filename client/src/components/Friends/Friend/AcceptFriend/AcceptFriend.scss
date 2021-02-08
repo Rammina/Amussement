@@ -1,1 +1,15 @@
 @import "../../../../utils/variables.scss";
+
+.accept-friend.friend-item-div-button {
+  padding: 0.55rem;
+}
+
+.accept-friend.friend-action-button-image {
+  width: 1.4rem;
+  height: 1.4rem;
+  filter: invert(91%) sepia(10%) saturate(1100%) hue-rotate(73deg)
+    brightness(102%) contrast(104%);
+}
+
+.accept-friend.friend-action-button-image:hover {
+}

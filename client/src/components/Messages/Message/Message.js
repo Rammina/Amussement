@@ -29,23 +29,36 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
   const renderContextMenu = () => {
     console.log(isSentByCurrentUser);
     if (!showContextMenu) return null;
-    let contextMenuContent = null;
+    let actionButtons = null;
 
     if (isSentByCurrentUser) {
-      contextMenuContent = (
-        <div>
-          <button>edit message</button>
-          <button onClick={deleteMessageHandler}>delete message</button>
-        </div>
+      actionButtons = (
+        <>
+          <button className="context-menu-button message">
+            <span>Edit Message</span>
+          </button>
+          <button
+            className="context-menu-button message danger"
+            onClick={deleteMessageHandler}
+          >
+            <span>Delete Message</span>
+          </button>
+        </>
       );
     }
     return (
       <ContextMenu
+        componentClass="message"
         clientX={clientX}
         clientY={clientY}
         onClose={onCloseContextMenuHandler}
       >
-        {contextMenuContent}
+        <div className="context-menu-buttons-container message">
+          {actionButtons}
+          <button className="context-menu-button message">
+            <span>Copy Message ID</span>
+          </button>
+        </div>
       </ContextMenu>
     );
   };

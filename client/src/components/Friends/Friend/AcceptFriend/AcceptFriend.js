@@ -1,3 +1,5 @@
+import CheckIconImg from "../../../../icons/check.png";
+
 import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 
@@ -12,6 +14,8 @@ import "./AcceptFriend.scss";
 const AcceptFriend = (props) => {
   return (
     <button
+      className="friend-item-div-button accept-friend"
+      title={props.text || "Accept as Friend"}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -19,7 +23,11 @@ const AcceptFriend = (props) => {
         props.addFriendWithId(props.friend._id);
       }}
     >
-      {props.text || "accept friend"}
+      <img
+        className={`friend-action-button-image accept-friend`}
+        src={CheckIconImg}
+        alt="Check Icon Image"
+      />
     </button>
   );
 };
