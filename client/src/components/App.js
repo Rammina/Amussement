@@ -18,9 +18,6 @@ import Footer from "./Footer/Footer";
 import { NavContext, FooterContext } from "./AppContext";
 import { loadUser } from "../flux/actions/authActions";
 
-let navMenuButtonTouched = false;
-let onlineUsersButtonTouched = false;
-
 const App = (props) => {
   useEffect(() => {
     console.log(window.location.href);
@@ -47,11 +44,13 @@ const App = (props) => {
     leftSideBarShow ? true : false
   );
 
+  let navMenuButtonTouched = false;
   const setNavMenuButtonTouched = (bool) => {
     navMenuButtonTouched = bool;
   };
   const getNavMenuButtonTouched = () => navMenuButtonTouched;
 
+  let onlineUsersButtonTouched = false;
   const setOnlineUsersButtonTouched = (bool) => {
     onlineUsersButtonTouched = bool;
   };

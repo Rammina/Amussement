@@ -1,7 +1,19 @@
-@import "../../utils/variables.scss";
+// @import "../../utils/variables.scss";
 
-.form-content-container.modal-form-content {
-  // margin-right: 0;
+.context-menu-outer-container {
+  z-index: 500;
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  min-width: 8rem;
+  // min-height: 10rem;
+  background-color: #131518;
+  box-shadow: 1px 1px 0 1px #222;
+  border-radius: 3px;
+}
+
+.context-menu-outer-container:focus {
+  box-shadow: 1px 1px 0 1px #222;
 }
 
 @media screen and (min-width: 1200px) and (min-height: 600px) {

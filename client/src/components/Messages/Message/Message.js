@@ -1,24 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
+import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
 
 import "./Message.scss";
 
 import ReactEmoji from "react-emoji";
 
 const Message = ({ message, name, sameSenderAsPrevMsg }) => {
-  const onContextMenuHandler = () => {
-    // render as a right-click menu it should have edit and delete message functions/buttons
+  const [showContextMenu, setShowContextMenu] = useState(false);
+  const [clientX, setClientX] = useState(0);
+  const [clientY, setClientY] = useState(0);
+
+  const onCloseContextMenuHandler = () => {
+    setShowContextMenu(false);
   };
 
-  let isSentByCurrentUser = false;
+  const deleteMessageHandler = () => {
+    console.log("Deleting " + message._id);
+  };
+
   const trimmedName = name.trim();
-  if (
-    // message.username === name ||
-    message.user.name === name
-  ) {
+  let isSentByCurrentUser = false;
+  if (message.user.username === name || message.user.name === name) {
     isSentByCurrentUser = true;
   }
+
+  const renderContextMenu = () => {
+    console.log(isSentByCurrentUser);
+    if (!showContextMenu) return null;
+    let contextMenuContent = null;
+
+    if (isSentByCurrentUser) {
+      contextMenuContent = (
+        <div>
+          <button>edit message</button>
+          <button onClick={deleteMessageHandler}>delete message</button>
+        </div>
+      );
+    }
+    return (
+      <ContextMenu
+        clientX={clientX}
+        clientY={clientY}
+        onClose={onCloseContextMenuHandler}
+      >
+        {contextMenuContent}
+      </ContextMenu>
+    );
+  };
 
   const renderMessageText = (textOnly) => {
     const textOnlyClass = textOnly ? "no-image" : "";
@@ -72,18 +102,24 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
     }
 
     return (
-      <div
-        className={`messageContainer justifyStart ${messageContainerClass}`}
-        onContextMenu={(e) => {
-          // e.preventDefault();
-        }}
-      >
-        {senderImage}
-        <div className={`message-text-container `}>
-          {senderText}
-          {renderMessageText(isTextOnly)}
+      <>
+        <div
+          className={`messageContainer justifyStart ${messageContainerClass}`}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            setShowContextMenu(true);
+            setClientX(e.clientX);
+            setClientY(e.clientY);
+          }}
+        >
+          {senderImage}
+          <div className={`message-text-container `}>
+            {senderText}
+            {renderMessageText(isTextOnly)}
+          </div>
         </div>
-      </div>
+        {renderContextMenu()}
+      </>
     );
   };
 

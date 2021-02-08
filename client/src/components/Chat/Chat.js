@@ -13,7 +13,7 @@ import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
 
-import { NavContext, FooterContext } from "../AppContext";
+import { NavContext, FooterContext, ChatContext } from "../AppContext";
 
 let socket;
 
@@ -155,6 +155,9 @@ const Chat = (props) => {
       console.log(message);
       setMessages((messages) => [...messages, message]);
     });
+    socket.on("deleteMessage", (id) => {
+      const updatedMessages = messages.filter((message) => message._id !== id);
+    });
   }, [location.search]);
 
   // handles the sending of messages
@@ -162,13 +165,26 @@ const Chat = (props) => {
     // prevent page refresh
     event.preventDefault();
     console.log(message);
-    // should send the object of the user as well
-
     // if message exists, send the event
     if (message) {
       socket.emit("sendMessage", { message, user: props.user, room }, () =>
         setMessage("")
       );
+    }
+  };
+
+  // handles the deletion of messages
+  const deleteMessage = (id) => {
+    console.log(id);
+    // if message exists, send the event
+    if (id) {
+      socket.emit("deleteMessage", id, () => {
+        // callback function after emitting event (probably should delete the message on the frontend)
+        const updatedMessages = messages.filter(
+          (message) => message._id !== id
+        );
+        // setMessages()
+      });
     }
   };
 
@@ -182,6 +198,10 @@ const Chat = (props) => {
     }
     return null;
   };
+
+  const getChatContextValue = () => ({
+    deleteMessage,
+  });
 
   const renderChatContent = () => {
     // console.log(props.propsInitialized);
@@ -198,12 +218,14 @@ const Chat = (props) => {
           </div>
           <div className={`chat-area-container ${getContainerClass()}`}>
             <InfoBar room={room} />
-            <Messages messages={messages} name={name} />
-            <Input
-              message={message}
-              setMessage={setMessage}
-              sendMessage={sendMessage}
-            />
+            <ChatContext.Provider value={getChatContextValue()}>
+              <Messages messages={messages} name={name} />
+              <Input
+                message={message}
+                setMessage={setMessage}
+                sendMessage={sendMessage}
+              />
+            </ChatContext.Provider>
           </div>
           <OnlineUsersContainer users={users} />
         </React.Fragment>

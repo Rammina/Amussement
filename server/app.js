@@ -170,6 +170,20 @@ io.on("connect", (socket) => {
     }
   });
 
+  socket.on("deleteMessage", (id, callback) => {
+    try {
+      deleteMessageFromDB(id).then(() => {
+        console.log("successfully Deleted the message in the database");
+        io.to(room).emit("deleteMessage", id);
+      });
+      // do something after the message is sent to the backend frontend
+      callback();
+    } catch (e) {
+      // should have proper error handling, state that it failed to store the message
+      console.log(e);
+    }
+  });
+
   // listen to a disconnected event and send a message that the user has disconnected
   socket.on("disconnect", () => {
     console.log("disconnect message:" + socket.id);
