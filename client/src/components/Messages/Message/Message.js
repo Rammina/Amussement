@@ -1,23 +1,27 @@
-import React, { useState } from "react";
+import "./Message.scss";
+
+import React, { useState, useContext } from "react";
+import ReactEmoji from "react-emoji";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
-
-import "./Message.scss";
-
-import ReactEmoji from "react-emoji";
+import { ChatContext } from "../../AppContext";
 
 const Message = ({ message, name, sameSenderAsPrevMsg }) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [clientY, setClientY] = useState(0);
+  const { deleteMessage } = useContext(ChatContext);
 
   const onCloseContextMenuHandler = () => {
     setShowContextMenu(false);
   };
 
   const deleteMessageHandler = () => {
+    // note: cannot remove messages sent from thefrontend because they have no ._id
     console.log("Deleting " + message._id);
+    deleteMessage(message._id);
+    onCloseContextMenuHandler();
   };
 
   const trimmedName = name.trim();

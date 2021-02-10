@@ -38,4 +38,8 @@ const deleteMessageFromDB = async (id) => {
   }
 };
 
-module.exports = { storeMessageToDb, retrieveMessagesFromDB };
+module.exports = {
+  storeMessageToDb,
+  retrieveMessagesFromDB,
+  deleteMessageFromDB,
+};

@@ -155,8 +155,11 @@ const Chat = (props) => {
       console.log(message);
       setMessages((messages) => [...messages, message]);
     });
-    socket.on("deleteMessage", (id) => {
-      const updatedMessages = messages.filter((message) => message._id !== id);
+
+    socket.on("deletedMessage", (id) => {
+      setMessages((messages) =>
+        messages.filter((message) => message._id !== id)
+      );
     });
   }, [location.search]);
 
@@ -178,12 +181,8 @@ const Chat = (props) => {
     console.log(id);
     // if message exists, send the event
     if (id) {
-      socket.emit("deleteMessage", id, () => {
-        // callback function after emitting event (probably should delete the message on the frontend)
-        const updatedMessages = messages.filter(
-          (message) => message._id !== id
-        );
-        // setMessages()
+      socket.emit("deleteMessage", id, room, () => {
+        console.log("deleting message");
       });
     }
   };

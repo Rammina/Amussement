@@ -30,6 +30,7 @@ const {
 const {
   storeMessageToDb,
   retrieveMessagesFromDB,
+  deleteMessageFromDB,
 } = require("./helpers/messages");
 
 const app = express();
@@ -170,11 +171,12 @@ io.on("connect", (socket) => {
     }
   });
 
-  socket.on("deleteMessage", (id, callback) => {
+  socket.on("deleteMessage", (id, room, callback) => {
     try {
       deleteMessageFromDB(id).then(() => {
         console.log("successfully Deleted the message in the database");
-        io.to(room).emit("deleteMessage", id);
+        console.log(room);
+        io.to(room).emit("deletedMessage", id);
       });
       // do something after the message is sent to the backend frontend
       callback();
