@@ -1,3 +1,5 @@
+@import "../../utils/variables.scss";
+
 .delete-account.form-content-container.modal-form-content {
   display: flex;
   // align-content: center;
@@ -19,6 +21,7 @@
 
 #delete-account-description-paragraph {
   margin-top: 0.5rem;
+  color: $dangerTextColorLight;
 }
 
 #delete-account-password-container {

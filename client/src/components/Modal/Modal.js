@@ -5,25 +5,12 @@ import ReactDOM from "react-dom";
 import BackButton from "../buttons/BackButton";
 import CloseButton from "../buttons/CloseButton";
 import ModalHeader from "./ModalHeader/ModalHeader";
+import ModalFooter from "./ModalFooter/ModalFooter";
 
 // import { ModalContext } from "../AppContext";
 
 const Modal = (props) => {
   const [modalOpen, setModalOpen] = useState(true);
-
-  /*
-  const {
-    componentClass,
-    buttonId,
-    buttonLabel,
-    imageId,
-    headingText,
-    hideOnDesktop,
-    onModalClose,
-    noHeader,
-    modalContent,
-  } = useContext(ModalContext);
-*/
 
   useEffect(() => {}, []);
 
@@ -47,17 +34,20 @@ const Modal = (props) => {
       <ModalHeader
         componentClass={`${getClassName()}`}
         headerClassName={props.headerClassName}
-        onModalClose={() => {
-          props.onModalClose();
-        }}
+        onModalClose={props.onModalClose}
         headingText={props.headingText || null}
       />
     );
   };
-  const renderModalContent = () => {
-    console.log("trying to render modal content");
-    if (!props.modalContent) return null;
-    return props.modalContent;
+  const renderModalFooter = () => {
+    if (props.noFooter) return null;
+    return (
+      <ModalFooter
+        componentClass={`${getClassName()}`}
+        footerClassName={props.footerClassName}
+        onModalClose={props.onModalClose}
+      />
+    );
   };
 
   return (
@@ -73,7 +63,8 @@ const Modal = (props) => {
         style={props.modalStyle || {}}
       >
         {renderModalHeader()}
-        {renderModalContent()}
+        {props.children}
+        {renderModalFooter()}
       </div>{" "}
     </React.Fragment>
   );

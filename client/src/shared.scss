@@ -338,6 +338,17 @@ textarea {
 
 .modal-header {
   z-index: 100;
+  position: fixed;
+  top: 0;
+  display: flex;
+  width: 100%;
+  height: 3rem;
+  padding: 0 0.8rem;
+  margin: 0;
+  justify-content: space-between;
+  align-items: center;
+  // background-color: #111;
+  background-color: $secondary-black;
 }
 
 .modal-content-container {
@@ -355,6 +366,7 @@ textarea {
   padding: 0.5rem;
 }
 .modal-header-content-container.modal-heading-container {
+  position: relative;
   width: 100%;
   padding: 0;
   display: flex;
@@ -362,8 +374,8 @@ textarea {
 }
 .modal-header-heading,
 .modal-header-heading.modal-heading {
-  display: inline-block;
-  width: fit-content;
+  display: block;
+  width: 100%;
 }
 .modal-header-heading.modal-heading {
   position: relative;
@@ -382,8 +394,15 @@ textarea {
   font-size: 1.25rem;
   text-shadow: 0 1px 2px #345;
 }
+
+.modal-header-close.close-button-container {
+  position: relative;
+  left: 0.8rem;
+}
+
 .modal-paragraph {
   font-size: 1.1rem;
+  // text-align: center;
 }
 .modal-paragraph.small-text {
   font-size: 0.95rem;
@@ -513,6 +532,7 @@ textarea {
     width: fit-content;
     height: auto;
     min-height: 0;
+    min-width: 20rem;
     max-height: 95vh;
     // max-height: 40rem;
     top: 50%;
@@ -522,6 +542,11 @@ textarea {
     border: 2px solid $modalBorderColor;
     border-radius: 4px;
     padding-bottom: 2rem; // bottom: 8vh;
+  }
+  .modal-header {
+    position: relative;
+    // background-color: #0000;
+    margin: 0;
   }
   .form-content-container.modal-form-content {
     min-height: 0;

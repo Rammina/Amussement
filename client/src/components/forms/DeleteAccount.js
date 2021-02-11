@@ -105,68 +105,67 @@ const DeleteAccount = (props) => {
         }}
         headerClassName="user-settings-sidebar-header"
         headingText="Delete Account"
-        modalContent={
-          <form id="delete-account-form" autoComplete="off">
-            <div className="delete-account form-content-container modal-form-content">
-              <p className="modal-paragraph delete-account">
-                Are you sure you want to delete your account?
-              </p>
-              <p
-                id="delete-account-description-paragraph"
-                className="modal-paragraph small-text delete-account"
-              >
-                (Warning: Deleted accounts cannot be restored.)
-              </p>
+      >
+        <form id="delete-account-form" autoComplete="off">
+          <div className="delete-account form-content-container modal-form-content">
+            <p className="modal-paragraph delete-account">
+              Are you sure you want to delete your account?
+            </p>
+            <p
+              id="delete-account-description-paragraph"
+              className="modal-paragraph small-text delete-account"
+            >
+              Warning: Deleted accounts cannot be restored.
+            </p>
 
-              {renderErrorNotifications()}
+            {renderErrorNotifications()}
 
-              <div
-                className="textfield-container"
-                id="delete-account-password-container"
-              >
-                <Field
-                  name="password"
-                  component={renderInput}
-                  type="password"
-                  props={{
-                    inputProps: {
-                      placeholder: "Enter Password for Confirmation",
-                      className: "textfield",
-                      maxLength: "30",
-                      autoComplete: "off",
-                      type: "password",
-                      id: "delete-account-password-field",
+            <div
+              className="textfield-container"
+              id="delete-account-password-container"
+            >
+              <Field
+                name="password"
+                component={renderInput}
+                type="password"
+                props={{
+                  inputProps: {
+                    placeholder: "Enter Password for Confirmation",
+                    className: "textfield",
+                    maxLength: "30",
+                    autoComplete: "off",
+                    type: "password",
+                    id: "delete-account-password-field",
 
-                      autoFocus: true,
-                    },
-                    labelProps: {
-                      class: "textfield-label",
-                      text: "Password",
-                      id: "delete-account-password-label",
-                    },
-                  }}
-                />
-              </div>
-              <div className="form-button-container two-buttons-container mt-2-rem">
-                <CancelButton
-                  hideOnMobile={true}
-                  onClickHandler={() => {
-                    props.hideSection();
-                  }}
-                />
-                <button
-                  id="delete-account-submit"
-                  className={"form-button submit mt-20 danger"}
-                  type="submit"
-                  onClick={props.handleSubmit(onSubmit)}
-                >
-                  {renderLoader()} Delete Account
-                </button>
-              </div>
+                    autoFocus: true,
+                  },
+                  labelProps: {
+                    class: "textfield-label",
+                    text: "Password",
+                    id: "delete-account-password-label",
+                  },
+                }}
+              />
             </div>
-          </form>
-        }
-      />
+            <div className="form-button-container two-buttons-container mt-2-rem">
+              <CancelButton
+                hideOnMobile={true}
+                onClickHandler={() => {
+                  props.hideSection();
+                }}
+              />
+              <button
+                id="delete-account-submit"
+                className={"form-button submit mt-20 danger"}
+                type="submit"
+                onClick={props.handleSubmit(onSubmit)}
+              >
+                {renderLoader()} Delete Account
+              </button>
+            </div>
+          </div>
+        </form>
+      </Modal>
     </React.Fragment>
   );
 

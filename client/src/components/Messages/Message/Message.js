@@ -5,10 +5,13 @@ import ReactEmoji from "react-emoji";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
+
 import { ChatContext } from "../../AppContext";
+import DeleteMessage from "./DeleteMessage/DeleteMessage";
 
 const Message = ({ message, name, sameSenderAsPrevMsg }) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
+  const [showDeleteMessageModal, setShowDeleteMessageModal] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [clientY, setClientY] = useState(0);
   const { deleteMessage } = useContext(ChatContext);
@@ -17,11 +20,16 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
     setShowContextMenu(false);
   };
 
-  const deleteMessageHandler = () => {
-    // note: cannot remove messages sent from thefrontend because they have no ._id
-    console.log("Deleting " + message._id);
-    deleteMessage(message._id);
-    onCloseContextMenuHandler();
+  const renderDeleteMessageModal = () => {
+    if (!showDeleteMessageModal) return null;
+    return (
+      <DeleteMessage
+        message={message}
+        onModalClose={() => {
+          setShowDeleteMessageModal(false);
+        }}
+      />
+    );
   };
 
   const trimmedName = name.trim();
@@ -43,7 +51,10 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
           </button>
           <button
             className="context-menu-button message danger"
-            onClick={deleteMessageHandler}
+            onClick={() => {
+              setShowDeleteMessageModal(true);
+              onCloseContextMenuHandler();
+            }}
           >
             <span>Delete Message</span>
           </button>
@@ -136,6 +147,7 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
           </div>
         </div>
         {renderContextMenu()}
+        {renderDeleteMessageModal()}
       </>
     );
   };

@@ -112,99 +112,98 @@ const ChangeUserPassword = (props) => {
       }}
       headerClassName="user-settings-sidebar-header"
       headingText={renderHeadingText()}
-      modalContent={
-        <form id="change-user-password-form" autoComplete="off">
-          <div className="change-user-password form-content-container modal-form-content">
-            {renderErrorNotifications()}
-            <div className="textfield-container">
-              <Field
-                name="password"
-                component={renderInput}
-                type="password"
-                props={{
-                  inputProps: {
-                    placeholder: "Current Password",
-                    className: "textfield",
-                    maxLength: "30",
-                    autoComplete: "off",
-                    id: "change-user-password-password-field",
-                    type: "password",
-                    autoFocus: true,
-                  },
-                  labelProps: {
-                    class: "textfield-label",
-                    text: "Current Password",
-                    id: "change-user-password-password-label",
-                  },
-                }}
-              />
-            </div>
-            <div className="textfield-container">
-              <Field
-                name="new_password"
-                component={renderInput}
-                type="password"
-                props={{
-                  inputProps: {
-                    placeholder: "New Password",
-                    className: "textfield",
-                    maxLength: "30",
-                    autoComplete: "off",
-                    id: "change-user-password-new-password-field",
-                    type: "password",
-                    // autoFocus: true
-                  },
-                  labelProps: {
-                    class: "textfield-label",
-                    text: "New Password",
-                    id: "change-user-password-new-password-label",
-                  },
-                }}
-              />
-            </div>
-            <div className="textfield-container">
-              <Field
-                name="new_password_2"
-                component={renderInput}
-                type="password"
-                props={{
-                  inputProps: {
-                    placeholder: "Confirm New Password",
-                    className: "textfield",
-                    maxLength: "30",
-                    autoComplete: "off",
-                    id: "change-user-password-new-password-2-field",
-                    type: "password",
-                    // autoFocus: true
-                  },
-                  labelProps: {
-                    class: "textfield-label",
-                    text: "Confirm New Password",
-                    id: "change-user-password-new-password-2-label",
-                  },
-                }}
-              />
-            </div>
-
-            <div className="form-button-container two-buttons-container">
-              <CancelButton
-                hideOnMobile={true}
-                onClickHandler={() => {
-                  props.hideSection();
-                }}
-              />
-              <button
-                className={"form-button submit mt-20"}
-                type="submit"
-                onClick={props.handleSubmit(onSubmit)}
-              >
-                {renderLoader()} Change Password
-              </button>
-            </div>
+    >
+      <form id="change-user-password-form" autoComplete="off">
+        <div className="change-user-password form-content-container modal-form-content">
+          {renderErrorNotifications()}
+          <div className="textfield-container">
+            <Field
+              name="password"
+              component={renderInput}
+              type="password"
+              props={{
+                inputProps: {
+                  placeholder: "Current Password",
+                  className: "textfield",
+                  maxLength: "30",
+                  autoComplete: "off",
+                  id: "change-user-password-password-field",
+                  type: "password",
+                  autoFocus: true,
+                },
+                labelProps: {
+                  class: "textfield-label",
+                  text: "Current Password",
+                  id: "change-user-password-password-label",
+                },
+              }}
+            />
           </div>
-        </form>
-      }
-    />
+          <div className="textfield-container">
+            <Field
+              name="new_password"
+              component={renderInput}
+              type="password"
+              props={{
+                inputProps: {
+                  placeholder: "New Password",
+                  className: "textfield",
+                  maxLength: "30",
+                  autoComplete: "off",
+                  id: "change-user-password-new-password-field",
+                  type: "password",
+                  // autoFocus: true
+                },
+                labelProps: {
+                  class: "textfield-label",
+                  text: "New Password",
+                  id: "change-user-password-new-password-label",
+                },
+              }}
+            />
+          </div>
+          <div className="textfield-container">
+            <Field
+              name="new_password_2"
+              component={renderInput}
+              type="password"
+              props={{
+                inputProps: {
+                  placeholder: "Confirm New Password",
+                  className: "textfield",
+                  maxLength: "30",
+                  autoComplete: "off",
+                  id: "change-user-password-new-password-2-field",
+                  type: "password",
+                  // autoFocus: true
+                },
+                labelProps: {
+                  class: "textfield-label",
+                  text: "Confirm New Password",
+                  id: "change-user-password-new-password-2-label",
+                },
+              }}
+            />
+          </div>
+
+          <div className="form-button-container two-buttons-container">
+            <CancelButton
+              hideOnMobile={true}
+              onClickHandler={() => {
+                props.hideSection();
+              }}
+            />
+            <button
+              className={"form-button submit mt-20"}
+              type="submit"
+              onClick={props.handleSubmit(onSubmit)}
+            >
+              {renderLoader()} Change Password
+            </button>
+          </div>
+        </div>
+      </form>
+    </Modal>
   );
 
   return ReactDOM.createPortal(content, document.getElementById("modal"));

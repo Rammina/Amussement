@@ -1,3 +1,5 @@
+@import "../../utils/variables.scss";
+
 .disable-account.form-content-container.modal-form-content {
   display: flex;
   // align-content: center;
@@ -19,6 +21,7 @@
 
 #disable-account-description-paragraph {
   margin-top: 0.5rem;
+  color: $dangerTextColorLight;
 }
 
 #disable-account-password-container {

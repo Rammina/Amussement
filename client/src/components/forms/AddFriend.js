@@ -98,52 +98,51 @@ const AddFriend = (props) => {
       }}
       headerClassName="user-settings-sidebar-header"
       headingText="Add Friend"
-      modalContent={
-        <form id="add-friend-form" autoComplete="off">
-          <div className="add-friend form-content-container modal-form-content">
-            {renderErrorNotifications()}
-            <div className="textfield-container">
-              <Field
-                name="username"
-                component={renderInput}
-                type="text"
-                props={{
-                  inputProps: {
-                    placeholder: "Enter a Username",
-                    className: "textfield",
-                    maxLength: "30",
-                    autoComplete: "off",
-                    id: "add-friend-username-field",
-                    type: "text",
-                    // autoFocus: true
-                  },
-                  labelProps: {
-                    class: "textfield-label",
-                    text: "Friend Username",
-                    id: "add-friend-username-label",
-                  },
-                }}
-              />
-            </div>
-            <div className="form-button-container two-buttons-container">
-              <CancelButton
-                hideOnMobile={true}
-                onClickHandler={() => {
-                  props.onModalClose();
-                }}
-              />
-              <button
-                className={"form-button submit mt-20"}
-                type="submit"
-                onClick={props.handleSubmit(onSubmit)}
-              >
-                {renderLoader()} Send Request
-              </button>
-            </div>
+    >
+      <form id="add-friend-form" autoComplete="off">
+        <div className="add-friend form-content-container modal-form-content">
+          {renderErrorNotifications()}
+          <div className="textfield-container">
+            <Field
+              name="username"
+              component={renderInput}
+              type="text"
+              props={{
+                inputProps: {
+                  placeholder: "Enter a Username",
+                  className: "textfield",
+                  maxLength: "30",
+                  autoComplete: "off",
+                  id: "add-friend-username-field",
+                  type: "text",
+                  // autoFocus: true
+                },
+                labelProps: {
+                  class: "textfield-label",
+                  text: "Friend Username",
+                  id: "add-friend-username-label",
+                },
+              }}
+            />
           </div>
-        </form>
-      }
-    />
+          <div className="form-button-container two-buttons-container">
+            <CancelButton
+              hideOnMobile={true}
+              onClickHandler={() => {
+                props.onModalClose();
+              }}
+            />
+            <button
+              className={"form-button submit mt-20"}
+              type="submit"
+              onClick={props.handleSubmit(onSubmit)}
+            >
+              {renderLoader()} Send Request
+            </button>
+          </div>
+        </div>
+      </form>
+    </Modal>
   );
 
   // render

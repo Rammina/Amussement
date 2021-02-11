@@ -31,24 +31,20 @@ const UserProfileCard = (props) => {
         modalStyle={{
           transform: `translateY(100vh) translateY(-${modalHeight}px)`,
         }}
-        modalContent={
-          <React.Fragment>
-            <div
-              className="user-profile-card-outer-container"
-              ref={modalElement}
-            >
-              <section className="user-profile-card-section-container">
-                <UserIdentity selectedUser={props.selectedUser} />
-                <UserCommunications selectedUser={props.selectedUser} />
-              </section>
-              <section className="user-profile-card-section-container">
-                <UserConnections />
-                <Notes />
-              </section>
-            </div>
-          </React.Fragment>
-        }
-      />
+      >
+        <React.Fragment>
+          <div className="user-profile-card-outer-container" ref={modalElement}>
+            <section className="user-profile-card-section-container">
+              <UserIdentity selectedUser={props.selectedUser} />
+              <UserCommunications selectedUser={props.selectedUser} />
+            </section>
+            <section className="user-profile-card-section-container">
+              <UserConnections />
+              <Notes />
+            </section>
+          </div>
+        </React.Fragment>
+      </Modal>
     </React.Fragment>
   );
   // render using portal
