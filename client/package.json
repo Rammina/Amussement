@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "date-fns": "^2.7.0",
     "query-string": "^6.8.2",
     "react": "^16.9.0",
@@ -17,7 +17,8 @@
     "redux-form": "^8.2.6",
     "redux-thunk": "^2.3.0",
     "sass": "^1.26.5",
-    "socket.io-client": "^2.2.0"
+    "socket.io-client": "^2.2.0",
+    "uuidv4": "^6.2.6"
   },
   "scripts": {
     "start": "react-scripts start",

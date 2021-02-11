@@ -154,14 +154,15 @@ io.on("connect", (socket) => {
     };
     console.log(messageAttributes);
 
-    const emitMessageCb = () => {
+    const emitMessageCb = (message) => {
       console.log("successfully stored the message in the database");
-      // everyone in the room receives the message, except the sender
-      io.to(room).emit("message", { user: user, text: message });
+      console.log("159");
+      console.log(message);
+      io.to(room).emit("message", { ...message._doc, user });
     };
     try {
-      storeMessageToDb(messageAttributes).then(() => {
-        emitMessageCb();
+      storeMessageToDb(messageAttributes).then((message) => {
+        emitMessageCb(message);
       });
       // do something after the message is sent to the backend frontend
       callback();
