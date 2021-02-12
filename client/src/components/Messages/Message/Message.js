@@ -5,9 +5,10 @@ import ReactEmoji from "react-emoji";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
+import DeleteMessage from "./DeleteMessage/DeleteMessage";
 
 import { ChatContext } from "../../AppContext";
-import DeleteMessage from "./DeleteMessage/DeleteMessage";
+import { copyToClipboard } from "../../../helpers";
 
 const Message = ({ message, name, sameSenderAsPrevMsg }) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
@@ -18,6 +19,12 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
 
   const onCloseContextMenuHandler = () => {
     setShowContextMenu(false);
+  };
+
+  const onCopyIdHandler = () => {
+    if (message && message._id) {
+      copyToClipboard(message._id);
+    }
   };
 
   const renderDeleteMessageModal = () => {
@@ -70,7 +77,13 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
       >
         <div className="context-menu-buttons-container message">
           {actionButtons}
-          <button className="context-menu-button message">
+          <button
+            className="context-menu-button message"
+            onClick={() => {
+              onCopyIdHandler();
+              onCloseContextMenuHandler();
+            }}
+          >
             <span>Copy Message ID</span>
           </button>
         </div>

@@ -18,16 +18,16 @@ export const getCurrentTime = () => {
   return format(new Date(), "hh:mma");
 };
 
-export const convertToMDY = date => {
+export const convertToMDY = (date) => {
   console.log(date);
   return date ? format(new Date(date.replace(/-/g, "/")), "MM/dd/yyyy") : null;
 };
 
-export const toMilitaryTime = datetime => {
+export const toMilitaryTime = (datetime) => {
   return format(datetime, "HH:mm");
 };
 
-export const toStandardTime = time => {
+export const toStandardTime = (time) => {
   console.log(time);
   if (!time) {
     // Use this if you want to bypass the error
@@ -64,7 +64,7 @@ export const getFilenameFromDir = (string, separator) => {
 };
 
 // regular expression testing
-export const validateEmail = email => {
+export const validateEmail = (email) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 };
@@ -87,12 +87,12 @@ export const checkFileType = (regexp, file, cb) => {
 */
 
 // styling functions
-export const autoGrow = function(element) {
+export const autoGrow = function (element) {
   element.style.height = "5px";
   element.style.height = element.scrollHeight + 3.7813 + "px";
 };
 
-export const autoGrowValue = function(element) {
+export const autoGrowValue = function (element) {
   if (!element) {
     return "0px";
   }
@@ -227,7 +227,7 @@ export const ellipsifyString = (string, length = 10) => {
   return string;
 };
 
-export const capitalizeFirstLetter = string => {
+export const capitalizeFirstLetter = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
@@ -266,6 +266,20 @@ export const arrayHasObjectWithPropAndValue = (array, propName, value) => {
     if (item[propName] === value) return true;
   }
   return false;
+};
+
+// clipboard functionality
+export const copyToClipboard = (text) => {
+  var dummy = document.createElement("textarea");
+  // to avoid breaking orgain page when copying more words
+  // cant copy when adding below this code
+  // dummy.style.display = 'none'
+  document.body.appendChild(dummy);
+  //Be careful if you use texarea. setAttribute('value', value), which works with "input" does not work with "textarea". – Eduard
+  dummy.value = text;
+  dummy.select();
+  document.execCommand("copy");
+  document.body.removeChild(dummy);
 };
 /*
 // CryptoJS functions
