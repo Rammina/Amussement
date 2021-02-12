@@ -26,7 +26,7 @@ const DeleteAccount = (props) => {
     // Note: temporary placeholder
     if (window.innerWidth >= 1200 && window.innerHeight >= 600) {
       return (
-        <div class="messageContainer justifyStart null">
+        <div class="delete-message messageContainer justifyStart null">
           <div class="profile-picture-outer-container message">
             <div class="profile-picture-inner-container message">
               <img
@@ -67,6 +67,15 @@ const DeleteAccount = (props) => {
         }}
         headerClassName="delete-message"
         headingText="Delete Message"
+        actionButtons={
+          <button
+            className={"form-button submit mt-20 danger"}
+            type="submit"
+            onClick={deleteMessageHandler}
+          >
+            Delete Message
+          </button>
+        }
       >
         <>
           <p
@@ -76,21 +85,6 @@ const DeleteAccount = (props) => {
             Are you sure you want to delete this message?
           </p>
           {renderSelectedMessage()}
-          <div className="form-button-container two-buttons-container">
-            <CancelButton
-              hideOnMobile={true}
-              onClickHandler={() => {
-                props.onModalClose();
-              }}
-            />
-            <button
-              className={"form-button submit mt-20 danger"}
-              type="submit"
-              onClick={deleteMessageHandler}
-            >
-              Delete Message
-            </button>
-          </div>
         </>
       </Modal>
     </React.Fragment>

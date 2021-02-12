@@ -158,10 +158,11 @@
   .form-content-container {
     // position: relative;
     padding: 2rem;
-    // padding-top: 0;
+    padding-top: 3.5rem;
     width: 80%;
     margin: $center-margin;
-    margin-top: 2rem;
+    // margin-top: 2rem;
+    // padding-top: 4rem;
     // top: 2rem;
     height: auto;
     min-height: 0;
@@ -191,7 +192,8 @@
   }
 
   .form-content-container {
-    padding-top: 0;
+    padding-top: 0.75rem;
+    // overflow-y: auto;
   }
   .form-button-container.two-buttons-container {
     margin-top: 1rem;
@@ -203,6 +205,7 @@
     width: fit-content;
     min-width: 6rem;
     max-width: 22rem;
+    min-height: 2.8rem;
     margin: 0 1rem;
   }
   .form-button-container.two-buttons-container.mt-2-rem {

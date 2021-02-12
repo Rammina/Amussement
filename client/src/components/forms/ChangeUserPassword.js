@@ -112,6 +112,15 @@ const ChangeUserPassword = (props) => {
       }}
       headerClassName="user-settings-sidebar-header"
       headingText={renderHeadingText()}
+      actionButtons={
+        <button
+          className={"form-button submit mt-20"}
+          type="submit"
+          onClick={props.handleSubmit(onSubmit)}
+        >
+          {renderLoader()} Change Password
+        </button>
+      }
     >
       <form id="change-user-password-form" autoComplete="off">
         <div className="change-user-password form-content-container modal-form-content">
@@ -184,22 +193,6 @@ const ChangeUserPassword = (props) => {
                 },
               }}
             />
-          </div>
-
-          <div className="form-button-container two-buttons-container">
-            <CancelButton
-              hideOnMobile={true}
-              onClickHandler={() => {
-                props.hideSection();
-              }}
-            />
-            <button
-              className={"form-button submit mt-20"}
-              type="submit"
-              onClick={props.handleSubmit(onSubmit)}
-            >
-              {renderLoader()} Change Password
-            </button>
           </div>
         </div>
       </form>

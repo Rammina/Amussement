@@ -46,6 +46,7 @@ const Modal = (props) => {
         componentClass={`${getClassName()}`}
         footerClassName={props.footerClassName}
         onModalClose={props.onModalClose}
+        actionButtons={props.actionButtons}
       />
     );
   };

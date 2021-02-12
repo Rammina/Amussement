@@ -105,6 +105,16 @@ const DeleteAccount = (props) => {
         }}
         headerClassName="user-settings-sidebar-header"
         headingText="Delete Account"
+        actionButtons={
+          <button
+            id="delete-account-submit"
+            className={"form-button submit mt-20 danger"}
+            type="submit"
+            onClick={props.handleSubmit(onSubmit)}
+          >
+            {renderLoader()} Delete Account
+          </button>
+        }
       >
         <form id="delete-account-form" autoComplete="off">
           <div className="delete-account form-content-container modal-form-content">
@@ -146,22 +156,6 @@ const DeleteAccount = (props) => {
                   },
                 }}
               />
-            </div>
-            <div className="form-button-container two-buttons-container mt-2-rem">
-              <CancelButton
-                hideOnMobile={true}
-                onClickHandler={() => {
-                  props.hideSection();
-                }}
-              />
-              <button
-                id="delete-account-submit"
-                className={"form-button submit mt-20 danger"}
-                type="submit"
-                onClick={props.handleSubmit(onSubmit)}
-              >
-                {renderLoader()} Delete Account
-              </button>
             </div>
           </div>
         </form>

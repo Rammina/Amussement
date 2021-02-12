@@ -98,6 +98,16 @@ const DisableAccount = (props) => {
         }}
         headerClassName="user-settings-sidebar-header"
         headingText="Disable Account"
+        actionButtons={
+          <button
+            id="disable-account-submit"
+            className={"form-button submit mt-20 warning"}
+            type="submit"
+            onClick={props.handleSubmit(onSubmit)}
+          >
+            {renderLoader()} Disable Account
+          </button>
+        }
       >
         <form id="disable-account-form" autoComplete="off">
           <div className="disable-account form-content-container modal-form-content">
@@ -139,22 +149,6 @@ const DisableAccount = (props) => {
                   },
                 }}
               />
-            </div>
-            <div className="form-button-container two-buttons-container mt-2-rem">
-              <CancelButton
-                hideOnMobile={true}
-                onClickHandler={() => {
-                  props.hideSection();
-                }}
-              />
-              <button
-                id="disable-account-submit"
-                className={"form-button submit mt-20 warning"}
-                type="submit"
-                onClick={props.handleSubmit(onSubmit)}
-              >
-                {renderLoader()} Disable Account
-              </button>
             </div>
           </div>
         </form>

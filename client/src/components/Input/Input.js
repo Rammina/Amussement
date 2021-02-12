@@ -31,6 +31,7 @@ const Input = ({ setMessage, sendMessage, message }) => {
       <textarea
         className="input-chat-textfield"
         type="text"
+        maxLength="2000"
         placeholder="Type a message..."
         autoFocus={true}
         value={message}

@@ -541,15 +541,26 @@ textarea {
     right: 0;
     border: 2px solid $modalBorderColor;
     border-radius: 4px;
-    padding-bottom: 2rem; // bottom: 8vh;
+    padding-top: 3rem;
+    padding-bottom: 0;
+    overflow-y: hidden;
   }
-  .modal-header {
-    position: relative;
+
+  .modal form {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .modal-header,
+  .modal-header.user-settings-sidebar-header {
+    position: fixed;
     // background-color: #0000;
     margin: 0;
   }
   .form-content-container.modal-form-content {
+    // overflow-y: auto;
     min-height: 0;
+    // max-height: 80vh;
     height: auto;
   }
   .modal-header-content-container.modal-heading-container {

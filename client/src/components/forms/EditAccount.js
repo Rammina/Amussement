@@ -104,6 +104,15 @@ const EditAccount = (props) => {
         }}
         headerClassName="user-settings-sidebar-header"
         headingText="Edit Account"
+        actionButtons={
+          <button
+            className={"form-button submit mt-20"}
+            type="submit"
+            onClick={props.handleSubmit(onSubmit)}
+          >
+            {renderLoader()} Save
+          </button>
+        }
       >
         <form id="edit-account-form" autoComplete="off">
           <div className="edit-account form-content-container modal-form-content">
@@ -176,22 +185,6 @@ const EditAccount = (props) => {
                   },
                 }}
               />
-            </div>
-            <div className="form-button-container two-buttons-container">
-              <CancelButton
-                hideOnMobile={true}
-                onClickHandler={() => {
-                  console.log("closing edit-account modal");
-                  props.hideSection();
-                }}
-              />
-              <button
-                className={"form-button submit mt-20"}
-                type="submit"
-                onClick={props.handleSubmit(onSubmit)}
-              >
-                {renderLoader()} Save
-              </button>
             </div>
           </div>
         </form>
