@@ -1,28 +1,24 @@
 import "./Message.scss";
 
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import ReactEmoji from "react-emoji";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
 import DeleteMessage from "./DeleteMessage/DeleteMessage";
+import EditMessage from "./EditMessage/EditMessage";
 
 import { ChatContext } from "../../AppContext";
-import { copyToClipboard } from "../../../helpers";
+import { toChatCustomTimestamp, copyToClipboard } from "../../../helpers";
 
 const Message = ({ message, name, sameSenderAsPrevMsg }) => {
-  const [messageText, setMessageText] = useState("");
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [showDeleteMessageModal, setShowDeleteMessageModal] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [clientY, setClientY] = useState(0);
-  const { deleteMessage, editMessage } = useContext(ChatContext);
 
-  useEffect(() => {
-    setMessageText(message.text);
-    /*return () => {}*/
-  }, []);
+  const { deleteMessage, editMessage } = useContext(ChatContext);
 
   const onCloseContextMenuHandler = () => {
     setShowContextMenu(false);
@@ -108,39 +104,22 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
     const textOnlyClass = textOnly ? "no-image" : "";
     let sameSenderClass = sameSenderAsPrevMsg ? "same-sender" : "";
 
-    if (isEditMode)
+    if (isEditMode) {
+      const closeEditMode = () => {
+        setIsEditMode(false);
+      };
       return (
-        <div className={`messageBox`}>
-          <textarea
-            className={`message-text edit-mode colorDark ${textOnlyClass} ${sameSenderClass}`}
-            value={messageText}
-            autoFocus={true}
-            onChange={({ target: { value } }) => {
-              console.log(value);
-              setMessageText(value);
-            }}
-            onKeyPress={(event) => {
-              // console.log("keypressed on the input field");
-              if (event.key === "Enter") {
-                event.preventDefault();
-                console.log("pressed enter on the input field");
-                console.log(
-                  `the updated message text is ${event.target.value}`
-                );
-                // note: this needs to handle empty input
-                if (event.target.value && event.target.value !== "") {
-                  editMessage(message._id, event.target.value);
-                } else {
-                  setShowDeleteMessageModal(true);
-                }
-                setIsEditMode(false);
-              }
-              // event.key === "Enter" ? sendMessage(event) : null;
-            }}
-          />
-        </div>
+        <EditMessage
+          message={message}
+          textOnlyClass={textOnlyClass}
+          sameSenderClass={sameSenderClass}
+          openDeleteMessageModal={() => {
+            setShowDeleteMessageModal(true);
+          }}
+          onClose={closeEditMode}
+        />
       );
-
+    }
     return (
       <div className={`messageBox`}>
         <p
@@ -179,7 +158,7 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
               : message.user.username || message.user.name}
           </p>
           <span className="message-timestamp beside-sender">
-            Today at 6:49 PM
+            {toChatCustomTimestamp(message.createdAt || null) || null}
           </span>
         </>
       );

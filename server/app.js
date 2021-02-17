@@ -124,11 +124,13 @@ io.on("connect", (socket) => {
         socket.emit("message", {
           user: { name: "RoroBot", room: user.room },
           text: `${user.name}, welcome to room ${user.room}.`,
+          createdAt: new Date(),
         });
         // sends an event to all users in the said room, except the specified user
         socket.broadcast.to(user.room).emit("message", {
           user: { name: "RoroBot", room: user.room },
           text: `${user.name} has joined!`,
+          createdAt: new Date(),
         });
 
         io.to(user.room).emit("roomData", {
@@ -212,6 +214,7 @@ io.on("connect", (socket) => {
       io.to(user.room).emit("message", {
         user: { name: "RoroBot", room: user.room },
         text: `${user.name} has left.`,
+        createdAt: new Date(),
       });
       io.to(user.room).emit("roomData", {
         room: user.room,

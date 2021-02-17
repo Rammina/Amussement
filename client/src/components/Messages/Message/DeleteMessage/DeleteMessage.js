@@ -10,7 +10,7 @@ import { ChatContext } from "../../../AppContext";
 import Modal from "../../../Modal/Modal";
 import CancelButton from "../../../buttons/CancelButton";
 
-const DeleteAccount = (props) => {
+const DeleteMessage = (props) => {
   const { deleteMessage } = useContext(ChatContext);
   const { message } = props;
 
@@ -94,4 +94,4 @@ const DeleteAccount = (props) => {
   return ReactDOM.createPortal(content, document.getElementById("modal"));
 };
 
-export default DeleteAccount;
+export default DeleteMessage;

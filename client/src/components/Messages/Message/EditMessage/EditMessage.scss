@@ -1,0 +1,19 @@
+@import "../../../../utils/variables.scss";
+
+.message-text.edit-mode {
+  margin-top: 0.5rem;
+  border: 1px solid $messageTextColor;
+}
+
+.edit-message-instruction-message {
+  position: relative;
+  bottom: 0.5rem;
+  font-size: 0.75rem;
+  color: $senderTextColor;
+}
+
+.edit-message-instruction-message.no-image {
+  width: calc(100% - 3rem);
+  margin-left: 3.5rem;
+  padding-top: 0;
+}

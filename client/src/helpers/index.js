@@ -2,7 +2,13 @@ import warningImg from "../icons/warning.png";
 
 import _ from "lodash";
 import React from "react";
-import { format, endOfYesterday, isBefore } from "date-fns";
+import {
+  format,
+  isToday,
+  isYesterday,
+  endOfYesterday,
+  isBefore,
+} from "date-fns";
 import compareAsc from "date-fns/compareAsc";
 // import CryptoJS from "crypto-js";
 
@@ -34,6 +40,26 @@ export const toStandardTime = (time) => {
     // return null;
   }
   return format(new Date(`${getCurrentDate()}T${time}`), "hh:mma");
+};
+
+export const toStandardDateAndTime = (datetime) => {
+  console.log(datetime);
+  if (!datetime) return null;
+  return format(new Date(datetime), "Pp");
+};
+
+export const toChatCustomTimestamp = (datetime) => {
+  console.log(datetime);
+  if (!datetime) return null;
+  let dateObject = new Date(datetime);
+  // if it's today, output "Today at hh:mma" format
+  if (isToday(dateObject)) {
+    return `Today at ${format(dateObject, "hh:mma")}`;
+  } else if (isYesterday(dateObject)) {
+    return `Yesterday at ${format(dateObject, "hh:mma")}`;
+  } else {
+    return format(dateObject, "Pp");
+  }
 };
 
 export const standardToMilitary = function standardToMilitary(time) {
