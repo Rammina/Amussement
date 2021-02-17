@@ -1,7 +1,7 @@
 const Message = require("../models/message");
 const { getUsersInRoom } = require("./users");
 
-const storeMessageToDb = async (messageAttributes, cb) => {
+const storeMessageToDb = async (messageAttributes) => {
   try {
     const messageObject = new Message(messageAttributes);
     const savedMessage = await messageObject.save();
@@ -38,8 +38,29 @@ const deleteMessageFromDB = async (id) => {
   }
 };
 
+const editMessageOnDB = async (id, text) => {
+  try {
+    const updatedMessage = await Message.findByIdAndUpdate(
+      id,
+      {
+        $set: {
+          text,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    if (!updatedMessage) throw Error("Unable to update the message.");
+    return updatedMessage;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 module.exports = {
   storeMessageToDb,
   retrieveMessagesFromDB,
   deleteMessageFromDB,
+  editMessageOnDB,
 };

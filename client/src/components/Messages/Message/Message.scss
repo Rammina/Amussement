@@ -10,7 +10,7 @@
   //   max-width: 80%;
 }
 
-.messageText {
+.message-text {
   width: 100%;
   letter-spacing: 0;
   // float: left;
@@ -22,17 +22,17 @@
   font-family: $textFont;
 }
 /*
-.messageText:hover {
+.message-text:hover {
   background-color: #eee;
 }
 */
-.messageText.no-image {
+.message-text.no-image {
   width: calc(100% - 3rem);
   margin-left: 3.5rem;
   padding-top: 0;
 }
 
-.messageText img {
+.message-text img {
   vertical-align: middle;
 }
 

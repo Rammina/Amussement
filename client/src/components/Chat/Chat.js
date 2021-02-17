@@ -161,6 +161,14 @@ const Chat = (props) => {
         messages.filter((message) => message._id !== id)
       );
     });
+
+    socket.on("editedMessage", (id, text) => {
+      setMessages((messages) => {
+        const foundIndex = messages.findIndex((message) => message._id === id);
+        messages[foundIndex].text = text;
+        return [...messages];
+      });
+    });
   }, [location.search]);
 
   // handles the sending of messages
@@ -187,6 +195,17 @@ const Chat = (props) => {
     }
   };
 
+  const editMessage = (id, text) => {
+    console.log(id);
+    console.log(text);
+    // if message exists, send the event
+    if (id && text) {
+      socket.emit("editMessage", id, text, room, () => {
+        console.log("editing message");
+      });
+    }
+  };
+
   const getContainerClass = () => {
     if (messagesContainerMoveLeft && messagesContainerMoveRight) {
       return "users-shown rooms-shown";
@@ -200,6 +219,7 @@ const Chat = (props) => {
 
   const getChatContextValue = () => ({
     deleteMessage,
+    editMessage,
   });
 
   const renderChatContent = () => {

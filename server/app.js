@@ -31,6 +31,7 @@ const {
   storeMessageToDb,
   retrieveMessagesFromDB,
   deleteMessageFromDB,
+  editMessageOnDB,
 } = require("./helpers/messages");
 
 const app = express();
@@ -178,6 +179,21 @@ io.on("connect", (socket) => {
         console.log("successfully Deleted the message in the database");
         console.log(room);
         io.to(room).emit("deletedMessage", id);
+      });
+      // do something after the message is sent to the backend frontend
+      callback();
+    } catch (e) {
+      // should have proper error handling, state that it failed to store the message
+      console.log(e);
+    }
+  });
+
+  socket.on("editMessage", (id, text, room, callback) => {
+    try {
+      editMessageOnDB(id, text).then(() => {
+        console.log("successfully updated the message in the database");
+        console.log(room);
+        io.to(room).emit("editedMessage", id, text);
       });
       // do something after the message is sent to the backend frontend
       callback();
