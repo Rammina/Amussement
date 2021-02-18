@@ -55,7 +55,7 @@ const OnlineUsersContainer = ({ users }) => {
               {users.map(({ name }) => (
                 <div key={name} className="activeItem">
                   <img alt="Online Icon" src={onlineIcon} />
-                  <h2>{name}</h2>
+                  <h2 className={`online-users-username`}>{name}</h2>
                 </div>
               ))}
             </div>

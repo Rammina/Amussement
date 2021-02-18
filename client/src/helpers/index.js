@@ -42,6 +42,10 @@ export const toStandardTime = (time) => {
   return format(new Date(`${getCurrentDate()}T${time}`), "hh:mma");
 };
 
+export const timestampToStandardTime = (timestamp) => {
+  return format(new Date(timestamp), "hh:mma");
+};
+
 export const toStandardDateAndTime = (datetime) => {
   console.log(datetime);
   if (!datetime) return null;

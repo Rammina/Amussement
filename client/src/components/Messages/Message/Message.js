@@ -1,6 +1,7 @@
 import "./Message.scss";
 
 import React, { useState, useContext, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 import ReactEmoji from "react-emoji";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
@@ -10,22 +11,31 @@ import DeleteMessage from "./DeleteMessage/DeleteMessage";
 import EditMessage from "./EditMessage/EditMessage";
 
 import { ChatContext } from "../../AppContext";
-import { toChatCustomTimestamp, copyToClipboard } from "../../../helpers";
+import {
+  toChatCustomTimestamp,
+  timestampToStandardTime,
+  copyToClipboard,
+} from "../../../helpers";
 
 const Message = ({ message, name, sameSenderAsPrevMsg }) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [showDeleteMessageModal, setShowDeleteMessageModal] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [
+    isMouseHoveredOnMessageContainer,
+    setIsMouseHoveredOnMessageContainer,
+  ] = useState(false);
   const [isMouseHoveredOnEdited, setIsMouseHoveredOnEdited] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [clientY, setClientY] = useState(0);
-  const [editedMarkerX, setEditedMarkerX] = useState(0);
-  const [editedMarkerY, setEditedMarkerY] = useState(0);
+  const [editedMarkerX, setEditedMarkerX] = useState(-100);
+  const [editedMarkerY, setEditedMarkerY] = useState(-100);
   const editedMarkerRef = useRef(null);
 
   const { deleteMessage, editMessage, chatInputRef } = useContext(ChatContext);
 
   useEffect(() => {
+    /*
     if (editedMarkerRef.current) {
       setEditedMarkerX(
         editedMarkerRef.current.getBoundingClientRect().left + window.scrollX
@@ -34,7 +44,7 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
         editedMarkerRef.current.getBoundingClientRect().top + window.scrollY
       );
     }
-
+    */
     /*return () => {}*/
   }, [editedMarkerRef]);
 
@@ -47,11 +57,22 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
       copyToClipboard(message._id);
     }
   };
+  const onMouseEnterMessageContainerHandler = () => {
+    setIsMouseHoveredOnMessageContainer(true);
+  };
 
-  const onMouseEnterEditedHandler = () => {
+  const onMouseLeaveMessageContainerHandler = () => {
+    setIsMouseHoveredOnMessageContainer(false);
+  };
+
+  const onMouseEnterEditedHandler = (e) => {
+    setEditedMarkerX(e.clientX);
+    setEditedMarkerY(e.clientY);
     setIsMouseHoveredOnEdited(true);
   };
   const onMouseLeaveEditedHandler = () => {
+    setEditedMarkerX(-100);
+    setEditedMarkerY(-100);
     setIsMouseHoveredOnEdited(false);
   };
 
@@ -126,6 +147,15 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
     );
   };
 
+  const renderMessageTimestamp = () => {
+    if (!sameSenderAsPrevMsg || !isMouseHoveredOnMessageContainer) return null;
+    return (
+      <span className="message-timestamp-same-sender">
+        {timestampToStandardTime(message.createdAt)}
+      </span>
+    );
+  };
+
   const renderEditedMarker = () => {
     if (message.createdAt === message.updatedAt) return null;
     console.log(editedMarkerRef);
@@ -147,16 +177,20 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
           {" "}
           (edited)
         </span>
-        <HoverMarker
-          customStyle={{
-            position: "fixed",
-            top: `${getEditedMarkerY() || 0}px`,
-            left: `${getEditedMarkerX() || 0}px`,
-            overflow: "visible",
-          }}
-          isShown={isMouseHoveredOnEdited}
-          textContent={toChatCustomTimestamp(message.updatedAt)}
-        />
+        {ReactDOM.createPortal(
+          <HoverMarker
+            customStyle={{
+              position: "fixed",
+              // top: `100px`,
+              // left: "0px",
+              top: `calc(${getEditedMarkerY() || 0}px - 2.2rem)`,
+              left: `calc(${getEditedMarkerX() || 0}px - 4rem)`,
+            }}
+            isShown={isMouseHoveredOnEdited}
+            textContent={`${toChatCustomTimestamp(message.updatedAt)}`}
+          />,
+          document.getElementById("edited-hover-marker")
+        )}
       </>
     );
   };
@@ -235,6 +269,8 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
       <>
         <div
           className={`messageContainer justifyStart ${messageContainerClass}`}
+          onMouseEnter={onMouseEnterMessageContainerHandler}
+          onMouseLeave={onMouseLeaveMessageContainerHandler}
           onContextMenu={(e) => {
             e.preventDefault();
             setShowContextMenu(true);
@@ -242,6 +278,7 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
             setClientY(e.clientY);
           }}
         >
+          {renderMessageTimestamp()}
           {senderImage}
           <div className={`message-text-container `}>
             {senderText}

@@ -57,6 +57,7 @@
   display: flex;
   align-items: center;
   width: 100%;
+  min-height: 2rem;
   font-size: 1.15rem;
   font-weight: normal;
 }
@@ -66,11 +67,15 @@
 }
 
 .activeContainer img {
-  padding-left: 10px;
+  padding: 0.5rem;
 }
 
 .online-users-container h1 {
   margin-bottom: 0px;
+}
+
+.online-users-username {
+  font-size: 1.15rem;
 }
 
 @media screen and (min-width: 0px) {

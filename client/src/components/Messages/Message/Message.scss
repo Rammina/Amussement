@@ -43,6 +43,7 @@
 
 .messageContainer {
   display: flex;
+  position: relative;
   margin-top: 0.4rem;
   padding: 0.4rem 0.8rem;
   padding-bottom: 0.07rem;
@@ -52,13 +53,20 @@
 
 .messageContainer.text-only {
   padding-top: 0.07rem;
-
   margin-top: 0;
   border-top: none;
 }
 
 .messageContainer:hover {
   background-color: #eee;
+}
+
+.message-timestamp-same-sender {
+  position: absolute;
+  font-size: 0.7rem;
+  top: 0.36rem;
+  left: 0.7rem;
+  color: #455c;
 }
 
 .message-text-container {
