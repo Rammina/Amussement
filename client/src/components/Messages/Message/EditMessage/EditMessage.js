@@ -7,7 +7,7 @@ import { ChatContext } from "../../../AppContext";
 
 const EditMessage = (props) => {
   const [messageText, setMessageText] = useState("");
-  const { editMessage } = useContext(ChatContext);
+  const { editMessage, chatInputRef } = useContext(ChatContext);
 
   const textareaRef = useRef(null);
 
@@ -25,6 +25,7 @@ const EditMessage = (props) => {
   const editSubmitHandler = (e) => {
     if (e.target.value && e.target.value !== "") {
       editMessage(props.message._id, e.target.value);
+      chatInputRef.current.focus();
     } else {
       props.openDeleteMessageModal();
     }
@@ -41,7 +42,9 @@ const EditMessage = (props) => {
         onChange={({ target: { value } }) => {
           setMessageText(value);
         }}
-        onKeyPress={(e) => {
+        onKeyDown={(e) => {
+          console.log(e.key);
+          console.log(e.keyCode);
           if (e.key === "Enter") {
             e.preventDefault();
             editSubmitHandler(e);
@@ -49,6 +52,8 @@ const EditMessage = (props) => {
             console.log("escape key was pressed");
             e.preventDefault();
             props.onClose();
+            // this should focus back on the input box
+            chatInputRef.current.focus();
           }
         }}
       />

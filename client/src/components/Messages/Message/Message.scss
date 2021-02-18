@@ -1,12 +1,15 @@
 @import "../../../utils/variables.scss";
 
 .messageBox {
+  // z-index: 200;
+  position: relative;
   /* background: #f3f3f3; */
   width: 100%;
   border-radius: 20px;
   /* padding: 5px 20px; */
   color: white;
   display: block;
+  // overflow: visible;
   //   max-width: 80%;
 }
 
@@ -20,6 +23,7 @@
   word-wrap: break-word;
   color: $messageTextColor;
   font-family: $textFont;
+  // overflow: visible;
 }
 
 /*
@@ -99,6 +103,15 @@
 
 .message-timestamp.beside-sender:hover {
   text-decoration: none;
+}
+
+.edited-marker {
+  font-size: 0.8rem;
+  color: #455c;
+}
+
+.edited-marker:hover {
+  cursor: pointer;
 }
 
 .message.context-menu-outer-container {

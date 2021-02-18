@@ -1,12 +1,14 @@
 import SendImg from "../../icons/send.png";
-
-import React, { useState } from "react";
-
 import "./Input.scss";
+
+import React, { useState, useContext } from "react";
+
+import { ChatContext } from "../AppContext";
 
 const Input = ({ setMessage, sendMessage, message }) => {
   const [sendButtonClass, setSendButtonClass] = useState("hide");
   const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
+  const { chatInputRef } = useContext(ChatContext);
 
   const renderSendButton = () => {
     return (
@@ -29,6 +31,7 @@ const Input = ({ setMessage, sendMessage, message }) => {
   return (
     <form className="input-chat-form">
       <textarea
+        ref={chatInputRef}
         className="input-chat-textfield"
         type="text"
         maxLength="2000"

@@ -8,6 +8,7 @@ const messageSchema = new Schema(
     username: { type: String, required: true, minlength: 1 },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     room: { type: String, required: true, minlength: 1 },
+
     // image_url: { type: String, minlength: 0, maxlength: 500 },
     // sent_on: { type: Date, required: true, default: Date.now() }
     // link

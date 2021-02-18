@@ -1,6 +1,6 @@
 import "./Chat.scss";
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import queryString from "query-string";
@@ -31,10 +31,10 @@ const Chat = (props) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [users, setUsers] = useState("");
-  // const [userJoinCount, setUserJoinCount] = useState(0);
   const [userRetrievalAttempts, setUserRetrievalAttempts] = useState(0);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const chatInputRef = useRef(null);
 
   const location = useLocation();
 
@@ -166,6 +166,9 @@ const Chat = (props) => {
       setMessages((messages) => {
         const foundIndex = messages.findIndex((message) => message._id === id);
         messages[foundIndex].text = text;
+        messages[foundIndex].updatedAt = new Date();
+        // console.log(new Date());
+        // should also update updatedAt property for use in comparisons
         return [...messages];
       });
     });
@@ -220,6 +223,7 @@ const Chat = (props) => {
   const getChatContextValue = () => ({
     deleteMessage,
     editMessage,
+    chatInputRef,
   });
 
   const renderChatContent = () => {

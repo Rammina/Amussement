@@ -9,7 +9,7 @@ import RoomItem from "./RoomItem/RoomItem";
 
 import { NavContext } from "../AppContext";
 
-const RoomSideBar = props => {
+const RoomSideBar = (props) => {
   console.log(props.user);
   return (
     <React.Fragment>
@@ -18,7 +18,7 @@ const RoomSideBar = props => {
         <RoomItem
           room={{
             name: "IloveEmilia",
-            image_url: `https://res.cloudinary.com/rammina/image/upload/v1598598880/amussement-avatars/5f423937dd4b511da81e2af1-user-avatar.png`
+            image_url: `https://res.cloudinary.com/rammina/image/upload/v1598598880/amussement-avatars/5f423937dd4b511da81e2af1-user-avatar.png`,
           }}
           user={props.user}
         />
@@ -27,17 +27,14 @@ const RoomSideBar = props => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
-  error: state.error
+  error: state.error,
 });
 
-const roomSideBar = connect(
-  mapStateToProps,
-  {
-    /*getRooms*/
-  }
-)(RoomSideBar);
+const roomSideBar = connect(mapStateToProps, {
+  /*getRooms*/
+})(RoomSideBar);
 
 export default roomSideBar;

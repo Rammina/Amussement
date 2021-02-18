@@ -4,12 +4,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import queryString from "query-string";
-
+import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 // import onlineIcon from "../../icons/onlineIcon.png";
 
 // import { NavContext } from "../../AppContext";
 
-const RoomItem = props => {
+const RoomItem = (props) => {
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const [isSelectedRoom, setIsSelectedRoom] = useState(false);
   const location = useLocation();
@@ -88,13 +88,7 @@ const RoomItem = props => {
             isMouseHovered ? "show" : "hide"
           } ${getSelectedClass()}`}
         ></div>
-        <div
-          className={`room-item-label-container ${
-            isMouseHovered ? "show" : "hide"
-          }`}
-        >
-          {props.room.name}
-        </div>
+        <HoverMarker isShown={isMouseHovered} textContent={props.room.name} />
       </div>
     </React.Fragment>
   );

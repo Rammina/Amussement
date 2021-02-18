@@ -5,6 +5,7 @@ import ReactEmoji from "react-emoji";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
+import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 import DeleteMessage from "./DeleteMessage/DeleteMessage";
 import EditMessage from "./EditMessage/EditMessage";
 
@@ -15,10 +16,27 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [showDeleteMessageModal, setShowDeleteMessageModal] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isMouseHoveredOnEdited, setIsMouseHoveredOnEdited] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [clientY, setClientY] = useState(0);
+  const [editedMarkerX, setEditedMarkerX] = useState(0);
+  const [editedMarkerY, setEditedMarkerY] = useState(0);
+  const editedMarkerRef = useRef(null);
 
-  const { deleteMessage, editMessage } = useContext(ChatContext);
+  const { deleteMessage, editMessage, chatInputRef } = useContext(ChatContext);
+
+  useEffect(() => {
+    if (editedMarkerRef.current) {
+      setEditedMarkerX(
+        editedMarkerRef.current.getBoundingClientRect().left + window.scrollX
+      );
+      setEditedMarkerY(
+        editedMarkerRef.current.getBoundingClientRect().top + window.scrollY
+      );
+    }
+
+    /*return () => {}*/
+  }, [editedMarkerRef]);
 
   const onCloseContextMenuHandler = () => {
     setShowContextMenu(false);
@@ -30,6 +48,13 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
     }
   };
 
+  const onMouseEnterEditedHandler = () => {
+    setIsMouseHoveredOnEdited(true);
+  };
+  const onMouseLeaveEditedHandler = () => {
+    setIsMouseHoveredOnEdited(false);
+  };
+
   const renderDeleteMessageModal = () => {
     if (!showDeleteMessageModal) return null;
     return (
@@ -37,6 +62,7 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
         message={message}
         onModalClose={() => {
           setShowDeleteMessageModal(false);
+          chatInputRef.current.focus();
         }}
       />
     );
@@ -100,6 +126,41 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
     );
   };
 
+  const renderEditedMarker = () => {
+    if (message.createdAt === message.updatedAt) return null;
+    console.log(editedMarkerRef);
+    console.log(editedMarkerRef.current);
+
+    const getEditedMarkerX = () => editedMarkerX;
+
+    // editedMarkerRef.current.getBoundingClientRect().left;
+    const getEditedMarkerY = () => editedMarkerY;
+    // editedMarkerRef.current.getBoundingClientRect().top;
+    return (
+      <>
+        <span
+          className="edited-marker"
+          ref={editedMarkerRef}
+          onMouseEnter={onMouseEnterEditedHandler}
+          onMouseLeave={onMouseLeaveEditedHandler}
+        >
+          {" "}
+          (edited)
+        </span>
+        <HoverMarker
+          customStyle={{
+            position: "fixed",
+            top: `${getEditedMarkerY() || 0}px`,
+            left: `${getEditedMarkerX() || 0}px`,
+            overflow: "visible",
+          }}
+          isShown={isMouseHoveredOnEdited}
+          textContent={toChatCustomTimestamp(message.updatedAt)}
+        />
+      </>
+    );
+  };
+
   const renderMessageText = (textOnly) => {
     const textOnlyClass = textOnly ? "no-image" : "";
     let sameSenderClass = sameSenderAsPrevMsg ? "same-sender" : "";
@@ -108,6 +169,7 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
       const closeEditMode = () => {
         setIsEditMode(false);
       };
+      // render a textarea where a user can edit their message
       return (
         <EditMessage
           message={message}
@@ -120,12 +182,14 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
         />
       );
     }
+    // just render a normal message box
     return (
       <div className={`messageBox`}>
         <p
           className={`message-text colorDark ${textOnlyClass} ${sameSenderClass}`}
         >
           {ReactEmoji.emojify(message.text)}
+          {renderEditedMarker()}
         </p>
       </div>
     );
