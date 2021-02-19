@@ -94,7 +94,6 @@ const Friend = (props) => {
 
   const renderFriendInfoModal = () => {
     if (!friendInfoModalOpen) return null;
-
     return (
       <UserProfileCardContext.Provider value={getUserProfileCardContextValue()}>
         <UserProfileCard

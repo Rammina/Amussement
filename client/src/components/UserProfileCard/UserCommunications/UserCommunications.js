@@ -5,24 +5,21 @@ import React from "react";
 const UserCommunications = (props) => {
   // note: mobile and desktop versions should be different
   return (
-    <section
-      className="user-profile-card-section-sub-container"
-      id="user-communication-buttons-container"
-    >
-      <button className="user-communication-button" onClick={() => {}}>
+    <section className="user-profile-card-section-sub-container buttons-container">
+      <button className="user-profile-card-button" onClick={() => {}}>
         <div className="user-communcation-button-image-container">
           <img
-            className={`user-communication-button-image`}
+            className={`user-profile-card-button-image`}
             src={ChatIconImg}
             alt="Chat Bubble Icon"
           />
         </div>
-        <span className="user-communication-button-text">Message</span>
+        <span className="user-profile-card-button-text">Message</span>
       </button>
-      <button className="user-communication-button" onClick={() => {}}>
+      <button className="user-profile-card-button" onClick={() => {}}>
         Call
       </button>
-      <button className="user-communication-button" onClick={() => {}}>
+      <button className="user-profile-card-button" onClick={() => {}}>
         Video
       </button>
     </section>

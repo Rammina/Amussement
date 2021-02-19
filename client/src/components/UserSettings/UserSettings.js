@@ -2,7 +2,7 @@ import LogoutImg from "../../icons/logout.png";
 
 import "./UserSettings.scss";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
@@ -17,57 +17,18 @@ import CloseButton from "../buttons/CloseButton";
 import { logout } from "../../flux/actions/authActions";
 import { clearFriendsList } from "../../flux/actions/friendsActions";
 
-import * as constants from "../../utils/constants.js";
+import { WindowContext } from "../AppContext";
 // import { renderError, getErrorClass } from "../../helpers";
 
 const UserSettings = (props) => {
-  const { DESKTOP_WIDTH, DESKTOP_HEIGHT } = constants;
-  const [isDesktopWidth, setIsDesktopWidth] = useState(false);
-  const [isDesktopHeight, setIsDesktopHeight] = useState(false);
   const { id } = useParams();
   const [myAccountOpened, setMyAccountOpened] = useState(false);
   const [appearanceOpened, setAppearanceOpened] = useState(false);
   const [friendsOpened, setFriendsOpened] = useState(false);
+  const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
 
-  const handleResize = () => {
-    if (window.innerWidth >= DESKTOP_WIDTH) {
-      setIsDesktopWidth(true);
-
-      console.log("desktop with");
-    } else {
-      setIsDesktopWidth(false);
-      console.log("not desktop with");
-    }
-
-    if (window.innerHeight >= DESKTOP_HEIGHT) {
-      setIsDesktopHeight(true);
-      console.log("desktop height");
-    } else {
-      setIsDesktopHeight(false);
-      console.log("no desktop height");
-    }
-    if (
-      window.innerHeight >= DESKTOP_HEIGHT &&
-      window.innerWidth >= DESKTOP_WIDTH
-    ) {
-      // if none of them are opened, default render my account
-      if (!(myAccountOpened && appearanceOpened && friendsOpened)) {
-        setMyAccountOpened(true);
-      }
-    }
-  };
   useEffect(() => {
-    console.log(id);
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    if (
-      window.innerWidth >= DESKTOP_WIDTH &&
-      window.innerHeight >= DESKTOP_HEIGHT
-    )
-      setMyAccountOpened(true);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    if (isDesktopWidth && isDesktopHeight) setMyAccountOpened(true);
   }, []);
 
   // function handlers

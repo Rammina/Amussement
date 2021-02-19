@@ -2,7 +2,7 @@ import DefaultAvatarImg from "../../images/default-avatar.jpg";
 
 import "./UserAvatar.scss";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -16,51 +16,19 @@ import cloudinaryRest from "../../apis/cloudinaryRest";
 
 import { formShowLoader } from "../../flux/actions/loaderActions";
 import { editUserAvatar } from "../../flux/actions/settingsActions";
-import * as constants from "../../utils/constants.js";
 
-// import { ModalContext } from "../AppContext";
+import { WindowContext } from "../AppContext";
 
 import ProfilePicture from "../ProfilePicture/ProfilePicture";
 import LoadingSpinner from "../loaders/LoadingSpinner";
 
 const UserAvatar = (props) => {
-  const { DESKTOP_WIDTH, DESKTOP_HEIGHT } = constants;
-  const [isDesktopWidth, setIsDesktopWidth] = useState(false);
-  const [isDesktopHeight, setIsDesktopHeight] = useState(false);
   const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
   const [imageUploadName, setImageUploadName] = useState(null);
   const [fileInputState, setFileInputState] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
   const [previewSource, setPreviewSource] = useState("");
-
-  const handleResize = () => {
-    if (window.innerWidth >= DESKTOP_WIDTH) {
-      setIsDesktopWidth(true);
-      console.log("desktop with");
-    } else {
-      setIsDesktopWidth(false);
-      console.log("not desktop with");
-    }
-    if (window.innerHeight >= DESKTOP_HEIGHT) {
-      setIsDesktopHeight(true);
-      console.log("desktop height");
-    } else {
-      setIsDesktopHeight(false);
-      console.log("no desktop height");
-    }
-  };
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    // UserAvatar needs to get the ID from the parent component
-    console.log(getAvatarUrl());
-    console.log(props.userId);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {}, []);
+  const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
 
   //refs
   let inputImageRef = useRef(null);

@@ -19,7 +19,7 @@ import {
 } from "./types";
 
 // Check token & load user
-export const loadUser = (href) => (dispatch, getState) => {
+export const loadUser = () => (dispatch, getState) => {
   // User loading
   dispatch({ type: USER_LOADING });
   console.log(tokenConfig(getState));
@@ -38,19 +38,6 @@ export const loadUser = (href) => (dispatch, getState) => {
       dispatch({
         type: AUTH_ERROR,
       });
-      // if it's register or home, do not redirect to login
-      // note :\colon there are still missing routes that should be excluded
-      if (
-        !(
-          href.includes("/register") ||
-          href.includes("/home") ||
-          href.includes("/guest") ||
-          href.includes("?guest") ||
-          href === "http://localhost:3000/"
-        )
-      ) {
-        history.push(`/auth/login`);
-      }
     });
 };
 
