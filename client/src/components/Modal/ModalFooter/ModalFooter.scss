@@ -1,12 +1,10 @@
 @import "../../../utils/variables.scss";
 
 .modal-footer {
-  z-index: 110;
   position: relative;
   width: 100%;
   height: 3.6rem;
   // bottom: 0;
-  background-color: $modal-footer-black;
 }
 
 .modal-footer-buttons-container {
@@ -19,4 +17,12 @@
 
 .modal-footer .cancel-button {
   margin-right: 1rem;
+}
+
+@media screen and (min-width: 1200px) and (min-height: 600px) {
+  .modal-footer {
+    z-index: 110;
+
+    background-color: $modal-footer-black;
+  }
 }

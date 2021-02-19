@@ -322,6 +322,7 @@ textarea {
   width: 100vw;
   min-height: 100vh;
   height: 100vh;
+  padding-bottom: 2rem;
   overflow-y: auto;
 }
 
@@ -511,7 +512,7 @@ textarea {
 
 @media screen and (min-width: 750px) and (min-height: 700px) {
   .textfield-container {
-    max-width: 20rem;
+    // max-width: 20rem;
   }
   .error {
     width: 92%;

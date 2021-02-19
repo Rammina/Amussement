@@ -32,6 +32,9 @@
 }
 
 #user-profile-card-ellipsis-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 0.1rem;
   right: 0.1rem;
@@ -130,6 +133,10 @@
   .user-identity.user-profile-card-section-sub-container {
     display: flex;
     align-items: center;
+    padding: 1.2rem;
+  }
+  #selected-section-container {
+    min-height: 15rem;
   }
   #user-profile-card-username {
     position: relative;
@@ -137,7 +144,30 @@
     margin-left: 0.5rem;
     display: inline-block;
   }
-
+  .user-identity-action-button {
+    position: absolute;
+    right: 4rem;
+    top: 1.3rem;
+    width: fit-content;
+    height: 2.4rem;
+    padding: 0 1rem;
+    border-radius: 3px;
+    font-size: 1rem;
+    background-color: $main-mint;
+  }
+  #user-profile-card-ellipsis-button {
+    top: 1.1rem;
+    right: 0.5rem;
+  }
+  .user-profile-card-section-container.buttons-container {
+    justify-content: flex-start;
+    width: fit-content;
+    border: none;
+  }
+  .user-profile-card-button {
+    width: fit-content;
+    padding: 0 1rem;
+  }
   .user-profile-card-button.selected {
     border-bottom: 1px solid white;
   }

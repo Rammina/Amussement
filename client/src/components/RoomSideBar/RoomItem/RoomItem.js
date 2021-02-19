@@ -78,7 +78,7 @@ const RoomItem = (props) => {
         <Link
           onMouseEnter={handleOnMouseEnter}
           onMouseLeave={handleOnMouseLeave}
-          to={`/chat?room=${props.room.name}&userType=${getUserType()}`}
+          to={props.toUrl}
           className="room-item-link"
         >
           {renderItemContent()}

@@ -55,19 +55,26 @@ const UserProfileCard = (props) => {
 
   const renderDesktopContent = () => {
     const renderSelectedSection = () => {
+      let sectionContent = null;
       switch (selectedSection) {
         case "userInfo":
-          return <Notes />;
+          sectionContent = <Notes />;
           break;
         case "mutualFriends":
-          return <div></div>;
+          sectionContent = <div></div>;
           break;
         case "mutualServers":
-          return <div></div>;
+          sectionContent = <div></div>;
           break;
-        default:
-          return null;
       }
+      return (
+        <div
+          id="selected-section-container"
+          className="user-profile-card-section-container"
+        >
+          {sectionContent}
+        </div>
+      );
     };
     // class names for the buttons
     const getUserInfoButtonClass = () =>
@@ -76,6 +83,7 @@ const UserProfileCard = (props) => {
       selectedSection === "mutualFriends" ? "selected" : null;
     const getMutualServersButtonClass = () =>
       selectedSection === "mutualServers" ? "selected" : null;
+
     // render desktop content
     return (
       <React.Fragment>
@@ -96,19 +104,25 @@ const UserProfileCard = (props) => {
               <section className="user-profile-card-section-container buttons-container">
                 <button
                   className={`user-profile-card-button ${getUserInfoButtonClass()}`}
-                  onClick={() => {}}
+                  onClick={() => {
+                    setSelectedSection("userInfo");
+                  }}
                 >
                   User Info
                 </button>
                 <button
                   className={`user-profile-card-button ${getMutualFriendsButtonClass()}`}
-                  onClick={() => {}}
+                  onClick={() => {
+                    setSelectedSection("mutualFriends");
+                  }}
                 >
                   Mutual Friends
                 </button>
                 <button
                   className={`user-profile-card-button ${getMutualServersButtonClass()}`}
-                  onClick={() => {}}
+                  onClick={() => {
+                    setSelectedSection("mutualServers");
+                  }}
                 >
                   Mutual Servers
                 </button>

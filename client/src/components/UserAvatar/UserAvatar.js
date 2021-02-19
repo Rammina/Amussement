@@ -146,6 +146,15 @@ const UserAvatar = (props) => {
         }}
         headerClassName="user-settings-sidebar-header"
         headingText="Upload Avatar"
+        actionButtons={
+          <button
+            id="user-avatar-image-submit"
+            className="user-avatar modal-button form-button submit"
+            type="submit"
+          >
+            {renderLoader()} Submit Image
+          </button>
+        }
       >
         <form encType="multipart/form-data" onSubmit={handleSubmitFile}>
           <div className={`user-avatar modal-content-container`}>
@@ -157,30 +166,6 @@ const UserAvatar = (props) => {
               />
             )}
             <p className="user-avatar modal-paragraph">{imageUploadName}</p>
-
-            <div
-              className="two-buttons-container"
-              id="user-avatar-buttons-container"
-            >
-              <button
-                id="user-avatar-image-cancel"
-                className="user-avatar modal-button cancel-button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setImageUploadModalOpen(false);
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                id="user-avatar-image-submit"
-                className="user-avatar modal-button form-button submit"
-                type="submit"
-              >
-                {renderLoader()} Submit Image
-              </button>
-            </div>
           </div>
         </form>
       </Modal>,

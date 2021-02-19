@@ -1,5 +1,9 @@
 @import "../../utils/variables.scss";
 
+#disable-account-form {
+  padding-bottom: 1.5rem;
+}
+
 .disable-account.form-content-container.modal-form-content {
   display: flex;
   // align-content: center;
@@ -32,6 +36,12 @@
 }
 
 @media screen and (min-width: 1200px) and (min-height: 600px) {
+  #disable-account-form {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 3rem;
+  }
+
   .disable-account.form-content-container.modal-form-content {
     padding-top: 0;
   }

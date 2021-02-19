@@ -18,7 +18,9 @@ const UserIdentity = (props) => {
   };
   const renderSendMessage = () => {
     if (!isDesktopWidth || !isDesktopHeight) return null;
-    return <button>Send Message</button>;
+    return (
+      <button className="user-identity-action-button">Send Message</button>
+    );
   };
 
   // note: mobile and desktop versions should be different

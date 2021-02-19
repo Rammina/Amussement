@@ -98,6 +98,15 @@ const AddFriend = (props) => {
       }}
       headerClassName="user-settings-sidebar-header"
       headingText="Add Friend"
+      actionButtons={
+        <button
+          className={"form-button submit mt-20"}
+          type="submit"
+          onClick={props.handleSubmit(onSubmit)}
+        >
+          {renderLoader()} Send Request
+        </button>
+      }
     >
       <form id="add-friend-form" autoComplete="off">
         <div className="add-friend form-content-container modal-form-content">
@@ -124,21 +133,6 @@ const AddFriend = (props) => {
                 },
               }}
             />
-          </div>
-          <div className="form-button-container two-buttons-container">
-            <CancelButton
-              hideOnMobile={true}
-              onClickHandler={() => {
-                props.onModalClose();
-              }}
-            />
-            <button
-              className={"form-button submit mt-20"}
-              type="submit"
-              onClick={props.handleSubmit(onSubmit)}
-            >
-              {renderLoader()} Send Request
-            </button>
           </div>
         </div>
       </form>
