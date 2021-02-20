@@ -32,8 +32,6 @@ const Chat = (props) => {
   const [room, setRoom] = useState("");
   const [users, setUsers] = useState("");
   const [userRetrievalAttempts, setUserRetrievalAttempts] = useState(0);
-  const [messageRetrievalCount, setMessageRetrievalCount] = useState(0);
-  const [noMoreMessagesToLoad, setNoMoreMessagesToLoad] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const chatInputRef = useRef(null);
@@ -42,14 +40,6 @@ const Chat = (props) => {
 
   //component variables
   let userJoinCount = 0;
-  // let messageRetrievalCount = 0;
-  const getMessageRetrievalCount = () => messageRetrievalCount;
-  const incrementMessageRetrievalCount = () =>
-    setMessageRetrievalCount(
-      (messageRetrievalCount) => messageRetrievalCount + 1
-    );
-
-  // let noMoreMessagesToLoad = false;
   // const ENDPOINT = "https://chika-chat.herokuapp.com/";
   const ENDPOINT = "localhost:5000";
 
@@ -114,17 +104,16 @@ const Chat = (props) => {
     socket = io(ENDPOINT);
     // note: this should be changed once database for room messages is used
     /*temporary stopgap measure to clear messages every time the URL changes*/
-    // messageRetrievalCount = 0;
-    // noMoreMessagesToLoad = false;
 
     setMessages([]);
+    console.log(
+      "it doesn't clean up the messages state, so all it does is appending"
+    );
     socket.on("load messages", (retrievedMessages) => {
       console.log(retrievedMessages);
-      // if the retrieve messages are not divisible by 30, then there are no more messages to load
-      // if the message count after retrieval and before retrieval are the same, there are no more messages to load
-
+      // console.log([...messages, ...retrievedMessages]);
+      // setMessages([...messages,...retrievedMessages]);
       setMessages([...retrievedMessages]);
-      incrementMessageRetrievalCount();
     });
 
     if (userType === "guest") {
@@ -219,31 +208,6 @@ const Chat = (props) => {
       });
     }
   };
-  const loadMoreMessages = () => {
-    console.log("attempting to load more messages");
-    console.log(room);
-    console.log(messageRetrievalCount);
-    console.log(getMessageRetrievalCount());
-    console.log(noMoreMessagesToLoad);
-    if (noMoreMessagesToLoad) return;
-    socket.emit(
-      "load more messages",
-      room,
-      getMessageRetrievalCount(),
-      (retrievedMessages) => {
-        // if (error) console.log(error);
-        incrementMessageRetrievalCount();
-        if (
-          !retrievedMessages.length % 30 ||
-          messages.length === retrievedMessages.length
-        ) {
-          setNoMoreMessagesToLoad(true);
-          return;
-        }
-        setMessages([...retrievedMessages]);
-      }
-    );
-  };
 
   const getContainerClass = () => {
     if (messagesContainerMoveLeft && messagesContainerMoveRight) {
@@ -259,9 +223,6 @@ const Chat = (props) => {
   const getChatContextValue = () => ({
     deleteMessage,
     editMessage,
-    loadMoreMessages,
-    // messageRetrievalCount,
-    noMoreMessagesToLoad,
     chatInputRef,
   });
 
@@ -327,28 +288,3 @@ export default connect(mapStateToProps, {})(Chat);
 //     }
 //   }
 // };
-
-// const onLoadPreviousMessages = (retrievedMessages) => {
-//   if (
-//     !retrievedMessages.length % 30 ||
-//     messages.length === retrievedMessages.length
-//   ) {
-//     setNoMoreMessagesToLoad(true);
-//     return;
-//   }
-//   incrementMessageRetrievalCount();
-//   setMessages([...retrievedMessages]);
-//   // console.log(`the length of messages is ${messages.length}`);
-//   // console.log(`retrieved messages ${messageRetrievalCount} times`);
-//   // console.log(messageRetrievalCount);
-//   // console.log(getMessageRetrievalCount());
-//   // console.log(noMoreMessagesToLoad);
-// };
-//
-// // adding a listener for retrieving more messages
-// useEffect(() => {
-//   socket.on("load previous messages", (retrievedMessages) => {
-//     onLoadPreviousMessages(retrievedMessages);
-//   });
-//   /*return () => {}*/
-// }, [ENDPOINT, location.search /*messageRetrievalCount*/]);

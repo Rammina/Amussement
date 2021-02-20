@@ -1,20 +1,35 @@
-import React from "react";
+import "./Messages.scss";
+
+import React, { useContext } from "react";
 import { connect } from "react-redux";
 
 import ScrollToBottom from "react-scroll-to-bottom";
 
 import Message from "./Message/Message";
 
-import "./Messages.scss";
+import { ChatContext } from "../AppContext";
 
 const Messages = ({ messages, name }) => {
+  const { loadMoreMessages, noMoreMessagesToLoad } = useContext(ChatContext);
   let prevMessageSender = null;
   console.log("the name is " + name);
   // guards against empty messages array
   console.log(messages);
+
+  const renderLoadMoreMessagesButton = () => {
+    if (noMoreMessagesToLoad) return <div>all messages have been loaded</div>;
+
+    return (
+      <button onClick={loadMoreMessages} id="load-more-messages-button">
+        Load More Messages
+      </button>
+    );
+  };
+
   if (!messages || messages.length < 1) return null;
   return (
     <ScrollToBottom className="messages messages-container">
+      {renderLoadMoreMessagesButton()}
       {messages.map((message, i) => {
         console.log(message);
         console.log(prevMessageSender);

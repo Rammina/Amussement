@@ -20,11 +20,14 @@
 }
 .room-item-container:hover,
 .room-item-link:hover,
-.room-item-content:hover {
+.room-item-content:hover,
+#home-button-img-container.selected {
   border-radius: 10px;
 }
 
-.room-item-content.no-image:hover {
+.room-item-content.no-image:hover,
+#home-button-img-container:hover,
+#home-button-img-container.selected {
   background-color: $grayblue;
   color: white;
 }

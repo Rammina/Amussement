@@ -98,7 +98,7 @@ app.use(flash());
 // triggers when the user connects
 io.on("connect", (socket) => {
   // listen for any user join sent from the client side
-  socket.on("join", ({ name, room }, callback) => {
+  socket.on("join", ({ name, room, messageRetrievalCount = 0 }, callback) => {
     console.log(name + "name hello there");
     console.log(room + "room hello there");
     const { error, user } = addUser({
@@ -114,10 +114,10 @@ io.on("connect", (socket) => {
     // have the user join the room
     socket.join(user.room);
     // this helper function returns messages from a room
-    retrieveMessagesFromDB(user.room)
+    retrieveMessagesFromDB(user.room, messageRetrievalCount)
       .then((messages) => {
         console.log(messages);
-        io.emit("load all messages", messages.reverse());
+        io.emit("load messages", messages.reverse());
       })
       .then(() => {
         // welcome message upon joining room, sent to all clients
@@ -203,6 +203,19 @@ io.on("connect", (socket) => {
       // should have proper error handling, state that it failed to store the message
       console.log(e);
     }
+  });
+
+  //note: retrieve more messages (should only work on the client side)
+  socket.on("load more messages", (room, messageRetrievalCount, callback) => {
+    console.log(room);
+    console.log(messageRetrievalCount);
+    console.log(callback);
+    // this helper function returns messages from a room
+    retrieveMessagesFromDB(room, messageRetrievalCount).then((messages) => {
+      console.log(messages.length);
+      // io.emit("load previous messages", messages.reverse());
+      callback(messages.reverse());
+    });
   });
 
   // listen to a disconnected event and send a message that the user has disconnected

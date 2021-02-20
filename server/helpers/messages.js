@@ -13,13 +13,13 @@ const storeMessageToDb = async (messageAttributes) => {
   }
 };
 
-const retrieveMessagesFromDB = async (room) => {
+const retrieveMessagesFromDB = async (room, retrievalCount = 0) => {
   try {
     // retrieve from the database messages sorted by date
     const messages = await Message.find({ room })
       .populate("user")
       .sort({ createdAt: -1 })
-      .limit(30);
+      .limit(30 * (retrievalCount + 1));
     if (!messages) throw Error("Unable to find messages in this room.");
     return messages;
   } catch (e) {

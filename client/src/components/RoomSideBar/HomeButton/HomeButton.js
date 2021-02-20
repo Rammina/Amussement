@@ -55,11 +55,12 @@ const HomeButton = (props) => {
             to={`/users/${props.user._id || props.user.id}/home`}
             className="room-item-link"
           >
-            <img
-              id="home-button-img"
-              className="room-item-content"
-              src={HomeImg}
-            />
+            <div
+              id="home-button-img-container"
+              className={`room-item-content ${getSelectedClass()}`}
+            >
+              <img id="home-button-img" src={HomeImg} />
+            </div>
           </Link>
           <div
             className={`room-item-indicator ${
