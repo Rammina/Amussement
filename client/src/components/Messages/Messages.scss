@@ -1,17 +1,26 @@
+@import "../../utils/variables.scss";
+
 .messages {
   /* padding: 5% 0; */
   overflow: hidden;
   flex: auto;
 }
 
-.messages-container {
+.messages.messages-container {
   overflow-x: hidden;
   padding: 0;
-  padding-bottom: 1rem;
   /* border: 1px solid white; */
 }
 
 .messages-inner-container {
   overflow-x: hidden;
   // overflow-y: visible;
+}
+
+.scroll-to-bottom-button.messages {
+  background-color: $secondary-black;
+  width: 2.25rem;
+  height: 2.25rem;
+  bottom: 1rem;
+  border-radius: 50%;
 }
