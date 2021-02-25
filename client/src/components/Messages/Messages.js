@@ -2,30 +2,65 @@ import DownArrowImg from "../../icons/down-arrow-2.png";
 
 import "./Messages.scss";
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useCallback } from "react";
 import { connect } from "react-redux";
 
-import ScrollToBottom from "react-scroll-to-bottom";
+import ScrollToBottom, {
+  useAtTop,
+  useObserveScrollPosition,
+} from "react-scroll-to-bottom";
 import { css } from "@emotion/css";
 
 import Message from "./Message/Message";
 
 import { ChatContext } from "../AppContext";
 
-// const scrollToBottomCss = css({
-//   backgroundColor: #07050f,
-//   width: 2.25rem,
-//   height: 2.25rem,
-//   bottom: 1rem,
-//   border-radius: 50%
-// });
+const scrollToBottomCss = css({
+  backgroundColor: "#07050f",
+  width: "2.25rem",
+  height: "2.25rem",
+  bottom: "1rem",
+  right: "2rem",
+  borderRadius: "50%",
+  backgroundImage: `url(${DownArrowImg})`,
+  backgroundSize: "1.5rem",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center",
+  "&:hover": {
+    backgroundColor: "#14121c",
+  },
+});
 
 const Messages = ({ messages, name }) => {
+  // const messagesContainerRef = useRef(null);
   const { loadMoreMessages, noMoreMessagesToLoad } = useContext(ChatContext);
+  const [atTop] = useAtTop();
   let prevMessageSender = null;
-  console.log("the name is " + name);
-  // guards against empty messages array
-  console.log(messages);
+
+  const scrollObserver = useCallback(({ scrollTop }) => {
+    console.log(scrollTop);
+  }, []);
+
+  useObserveScrollPosition(scrollObserver);
+
+  const handleScroll = () => {
+    console.log("scrolling");
+  };
+
+  useEffect(() => {
+    console.log(atTop);
+
+    //note :\colon this does not work you cannot add ref with react scroll to bottom
+    // if (messagesContainerRef.current !== null) {
+    //   messagesContainerRef.current.addEventListener("scroll", handleScroll);
+    //   return () => {
+    //     messagesContainerRef.current.removeEventListener(
+    //       "scroll",
+    //       handleScroll
+    //     );
+    //   };
+    // }
+  }, [atTop]);
 
   const renderLoadMoreMessagesButton = () => {
     if (noMoreMessagesToLoad) return <div>all messages have been loaded</div>;
@@ -41,29 +76,14 @@ const Messages = ({ messages, name }) => {
   return (
     <ScrollToBottom
       className="messages messages-container"
-      followButtonClassName={css({
-        backgroundColor: "#07050f",
-        width: "2.25rem",
-        height: "2.25rem",
-        bottom: "1rem",
-        right: "2rem",
-        borderRadius: "50%",
-        backgroundImage: `url(${DownArrowImg})`,
-        backgroundSize: "1.5rem",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        "&:hover": {
-          backgroundColor: "#14121c",
-        },
-      })}
+      followButtonClassName={scrollToBottomCss}
     >
       {renderLoadMoreMessagesButton()}
       {messages.map((message, i) => {
-        console.log(message);
-        console.log(prevMessageSender);
+        // console.log(message);
+        // console.log(prevMessageSender);
         let sameSenderAsPrevMsg = false;
         if (
-          // prevMessageSender === message.username ||
           prevMessageSender === message.user.username ||
           prevMessageSender === message.user.name
         ) {
@@ -106,7 +126,7 @@ class App extends React.Component {
       }
     };
   }
-  
+
   componentWillUnmount() {
     window.onscroll = null;
   }

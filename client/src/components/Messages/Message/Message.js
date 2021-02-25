@@ -96,7 +96,7 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
   }
 
   const renderContextMenu = () => {
-    console.log(isSentByCurrentUser);
+    // console.log(isSentByCurrentUser);
     if (!showContextMenu) return null;
     let actionButtons = null;
 
@@ -158,8 +158,8 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
 
   const renderEditedMarker = () => {
     if (message.createdAt === message.updatedAt) return null;
-    console.log(editedMarkerRef);
-    console.log(editedMarkerRef.current);
+    // console.log(editedMarkerRef);
+    // console.log(editedMarkerRef.current);
 
     const getEditedMarkerX = () => editedMarkerX;
 
@@ -231,8 +231,8 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
 
   const renderMessage = () => {
     //note: should make this be compatible with the database retrieval
-    console.log(message.user.image_url);
-    console.log(message.image_url);
+    // console.log(message.user.image_url);
+    // console.log(message.image_url);
     let senderText = null;
     let senderImage = null;
     let messageContainerClass = null;
