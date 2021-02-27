@@ -16,7 +16,6 @@ import compareAsc from "date-fns/compareAsc";
 
 // date-time functions
 export const getCurrentDate = () => {
-  console.log(format(new Date(), "yyyy-MM-dd"));
   return format(new Date(), "yyyy-MM-dd");
 };
 
@@ -25,7 +24,6 @@ export const getCurrentTime = () => {
 };
 
 export const convertToMDY = (date) => {
-  console.log(date);
   return date ? format(new Date(date.replace(/-/g, "/")), "MM/dd/yyyy") : null;
 };
 
@@ -34,11 +32,6 @@ export const toMilitaryTime = (datetime) => {
 };
 
 export const toStandardTime = (time) => {
-  console.log(time);
-  if (!time) {
-    // Use this if you want to bypass the error
-    // return null;
-  }
   return format(new Date(`${getCurrentDate()}T${time}`), "hh:mma");
 };
 
@@ -47,13 +40,11 @@ export const timestampToStandardTime = (timestamp) => {
 };
 
 export const toStandardDateAndTime = (datetime) => {
-  console.log(datetime);
   if (!datetime) return null;
   return format(new Date(datetime), "Pp");
 };
 
 export const toChatCustomTimestamp = (datetime) => {
-  console.log(datetime);
   if (!datetime) return null;
   let dateObject = new Date(datetime);
   // if it's today, output "Today at hh:mma" format

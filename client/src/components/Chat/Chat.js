@@ -5,6 +5,8 @@ import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import queryString from "query-string";
 import io from "socket.io-client";
+import * as Scroll from "react-scroll";
+import * as constants from "../../utils/constants.js";
 
 import OnlineUsersContainer from "../OnlineUsersContainer/OnlineUsersContainer";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
@@ -16,6 +18,13 @@ import Input from "../Input/Input";
 import { NavContext, FooterContext, ChatContext } from "../AppContext";
 
 let socket;
+
+// just remove anything you don't use
+let Element = Scroll.Element;
+let Events = Scroll.Events;
+let scroll = Scroll.animateScroll;
+let scroller = Scroll.scroller;
+let scrollSpy = Scroll.scrollSpy;
 
 const Chat = (props) => {
   const {
@@ -33,9 +42,11 @@ const Chat = (props) => {
   const [users, setUsers] = useState("");
   const [userRetrievalAttempts, setUserRetrievalAttempts] = useState(0);
   const [messageRetrievalCount, setMessageRetrievalCount] = useState(0);
+  // const [messageCount,]=useState();
   const [noMoreMessagesToLoad, setNoMoreMessagesToLoad] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const { MESSAGES_PER_BATCH } = constants;
   const chatInputRef = useRef(null);
 
   const location = useLocation();
@@ -101,11 +112,29 @@ const Chat = (props) => {
             // send a browser alert
             // note:this should be replaced with redux action for error handling
             alert(error);
+          } else {
+            // scrollToBottom();
           }
         });
       }
     }
     userJoinCount++;
+  };
+
+  // should make these more reusable
+  const scrollToBottom = function () {
+    scroll.scrollToBottom({
+      duration: 0,
+      containerId: "chat-messages-container",
+    });
+    console.log("called");
+  };
+
+  const scrollTo = function () {
+    scroller.scrollTo("firstMessagePreviousBatch", {
+      duration: 0,
+      containerId: "chat-messages-container",
+    });
   };
 
   useEffect(() => {
@@ -120,11 +149,12 @@ const Chat = (props) => {
     setMessages([]);
     socket.on("load messages", (retrievedMessages) => {
       console.log(retrievedMessages);
-      // if the retrieve messages are not divisible by 30, then there are no more messages to load
+      // if the retrieve messages are not divisible by MESSAGES_PER_BATCH, then there are no more messages to load
       // if the message count after retrieval and before retrieval are the same, there are no more messages to load
 
       setMessages([...retrievedMessages]);
       incrementMessageRetrievalCount();
+      scrollToBottom();
     });
 
     if (userType === "guest") {
@@ -233,14 +263,23 @@ const Chat = (props) => {
       (retrievedMessages) => {
         // if (error) console.log(error);
         incrementMessageRetrievalCount();
+        // setMessageRetrievalCount(
+        //   (messageRetrievalCount) => messageRetrievalCount + 1
+        // );
+        console.log("message retrieval count is now:");
+        console.log(getMessageRetrievalCount());
+        console.log(retrievedMessages.length);
+        console.log(retrievedMessages.length % MESSAGES_PER_BATCH);
+        console.log(messages.length === retrievedMessages.length);
         if (
-          !retrievedMessages.length % 30 ||
+          !(retrievedMessages.length % MESSAGES_PER_BATCH === 0) ||
           messages.length === retrievedMessages.length
         ) {
           setNoMoreMessagesToLoad(true);
-          return;
+          // return;
         }
         setMessages([...retrievedMessages]);
+        scrollTo();
       }
     );
   };
@@ -260,6 +299,7 @@ const Chat = (props) => {
     deleteMessage,
     editMessage,
     loadMoreMessages,
+    getMessageRetrievalCount,
     // messageRetrievalCount,
     noMoreMessagesToLoad,
     chatInputRef,

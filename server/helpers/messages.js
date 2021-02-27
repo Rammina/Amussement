@@ -1,5 +1,6 @@
 const Message = require("../models/message");
 const { getUsersInRoom } = require("./users");
+const { MESSAGES_PER_BATCH } = require("../utils/constants.js");
 
 const storeMessageToDb = async (messageAttributes) => {
   try {
@@ -19,7 +20,7 @@ const retrieveMessagesFromDB = async (room, retrievalCount = 0) => {
     const messages = await Message.find({ room })
       .populate("user")
       .sort({ createdAt: -1 })
-      .limit(30 * (retrievalCount + 1));
+      .limit(MESSAGES_PER_BATCH * (retrievalCount + 1));
     if (!messages) throw Error("Unable to find messages in this room.");
     return messages;
   } catch (e) {

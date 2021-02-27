@@ -120,19 +120,7 @@ io.on("connect", (socket) => {
         io.emit("load messages", messages.reverse());
       })
       .then(() => {
-        // welcome message upon joining room, sent to all clients
-        socket.emit("message", {
-          user: { name: "RoroBot", room: user.room },
-          text: `${user.name}, welcome to room ${user.room}.`,
-          createdAt: new Date(),
-        });
-        // sends an event to all users in the said room, except the specified user
-        socket.broadcast.to(user.room).emit("message", {
-          user: { name: "RoroBot", room: user.room },
-          text: `${user.name} has joined!`,
-          createdAt: new Date(),
-        });
-
+        // note: user joining notifications used to be here but removed because it's obnoxious
         io.to(user.room).emit("roomData", {
           room: user.room,
           users: getUsersInRoom(user.room),
@@ -224,11 +212,6 @@ io.on("connect", (socket) => {
     console.log(getUsersInRoom());
     const user = removeUser(socket.id);
     if (user) {
-      io.to(user.room).emit("message", {
-        user: { name: "RoroBot", room: user.room },
-        text: `${user.name} has left.`,
-        createdAt: new Date(),
-      });
       io.to(user.room).emit("roomData", {
         room: user.room,
         users: getUsersInRoom(user.room),
@@ -243,3 +226,25 @@ app.use("/api/users", usersRoute);
 server.listen(process.env.PORT || 5000, () =>
   console.log(`Server has started.`)
 );
+
+/*
+
+// welcome message upon joining room, sent to all clients
+socket.emit("message", {
+  user: { name: "RoroBot", room: user.room },
+  text: `${user.name}, welcome to room ${user.room}.`,
+  createdAt: new Date(),
+});
+// sends an event to all users in the said room, except the specified user
+socket.broadcast.to(user.room).emit("message", {
+  user: { name: "RoroBot", room: user.room },
+  text: `${user.name} has joined!`,
+  createdAt: new Date(),
+});
+
+io.to(user.room).emit("message", {
+  user: { name: "RoroBot", room: user.room },
+  text: `${user.name} has left.`,
+  createdAt: new Date(),
+});
+*/
