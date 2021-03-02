@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 
 import { changeUserPassword } from "../../flux/actions/settingsActions";
 import { modalStatusReset } from "../../flux/actions/modalActions";
-import { formShowLoader } from "../../flux/actions/loaderActions";
+import { actionShowLoader } from "../../flux/actions/loaderActions";
 import { renderError, getErrorClass, validateEmail } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
@@ -90,7 +90,7 @@ const ChangeUserPassword = (props) => {
   // submit handler
   const onSubmit = async (formValues) => {
     console.log(formValues);
-    props.formShowLoader("changeUserPasswordForm", true);
+    props.actionShowLoader("changeUserPasswordForm", true);
     await props.changeUserPassword(formValues);
   };
 
@@ -232,7 +232,7 @@ const mapStateToProps = (state) => ({
 const changeUserPass = connect(mapStateToProps, {
   changeUserPassword,
   modalStatusReset,
-  formShowLoader,
+  actionShowLoader,
 })(ChangeUserPassword);
 
 export default reduxForm({

@@ -7,7 +7,7 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
 import { registerUser } from "../../flux/actions/authActions";
-import { formShowLoader } from "../../flux/actions/loaderActions";
+import { actionShowLoader } from "../../flux/actions/loaderActions";
 import { renderError, getErrorClass, validateEmail } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
@@ -76,7 +76,7 @@ const RegisterForm = (props) => {
   const onSubmit = async (formValues) => {
     console.log(formValues);
     console.log(registerUser);
-    props.formShowLoader("registerForm", true);
+    props.actionShowLoader("registerForm", true);
     await props.registerUser(formValues);
   };
 
@@ -225,7 +225,7 @@ const mapStateToProps = (state) => ({
   showLoader: state.loader.showRegisterFormLoader,
 });
 
-const registerForm = connect(mapStateToProps, { registerUser, formShowLoader })(
+const registerForm = connect(mapStateToProps, { registerUser, actionShowLoader })(
   RegisterForm
 );
 

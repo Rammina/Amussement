@@ -5,15 +5,22 @@ import React from "react";
 
 import "./ProfilePicture.scss";
 
-const ProfilePicture = ({ imageSrc, componentClass }) => {
+const ProfilePicture = ({ imageSrc, componentClass, onClick }) => {
   const getClassName = () => (componentClass ? componentClass : "");
 
   if (!imageSrc) {
     // return null;
   }
 
+  const onClickHandler = () => {
+    if (onClick !== undefined) onClick();
+  };
+
   return (
-    <div className={`profile-picture-outer-container ${getClassName()}`}>
+    <div
+      className={`profile-picture-outer-container ${getClassName()}`}
+      onClick={onClickHandler}
+    >
       <div className={`profile-picture-inner-container ${getClassName()}`}>
         <img
           className={`profile-picture-image ${getClassName()}`}

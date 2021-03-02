@@ -23,7 +23,7 @@
   // min-width: calc(100vw - 4.5rem);
   transform: translate(-$sidebarWidth, 0) translate(-$roomSidebarWidth, 0);
   transition: transform 0.3s ease;
-  overflow-x: hidden;
+  overflow: hidden;
   // transition: none;
   // border: 1px solid white;H
 }

@@ -2,7 +2,7 @@ import LogoutImg from "../../icons/logout.png";
 
 import "./Home.scss";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
@@ -11,15 +11,18 @@ import serverRest from "../../apis/serverRest";
 
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
 import RoomSideBar from "../RoomSideBar/RoomSideBar";
-import Footer from "../Footer/Footer";
+
+import { FooterContext } from "../AppContext";
 
 // import { renderError, getErrorClass } from "../../helpers";
 
 const Home = (props) => {
   const userId = props.user ? props.user._id || props.user.id : null;
+  const { setShowFooter } = useContext(FooterContext);
 
   useEffect(() => {
     console.log(props.match.params.id);
+    setShowFooter(true);
   }, []);
 
   return (

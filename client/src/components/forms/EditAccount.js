@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 
 import { editUserAccount } from "../../flux/actions/settingsActions";
 import { modalStatusReset } from "../../flux/actions/modalActions";
-import { formShowLoader } from "../../flux/actions/loaderActions";
+import { actionShowLoader } from "../../flux/actions/loaderActions";
 import { renderError, getErrorClass, validateEmail } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
@@ -90,7 +90,7 @@ const EditAccount = (props) => {
   const onSubmit = async (formValues) => {
     console.log(formValues);
     // check if it succeeded or it produced an error
-    props.formShowLoader("editAccountForm", true);
+    props.actionShowLoader("editAccountForm", true);
     await props.editUserAccount(formValues);
   };
 
@@ -222,7 +222,7 @@ const mapStateToProps = (state) => ({
 const editAccount = connect(mapStateToProps, {
   editUserAccount,
   modalStatusReset,
-  formShowLoader,
+  actionShowLoader,
 })(EditAccount);
 
 export default reduxForm({

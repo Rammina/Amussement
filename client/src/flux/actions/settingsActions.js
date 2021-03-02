@@ -3,7 +3,7 @@ import serverRest from "../../apis/serverRest";
 import cloudinaryRest from "../../apis/cloudinaryRest";
 import history from "../../history";
 import { returnErrors, clearErrors } from "./errorActions";
-import { formShowLoader } from "./loaderActions";
+import { actionShowLoader } from "./loaderActions";
 import {
   AUTH_ERROR,
   EDIT_USER_ACCOUNT_SUCCESS,
@@ -47,7 +47,7 @@ export const editUserAccount = (formValues) => {
         dispatch({ type: EDIT_USER_ACCOUNT_FAIL });
       })
       .finally(() => {
-        dispatch(formShowLoader("editAccountForm", false));
+        dispatch(actionShowLoader("editAccountForm", false));
       });
   };
 };
@@ -80,7 +80,7 @@ export const changeUserPassword = (formValues) => {
         return false;
       })
       .finally(() => {
-        dispatch(formShowLoader("changeUserPasswordForm", false));
+        dispatch(actionShowLoader("changeUserPasswordForm", false));
       });
   };
 };
@@ -110,7 +110,7 @@ export const editUserAvatar = (base64EncodedImage, id) => {
       );
       dispatch({ type: EDIT_USER_AVATAR_FAIL });
     } finally {
-      dispatch(formShowLoader("uploadAvatarForm", false));
+      dispatch(actionShowLoader("uploadAvatarForm", false));
     }
   };
 };
@@ -181,7 +181,7 @@ export const disableUserAccount = (formValues) => {
         });
       })
       .finally(() => {
-        dispatch(formShowLoader("disableAccountForm", false));
+        dispatch(actionShowLoader("disableAccountForm", false));
       });
   };
 };
@@ -225,7 +225,7 @@ export const deleteUserAccount = (formValues) => {
         });
       })
       .finally(() => {
-        dispatch(formShowLoader("deleteAccountForm", false));
+        dispatch(actionShowLoader("deleteAccountForm", false));
       });
   };
 };

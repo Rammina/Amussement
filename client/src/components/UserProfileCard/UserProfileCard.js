@@ -12,17 +12,56 @@ import UserCommunications from "./UserCommunications/UserCommunications";
 import UserConnections from "./UserConnections/UserConnections";
 import Notes from "./Notes/Notes";
 
-import { WindowContext } from "../AppContext";
+import { WindowContext, UserProfileCardContext } from "../AppContext";
 
 const UserProfileCard = (props) => {
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const [connectionToUser, setConnectionToUser] = useState(null);
   const [modalHeight, setModalHeight] = useState(0);
   const [selectedSection, setSelectedSection] = useState("userInfo");
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
+  const { selectedUser, friendStatus } = useContext(UserProfileCardContext);
   const modalElement = useRef(null);
 
+  const checkIfUserIsSelf = () => {
+    if (selectedUser._id === props.user._id) setIsCurrentUser(true);
+  };
+
+  const checkConnectionToUser = () => {
+    let connection = null;
+    if (friendStatus) {
+      setConnectionToUser(friendStatus);
+      return friendStatus;
+    }
+    // check if selectedUser is a friend
+    for (let friend of props.friends) {
+      if (friend._id === selectedUser._id) {
+        //found a user with the same ID
+        setConnectionToUser(friend.status);
+        return friend.status;
+      }
+    }
+    // note: maybe check if user is blocked once the function is implemented
+  };
+
+  // probably needs to be checked only once
   useEffect(() => {
-    if (modalElement) setModalHeight(modalElement.current.clientHeight);
+    checkConnectionToUser();
   }, []);
+
+  useEffect(() => {
+    checkIfUserIsSelf();
+    // check the height again because some elements are not rendered with own profile
+    if (modalElement) setModalHeight(modalElement.current.clientHeight);
+  }, [isCurrentUser]);
+
+  const renderUserCommunications = () =>
+    !isCurrentUser ? (
+      <UserCommunications connectionToUser={connectionToUser} />
+    ) : null;
+
+  const renderUserConnections = () =>
+    !isCurrentUser ? <UserConnections /> : null;
 
   // note:this is a mobile version of the profile card
   const renderMobileContent = () => (
@@ -40,11 +79,11 @@ const UserProfileCard = (props) => {
         <React.Fragment>
           <div className="user-profile-card-outer-container" ref={modalElement}>
             <section className="user-profile-card-section-container">
-              <UserIdentity selectedUser={props.selectedUser} />
-              <UserCommunications selectedUser={props.selectedUser} />
+              <UserIdentity isCurrentUser={isCurrentUser} />
+              {renderUserCommunications()}
             </section>
             <section className="user-profile-card-section-container">
-              <UserConnections />
+              {renderUserConnections()}
               <Notes />
             </section>
           </div>
@@ -84,6 +123,36 @@ const UserProfileCard = (props) => {
     const getMutualServersButtonClass = () =>
       selectedSection === "mutualServers" ? "selected" : null;
 
+    const renderSectionSelectorButtons = () =>
+      !isCurrentUser ? (
+        <section className="user-profile-card-section-container buttons-container">
+          <button
+            className={`user-profile-card-button ${getUserInfoButtonClass()}`}
+            onClick={() => {
+              setSelectedSection("userInfo");
+            }}
+          >
+            User Info
+          </button>
+          <button
+            className={`user-profile-card-button ${getMutualFriendsButtonClass()}`}
+            onClick={() => {
+              setSelectedSection("mutualFriends");
+            }}
+          >
+            Mutual Friends
+          </button>
+          <button
+            className={`user-profile-card-button ${getMutualServersButtonClass()}`}
+            onClick={() => {
+              setSelectedSection("mutualServers");
+            }}
+          >
+            Mutual Servers
+          </button>
+        </section>
+      ) : null;
+
     // render desktop content
     return (
       <React.Fragment>
@@ -99,34 +168,9 @@ const UserProfileCard = (props) => {
               ref={modalElement}
             >
               <section className="user-profile-card-section-container">
-                <UserIdentity selectedUser={props.selectedUser} />
+                <UserIdentity isCurrentUser={isCurrentUser} />
               </section>
-              <section className="user-profile-card-section-container buttons-container">
-                <button
-                  className={`user-profile-card-button ${getUserInfoButtonClass()}`}
-                  onClick={() => {
-                    setSelectedSection("userInfo");
-                  }}
-                >
-                  User Info
-                </button>
-                <button
-                  className={`user-profile-card-button ${getMutualFriendsButtonClass()}`}
-                  onClick={() => {
-                    setSelectedSection("mutualFriends");
-                  }}
-                >
-                  Mutual Friends
-                </button>
-                <button
-                  className={`user-profile-card-button ${getMutualServersButtonClass()}`}
-                  onClick={() => {
-                    setSelectedSection("mutualServers");
-                  }}
-                >
-                  Mutual Servers
-                </button>
-              </section>
+              {renderSectionSelectorButtons()}
               {renderSelectedSection()}
             </div>
           </React.Fragment>
@@ -145,6 +189,7 @@ const UserProfileCard = (props) => {
 
 const mapStateToProps = (state) => ({
   user: state.user.info,
+  friends: state.user.info.friends,
 });
 
 export default connect(mapStateToProps, {

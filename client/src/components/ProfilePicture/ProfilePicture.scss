@@ -7,6 +7,10 @@
   // width: $profilePictureSize;
   padding-right: 0.5rem;
 }
+
+.message.profile-picture-outer-container:hover {
+  cursor: pointer;
+}
 .profile-picture-inner-container {
   padding: 0;
   border-radius: 50%;

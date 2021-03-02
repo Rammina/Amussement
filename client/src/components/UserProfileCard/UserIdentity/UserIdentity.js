@@ -17,11 +17,37 @@ const UserIdentity = (props) => {
     );
   };
   const renderSendMessage = () => {
-    if (!isDesktopWidth || !isDesktopHeight) return null;
+    if (
+      !isDesktopWidth ||
+      !isDesktopHeight ||
+      props.isCurrentUser
+      // ||notfriends
+    )
+      return null;
     return (
       <button className="user-identity-action-button">Send Message</button>
     );
   };
+
+  const renderSendFriendRequest = () => {
+    if (props.isFriendsWithCurrentUser) return null;
+    return (
+      <button className="user-identity-action-button">
+        Send Friend Request
+      </button>
+    );
+  };
+
+  const renderEllipsisButton = () =>
+    !props.isCurrentUser ? (
+      <button id="user-profile-card-ellipsis-button">
+        <img
+          className={`ellipsis-icon-img`}
+          src={EllipsisImg}
+          alt="Ellipsis icon"
+        />
+      </button>
+    ) : null;
 
   // note: mobile and desktop versions should be different
   return (
@@ -33,13 +59,7 @@ const UserIdentity = (props) => {
         {/*{props.friend.username}*/}
       </h3>
       {renderSendMessage()}
-      <button id="user-profile-card-ellipsis-button">
-        <img
-          className={`ellipsis-icon-img`}
-          src={EllipsisImg}
-          alt="Ellipsis icon"
-        />
-      </button>
+      {renderEllipsisButton()}
     </section>
   );
 };

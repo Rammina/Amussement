@@ -116,7 +116,7 @@ io.on("connect", (socket) => {
     // this helper function returns messages from a room
     retrieveMessagesFromDB(user.room, messageRetrievalCount)
       .then((messages) => {
-        console.log(messages);
+        // console.log(messages);
         io.emit("load messages", messages.reverse());
       })
       .then(() => {

@@ -9,8 +9,7 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
 import { deleteUserAccount } from "../../flux/actions/settingsActions";
-import { modalStatusReset } from "../../flux/actions/modalActions";
-import { formShowLoader } from "../../flux/actions/loaderActions";
+import { actionShowLoader } from "../../flux/actions/loaderActions";
 import { renderError, getErrorClass } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
@@ -64,17 +63,6 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 };
 
 const DeleteAccount = (props) => {
-  /*
-  useEffect(() => {
-    console.log("this runs upon render");
-    if (props.deleteAccountSubmitSuccess) {
-      props.hideSection();
-      // reset success status through MODAL_STATUS_RESET
-      props.modalStatusReset();
-    }
-  }, [props.deleteAccountSubmitSuccess]);
-  */
-
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
     console.log(errorMessage);
@@ -91,7 +79,7 @@ const DeleteAccount = (props) => {
   // submit handler
   const onSubmit = async (formValues) => {
     console.log(formValues);
-    props.formShowLoader("deleteAccountForm", true);
+    props.actionShowLoader("deleteAccountForm", true);
     await props.deleteUserAccount(formValues);
   };
 
@@ -179,15 +167,12 @@ const validate = (formValues) => {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
-  // I doubt this matters because you should just link to sign up page after disabling account
-  // deleteAccountSubmitSuccess: state.modalSubmit.deleteAccountSubmitSuccess,
   showLoader: state.loader.showDeleteAccountFormLoader,
 });
 
 const deleteAccount = connect(mapStateToProps, {
   deleteUserAccount,
-  modalStatusReset,
-  formShowLoader,
+  actionShowLoader,
 })(DeleteAccount);
 
 export default reduxForm({

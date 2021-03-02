@@ -15,6 +15,7 @@ import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
 
+import { actionShowLoader } from "../../flux/actions/loaderActions";
 import { NavContext, FooterContext, ChatContext } from "../AppContext";
 
 let socket;
@@ -122,39 +123,43 @@ const Chat = (props) => {
   };
 
   // should make these more reusable
-  const scrollToBottom = function () {
+  const scrollToBottom = function (containerId) {
     scroll.scrollToBottom({
       duration: 0,
-      containerId: "chat-messages-container",
+      offset: 50,
+      containerId: containerId,
     });
-    console.log("called");
   };
 
-  const scrollTo = function () {
-    scroller.scrollTo("firstMessagePreviousBatch", {
+  const scrollTo = function (targetElement, containerId) {
+    scroller.scrollTo(targetElement, {
       duration: 0,
-      containerId: "chat-messages-container",
+      containerId: containerId,
     });
   };
 
   useEffect(() => {
     console.log("endpoint and location useEffect");
     const { userType } = queryString.parse(props.location.search);
+    console.log(props.location.search);
     socket = io(ENDPOINT);
     // note: this should be changed once database for room messages is used
     /*temporary stopgap measure to clear messages every time the URL changes*/
     // messageRetrievalCount = 0;
     // noMoreMessagesToLoad = false;
 
-    setMessages([]);
+    setMessageRetrievalCount(0);
+    setNoMoreMessagesToLoad(false);
+    props.actionShowLoader("messagesInitial", true);
     socket.on("load messages", (retrievedMessages) => {
-      console.log(retrievedMessages);
+      // console.log(retrievedMessages);
       // if the retrieve messages are not divisible by MESSAGES_PER_BATCH, then there are no more messages to load
       // if the message count after retrieval and before retrieval are the same, there are no more messages to load
 
       setMessages([...retrievedMessages]);
       incrementMessageRetrievalCount();
-      scrollToBottom();
+      props.actionShowLoader("messagesInitial", false);
+      scrollToBottom("chat-messages-container");
     });
 
     if (userType === "guest") {
@@ -162,13 +167,19 @@ const Chat = (props) => {
     }
 
     return () => {
-      socket.close();
       // setMessages([]);
+      // setMessageRetrievalCount(0);
+      // setNoMoreMessagesToLoad(false);
+      console.log("disconnected");
+
+      socket.close();
+      // setMessages((messages) => []);
     };
   }, [ENDPOINT, location.search]);
 
   // re-update the user and users list
   useEffect(() => {
+    console.log(props.location.search);
     console.log(props.user);
     console.log("I happened twice");
     if (!props.isloading && props.user) {
@@ -191,6 +202,7 @@ const Chat = (props) => {
 
   // attach another listener every time the address/room changes
   useEffect(() => {
+    console.log(props.location.search);
     socket.on("message", (message) => {
       // non-\ mutational push to the messages array
       console.log(message);
@@ -250,12 +262,14 @@ const Chat = (props) => {
     }
   };
   const loadMoreMessages = () => {
-    console.log("attempting to load more messages");
-    console.log(room);
-    console.log(messageRetrievalCount);
-    console.log(getMessageRetrievalCount());
-    console.log(noMoreMessagesToLoad);
+    // console.log("attempting to load more messages");
+    // console.log(room);
+    // console.log(messageRetrievalCount);
+    // console.log(getMessageRetrievalCount());
+    // console.log(noMoreMessagesToLoad);
     if (noMoreMessagesToLoad) return;
+
+    props.actionShowLoader("messagesPrevious", true);
     socket.emit(
       "load more messages",
       room,
@@ -279,7 +293,8 @@ const Chat = (props) => {
           // return;
         }
         setMessages([...retrievedMessages]);
-        scrollTo();
+        scrollTo("firstMessagePreviousBatch", "chat-messages-container");
+        props.actionShowLoader("messagesPrevious", false);
       }
     );
   };
@@ -344,10 +359,12 @@ const mapStateToProps = (state) => ({
   user: state.user.info,
   error: state.error,
   isLoading: state.auth.isLoading,
+  showMessagesInitialLoader: state.loader.showMessagesInitialLoader,
+
   // propsInitialized: true
 });
 
-export default connect(mapStateToProps, {})(Chat);
+export default connect(mapStateToProps, { actionShowLoader })(Chat);
 
 // const handleResize = () => {
 //   if (!onlineUsersButtonTouched) {

@@ -1,7 +1,7 @@
 import serverRest from "../../apis/serverRest";
 import history from "../../history";
 import { returnErrors, clearErrors } from "./errorActions";
-import { formShowLoader } from "./loaderActions";
+import { actionShowLoader } from "./loaderActions";
 
 import {
   compareValues,
@@ -86,7 +86,7 @@ export const addFriendWithUsername = (formValues) => (dispatch, getState) => {
       });
     })
     .finally(() => {
-      dispatch(formShowLoader("addFriendForm", false));
+      dispatch(actionShowLoader("addFriendForm", false));
     });
 };
 
@@ -113,7 +113,7 @@ export const addFriendWithId = (friendId) => (dispatch, getState) => {
     });
   /*
     .finally(() => {
-        dispatch(formShowLoader("addFriendForm", false));
+        dispatch(actionShowLoader("addFriendForm", false));
       });
       */
 };

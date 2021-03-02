@@ -9,8 +9,10 @@ import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 import DeleteMessage from "./DeleteMessage/DeleteMessage";
 import EditMessage from "./EditMessage/EditMessage";
+import UserProfileCard from "../../UserProfileCard/UserProfileCard";
 
-import { ChatContext } from "../../AppContext";
+import { ChatContext, UserProfileCardContext } from "../../AppContext";
+
 import {
   toChatCustomTimestamp,
   timestampToStandardTime,
@@ -19,6 +21,7 @@ import {
 
 const Message = ({ message, name, sameSenderAsPrevMsg }) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
+  const [userInfoModalOpen, setUserInfoModalOpen] = useState(false);
   const [showDeleteMessageModal, setShowDeleteMessageModal] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [
@@ -74,6 +77,33 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
     setEditedMarkerX(-100);
     setEditedMarkerY(-100);
     setIsMouseHoveredOnEdited(false);
+  };
+
+  const userOnClickHandler = () => {
+    console.log("attempting to open userinfomodal");
+    setUserInfoModalOpen(true);
+  };
+
+  // get value  of UserProfileCardContext using this function
+  const getUserProfileCardContextValue = () => {
+    return {
+      selectedUser: message.user,
+      // friendStatus: status
+    };
+  };
+
+  const renderUserInfoModal = () => {
+    if (!userInfoModalOpen) return null;
+    return (
+      <UserProfileCardContext.Provider value={getUserProfileCardContextValue()}>
+        <UserProfileCard
+          componentClass="message-user-profile"
+          onModalClose={() => {
+            setUserInfoModalOpen(false);
+          }}
+        />
+      </UserProfileCardContext.Provider>
+    );
   };
 
   const renderDeleteMessageModal = () => {
@@ -230,9 +260,6 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
   };
 
   const renderMessage = () => {
-    //note: should make this be compatible with the database retrieval
-    // console.log(message.user.image_url);
-    // console.log(message.image_url);
     let senderText = null;
     let senderImage = null;
     let messageContainerClass = null;
@@ -246,11 +273,12 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
             message.user.image_url || ""
           }
           componentClass="message"
+          onClick={userOnClickHandler}
         />
       );
       senderText = (
         <>
-          <p className={`sender-text `}>
+          <p className={`sender-text `} onClick={userOnClickHandler}>
             {isSentByCurrentUser
               ? trimmedName
               : message.user.username || message.user.name}
@@ -267,6 +295,9 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
 
     return (
       <>
+        {renderContextMenu()}
+        {renderDeleteMessageModal()}
+        {renderUserInfoModal()}
         <div
           className={`messageContainer justifyStart ${messageContainerClass}`}
           onMouseEnter={onMouseEnterMessageContainerHandler}
@@ -285,8 +316,6 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
             {renderMessageText(isTextOnly)}
           </div>
         </div>
-        {renderContextMenu()}
-        {renderDeleteMessageModal()}
       </>
     );
   };

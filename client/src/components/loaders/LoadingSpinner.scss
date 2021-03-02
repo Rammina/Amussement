@@ -9,6 +9,12 @@ https://loading.io/css/
   width: 1.05rem;
   height: 1.05rem;
 }
+.messages.lds-ring {
+  top: 0.15rem;
+  right: 0.4rem;
+  width: 1.6rem;
+  height: 1.6rem;
+}
 .lds-ring div {
   box-sizing: border-box;
   display: block;
@@ -20,6 +26,10 @@ https://loading.io/css/
   border-radius: 50%;
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   border-color: #333 transparent transparent transparent;
+}
+.messages.lds-ring div {
+  width: 1.28rem;
+  height: 1.28rem;
 }
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;

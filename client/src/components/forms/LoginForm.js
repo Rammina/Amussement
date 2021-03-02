@@ -7,7 +7,7 @@ import { Field, reduxForm, reset } from "redux-form";
 import { connect } from "react-redux";
 
 import { loginUser } from "../../flux/actions/authActions";
-import { formShowLoader } from "../../flux/actions/loaderActions";
+import { actionShowLoader } from "../../flux/actions/loaderActions";
 import { renderError, getErrorClass, validateEmail } from "../../helpers";
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
 import LoadingSpinner from "../loaders/LoadingSpinner";
@@ -75,7 +75,7 @@ const LoginForm = (props) => {
     console.log(formValues);
     console.log(loginUser);
     // setShowLoader(true);
-    props.formShowLoader("loginForm", true);
+    props.actionShowLoader("loginForm", true);
     await props.loginUser(formValues);
     // setShowLoader(false);
     // props.dispatch(reset("loginForm"));
@@ -177,7 +177,7 @@ const mapStateToProps = (state) => ({
   showLoader: state.loader.showLoginFormLoader,
 });
 
-const loginForm = connect(mapStateToProps, { loginUser, formShowLoader })(
+const loginForm = connect(mapStateToProps, { loginUser, actionShowLoader })(
   LoginForm
 );
 

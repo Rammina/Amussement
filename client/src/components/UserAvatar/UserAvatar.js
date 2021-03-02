@@ -14,7 +14,7 @@ import Modal from "../Modal/Modal";
 import serverRest from "../../apis/serverRest";
 import cloudinaryRest from "../../apis/cloudinaryRest";
 
-import { formShowLoader } from "../../flux/actions/loaderActions";
+import { actionShowLoader } from "../../flux/actions/loaderActions";
 import { editUserAvatar } from "../../flux/actions/settingsActions";
 
 import { WindowContext } from "../AppContext";
@@ -71,7 +71,7 @@ const UserAvatar = (props) => {
     if (!previewSource) {
       return;
     }
-    props.formShowLoader("uploadAvatarForm", true);
+    props.actionShowLoader("uploadAvatarForm", true);
     uploadImage(previewSource);
   };
 
@@ -217,7 +217,7 @@ const mapStateToProps = (state) => ({
   showLoader: state.loader.showUploadAvatarFormLoader,
 });
 
-const userAvatar = connect(mapStateToProps, { editUserAvatar, formShowLoader })(
+const userAvatar = connect(mapStateToProps, { editUserAvatar, actionShowLoader })(
   UserAvatar
 );
 

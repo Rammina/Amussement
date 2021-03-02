@@ -8,7 +8,7 @@ import React from "react";
 
 const LoadingSpinner = (props) => {
   return props.showLoader ? (
-    <div className="lds-ring">
+    <div className={`lds-ring ${props.className || ""}`}>
       <div></div>
       <div></div>
       <div></div>

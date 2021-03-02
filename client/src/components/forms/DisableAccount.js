@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 
 import { disableUserAccount } from "../../flux/actions/settingsActions";
 import { modalStatusReset } from "../../flux/actions/modalActions";
-import { formShowLoader } from "../../flux/actions/loaderActions";
+import { actionShowLoader } from "../../flux/actions/loaderActions";
 import { renderError, getErrorClass } from "../../helpers";
 
 import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
@@ -65,7 +65,7 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 
 const DisableAccount = (props) => {
   useEffect(() => {
-    props.formShowLoader("disableAccountForm", false);
+    props.actionShowLoader("disableAccountForm", false);
   }, []);
 
   const renderErrorNotifications = () => {
@@ -84,7 +84,7 @@ const DisableAccount = (props) => {
   // submit handler
   const onSubmit = async (formValues) => {
     console.log(formValues);
-    props.formShowLoader("disableAccountForm", true);
+    props.actionShowLoader("disableAccountForm", true);
     await props.disableUserAccount(formValues);
   };
 
@@ -179,7 +179,7 @@ const mapStateToProps = (state) => ({
 const disableAccount = connect(mapStateToProps, {
   disableUserAccount,
   modalStatusReset,
-  formShowLoader,
+  actionShowLoader,
 })(DisableAccount);
 
 export default reduxForm({

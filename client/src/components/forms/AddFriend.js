@@ -10,7 +10,7 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
 import { addFriendWithUsername } from "../../flux/actions/friendsActions";
-import { formShowLoader } from "../../flux/actions/loaderActions";
+import { actionShowLoader } from "../../flux/actions/loaderActions";
 import {
   renderError,
   getErrorClass,
@@ -82,7 +82,7 @@ const AddFriend = (props) => {
   const onSubmit = async (formValues) => {
     console.log(formValues);
     // run an action
-    props.formShowLoader("addFriendForm", true);
+    props.actionShowLoader("addFriendForm", true);
     await props.addFriendWithUsername(formValues);
   };
 
@@ -175,7 +175,7 @@ const mapStateToProps = (state) => ({
 
 const addFriendComponent = connect(mapStateToProps, {
   addFriendWithUsername,
-  formShowLoader,
+  actionShowLoader,
 })(AddFriend);
 
 export default reduxForm({

@@ -10,13 +10,13 @@ import {
 
 import { capitalizeFirstLetter } from "../../helpers";
 
-export const formShowLoader = (
-  formName /*name of the form (needs to be consistent)*/,
+export const actionShowLoader = (
+  loaderName /*name of the loader (needs to be consistent)*/,
   show /*show is a Boolean that decides whether to show or hide a loader*/
 ) => {
   return {
     type: ACTION_SHOW_LOADER,
-    payload: { ["show" + capitalizeFirstLetter(formName) + "Loader"]: show },
+    payload: { ["show" + capitalizeFirstLetter(loaderName) + "Loader"]: show },
   };
 };
 /*
