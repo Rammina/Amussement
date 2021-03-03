@@ -1,6 +1,8 @@
 @import "../../utils/variables.scss";
 
 .user-profile-card-outer-container {
+  // box-shadow: 0 -1px 0 0 #fff inset;
+  border-top: 1px solid #566;
   overflow-y: auto;
 }
 
@@ -84,9 +86,31 @@
     contrast(92%);
 }
 
+.user-profile-card-button-image.add-friend {
+  position: relative;
+  bottom: 0.1rem;
+  width: 1.4rem;
+  height: 1.1rem;
+  filter: invert(71%) sepia(44%) saturate(404%) hue-rotate(102deg)
+    brightness(87%) contrast(91%);
+}
+
+.user-profile-card-button-image.pending {
+  filter: invert(87%) sepia(32%) saturate(829%) hue-rotate(312deg)
+    brightness(105%) contrast(102%);
+}
+
 .user-profile-card-button-text {
   position: relative;
   bottom: 0.25rem;
+}
+
+.user-profile-card-button-text.add-friend {
+  color: $discord-mobile-green;
+}
+
+.user-profile-card-button-text.pending {
+  color: $warningTextColorLight;
 }
 
 .user-profile-card-section-header {
@@ -126,6 +150,9 @@
 }
 
 @media screen and (min-width: 1200px) and (min-height: 600px) {
+  .user-profile-card-outer-container {
+    border-top: none;
+  }
   .user-profile-card.modal {
     min-width: 32rem;
     padding-top: 0;

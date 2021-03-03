@@ -1,4 +1,6 @@
 import ChatIconImg from "../../../icons/chat.png";
+import AddFriendIconImg from "../../../icons/add-user-2.png";
+import ClockIconImg from "../../../icons/clock.png";
 
 import React from "react";
 
@@ -10,24 +12,22 @@ const UserCommunications = (props) => {
     if (props.connectionToUser === "accepted") return null;
     if (!props.connectionToUser)
       return (
-        <Button text="Add Friend" onClick={() => {}}>
-          {/*<img
-      className={`user-profile-card-button-image`}
-      src={AddFriendIconImg}
-      alt="Add Friend Icon"
-    />
-  */}
+        <Button text="Add Friend" className="add-friend" onClick={() => {}}>
+          <img
+            className={`user-profile-card-button-image add-friend`}
+            src={AddFriendIconImg}
+            alt="Add Friend Icon"
+          />
         </Button>
       );
     if (props.connectionToUser === "requested")
       return (
-        <Button text="Pending" onClick={() => {}}>
-          {/*<img
-      className={`user-profile-card-button-image`}
-      src={ClockIconImg}
-      alt="Clock Icon"
-    />
-  */}
+        <Button text="Pending" className="pending" onClick={() => {}}>
+          <img
+            className={`user-profile-card-button-image pending`}
+            src={ClockIconImg}
+            alt="Clock Icon"
+          />
         </Button>
       );
     if (props.connectionToUser === "pending")

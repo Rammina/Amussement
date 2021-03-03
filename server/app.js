@@ -117,8 +117,16 @@ io.on("connect", (socket) => {
     retrieveMessagesFromDB(user.room, messageRetrievalCount)
       .then((messages) => {
         // console.log(messages);
-        io.emit("load messages", messages.reverse());
+        socket.emit("load messages", messages.reverse());
       })
+      // .then(() => {
+      // welcome message upon joining room, sent to all clients
+      // socket.emit("message", {
+      //   user: { name: "RoroBot", room: user.room },
+      //   text: `${user.name}, welcome to room ${user.room}.`,
+      //   createdAt: new Date(),
+      // });
+      // })
       .then(() => {
         // note: user joining notifications used to be here but removed because it's obnoxious
         io.to(user.room).emit("roomData", {
@@ -149,6 +157,7 @@ io.on("connect", (socket) => {
       console.log("successfully stored the message in the database");
       console.log("159");
       console.log(message);
+      // Sends the message to everyone except the sender
       io.to(room).emit("message", { ...message._doc, user });
     };
     try {

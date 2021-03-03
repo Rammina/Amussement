@@ -24,9 +24,10 @@
 #login-form,
 #register-form,
 #join-form {
-  background-color: #333636cc;
+  background-color: #333636ee;
   margin: $center-margin;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
 }
 
 .form-content-container {
@@ -45,6 +46,7 @@
 .form-button-container {
   width: 100%;
   text-align: center;
+  margin-top: 1.5rem;
 }
 
 .form-button-link {
@@ -140,6 +142,7 @@
 @media screen and (min-width: 750px) and (min-height: 600px) {
   .page-container {
     padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 
   #register-form,
@@ -148,9 +151,12 @@
     padding: 0 1rem;
     // padding-bottom: 2rem;
     border-radius: 5px;
-    -webkit-box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
-    box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
+    border: 2px solid #777;
+    // -webkit-box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
+    // box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
     max-width: 32rem;
+    height: auto;
+    min-height: 0;
   }
 
   .form-content-container {

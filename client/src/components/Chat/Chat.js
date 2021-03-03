@@ -126,7 +126,6 @@ const Chat = (props) => {
   const scrollToBottom = function (containerId) {
     scroll.scrollToBottom({
       duration: 0,
-      offset: 50,
       containerId: containerId,
     });
   };
@@ -147,6 +146,7 @@ const Chat = (props) => {
     /*temporary stopgap measure to clear messages every time the URL changes*/
     // messageRetrievalCount = 0;
     // noMoreMessagesToLoad = false;
+    // setMessages([]);
 
     setMessageRetrievalCount(0);
     setNoMoreMessagesToLoad(false);
@@ -167,7 +167,6 @@ const Chat = (props) => {
     }
 
     return () => {
-      // setMessages([]);
       // setMessageRetrievalCount(0);
       // setNoMoreMessagesToLoad(false);
       console.log("disconnected");
@@ -207,6 +206,7 @@ const Chat = (props) => {
       // non-\ mutational push to the messages array
       console.log(message);
       setMessages((messages) => [...messages, message]);
+      // scrollToBottom("chat-messages-container");
     });
 
     socket.on("deletedMessage", (id) => {
