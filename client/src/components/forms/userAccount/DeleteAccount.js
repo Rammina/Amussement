@@ -3,21 +3,21 @@ import "./DeleteAccount.scss";
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
-import serverRest from "../../apis/serverRest";
+import serverRest from "../../../apis/serverRest";
 
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
-import { deleteUserAccount } from "../../flux/actions/settingsActions";
-import { actionShowLoader } from "../../flux/actions/loaderActions";
-import { renderError, getErrorClass } from "../../helpers";
+import { deleteUserAccount } from "../../../flux/actions/settingsActions";
+import { actionShowLoader } from "../../../flux/actions/loaderActions";
+import { renderError, getErrorClass } from "../../../helpers";
 
-import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
-import Modal from "../Modal/Modal";
-import CancelButton from "../buttons/CancelButton";
-import LoadingSpinner from "../loaders/LoadingSpinner";
+import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
+import Modal from "../../Modal/Modal";
+import CancelButton from "../../buttons/CancelButton";
+import LoadingSpinner from "../../loaders/LoadingSpinner";
 
-import history from "../../history";
+import history from "../../../history";
 
 const onInput = (e) => {
   e.preventDefault();

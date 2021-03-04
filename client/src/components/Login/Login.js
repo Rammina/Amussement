@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 
 import serverRest from "../../apis/serverRest";
-import LoginForm from "../forms/LoginForm";
+import LoginForm from "../forms/auth/LoginForm";
 
 import { renderError, getErrorClass } from "../../helpers";
 

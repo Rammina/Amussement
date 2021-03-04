@@ -68,7 +68,6 @@ exports.user_load = async (req, res) => {
         if (err) throw Error(err);
         console.log(friends);
         res.status(200).json({
-          token,
           user: {
             _id: user._id,
             username: user.username,
@@ -423,7 +422,7 @@ exports.user_disable_account = async (req, res) => {
         }
       );
       if (!updatedUser) throw Error("Failed to update the user.");
-      res.status(200);
+      res.status(200).json({ success: true });
     } catch (e) {
       console.log(e);
       res.status(400).json({ msg: e.message });
@@ -461,7 +460,7 @@ exports.user_delete_account = async (req, res) => {
       User.findById(req.params.id)
         .then((user) => {
           user.remove().then(() => {
-            res.status(200);
+            res.status(200).json({ success: true });
           });
         })
         .catch((e) => {

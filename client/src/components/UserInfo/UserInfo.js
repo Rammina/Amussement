@@ -12,10 +12,10 @@ import cloudinaryRest from "../../apis/cloudinaryRest";
 
 import history from "../../history";
 
-import EditAccount from "../forms/EditAccount";
-import ChangeUserPassword from "../forms/ChangeUserPassword";
-import DisableAccount from "../forms/DisableAccount";
-import DeleteAccount from "../forms/DeleteAccount";
+import EditAccount from "../forms/userAccount/EditAccount";
+import ChangeUserPassword from "../forms/userAccount/ChangeUserPassword";
+import DisableAccount from "../forms/userAccount/DisableAccount";
+import DeleteAccount from "../forms/userAccount/DeleteAccount";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import BackButton from "../buttons/BackButton";
 import CloseButton from "../buttons/CloseButton";
@@ -142,56 +142,56 @@ const UserInfo = (props) => {
     props.clearErrors();
   };
 
- const renderAccountManagement = () => {
-   if(!props.isDesktopWidth || !props.isDesktopHeight) {
+  const renderAccountManagement = () => {
+    if (!props.isDesktopWidth || !props.isDesktopHeight) {
+      return (
+        <ul className="account-management-items">
+          <button
+            className="account-management-button"
+            onClick={() => {
+              setDisableAccountOpened(true);
+            }}
+          >
+            <li className={`account-management-item`}>Disable Account</li>
+          </button>
+          <button
+            className="account-management-button"
+            onClick={() => {
+              setDeleteAccountOpened(true);
+            }}
+          >
+            <li
+              id="delete-account-button-item"
+              className={`account-management-item`}
+            >
+              Delete Account
+            </li>
+          </button>
+        </ul>
+      );
+    }
     return (
-      <ul className="account-management-items">
-      <button
-        className="account-management-button"
-        onClick={() => {
-          setDisableAccountOpened(true);
-        }}
-      >
-        <li className={`account-management-item`}>Disable Account</li>
-      </button>
-      <button
-        className="account-management-button"
-        onClick={() => {
-          setDeleteAccountOpened(true);
-        }}
-      >
-        <li
-          id="delete-account-button-item"
-          className={`account-management-item`}
+      <div className="account-management two-buttons-container">
+        <button
+          className="account-management-button"
+          onClick={() => {
+            setDisableAccountOpened(true);
+          }}
+        >
+          Disable Account
+        </button>
+        <button
+          id="delete-account-button"
+          className="account-management-button transparent-bg danger"
+          onClick={() => {
+            setDeleteAccountOpened(true);
+          }}
         >
           Delete Account
-        </li>
-      </button>
-    </ul>
-     )
-   } 
-   return (
-    <div className="account-management two-buttons-container">
-      <button
-        className="account-management-button"
-        onClick={() => {
-          setDisableAccountOpened(true);
-        }}
-      >
-        Disable Account
-      </button>
-      <button
-        id="delete-account-button"
-        className="account-management-button transparent-bg danger"
-        onClick={() => {
-          setDeleteAccountOpened(true);
-        }}
-      >
-          Delete Account
-      </button>
-    </div>
-   )
- }
+        </button>
+      </div>
+    );
+  };
 
   // render
   return (
@@ -263,10 +263,12 @@ const UserInfo = (props) => {
           </div>
         </div>
 
-        <div id="account-management-section-container" className="my-account-section-container white-border-top mt-1-r" >
+        <div
+          id="account-management-section-container"
+          className="my-account-section-container white-border-top mt-1-r"
+        >
           <h2 className="section-heading my-account">Account Management</h2>
           {renderAccountManagement()}
-          
         </div>
       </div>
     )

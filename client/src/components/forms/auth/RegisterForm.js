@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import serverRest from "../../apis/serverRest";
+import serverRest from "../../../apis/serverRest";
 
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
-import { registerUser } from "../../flux/actions/authActions";
-import { actionShowLoader } from "../../flux/actions/loaderActions";
-import { renderError, getErrorClass, validateEmail } from "../../helpers";
+import { registerUser } from "../../../flux/actions/authActions";
+import { actionShowLoader } from "../../../flux/actions/loaderActions";
+import { renderError, getErrorClass, validateEmail } from "../../../helpers";
 
-import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
-import LoadingSpinner from "../loaders/LoadingSpinner";
+import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
+import LoadingSpinner from "../../loaders/LoadingSpinner";
 
-import history from "../../history";
+import history from "../../../history";
 
 const onInput = (e) => {
   e.preventDefault();
@@ -225,9 +225,10 @@ const mapStateToProps = (state) => ({
   showLoader: state.loader.showRegisterFormLoader,
 });
 
-const registerForm = connect(mapStateToProps, { registerUser, actionShowLoader })(
-  RegisterForm
-);
+const registerForm = connect(mapStateToProps, {
+  registerUser,
+  actionShowLoader,
+})(RegisterForm);
 
 export default reduxForm({
   form: "registerForm",

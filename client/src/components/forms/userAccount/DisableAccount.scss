@@ -1,0 +1,52 @@
+@import "../../../utils/variables.scss";
+
+#disable-account-form {
+  padding-bottom: 1.5rem;
+}
+
+.disable-account.form-content-container.modal-form-content {
+  display: flex;
+  // align-content: center;
+  // align-items: center;
+  padding: 0 1rem;
+  padding-top: 3rem;
+  margin: 0 auto;
+  margin-top: 2rem;
+  max-width: 30rem;
+}
+
+.disable-account.modal-paragraph {
+  position: relative;
+  left: 0.3rem;
+  max-width: 21.1rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#disable-account-description-paragraph {
+  margin-top: 0.5rem;
+  color: $dangerTextColorLight;
+}
+
+#disable-account-password-container {
+  margin-top: 1rem;
+}
+
+#disable-account-submit {
+}
+
+@media screen and (min-width: 1200px) and (min-height: 600px) {
+  #disable-account-form {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 3rem;
+  }
+
+  .disable-account.form-content-container.modal-form-content {
+    padding-top: 0;
+  }
+  #disable-account-password-container {
+    margin-top: 2rem;
+    padding: 0;
+  }
+}

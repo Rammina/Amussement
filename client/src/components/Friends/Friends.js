@@ -12,7 +12,7 @@ import history from "../../history";
 
 import Footer from "../Footer/Footer";
 import Friend from "./Friend/Friend";
-import AddFriend from "../forms/AddFriend";
+import AddFriend from "../forms/friend/AddFriend";
 
 import { getAllFriends } from "../../flux/actions/friendsActions";
 

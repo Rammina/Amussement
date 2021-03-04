@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import serverRest from "../../apis/serverRest";
+import serverRest from "../../../apis/serverRest";
 
 import { Field, reduxForm, reset } from "redux-form";
 import { connect } from "react-redux";
 
-import { loginUser } from "../../flux/actions/authActions";
-import { actionShowLoader } from "../../flux/actions/loaderActions";
-import { renderError, getErrorClass, validateEmail } from "../../helpers";
-import ErrorNotifications from "../ErrorNotifications/ErrorNotifications";
-import LoadingSpinner from "../loaders/LoadingSpinner";
+import { loginUser } from "../../../flux/actions/authActions";
+import { actionShowLoader } from "../../../flux/actions/loaderActions";
+import { renderError, getErrorClass, validateEmail } from "../../../helpers";
+import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
+import LoadingSpinner from "../../loaders/LoadingSpinner";
 
-import history from "../../history";
+import history from "../../../history";
 
 const onInput = (e) => {
   e.preventDefault();

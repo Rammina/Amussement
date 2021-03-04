@@ -148,7 +148,7 @@ export const disableUserAccount = (formValues) => {
 
     await serverRest
       .patch(`/api/users/${userId}/settings/disable-account`, {
-        data: formValues,
+        ...formValues,
       })
       .then((res) => {
         dispatch({
@@ -186,7 +186,7 @@ export const deleteUserAccount = (formValues) => {
     await axios
       .delete(
         `http://localhost:5000/api/users/${userId}/settings/delete-account`,
-        { data: formValues }
+        { ...formValues }
       )
       .then((res) => {
         console.log(res.data);
