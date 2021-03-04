@@ -6,15 +6,12 @@ const User = require("../models/user");
 // const { sanitizeBody } = require("express-validator/filter");
 
 const async = require("async");
-const path = require("path");
 const { arrayHasObjectWithPropAndValue, isAddedFriend } = require("../helpers");
 // retrieve friends list
 exports.get_all_friends = async (req, res) => {
   console.log("retrieving friends list");
 
   try {
-    // just for testing
-    // User.requestFriend("5f37968791a1101ad49b2fc2", req.params.id);
     const user = await User.findById(req.params.id).select("_id");
     if (!user) throw Error("User does not exist.");
 

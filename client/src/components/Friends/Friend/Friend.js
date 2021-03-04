@@ -27,6 +27,8 @@ const Friend = (props) => {
 
   // friend variables from props
   const { friend, status } = props.friend;
+  console.log(props.friend);
+  console.log(friend);
   const location = useLocation();
 
   // get value  of UserProfileCardContext using this function

@@ -54,11 +54,32 @@ const checkFileType = (regexp, file, cb) => {
 exports.user_load = async (req, res) => {
   console.log("loading user");
   try {
-    const user = await User.findById(req.user.id)
-      .select("-password")
-      .populate("friends");
+    const user = await User.findById(req.user.id).select("-password");
+    // .populate("friends");
     if (!user) throw Error("User does not exist");
-    res.json(user);
+    User.getFriends(
+      user,
+      {},
+      null,
+      {
+        sort: { username: 1 },
+      },
+      (err, friends) => {
+        if (err) throw Error(err);
+        console.log(friends);
+        res.status(200).json({
+          token,
+          user: {
+            _id: user._id,
+            username: user.username,
+            friends: friends || [],
+            email: user.email,
+            image_url: user.image_url || "",
+            disabled: false,
+          },
+        });
+      }
+    );
   } catch (e) {
     console.log("loading user success");
     res.status(400).json({ msg: e.message });
@@ -113,7 +134,7 @@ exports.user_register = async (req, res) => {
       const token = jwt.sign({ id: savedUser._id }, SECRETKEY, {
         expiresIn: 28800,
       });
-
+      //
       console.log(token);
       console.log(savedUser);
       res.status(200).json({
@@ -145,6 +166,8 @@ exports.user_login = async (req, res) => {
     const emailLowerCase = email.toLowerCase();
     // Check for existing user
     const user = await User.findOne({ email: emailLowerCase });
+    // .select("-password")
+    // .populate("friends");
     if (!user) throw Error("User does not exist.");
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -153,17 +176,29 @@ exports.user_login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, SECRETKEY, { expiresIn: 28800 });
     if (!token) throw Error("Could not sign the token.");
 
-    res.status(200).json({
-      token,
-      user: {
-        _id: user._id,
-        username: user.username,
-        friends: user.friends || [],
-        email: user.email,
-        image_url: user.image_url || "",
-        disabled: false,
+    User.getFriends(
+      user,
+      {},
+      null,
+      {
+        sort: { username: 1 },
       },
-    });
+      (err, friends) => {
+        if (err) throw Error(err);
+        console.log(friends);
+        res.status(200).json({
+          token,
+          user: {
+            _id: user._id,
+            username: user.username,
+            friends: friends || [],
+            email: user.email,
+            image_url: user.image_url || "",
+            disabled: false,
+          },
+        });
+      }
+    );
   } catch (e) {
     console.log(e);
     res.status(400).json({ msg: e.message });
@@ -194,10 +229,6 @@ exports.user_upload_avatar = async (req, res) => {
     console.log("succeeded in uploading the avatar");
     res.status(200).json({
       user: {
-        _id: updatedUser._id,
-        username: updatedUser.username,
-        friends: updatedUser.friends || [],
-        email: updatedUser.email.toLowerCase(),
         image_url: uploadedResponse.secure_url,
       },
     });
@@ -250,11 +281,8 @@ exports.user_edit_account = async (req, res) => {
 
       res.status(200).json({
         user: {
-          _id: updatedUser._id,
           username: updatedUser.username,
-          friends: updatedUser.friends || [],
           email: updatedUser.email.toLowerCase(),
-          image_url: updatedUser.image_url || "",
         },
       });
     } catch (e) {
@@ -323,13 +351,7 @@ exports.user_change_password = async (req, res) => {
       if (!updatedUser) throw Error("Failed to update the user.");
       console.log(updatedUser);
       res.status(200).json({
-        user: {
-          _id: updatedUser._id,
-          username: updatedUser.username,
-          friends: updatedUser.friends || [],
-          email: updatedUser.email.toLowerCase(),
-          image_url: updatedUser.image_url || "",
-        },
+        user: {},
       });
     } catch (e) {
       console.log(e);
@@ -355,11 +377,7 @@ exports.user_remove_avatar = async (req, res) => {
     console.log(updatedUser);
     res.status(200).json({
       user: {
-        _id: updatedUser._id,
-        username: updatedUser.username,
-        friends: updatedUser.friends || [],
-        email: updatedUser.email.toLowerCase(),
-        image_url: updatedUser.image_url || "",
+        image_url: "",
       },
     });
   } catch (e) {
@@ -405,18 +423,7 @@ exports.user_disable_account = async (req, res) => {
         }
       );
       if (!updatedUser) throw Error("Failed to update the user.");
-      console.log(updatedUser);
-
-      res.status(200).json({
-        user: {
-          _id: updatedUser._id,
-          username: updatedUser.username,
-          friends: updatedUser.friends || [],
-          email: updatedUser.email.toLowerCase(),
-          image_url: updatedUser.image_url || "",
-          disabled: true,
-        },
-      });
+      res.status(200);
     } catch (e) {
       console.log(e);
       res.status(400).json({ msg: e.message });
@@ -454,7 +461,7 @@ exports.user_delete_account = async (req, res) => {
       User.findById(req.params.id)
         .then((user) => {
           user.remove().then(() => {
-            res.status(200).json({ success: true });
+            res.status(200);
           });
         })
         .catch((e) => {

@@ -24,7 +24,8 @@ const Friends = (props) => {
 
   useEffect(() => {
     console.log(props.match.params.id);
-    props.getAllFriends(props.match.params.id);
+    // note: could be redundant now
+    // props.getAllFriends(props.match.params.id);
   }, []);
 
   const location = useLocation();

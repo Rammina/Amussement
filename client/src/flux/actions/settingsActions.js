@@ -146,21 +146,13 @@ export const disableUserAccount = (formValues) => {
   return async function (dispatch, getState) {
     const userId = getState().user.info._id || getState().user.info.id;
 
-    /*
-      await serverRest
-        .post(`/api/users/${userId}/settings/change-password`, formValues)
-      */
-    // note: figure out if disable account is a post or delete Rest API method
     await serverRest
       .patch(`/api/users/${userId}/settings/disable-account`, {
         data: formValues,
       })
       .then((res) => {
-        console.log(res.data);
-        // const userId = res.data.user.id;
         dispatch({
           type: DISABLE_USER_ACCOUNT_SUCCESS,
-          payload: res.data,
         });
 
         history.push(`/auth/login`);
@@ -196,16 +188,10 @@ export const deleteUserAccount = (formValues) => {
         `http://localhost:5000/api/users/${userId}/settings/delete-account`,
         { data: formValues }
       )
-      /*
-    await serverRest
-      .delete(`/api/users/${userId}/settings/delete-account`, formValues)
-      */
       .then((res) => {
         console.log(res.data);
-        // const userId = res.data.user.id;
         dispatch({
           type: DELETE_USER_ACCOUNT_SUCCESS,
-          payload: res.data,
         });
         history.push(`/auth/login`);
         dispatch(clearErrors());

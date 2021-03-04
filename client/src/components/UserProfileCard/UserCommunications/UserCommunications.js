@@ -12,7 +12,11 @@ const UserCommunications = (props) => {
     if (props.connectionToUser === "accepted") return null;
     if (!props.connectionToUser)
       return (
-        <Button text="Add Friend" className="add-friend" onClick={() => {}}>
+        <Button
+          text="Add Friend"
+          className="add-friend"
+          onClick={props.addFriend}
+        >
           <img
             className={`user-profile-card-button-image add-friend`}
             src={AddFriendIconImg}

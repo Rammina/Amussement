@@ -42,14 +42,14 @@ export default (state = initialState, action) => {
         ...state,
 
         isLoading: false,
-        info: action.payload,
+        info: { ...state.info, ...action.payload.user },
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
     case EDIT_USER_ACCOUNT_SUCCESS:
     case CHANGE_USER_PASSWORD_SUCCESS:
       sanitizedUserPayload = {
-        info: { ...action.payload.user },
+        info: { ...state.info, ...action.payload.user },
         isLoading: false,
       };
       console.log(sanitizedUserPayload);
@@ -61,12 +61,12 @@ export default (state = initialState, action) => {
     case EDIT_USER_AVATAR_SUCCESS:
       return {
         ...state,
-        info: action.payload.user,
+        info: { ...state.info, ...action.payload.user },
       };
     case REMOVE_USER_AVATAR_SUCCESS:
       return {
         ...state,
-        info: action.payload.user,
+        info: { ...state.info, ...action.payload.user },
       };
     case AUTH_ERROR:
     case LOGIN_FAIL:

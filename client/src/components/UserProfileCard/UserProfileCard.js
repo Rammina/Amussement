@@ -12,6 +12,8 @@ import UserCommunications from "./UserCommunications/UserCommunications";
 import UserConnections from "./UserConnections/UserConnections";
 import Notes from "./Notes/Notes";
 
+import { addFriendWithId } from "../../flux/actions/friendsActions";
+
 import { WindowContext, UserProfileCardContext } from "../AppContext";
 
 const UserProfileCard = (props) => {
@@ -55,9 +57,21 @@ const UserProfileCard = (props) => {
     if (modalElement) setModalHeight(modalElement.current.clientHeight);
   }, [isCurrentUser]);
 
+  // action creator functions
+  const addFriendHandler = () => {
+    // do not send a friend request if already accepted, requested, or pending
+    if (friendStatus) return null;
+    // add friend and change the status state to cause rerender
+    props.addFriendWithId(selectedUser._id);
+    setConnectionToUser("requested");
+  };
+  // render functions
   const renderUserCommunications = () =>
     !isCurrentUser ? (
-      <UserCommunications connectionToUser={connectionToUser} />
+      <UserCommunications
+        connectionToUser={connectionToUser}
+        addFriend={addFriendHandler}
+      />
     ) : null;
 
   const renderUserConnections = () =>
@@ -189,11 +203,12 @@ const UserProfileCard = (props) => {
 
 const mapStateToProps = (state) => ({
   user: state.user.info,
-  friends: state.user.info.friends,
+  friends: state.friends,
 });
 
 export default connect(mapStateToProps, {
   // removeFriend,
+  addFriendWithId,
 })(UserProfileCard);
 
 /*
