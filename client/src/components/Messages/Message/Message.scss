@@ -96,6 +96,11 @@
   cursor: pointer;
 }
 
+.sender-text.deleted:hover {
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
 .message-timestamp {
   font-size: 0.8rem;
   color: #455;

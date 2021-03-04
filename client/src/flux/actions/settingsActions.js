@@ -178,15 +178,17 @@ export const disableUserAccount = (formValues) => {
   };
 };
 
-// disable account should take in the user's password'
 export const deleteUserAccount = (formValues) => {
   return async function (dispatch, getState) {
     const userId = getState().user.info._id || getState().user.info.id;
-
+    console.log(formValues);
+    console.log({ ...formValues });
+    // console.log(...formValues);
     await axios
       .delete(
         `http://localhost:5000/api/users/${userId}/settings/delete-account`,
-        { ...formValues }
+        // this format is necessary for axios, needs to be in {data: }
+        { data: formValues }
       )
       .then((res) => {
         console.log(res.data);

@@ -169,6 +169,16 @@ const Messages = (props) => {
           : noMessagesNotification ||
             messages.map((message, i) => {
               let sameSenderAsPrevMsg = false;
+              console.log(message.user);
+              // guard against deleted references (deleted user)
+              if (!message.user) {
+                message.user = {
+                  username: "Deleted User",
+                  image_url: "",
+                  deleted: true,
+                };
+              }
+              // check if the same sender
               if (
                 prevMessageSender === message.user.username ||
                 prevMessageSender === message.user.name

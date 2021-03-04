@@ -24,9 +24,17 @@ const UserIdentity = (props) => {
       // ||notfriends
     )
       return null;
-    return (
-      <button className="user-identity-action-button">Send Message</button>
-    );
+    if (props.connectionToUser === "accepted") {
+      return (
+        <button className="user-identity-action-button">Send Message</button>
+      );
+    } else if (props.connectionToUser === "requested") {
+      return (
+        <button className="user-identity-action-button" disabled={true}>
+          Friend Request Sent
+        </button>
+      );
+    }
   };
 
   const renderSendFriendRequest = () => {

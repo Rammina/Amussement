@@ -1,3 +1,4 @@
+/*
 const User = require("../models/user");
 const async = require("async");
 
@@ -10,6 +11,7 @@ exports.getUserFriends = async (userId) => {
     const getFriendsCb = (err, friends) => {
       {
         if (err) throw Error("Error retrieving friend list.");
+        console.log("here are the friends");
         console.log(friends);
         // res.status(200).json(friends);
         return friends;
@@ -22,10 +24,10 @@ exports.getUserFriends = async (userId) => {
       { sort: { username: 1 } },
       getFriendsCb
     );
-    return friends;
   } catch (e) {
     console.log(e);
     // res.status(400).json({ msg: e.message });
     throw Error(e);
   }
 };
+*/

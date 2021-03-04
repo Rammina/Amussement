@@ -182,7 +182,10 @@ const UserProfileCard = (props) => {
               ref={modalElement}
             >
               <section className="user-profile-card-section-container">
-                <UserIdentity isCurrentUser={isCurrentUser} />
+                <UserIdentity
+                  isCurrentUser={isCurrentUser}
+                  connectionToUser={connectionToUser}
+                />
               </section>
               {renderSectionSelectorButtons()}
               {renderSelectedSection()}

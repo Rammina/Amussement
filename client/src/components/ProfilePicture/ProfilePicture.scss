@@ -11,6 +11,11 @@
 .message.profile-picture-outer-container:hover {
   cursor: pointer;
 }
+
+.message.profile-picture-outer-container.deleted:hover {
+  cursor: not-allowed;
+}
+
 .profile-picture-inner-container {
   padding: 0;
   border-radius: 50%;

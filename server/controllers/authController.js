@@ -432,7 +432,9 @@ exports.user_disable_account = async (req, res) => {
 
 exports.user_delete_account = async (req, res) => {
   const { password } = req.body;
-  console.log(req.body);
+  // console.log(req);
+  // console.log(req.data);
+  // console.log(req.body);
   console.log("430 delete account;");
   let errors = [];
 

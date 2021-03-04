@@ -80,7 +80,9 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
   };
 
   const userOnClickHandler = () => {
-    console.log("attempting to open userinfomodal");
+    // prevent interactions if user is deleted
+    if (message.user.deleted) return null;
+
     setUserInfoModalOpen(true);
   };
 
@@ -91,6 +93,8 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
       // friendStatus: status
     };
   };
+
+  const getDeletedClass = () => (message.user.deleted ? "deleted" : "");
 
   const renderUserInfoModal = () => {
     if (!userInfoModalOpen) return null;
@@ -272,13 +276,16 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
             // message.image_url ||
             message.user.image_url || ""
           }
-          componentClass="message"
+          componentClass={`message ${getDeletedClass()}`}
           onClick={userOnClickHandler}
         />
       );
       senderText = (
         <>
-          <p className={`sender-text `} onClick={userOnClickHandler}>
+          <p
+            className={`sender-text ${getDeletedClass()}`}
+            onClick={userOnClickHandler}
+          >
             {isSentByCurrentUser
               ? trimmedName
               : message.user.username || message.user.name}
