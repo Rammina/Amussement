@@ -2,11 +2,15 @@ import ChatIconImg from "../../../icons/chat.png";
 import AddFriendIconImg from "../../../icons/add-user-2.png";
 import ClockIconImg from "../../../icons/clock.png";
 
-import React from "react";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+
+import { UserProfileCardContext } from "../../AppContext";
 
 import Button from "./Button/Button";
 
 const UserCommunications = (props) => {
+  const { selectedUser } = useContext(UserProfileCardContext);
   const renderFriendButton = () => {
     // do not render add friend button if already friends
     if (props.connectionToUser === "accepted") return null;
@@ -26,7 +30,11 @@ const UserCommunications = (props) => {
       );
     if (props.connectionToUser === "requested")
       return (
-        <Button text="Pending" className="pending" onClick={() => {}}>
+        <Button
+          text="Pending"
+          className="pending"
+          onClick={props.openRemoveFriend}
+        >
           <img
             className={`user-profile-card-button-image pending`}
             src={ClockIconImg}
@@ -50,13 +58,17 @@ const UserCommunications = (props) => {
   // note: mobile and desktop versions should be different
   return (
     <section className="user-profile-card-section-sub-container buttons-container">
-      <Button text="Message">
-        <img
-          className={`user-profile-card-button-image`}
-          src={ChatIconImg}
-          alt="Chat Bubble Icon"
-        />
-      </Button>
+      <Link
+        to={`/chat?room=DMto${selectedUser._id}&userType=user&roomType=DM&receiver=${selectedUser.username}`}
+      >
+        <Button text="Message">
+          <img
+            className={`user-profile-card-button-image`}
+            src={ChatIconImg}
+            alt="Chat Bubble Icon"
+          />
+        </Button>
+      </Link>
       {renderFriendButton()}
     </section>
   );

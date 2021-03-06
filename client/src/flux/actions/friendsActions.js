@@ -110,18 +110,15 @@ export const addFriendWithId = (friendId) => (dispatch, getState) => {
       dispatch({
         type: ADD_FRIEND_FAIL,
       });
-    });
-  /*
+    })
     .finally(() => {
-        dispatch(actionShowLoader("addFriendForm", false));
-      });
-      */
+      dispatch(actionShowLoader("addFriendForm", false));
+    });
 };
 
-export const removeFriend = (friendId) => (dispatch, getState) => {
+export const removeFriend = (friendId, cb) => (dispatch, getState) => {
   console.log("removing a friend ");
   const userId = getState().user.info._id || getState().user.info.id;
-
   serverRest
     .delete(`/api/users/${userId}/friends/${friendId}`)
     .then((res) => {
@@ -129,8 +126,9 @@ export const removeFriend = (friendId) => (dispatch, getState) => {
         type: REMOVE_FRIEND_SUCCESS,
       });
       dispatch(getAllFriends(userId));
-      history.push(`/users/${userId}/friends`);
+      // history.push(`/users/${userId}/friends`);
       dispatch(clearErrors());
+      if (cb) cb();
     })
     .catch((err) => {
       console.log(err);
@@ -139,6 +137,9 @@ export const removeFriend = (friendId) => (dispatch, getState) => {
       dispatch({
         type: REMOVE_FRIEND_FAIL,
       });
+    })
+    .finally(() => {
+      dispatch(actionShowLoader("removeFriendModal", false));
     });
 };
 // clears the friend list in the frontend

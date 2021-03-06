@@ -1,9 +1,11 @@
 import EllipsisImg from "../../../icons/ellipsis.png";
 
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 
 import { UserProfileCardContext, WindowContext } from "../../AppContext";
+import { addFriendWithId } from "../../../flux/actions/friendsActions";
 
 const UserIdentity = (props) => {
   const { selectedUser } = useContext(UserProfileCardContext);
@@ -16,7 +18,7 @@ const UserIdentity = (props) => {
       <ProfilePicture imageSrc={avatarUrl || ""} componentClass={className} />
     );
   };
-  const renderSendMessage = () => {
+  const renderDesktopActionButton = () => {
     if (
       !isDesktopWidth ||
       !isDesktopHeight ||
@@ -26,7 +28,11 @@ const UserIdentity = (props) => {
       return null;
     if (props.connectionToUser === "accepted") {
       return (
-        <button className="user-identity-action-button">Send Message</button>
+        <Link
+          to={`/chat?room=DMto${selectedUser._id}&userType=user&roomType=DM&receiver=${selectedUser.username}`}
+        >
+          <button className="user-identity-action-button">Send Message</button>
+        </Link>
       );
     } else if (props.connectionToUser === "requested") {
       return (
@@ -34,16 +40,16 @@ const UserIdentity = (props) => {
           Friend Request Sent
         </button>
       );
+    } else if (!props.connectionToUser) {
+      return (
+        <button
+          className="user-identity-action-button"
+          onClick={props.addFriend}
+        >
+          Add Friend
+        </button>
+      );
     }
-  };
-
-  const renderSendFriendRequest = () => {
-    if (props.isFriendsWithCurrentUser) return null;
-    return (
-      <button className="user-identity-action-button">
-        Send Friend Request
-      </button>
-    );
   };
 
   const renderEllipsisButton = () =>
@@ -66,7 +72,7 @@ const UserIdentity = (props) => {
         {selectedUser.username}
         {/*{props.friend.username}*/}
       </h3>
-      {renderSendMessage()}
+      {renderDesktopActionButton()}
       {renderEllipsisButton()}
     </section>
   );

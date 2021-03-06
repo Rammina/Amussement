@@ -25,15 +25,23 @@ const Home = (props) => {
     setShowFooter(true);
   }, []);
 
+  const renderOpenedDmChannels = () => {
+    if (!props.user || !props.user.openedDmChannels) return null;
+    const channels = props.user.openedDmChannels;
+    return channels.map((channel) => {
+      return <div>channel.name</div>;
+    });
+  };
+
   return (
     <React.Fragment>
       <div className="user-home-page-container">
         <div className="home sidebar-outer-container">
+          {/*note: this should show all of the direct messages that are opened*/}
           <LeftSideBar
             heading="Direct Messages"
             alwaysShow={true}
-            content={null}
-          />
+          ></LeftSideBar>
         </div>
       </div>
     </React.Fragment>

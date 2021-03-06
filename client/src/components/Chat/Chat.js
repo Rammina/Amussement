@@ -40,6 +40,8 @@ const Chat = (props) => {
 
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
+  const [roomType, setRoomType] = useState("public");
+  const [roomNameforDB, setRoomNameforDB] = useState("");
   const [users, setUsers] = useState("");
   const [userRetrievalAttempts, setUserRetrievalAttempts] = useState(0);
   const [messageRetrievalCount, setMessageRetrievalCount] = useState(0);
@@ -66,18 +68,12 @@ const Chat = (props) => {
   const ENDPOINT = "localhost:5000";
 
   const getUserFromProps = () => {
-    // setUserRetrievalAttempts(userRetrievalAttempts + 1);
-    if (!props.user) {
-      // return setTimeout(getUserFromProps, 200);
-      return "";
-    } else {
-      // setName(props.user)
-      return props.user.username;
-    }
+    if (!props.user) return "";
+    return props.user.username;
   };
 
   const handleUserJoin = () => {
-    const { guestName, room, userType } = queryString.parse(
+    const { guestName, room, userType, roomType, receiver } = queryString.parse(
       props.location.search
     );
     // handle getting the user differently based on query string (userType)
@@ -98,9 +94,23 @@ const Chat = (props) => {
         }
       });
     } else if (userType === "user") {
+      let roomNameforDB = null;
       // wait for props to initialize first before joining
       setName(getUserFromProps());
-      setRoom(room);
+      if (roomType === "DM") {
+        setRoomType("DM");
+        //note: might want to create a function for trimming DM rooms to make this cleaner
+        //note: receiver should be an ID to DM to
+        let receiverId = room.substring(4);
+        let participants = [props.user._id, receiverId].sort();
+        let roomName = `${participants.join("_")}DM`;
+        setRoom(`@${receiver}`);
+        roomNameforDB = roomName;
+        setRoomNameforDB(roomName);
+      } else {
+        setRoom(room);
+      }
+
       // if(props.propsInitialized) {
       if (props.user) {
         const name = props.user.username || "anon";
@@ -108,15 +118,19 @@ const Chat = (props) => {
         // const id = props.user._id || "";
         const image_url = props.user.image_url || "";
         console.log(image_url);
-        socket.emit("join", { name, room, image_url }, (error) => {
-          if (error) {
-            // send a browser alert
-            // note:this should be replaced with redux action for error handling
-            alert(error);
-          } else {
-            // scrollToBottom();
+        socket.emit(
+          "join",
+          { name, room: roomNameforDB || room, image_url },
+          (error) => {
+            if (error) {
+              // send a browser alert
+              // note:this should be replaced with redux action for error handling
+              alert(error);
+            } else {
+              // scrollToBottom();
+            }
           }
-        });
+        );
       }
     }
     userJoinCount++;
@@ -144,18 +158,10 @@ const Chat = (props) => {
     socket = io(ENDPOINT);
     // note: this should be changed once database for room messages is used
     /*temporary stopgap measure to clear messages every time the URL changes*/
-    // messageRetrievalCount = 0;
-    // noMoreMessagesToLoad = false;
-    // setMessages([]);
-
     setMessageRetrievalCount(0);
     setNoMoreMessagesToLoad(false);
     props.actionShowLoader("messagesInitial", true);
     socket.on("load messages", (retrievedMessages) => {
-      // console.log(retrievedMessages);
-      // if the retrieve messages are not divisible by MESSAGES_PER_BATCH, then there are no more messages to load
-      // if the message count after retrieval and before retrieval are the same, there are no more messages to load
-
       setMessages([...retrievedMessages]);
       incrementMessageRetrievalCount();
       props.actionShowLoader("messagesInitial", false);
@@ -206,7 +212,10 @@ const Chat = (props) => {
       // non-\ mutational push to the messages array
       console.log(message);
       setMessages((messages) => [...messages, message]);
-      // scrollToBottom("chat-messages-container");
+    });
+
+    socket.on("scrollToBottomAfterSending", () => {
+      scrollToBottom("chat-messages-container");
     });
 
     socket.on("deletedMessage", (id) => {
@@ -229,9 +238,12 @@ const Chat = (props) => {
 
   // handles the sending of messages
   const sendMessage = (event) => {
+    // use the name for the database if it exists (needed for DM rooms)
+    let room = roomNameforDB || room;
     // prevent page refresh
     event.preventDefault();
     console.log(message);
+    console.log(room);
     // if message exists, send the event
     if (message) {
       socket.emit("sendMessage", { message, user: props.user, room }, () =>
@@ -242,6 +254,7 @@ const Chat = (props) => {
 
   // handles the deletion of messages
   const deleteMessage = (id) => {
+    let room = roomNameforDB || room;
     console.log(id);
     // if message exists, send the event
     if (id) {
@@ -252,6 +265,7 @@ const Chat = (props) => {
   };
 
   const editMessage = (id, text) => {
+    let room = roomNameforDB || room;
     console.log(id);
     console.log(text);
     // if message exists, send the event
@@ -262,11 +276,6 @@ const Chat = (props) => {
     }
   };
   const loadMoreMessages = () => {
-    // console.log("attempting to load more messages");
-    // console.log(room);
-    // console.log(messageRetrievalCount);
-    // console.log(getMessageRetrievalCount());
-    // console.log(noMoreMessagesToLoad);
     if (noMoreMessagesToLoad) return;
 
     props.actionShowLoader("messagesPrevious", true);
@@ -277,9 +286,6 @@ const Chat = (props) => {
       (retrievedMessages) => {
         // if (error) console.log(error);
         incrementMessageRetrievalCount();
-        // setMessageRetrievalCount(
-        //   (messageRetrievalCount) => messageRetrievalCount + 1
-        // );
         console.log("message retrieval count is now:");
         console.log(getMessageRetrievalCount());
         console.log(retrievedMessages.length);
@@ -315,6 +321,7 @@ const Chat = (props) => {
     editMessage,
     loadMoreMessages,
     getMessageRetrievalCount,
+    roomType,
     // messageRetrievalCount,
     noMoreMessagesToLoad,
     chatInputRef,

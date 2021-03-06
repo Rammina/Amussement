@@ -1,10 +1,12 @@
-import "./Chat.scss";
+import "./DirectMessage.scss";
 
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import queryString from "query-string";
 import io from "socket.io-client";
+import * as Scroll from "react-scroll";
+import * as constants from "../../utils/constants.js";
 
 import OnlineUsersContainer from "../OnlineUsersContainer/OnlineUsersContainer";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
@@ -17,8 +19,16 @@ import { NavContext, FooterContext, ChatContext } from "../AppContext";
 
 let socket;
 
-const Chat = (props) => {
+// just remove anything you don't use
+let Element = Scroll.Element;
+let Events = Scroll.Events;
+let scroll = Scroll.animateScroll;
+let scroller = Scroll.scroller;
+let scrollSpy = Scroll.scrollSpy;
+
+const DirectMessage = (props) => {
   const {
+    // check if there are any unnecessary variables/objects
     messagesContainerMoveLeft,
     setMessagesContainerMoveLeft,
     messagesContainerMoveRight,
@@ -31,103 +41,108 @@ const Chat = (props) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [users, setUsers] = useState("");
+  // not sure what this property is for
   const [userRetrievalAttempts, setUserRetrievalAttempts] = useState(0);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [userRetrievalAttempts, setUserRetrievalAttempts] = useState(0);
+  const [messageRetrievalCount, setMessageRetrievalCount] = useState(0);
+  // const [messageCount,]=useState();
+  const [noMoreMessagesToLoad, setNoMoreMessagesToLoad] = useState(false);
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const { MESSAGES_PER_BATCH } = constants;
   const chatInputRef = useRef(null);
 
   const location = useLocation();
 
+  // let messageRetrievalCount = 0;
+  const getMessageRetrievalCount = () => messageRetrievalCount;
+  const incrementMessageRetrievalCount = () =>
+    setMessageRetrievalCount(
+      (messageRetrievalCount) => messageRetrievalCount + 1
+    );
+
   //component variables
+  // note: find a different way to implement this (it only shows 2 people so there is no need to count)
   let userJoinCount = 0;
   // const ENDPOINT = "https://chika-chat.herokuapp.com/";
   const ENDPOINT = "localhost:5000";
 
   const getUserFromProps = () => {
-    // setUserRetrievalAttempts(userRetrievalAttempts + 1);
-    if (!props.user) {
-      // return setTimeout(getUserFromProps, 200);
-      return "";
-    } else {
-      // setName(props.user)
-      return props.user.username;
-    }
+    if (!props.user) return "";
+    return props.user.username;
   };
 
   const handleUserJoin = () => {
-    const { guestName, room, userType } = queryString.parse(
-      props.location.search
-    );
-    // handle getting the user differently based on query string (userType)
-    // guest/user/admin
-    if (userType === "guest") {
-      if (userJoinCount > 0) {
-        return;
-      }
-      setName(guestName || "anon");
-      setRoom(room);
-      const name = guestName || "anon";
-      socket.emit("join", { name, room }, (error) => {
-        console.log("join attempt");
+    // note: wondering if userType even matters in direct message
+    const { room, userType } = queryString.parse(props.location.search);
+    // if (userType === "user") {
+
+    // wait for props to initialize first before joining
+    setName(getUserFromProps());
+    setRoom(room);
+    // if(props.propsInitialized) {
+    if (props.user) {
+      const name = props.user.username || "anon";
+      console.log(name);
+      // const id = props.user._id || "";
+      const image_url = props.user.image_url || "";
+      console.log(image_url);
+      socket.emit("join", { name, room, image_url }, (error) => {
         if (error) {
           // send a browser alert
           // note:this should be replaced with redux action for error handling
           alert(error);
         }
       });
-    } else if (userType === "user") {
-      // wait for props to initialize first before joining
-      setName(getUserFromProps());
-      setRoom(room);
-      // if(props.propsInitialized) {
-      if (props.user) {
-        const name = props.user.username || "anon";
-        console.log(name);
-        // const id = props.user._id || "";
-        const image_url = props.user.image_url || "";
-        console.log(image_url);
-        socket.emit("join", { name, room, image_url }, (error) => {
-          if (error) {
-            // send a browser alert
-            // note:this should be replaced with redux action for error handling
-            alert(error);
-          }
-        });
-      }
     }
-    userJoinCount++;
+  };
+  userJoinCount++;
+
+  // should make these more reusable
+  const scrollToBottom = function (containerId) {
+    scroll.scrollToBottom({
+      duration: 0,
+      containerId: containerId,
+    });
+  };
+
+  const scrollTo = function (targetElement, containerId) {
+    scroller.scrollTo(targetElement, {
+      duration: 0,
+      containerId: containerId,
+    });
   };
 
   useEffect(() => {
     console.log("endpoint and location useEffect");
-    const { userType } = queryString.parse(props.location.search);
     socket = io(ENDPOINT);
     // note: this should be changed once database for room messages is used
     /*temporary stopgap measure to clear messages every time the URL changes*/
 
-    setMessages([]);
-    console.log(
-      "it doesn't clean up the messages state, so all it does is appending"
-    );
+    setMessageRetrievalCount(0);
+    setNoMoreMessagesToLoad(false);
+    props.actionShowLoader("messagesInitial", true);
     socket.on("load messages", (retrievedMessages) => {
-      console.log(retrievedMessages);
-      // console.log([...messages, ...retrievedMessages]);
-      // setMessages([...messages,...retrievedMessages]);
       setMessages([...retrievedMessages]);
+      incrementMessageRetrievalCount();
+      props.actionShowLoader("messagesInitial", false);
+      scrollToBottom("chat-messages-container");
     });
 
-    if (userType === "guest") {
-      handleUserJoin();
-    }
-
     return () => {
+      // setMessageRetrievalCount(0);
+      // setNoMoreMessagesToLoad(false);
+      console.log("disconnected");
+
       socket.close();
-      // setMessages([]);
+      // setMessages((messages) => []);
     };
   }, [ENDPOINT, location.search]);
-
   // re-update the user and users list
   useEffect(() => {
+    console.log(props.location.search);
     console.log(props.user);
     console.log("I happened twice");
     if (!props.isloading && props.user) {
@@ -150,10 +165,15 @@ const Chat = (props) => {
 
   // attach another listener every time the address/room changes
   useEffect(() => {
+    console.log(props.location.search);
     socket.on("message", (message) => {
       // non-\ mutational push to the messages array
       console.log(message);
       setMessages((messages) => [...messages, message]);
+    });
+
+    socket.on("scrollToBottomAfterSending", () => {
+      scrollToBottom("chat-messages-container");
     });
 
     socket.on("deletedMessage", (id) => {
@@ -209,6 +229,39 @@ const Chat = (props) => {
     }
   };
 
+  const loadMoreMessages = () => {
+    if (noMoreMessagesToLoad) return;
+
+    props.actionShowLoader("messagesPrevious", true);
+    socket.emit(
+      "load more messages",
+      room,
+      getMessageRetrievalCount(),
+      (retrievedMessages) => {
+        // if (error) console.log(error);
+        incrementMessageRetrievalCount();
+        // setMessageRetrievalCount(
+        //   (messageRetrievalCount) => messageRetrievalCount + 1
+        // );
+        console.log("message retrieval count is now:");
+        console.log(getMessageRetrievalCount());
+        console.log(retrievedMessages.length);
+        console.log(retrievedMessages.length % MESSAGES_PER_BATCH);
+        console.log(messages.length === retrievedMessages.length);
+        if (
+          !(retrievedMessages.length % MESSAGES_PER_BATCH === 0) ||
+          messages.length === retrievedMessages.length
+        ) {
+          setNoMoreMessagesToLoad(true);
+          // return;
+        }
+        setMessages([...retrievedMessages]);
+        scrollTo("firstMessagePreviousBatch", "chat-messages-container");
+        props.actionShowLoader("messagesPrevious", false);
+      }
+    );
+  };
+
   const getContainerClass = () => {
     if (messagesContainerMoveLeft && messagesContainerMoveRight) {
       return "users-shown rooms-shown";
@@ -220,13 +273,17 @@ const Chat = (props) => {
     return null;
   };
 
-  const getChatContextValue = () => ({
+  const getDirectMessageContextValue = () => ({
     deleteMessage,
     editMessage,
     chatInputRef,
+    loadMoreMessages,
+    getMessageRetrievalCount,
+    // messageRetrievalCount,
+    noMoreMessagesToLoad,
   });
 
-  const renderChatContent = () => {
+  const renderDirectMessageContent = () => {
     // console.log(props.propsInitialized);
     console.log(messages);
     console.log(name);
@@ -257,7 +314,7 @@ const Chat = (props) => {
     return null;
   };
 
-  return <div className="outerContainer">{renderChatContent()}</div>;
+  return <div className="outerContainer">{renderDirectMessageContent()}</div>;
 };
 
 const mapStateToProps = (state) => ({
@@ -268,7 +325,7 @@ const mapStateToProps = (state) => ({
   // propsInitialized: true
 });
 
-export default connect(mapStateToProps, {})(Chat);
+export default connect(mapStateToProps, {})(DirectMessage);
 
 // const handleResize = () => {
 //   if (!onlineUsersButtonTouched) {

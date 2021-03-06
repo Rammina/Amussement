@@ -11,6 +11,7 @@ import serverRest from "../../../apis/serverRest";
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 import AcceptFriend from "./AcceptFriend/AcceptFriend";
 import RemoveFriend from "./RemoveFriend/RemoveFriend";
+import RemoveFriendModal from "../../forms/friend/RemoveFriendModal";
 import CallButton from "./CallButton/CallButton";
 import DirectMessage from "./DirectMessage/DirectMessage";
 import UserProfileCard from "../../UserProfileCard/UserProfileCard";
@@ -21,6 +22,7 @@ import { UserProfileCardContext } from "../../AppContext";
 
 const Friend = (props) => {
   const [friendInfoModalOpen, setFriendInfoModalOpen] = useState(false);
+  const [removeFriendModalOpen, setRemoveFriendModalOpen] = useState(false);
   useEffect(() => {
     console.log(props.friend);
   }, []);
@@ -40,6 +42,24 @@ const Friend = (props) => {
     return friendInfoModalOpen ? "show" : "hide";
   };
 
+  const openRemoveFriendModalHandler = () => {
+    setRemoveFriendModalOpen(true);
+  };
+
+  const closeRemoveFriendModalHandler = () => {
+    setRemoveFriendModalOpen(false);
+  };
+
+  const renderRemoveFriendModal = () => {
+    if (!removeFriendModalOpen) return null;
+    return (
+      <RemoveFriendModal
+        selectedUser={friend}
+        connectionToUser={status}
+        onModalClose={closeRemoveFriendModalHandler}
+      />
+    );
+  };
   const renderAvatar = (className) => {
     const avatarUrl = friend.image_url;
     return (
@@ -70,14 +90,23 @@ const Friend = (props) => {
       if (status === "requested") {
         return (
           <>
-            <RemoveFriend friend={friend} text="Cancel Request" />
+            <RemoveFriend
+              friend={friend}
+              text="Cancel Request"
+              status={status}
+              onClickHandler={openRemoveFriendModalHandler}
+            />
           </>
         );
       } else if (status === "pending") {
         return (
           <>
             <AcceptFriend friend={friend} />
-            <RemoveFriend friend={friend} text="Reject" />
+            <RemoveFriend
+              friend={friend}
+              text="Reject"
+              onClickHandler={openRemoveFriendModalHandler}
+            />
           </>
         );
       } else if (status === "accepted") {
@@ -111,9 +140,16 @@ const Friend = (props) => {
   const renderFriend = () => {
     return (
       <React.Fragment>
+        {renderFriendInfoModal()}
+        {renderRemoveFriendModal()}
         <div
           className="friend-item-container"
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log(
+              "this is being activated upon exiting remove friend modal"
+            );
             setFriendInfoModalOpen(true);
           }}
         >
@@ -129,7 +165,6 @@ const Friend = (props) => {
             {renderFriendActionButtons()}
           </li>
         </div>
-        {renderFriendInfoModal()}
       </React.Fragment>
     );
   };

@@ -11,6 +11,7 @@ import UserIdentity from "./UserIdentity/UserIdentity";
 import UserCommunications from "./UserCommunications/UserCommunications";
 import UserConnections from "./UserConnections/UserConnections";
 import Notes from "./Notes/Notes";
+import RemoveFriendModal from "../forms/friend/RemoveFriendModal";
 
 import { addFriendWithId } from "../../flux/actions/friendsActions";
 
@@ -21,6 +22,7 @@ const UserProfileCard = (props) => {
   const [connectionToUser, setConnectionToUser] = useState(null);
   const [modalHeight, setModalHeight] = useState(0);
   const [selectedSection, setSelectedSection] = useState("userInfo");
+  const [removeFriendModalOpen, setRemoveFriendModalOpen] = useState(false);
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
   const { selectedUser, friendStatus } = useContext(UserProfileCardContext);
   const modalElement = useRef(null);
@@ -30,7 +32,6 @@ const UserProfileCard = (props) => {
   };
 
   const checkConnectionToUser = () => {
-    let connection = null;
     if (friendStatus) {
       setConnectionToUser(friendStatus);
       return friendStatus;
@@ -43,6 +44,7 @@ const UserProfileCard = (props) => {
         return friend.status;
       }
     }
+    setConnectionToUser(null);
     // note: maybe check if user is blocked once the function is implemented
   };
 
@@ -57,7 +59,6 @@ const UserProfileCard = (props) => {
     if (modalElement) setModalHeight(modalElement.current.clientHeight);
   }, [isCurrentUser]);
 
-  // action creator functions
   const addFriendHandler = () => {
     // do not send a friend request if already accepted, requested, or pending
     if (friendStatus) return null;
@@ -65,12 +66,34 @@ const UserProfileCard = (props) => {
     props.addFriendWithId(selectedUser._id);
     setConnectionToUser("requested");
   };
+
+  const openRemoveFriendModalHandler = () => {
+    setRemoveFriendModalOpen(true);
+  };
+
+  const closeRemoveFriendModalHandler = () => {
+    setRemoveFriendModalOpen(false);
+  };
+
   // render functions
+  const renderRemoveFriendModal = () => {
+    if (!removeFriendModalOpen) return null;
+    return (
+      <RemoveFriendModal
+        selectedUser={selectedUser}
+        connectionToUser={connectionToUser}
+        setConnectionToUser={setConnectionToUser}
+        onModalClose={closeRemoveFriendModalHandler}
+      />
+    );
+  };
+
   const renderUserCommunications = () =>
     !isCurrentUser ? (
       <UserCommunications
         connectionToUser={connectionToUser}
         addFriend={addFriendHandler}
+        openRemoveFriend={openRemoveFriendModalHandler}
       />
     ) : null;
 
@@ -80,6 +103,7 @@ const UserProfileCard = (props) => {
   // note:this is a mobile version of the profile card
   const renderMobileContent = () => (
     <React.Fragment>
+      {renderRemoveFriendModal()}
       <Modal
         componentClass={`user-profile-card ${props.componentClass}`}
         noHeader={true}
@@ -170,6 +194,7 @@ const UserProfileCard = (props) => {
     // render desktop content
     return (
       <React.Fragment>
+        {renderRemoveFriendModal()}
         <Modal
           componentClass={`user-profile-card ${props.componentClass}`}
           noHeader={true}
@@ -185,6 +210,7 @@ const UserProfileCard = (props) => {
                 <UserIdentity
                   isCurrentUser={isCurrentUser}
                   connectionToUser={connectionToUser}
+                  addFriend={addFriendHandler}
                 />
               </section>
               {renderSectionSelectorButtons()}

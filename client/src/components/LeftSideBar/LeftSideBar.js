@@ -42,12 +42,6 @@ const LeftSideBarContainer = (props) => {
       }
     }
   };
-  const renderContent = () => {
-    if (props.content) {
-      return props.content;
-    }
-    return null;
-  };
 
   const getContainerClass = () => {
     if (props.alwaysShow) {
@@ -70,7 +64,7 @@ const LeftSideBarContainer = (props) => {
         <RoomSideBar />
         <div className={`left-sidebar-room-information-outer-container`}>
           <h1 className="left-sidebar-status">{props.heading || null}</h1>
-          {renderContent()}
+          {props.children}
         </div>
       </div>
     </React.Fragment>
