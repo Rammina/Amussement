@@ -306,6 +306,7 @@ textarea {
 
 .backdrop.show {
   visibility: visible;
+  animation: 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards backdrop-show;
 }
 
 // this is the one that is in the public index.html file
@@ -569,5 +570,14 @@ textarea {
   }
   .modal-header-heading.modal-heading {
     right: 0;
+  }
+}
+
+@keyframes backdrop-show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.8;
   }
 }

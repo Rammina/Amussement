@@ -1,0 +1,30 @@
+@import "../../../utils/variables.scss";
+
+.modal.show.add-room.slide-up {
+  // transform: translateY(100vh) translateY(-8rem);
+  animation: 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards add-room-modal-show;
+  background-color: #0000;
+  padding: 0.5rem;
+}
+
+.create-or-join-mobile-button {
+  width: 100%;
+  min-height: 3rem;
+  margin-top: 0.5rem;
+  border-radius: 3px;
+  color: $textFontColor;
+  background-color: $main-black;
+  text-align: left;
+  padding: 0 1rem;
+}
+
+@keyframes add-room-modal-show {
+  0% {
+    opacity: 0;
+    transform: translateY(100vh);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(100vh) translateY(-8rem);
+  }
+}

@@ -1,4 +1,4 @@
-// import "./AddRoomModal.scss";
+import "./AddRoomModal.scss";
 
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
@@ -92,26 +92,45 @@ const AddRoomModal = (props) => {
     return <LoadingSpinner showLoader={props.showLoader} />;
   };
 
+  const renderCreateOrJoin = () => {
+    return (
+      <Modal
+        componentClass="add-room"
+        isSlideUp={true}
+        headerClassName="user-settings-sidebar-header"
+        headingText="Add a room"
+        noHeader={true}
+        noFooter={true}
+        onModalClose={() => {
+          props.onModalClose();
+        }}
+      >
+        <button className="create-or-join-mobile-button">Create a Room</button>
+        <button className="create-or-join-mobile-button">Join a Room</button>
+      </Modal>
+    );
+  };
+  const renderCreateRoom = () => {
+    return <div></div>;
+  };
+
+  const renderJoinRoom = () => {
+    return <div></div>;
+  };
+
   // note: choose whether to add mobile and desktop versions
-  const content = (
-    <Modal
-      componentClass="add-room"
-      onModalClose={() => {
-        props.onModalClose();
-      }}
-      headerClassName="user-settings-sidebar-header"
-      headingText="Add a room"
-    >
-      <div className="add-room form-content-container modal-form-content">
-        {renderErrorNotifications()}
-        <button className="">Create a Room</button>
-        <button className="">Create a Room</button>
-      </div>
-    </Modal>
-  );
+  const renderContent = () => {
+    if (showCreateOrJoin) return renderCreateOrJoin();
+    if (createRoomOpened) return renderCreateRoom();
+    if (joinRoomOpened) return renderJoinRoom();
+    return null;
+  };
 
   // render
-  return ReactDOM.createPortal(content, document.getElementById("modal"));
+  return ReactDOM.createPortal(
+    renderContent(),
+    document.getElementById("modal")
+  );
 };
 
 const validate = (formValues) => {
@@ -139,13 +158,12 @@ const validate = (formValues) => {
 };
 
 const mapStateToProps = (state) => ({
-  friends: state.friends,
+  // friends: state.friends,
   error: state.error,
   showLoader: state.loader.showAddRoomModalFormLoader,
 });
 
 const addRoomModalComponent = connect(mapStateToProps, {
-  addRoomModalWithUsername,
   actionShowLoader,
 })(AddRoomModal);
 

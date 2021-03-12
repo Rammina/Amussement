@@ -7,6 +7,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import queryString from "query-string";
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
+import AddRoomModal from "../AddRoomModal/AddRoomModal";
 
 const AddRoomButton = (props) => {
   const [isMouseHovered, setIsMouseHovered] = useState(false);
@@ -29,19 +30,26 @@ const AddRoomButton = (props) => {
     setAddRoomModalOpened(true);
   };
 
+  const onCloseModalHandler = () => {
+    setIsSelected(false);
+    setAddRoomModalOpened(false);
+  };
+
   const renderAddRoomModal = () => {
     if (!addRoomModalOpened) return null;
-    return <AddRoomModal />;
+    return <AddRoomModal onModalClose={onCloseModalHandler} />;
   };
 
   return (
     props.user && (
       <React.Fragment>
+        {renderAddRoomModal()}
         <div className="room-item-container">
           <button
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
             className="room-item-button"
+            onClick={buttonOnClickHandler}
           >
             <div
               id="add-room-button-img-container"
