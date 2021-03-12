@@ -1,6 +1,6 @@
-import HomeImg from "../../../icons/home.png";
+import AddImg from "../../../icons/add.png";
 
-import "./HomeButton.scss";
+import "./AddRoomButton.scss";
 
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -8,33 +8,12 @@ import { Link, useLocation } from "react-router-dom";
 import queryString from "query-string";
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 
-const HomeButton = (props) => {
+const AddRoomButton = (props) => {
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
+  const [addRoomModalOpened, setAddRoomModalOpened] = useState(false);
   const location = useLocation();
   console.log(location);
-  // console.log(props.location);
-
-  useEffect(() => {
-    checkSelected();
-
-    return () => {
-      // setIsSelected(false);
-    };
-  }, [location.search]);
-
-  console.log(props.user);
-
-  const checkSelected = () => {
-    if (
-      location.pathname.includes("/users") &&
-      location.pathname.includes("/home")
-    ) {
-      setIsSelected(true);
-    } else {
-      setIsSelected(false);
-    }
-  };
 
   const getSelectedClass = () => (isSelected ? "selected" : true);
 
@@ -45,33 +24,66 @@ const HomeButton = (props) => {
     setIsMouseHovered(false);
   };
 
+  const buttonOnClickHandler = () => {
+    setIsSelected(true);
+    setAddRoomModalOpened(true);
+  };
+
+  const renderAddRoomModal = () => {
+    if (!addRoomModalOpened) return null;
+    return <AddRoomModal />;
+  };
+
   return (
     props.user && (
       <React.Fragment>
         <div className="room-item-container">
-          <Link
+          <button
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
-            to={`/users/${props.user._id || props.user.id}/home`}
-            className="room-item-link"
+            className="room-item-button"
           >
             <div
-              id="home-button-img-container"
+              id="add-room-button-img-container"
               className={`room-item-content ${getSelectedClass()}`}
             >
-              <img id="home-button-img" src={HomeImg} alt="home icon" />
+              <img id="add-room-button-img" src={AddImg} alt="plus sign" />
             </div>
-          </Link>
+          </button>
           <div
             className={`room-item-indicator ${
               isMouseHovered ? "show" : "hide"
             } ${getSelectedClass()}`}
           ></div>
-          <HoverMarker isShown={isMouseHovered} textContent="Home" />
+          <HoverMarker isShown={isMouseHovered} textContent="Add a Room" />
         </div>
       </React.Fragment>
     )
   );
 };
 
-export default HomeButton;
+export default AddRoomButton;
+
+/*
+
+useEffect(() => {
+  // checkSelected();
+
+  return () => {
+    // setIsSelected(false);
+  };
+}, [location.search]);
+
+console.log(props.user);
+
+const checkSelected = () => {
+  if (
+    location.pathname.includes("/users") &&
+    location.pathname.includes("/home")
+  ) {
+    setIsSelected(true);
+  } else {
+    setIsSelected(false);
+  }
+};
+*/

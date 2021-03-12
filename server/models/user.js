@@ -11,6 +11,8 @@ const userSchema = new Schema({
   image_url: { type: String, minlength: 0, maxlength: 500 },
   registered_on: { type: Date, default: Date.now() },
   disabled: { type: Boolean, default: false },
+  // active rooms/DMs
+  active_dm_channels: [{ type: mongoose.Schema.Types.ObjectId, ref: "Room" }],
 });
 
 userSchema.plugin(mongooseFriends({ pathName: "friends" }));

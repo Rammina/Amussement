@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 
 import RoomItem from "./RoomItem/RoomItem";
 import HomeButton from "./HomeButton/HomeButton";
+import AddRoomButton from "./AddRoomButton/AddRoomButton";
 
 import { NavContext } from "../AppContext";
 
@@ -29,6 +30,7 @@ const RoomSideBar = (props) => {
           }}
           user={props.user}
         />
+        <AddRoomButton user={props.user} />
       </div>
     </React.Fragment>
   );

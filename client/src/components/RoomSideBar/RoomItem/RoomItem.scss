@@ -5,6 +5,7 @@
   margin-top: 0.5rem;
   border-radius: 50%;
 }
+.room-item-link,
 .room-item-link {
   border-radius: 50%;
 }
@@ -20,6 +21,7 @@
 }
 .room-item-container:hover,
 .room-item-link:hover,
+.room-item-button:hover,
 .room-item-content:hover,
 #home-button-img-container.selected {
   border-radius: 10px;
