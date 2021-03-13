@@ -325,6 +325,7 @@ textarea {
   height: 100vh;
   padding-bottom: 2rem;
   overflow-y: auto;
+  animation: 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards modal-show;
 }
 
 .modal.slide-up {
@@ -579,5 +580,14 @@ textarea {
   }
   100% {
     opacity: 0.8;
+  }
+}
+
+@keyframes modal-show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

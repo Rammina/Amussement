@@ -42,11 +42,25 @@ export const CREATE_MESSAGE = "CREATE_MESSAGE";
 export const UPDATE_MESSAGE = "UPDATE_MESSAGE";
 export const DELETE_MESSAGE = "DELETE_MESSAGE";
 // potential action creators below
-export const FETCH_ROOMS = "FETCH_ROOMS";
-export const FETCH_ROOM = "FETCH_ROOM";
-export const CREATE_ROOM = "CREATE_ROOM";
-export const UPDATE_ROOM = "UPDATE_ROOM";
-export const DELETE_ROOM = "DELETE_ROOM";
+// ROOM ACTIONS
+export const GET_ALL_ROOMS_SUCCESS = "GET_ALL_ROOMS_SUCCESS";
+export const GET_ALL_ROOMS_FAIL = "GET_ALL_ROOMS_FAIL";
+export const GET_ROOM_SUCCESS = "GET_ROOM_SUCCESS";
+export const GET_ROOM_FAIL = "GET_ROOM_FAIL";
+export const CREATE_ROOM_SUCCESS = "CREATE_ROOM_SUCCESS";
+export const CREATE_ROOM_FAIL = "CREATE_ROOM_FAIL";
+// FOR ADMINS OF ROOMS (affects everyone inside)
+export const UPDATE_ROOM_SUCCESS = "UPDATE_ROOM_SUCCESS";
+export const UPDATE_ROOM_FAIL = "UPDATE_ROOM_FAIL";
+export const DELETE_ROOM_SUCCESS = "DELETE_ROOM_SUCCESS";
+export const DELETE_ROOM_FAIL = "DELETE_ROOM_FAIL";
+// FOR USERS OF ROOMS (affects one user only)
+export const ADD_ROOM_SUCCESS = "ADD_ROOM_SUCCESS";
+export const ADD_ROOM_FAIL = "ADD_ROOM_FAIL";
+export const REMOVE_ROOM_SUCCESS = "REMOVE_ROOM_SUCCESS";
+export const REMOVE_ROOM_FAIL = "REMOVE_ROOM_FAIL";
+// export const CLEAR_FRIENDS_LIST = "CLEAR_FRIENDS_LIST";
+
 // SAME THING AS ROOMS BUT CHANNELS
 
 // modal status actions

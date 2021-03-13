@@ -54,7 +54,9 @@ const checkFileType = (regexp, file, cb) => {
 exports.user_load = async (req, res) => {
   console.log("loading user");
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id)
+      .select("-password")
+      .populate("rooms");
     // .populate("friends");
     if (!user) throw Error("User does not exist");
     User.getFriends(
@@ -72,6 +74,7 @@ exports.user_load = async (req, res) => {
             _id: user._id,
             username: user.username,
             friends: friends || [],
+            rooms: user.rooms || [],
             email: user.email,
             image_url: user.image_url || "",
             disabled: false,
@@ -142,6 +145,7 @@ exports.user_register = async (req, res) => {
           _id: savedUser._id,
           username: savedUser.username,
           friends: [],
+          rooms: [],
           email: savedUser.email.toLowerCase(),
           image_url: "",
         },
@@ -164,7 +168,9 @@ exports.user_login = async (req, res) => {
   try {
     const emailLowerCase = email.toLowerCase();
     // Check for existing user
-    const user = await User.findOne({ email: emailLowerCase });
+    const user = await User.findOne({ email: emailLowerCase })
+      // .select("-password")
+      .populate("rooms");
     // .select("-password")
     // .populate("friends");
     if (!user) throw Error("User does not exist.");
@@ -191,6 +197,7 @@ exports.user_login = async (req, res) => {
             _id: user._id,
             username: user.username,
             friends: friends || [],
+            rooms: user.rooms || [],
             email: user.email,
             image_url: user.image_url || "",
             disabled: false,

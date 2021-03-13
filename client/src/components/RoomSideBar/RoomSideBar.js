@@ -12,6 +12,15 @@ import AddRoomButton from "./AddRoomButton/AddRoomButton";
 import { NavContext } from "../AppContext";
 
 const RoomSideBar = (props) => {
+  const renderRoomItems = () => {
+    return props.rooms.map((room, i) => (
+      <RoomItem
+        toUrl={`/chat?room=${room.name}&userType=user&roomType=${room.type}`}
+        room={room}
+        user={props.user}
+      />
+    ));
+  };
   console.log(props.user);
   return (
     <React.Fragment>
@@ -30,6 +39,7 @@ const RoomSideBar = (props) => {
           }}
           user={props.user}
         />
+        {renderRoomItems()}
         <AddRoomButton user={props.user} />
       </div>
     </React.Fragment>
@@ -40,6 +50,7 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
   error: state.error,
+  rooms: state.rooms,
 });
 
 const roomSideBar = connect(mapStateToProps, {
