@@ -1,6 +1,6 @@
 import "./AddRoomModal.scss";
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 
@@ -12,10 +12,13 @@ import CreateRoomModal from "./CreateRoomModal/CreateRoomModal";
 import CancelButton from "../../buttons/CancelButton";
 import LoadingSpinner from "../../loaders/LoadingSpinner";
 
+import { WindowContext } from "../../AppContext";
+
 const AddRoomModal = (props) => {
   const [showCreateOrJoin, setShowCreateOrJoin] = useState(true);
   const [createRoomOpened, setCreateRoomOpened] = useState(false);
   const [joinRoomOpened, setJoinRoomOpened] = useState(false);
+  const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
 
   const createRoomOnClickHandler = () => {
     setShowCreateOrJoin(false);
@@ -30,32 +33,64 @@ const AddRoomModal = (props) => {
   };
 
   const renderCreateOrJoin = () => {
-    return (
-      <Modal
-        componentClass="add-room"
-        isSlideUp={true}
-        headerClassName="user-settings-sidebar-header"
-        headingText="Add a room"
-        noHeader={true}
-        noFooter={true}
-        onModalClose={() => {
-          props.onModalClose();
-        }}
-      >
-        <button
-          className="create-or-join-mobile-button"
-          onClick={createRoomOnClickHandler}
+    // Mobile version
+    if (!isDesktopWidth || !isDesktopHeight)
+      return (
+        <Modal
+          componentClass="add-room"
+          isSlideUp={true}
+          headerClassName="user-settings-sidebar-header"
+          headingText="Add a room"
+          noHeader={true}
+          noFooter={true}
+          onModalClose={() => {
+            props.onModalClose();
+          }}
         >
-          Create a Room
-        </button>
-        <button
-          className="create-or-join-mobile-button"
-          onClick={joinRoomOnClickHandler}
+          <button
+            className="create-or-join-mobile-button"
+            onClick={createRoomOnClickHandler}
+          >
+            Create a Room
+          </button>
+          <button
+            className="create-or-join-mobile-button"
+            onClick={joinRoomOnClickHandler}
+          >
+            Join a Room
+          </button>
+        </Modal>
+      );
+    else {
+      return (
+        <Modal
+          componentClass="add-room"
+          headerClassName="user-settings-sidebar-header"
+          headingText="Add a room"
+          // noHeader={true}
+          modalId="create-or-join-modal"
+          noFooter={true}
+          onModalClose={() => {
+            props.onModalClose();
+          }}
         >
-          Join a Room
-        </button>
-      </Modal>
-    );
+          <div className="add-room form-content-container modal-form-content">
+            <button
+              className="create-or-join-mobile-button"
+              onClick={createRoomOnClickHandler}
+            >
+              Create a Room
+            </button>
+            <button
+              className="create-or-join-mobile-button"
+              onClick={joinRoomOnClickHandler}
+            >
+              Join a Room
+            </button>
+          </div>
+        </Modal>
+      );
+    }
   };
 
   const renderCreateRoom = () => {

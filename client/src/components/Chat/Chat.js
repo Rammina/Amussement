@@ -238,16 +238,19 @@ const Chat = (props) => {
 
   // handles the sending of messages
   const sendMessage = (event) => {
+    // console.log(room);
     // use the name for the database if it exists (needed for DM rooms)
-    let room = roomNameforDB || room;
+    let targetRoom = roomNameforDB || room;
     // prevent page refresh
     event.preventDefault();
     console.log(message);
-    console.log(room);
+    console.log(targetRoom);
     // if message exists, send the event
     if (message) {
-      socket.emit("sendMessage", { message, user: props.user, room }, () =>
-        setMessage("")
+      socket.emit(
+        "sendMessage",
+        { message, user: props.user, room: targetRoom },
+        () => setMessage("")
       );
     }
   };

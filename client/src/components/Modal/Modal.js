@@ -19,6 +19,7 @@ const Modal = (props) => {
   };
 
   const getClassName = () => (props.componentClass ? props.componentClass : "");
+  const getModalId = () => (props.modalId ? props.modalId : "");
   const getButtonId = () => (props.buttonId ? props.buttonId : "");
   const getImageId = () => (props.imageId ? props.imageId : "");
   const getIsSlideUpClass = () => (props.isSlideUp ? "slide-up" : "");
@@ -61,6 +62,7 @@ const Modal = (props) => {
       ></div>
       <div
         className={`modal ${getModalOpenClass()} ${getClassName()} ${getIsSlideUpClass()}`}
+        id={getModalId()}
         style={props.modalStyle || {}}
       >
         {renderModalHeader()}
