@@ -9,6 +9,7 @@ import { actionShowLoader } from "../../../flux/actions/loaderActions";
 
 import Modal from "../../Modal/Modal";
 import CreateRoomModal from "./CreateRoomModal/CreateRoomModal";
+import JoinRoomModal from "./JoinRoomModal/JoinRoomModal";
 import CancelButton from "../../buttons/CancelButton";
 import LoadingSpinner from "../../loaders/LoadingSpinner";
 
@@ -98,7 +99,7 @@ const AddRoomModal = (props) => {
   };
 
   const renderJoinRoom = () => {
-    return <div></div>;
+    return <JoinRoomModal onModalClose={props.onModalClose} />;
   };
 
   // note: choose whether to add mobile and desktop versions

@@ -109,6 +109,9 @@ const Chat = (props) => {
         setRoomNameforDB(roomName);
       } else {
         setRoom(room);
+        roomNameforDB = room;
+        setRoomNameforDB(room);
+        setRoomType("public");
       }
 
       // if(props.propsInitialized) {

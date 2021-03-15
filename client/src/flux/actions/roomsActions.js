@@ -10,6 +10,8 @@ import {
   GET_ALL_ROOMS_FAIL,
   CREATE_ROOM_SUCCESS,
   CREATE_ROOM_FAIL,
+  JOIN_ROOM_SUCCESS,
+  JOIN_ROOM_FAIL,
 } from "./types";
 
 export const getAllRooms = (id) => (dispatch, getState) => {
@@ -79,5 +81,39 @@ export const createRoom = (formValues, successCb) => (dispatch, getState) => {
     })
     .finally(() => {
       dispatch(actionShowLoader("createRoomModalForm", false));
+    });
+};
+
+export const joinRoom = (formValues, successCb) => (dispatch, getState) => {
+  const userId = getState().user.info._id || getState().user.info.id;
+  const roomName = formValues.name;
+  console.log(formValues);
+
+  // note:might want to change this to roomId in the future
+  serverRest
+    .patch(`/api/rooms/${roomName}/join`, { ...formValues, userId })
+    .then((res) => {
+      dispatch({
+        type: JOIN_ROOM_SUCCESS,
+        payload: {
+          /*note: think about should be returned from the server as payload*/
+          ...res.data,
+        },
+      });
+      // dispatch(getAllRooms(userId));
+      // history.push(`/users/${userId}/rooms`);
+      dispatch(clearErrors());
+      successCb();
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(err.response);
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: CREATE_ROOM_FAIL,
+      });
+    })
+    .finally(() => {
+      dispatch(actionShowLoader("joinRoomModalForm", false));
     });
 };

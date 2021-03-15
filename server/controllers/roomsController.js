@@ -24,27 +24,13 @@ exports.get_all_rooms = async (req, res) => {
 };
 
 exports.create_room = async (req, res) => {
-  const {
-    name,
-    ownerId,
-    type,
-    invited_rooms,
-    requires_approval,
-    image_url,
-  } = req.body;
-  console.log(req.body);
+  const { name, ownerId, type, requires_approval, image_url } = req.body;
   let errors = [];
 
   // check if any of the following fields are empty
   if (!name) {
     errors.push({ msg: "Please provide a name for the room." });
   }
-  /*
-  // minimum length for the password
-  if (password.length < 6) {
-    errors.push({ msg: "Password must be at least 6 characters" });
-  }
-*/
   // if there are errors, re-\ render the page but with the values that were filled in
   // note: figure out how to send errors to thefrontend
   if (errors.length > 0) {
@@ -53,46 +39,26 @@ exports.create_room = async (req, res) => {
     try {
       const room = await Room.findOne({ name });
       if (room) throw Error("Room name already taken.");
-      //
-      // const user = await User.findById(req.params.id);
-      // if (!user) throw Error("Unauthorized user. Please log in.");
 
       const newRoom = new Room({
         name,
         type: type || "public",
         messages: [],
-        members: [{ user: ownerId, roles: ["admin"] }],
+        members: [{ user: ownerId, roles: ["admin", "owner", "member"] }],
         image_url: image_url || "",
         requires_approval: requires_approval || false,
       });
       const savedRoom = await newRoom.save();
       if (!savedRoom) throw Error("Failed to create the room.");
-      /*
-      const updatedOwner = await User.findByIdAndUpdate(
-        owner,
-        {
-          $set: {
-            rooms: note: think of a way to get the value of the old one and then append the new room,
-          },
-        },
-        {
-          new: true,
-        }
-      );
-      if (!updatedUser) throw Error("Failed to update the user.");
-      */
+
+      // update the owner of the room to add the newly created room to their list of rooms
       const owner = await User.findById(ownerId);
       console.log("owner rooms is");
       console.log(owner);
       console.log(owner.rooms);
       owner.rooms = [...owner.rooms, savedRoom];
       await owner.save();
-      // note: try to add the room creator first then work around adding members automatically
-      /*
-      for(let member of newRoom.members){
-        const user = await User.findById(member.id).select("-password");
-      }
-*/
+
       res.status(200).json({
         room: {
           _id: savedRoom._id,
@@ -103,7 +69,109 @@ exports.create_room = async (req, res) => {
           image_url: savedRoom.image_url || "",
           requires_approval: savedRoom.requires_approval || false,
         },
-        user: owner,
+        user: { rooms: owner.rooms },
+      });
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ msg: e.message });
+    }
+  }
+};
+
+exports.join_room = async (req, res) => {
+  const {
+    name,
+    userId,
+    // type,
+    // requires_approval,
+    // image_url,
+  } = req.body;
+  let errors = [];
+
+  // check if any of the following fields are empty
+  if (!name) {
+    errors.push({ msg: "Please provide a name for the room." });
+  }
+  // if there are errors, re-\ render the page but with the values that were filled in
+  // note: figure out how to send errors to thefrontend
+  if (errors.length > 0) {
+    res.status(400).json({ errors });
+  } else {
+    try {
+      const user = await User.findById(userId).populate("rooms");
+      // check if user is already in that room
+      for (let room of user.rooms) {
+        if (room.name === name) throw Error("Already a member of this room.");
+      }
+
+      const room = await Room.findOne({ name });
+      if (!room) throw Error("Unable to find room with that name.");
+
+      // just update the room's members
+      room.members = [...room.members, { user: userId, roles: ["member"] }];
+      await room.save();
+      // update the user's room list'
+      user.rooms = [...user.rooms, room];
+      await user.save();
+
+      res.status(200).json({
+        room,
+        user: { rooms: user.rooms },
+      });
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ msg: e.message });
+    }
+  }
+};
+
+exports.leave_room = async (req, res) => {
+  const {
+    name,
+    userId,
+    // type,
+    // requires_approval,
+    // image_url,
+  } = req.body;
+  let errors = [];
+
+  // check if any of the following fields are empty
+  if (!name) {
+    errors.push({ msg: "Please provide a name for the room." });
+  }
+  // if there areerrors, re-\ render the page but with the values that were filled in
+  // note: figure out how to send errors to thefrontend
+  if (errors.length > 0) {
+    res.status(400).json({ errors });
+  } else {
+    try {
+      const user = await User.findById(userId).populate("rooms");
+      /*
+      // check if user is already in that room
+      for (let room of user.rooms) {
+        if (room.name === name) throw Error("Already a member of this room.");
+      }
+      */
+      // note: should use ID
+      // note:I don't think this will work with the populate because it is double nested
+      const room = await Room.findOne({ name }).populate("members");
+      if (!room) throw Error("Unable to find room with that name.");
+
+      // just update the room's members
+      // messages.filter((message) => message._id !== id)
+      room.members = room.members.filter(
+        (member) => member.user._id !== userId
+      );
+      await room.save();
+      // update the user's room list'
+      user.rooms = user.rooms.filter((room) => {
+        room.name !== name;
+      });
+      await user.save();
+
+      res.status(200).json({
+        room,
+        user: { rooms: user.rooms },
       });
     } catch (e) {
       console.log(e);
@@ -223,4 +291,18 @@ exports.remove_room = async (req, res) => {
     res.status(400).json({ msg: e.message });
   }
 };
+*/
+
+/*
+// minimum length for the password
+if (password.length < 6) {
+  errors.push({ msg: "Password must be at least 6 characters" });
+}
+*/
+
+// note: try to add the room creator first then work around adding members automatically
+/*
+for(let member of newRoom.members){
+  const user = await User.findById(member.id).select("-password");
+}
 */
