@@ -1,6 +1,7 @@
 import {
   USER_LOADED,
   LOGIN_SUCCESS,
+  REGISTER_SUCCESS,
   GET_ALL_FRIENDS_SUCCESS,
   GET_ALL_FRIENDS_FAIL,
   GET_FRIEND_SUCCESS,
@@ -21,6 +22,7 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case USER_LOADED:
     case LOGIN_SUCCESS:
+    case REGISTER_SUCCESS:
       console.log(action.payload);
       return [...action.payload.user.friends];
 

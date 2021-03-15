@@ -22,10 +22,10 @@ const onInput = (e) => {
 const handleEnterKeyOnField = (e) => {
   // This prevents submission bugging or refreshing upon pressing enter
   // in an input field inside a form
-  if (e.keyCode === 13) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
+  // if (e.keyCode === 13) {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  // }
 };
 
 const renderInput = ({ input, meta, inputProps, labelProps }) => {

@@ -22,8 +22,10 @@ const handleEnterKeyOnField = (e) => {
   // This prevents submission bugging or refreshing upon pressing enter
   // in an input field inside a form
   if (e.keyCode === 13) {
-    e.preventDefault();
-    e.stopPropagation();
+    // e.preventDefault();
+    // e.stopPropagation();
+    // onSubmit();
+    // props.handleSubmit(onSubmit);
   }
 };
 
@@ -41,12 +43,12 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
         {labelProps.text}
       </label>
       <input
-        {...inputProps}
-        {...input}
-        className={`${inputProps.className} ${errorClass}`}
         onKeyDown={(e) => {
           handleEnterKeyOnField(e);
         }}
+        {...inputProps}
+        {...input}
+        className={`${inputProps.className} ${errorClass}`}
         onInput={(e) => {
           onInput(e);
         }}
@@ -101,7 +103,6 @@ const LoginForm = (props) => {
                 autoComplete: "off",
                 id: "login-form-email-field",
                 autoFocus: true,
-                // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
@@ -124,6 +125,7 @@ const LoginForm = (props) => {
                 autoComplete: "off",
                 type: "password",
                 id: "login-form-password-field",
+
                 // autoFocus: true
               },
               labelProps: {

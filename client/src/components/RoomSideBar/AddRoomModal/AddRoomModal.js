@@ -1,3 +1,5 @@
+import RightArrowImg from "../../../icons/right-arrow.png";
+
 import "./AddRoomModal.scss";
 
 import React, { useState, useContext } from "react";
@@ -33,6 +35,35 @@ const AddRoomModal = (props) => {
     setCreateRoomOpened(false);
   };
 
+  const renderButtons = () => {
+    return (
+      <>
+        <button
+          className="create-or-join-button"
+          onClick={createRoomOnClickHandler}
+        >
+          <span>Create a Room</span>
+          <img
+            className="add-room right-arrow-button-img"
+            src={RightArrowImg}
+            alt="right-arrow icon"
+          />
+        </button>
+        <button
+          className="create-or-join-button"
+          onClick={joinRoomOnClickHandler}
+        >
+          <span>Join a Room</span>
+          <img
+            className="add-room right-arrow-button-img"
+            src={RightArrowImg}
+            alt="right-arrow icon"
+          />
+        </button>
+      </>
+    );
+  };
+
   const renderCreateOrJoin = () => {
     // Mobile version
     if (!isDesktopWidth || !isDesktopHeight)
@@ -48,18 +79,7 @@ const AddRoomModal = (props) => {
             props.onModalClose();
           }}
         >
-          <button
-            className="create-or-join-mobile-button"
-            onClick={createRoomOnClickHandler}
-          >
-            Create a Room
-          </button>
-          <button
-            className="create-or-join-mobile-button"
-            onClick={joinRoomOnClickHandler}
-          >
-            Join a Room
-          </button>
+          {renderButtons()}
         </Modal>
       );
     else {
@@ -76,18 +96,7 @@ const AddRoomModal = (props) => {
           }}
         >
           <div className="add-room form-content-container modal-form-content">
-            <button
-              className="create-or-join-mobile-button"
-              onClick={createRoomOnClickHandler}
-            >
-              Create a Room
-            </button>
-            <button
-              className="create-or-join-mobile-button"
-              onClick={joinRoomOnClickHandler}
-            >
-              Join a Room
-            </button>
+            {renderButtons()}
           </div>
         </Modal>
       );

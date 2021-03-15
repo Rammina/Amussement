@@ -12,7 +12,10 @@
   min-width: 25rem;
 }
 
-.create-or-join-mobile-button {
+.create-or-join-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   min-height: 3rem;
   margin-top: 0.5rem;
@@ -22,10 +25,18 @@
   border: 1px solid $floatingButtonBorderColor;
   text-align: left;
   padding: 0 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.add-room.right-arrow-button-img {
+  width: 1.1rem;
+  height: 1.1rem;
+  filter: invert(100%) sepia(41%) saturate(601%) hue-rotate(177deg) brightness(93%) contrast(89%);
 }
 
 @media screen and (min-width: 1200px) and (min-height: 600px) {
-  .create-or-join-mobile-button {
+  .create-or-join-button {
     width: 100%;
     min-height: 4rem;
 
@@ -37,12 +48,12 @@
     text-align: left;
     padding: 0 1rem;
     font-size: 1.1rem;
-    font-weight: bold;
+    
   }
-  .create-or-join-mobile-button:nth-of-type(2) {
+  .create-or-join-button:nth-of-type(2) {
     margin-top: 1.5rem;
   }
-  .create-or-join-mobile-button:hover {
+  .create-or-join-button:hover {
     background-color: #fff2;
   }
 }

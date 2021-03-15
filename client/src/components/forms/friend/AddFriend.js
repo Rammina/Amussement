@@ -29,10 +29,10 @@ const onInput = (e) => {
 const handleEnterKeyOnField = (e) => {
   // This prevents submission bugging or refreshing upon pressing enter
   // in an input field inside a form
-  if (e.keyCode === 13) {
+  /* if (e.keyCode === 13) {
     e.preventDefault();
     e.stopPropagation();
-  }
+  } */
 };
 
 const renderInput = ({ input, meta, inputProps, labelProps }) => {
@@ -135,6 +135,13 @@ const AddFriend = (props) => {
             />
           </div>
         </div>
+        <button
+          type="submit"
+          onClick={props.handleSubmit(onSubmit)}
+          style={{ display: "none" }}
+        >
+          Save
+        </button>
       </form>
     </Modal>
   );

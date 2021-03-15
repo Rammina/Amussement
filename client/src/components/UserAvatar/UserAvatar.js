@@ -217,8 +217,9 @@ const mapStateToProps = (state) => ({
   showLoader: state.loader.showUploadAvatarFormLoader,
 });
 
-const userAvatar = connect(mapStateToProps, { editUserAvatar, actionShowLoader })(
-  UserAvatar
-);
+const userAvatar = connect(mapStateToProps, {
+  editUserAvatar,
+  actionShowLoader,
+})(UserAvatar);
 
 export default userAvatar;
