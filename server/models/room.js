@@ -9,6 +9,7 @@ const Schema = mongoose.Schema;
 var RoomSchema = new Schema({
   name: { type: String, required: true, minlength: 1 },
   type: { type: String, required: true, enum: ["public", "DM", "groupDM"] },
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   messages: [
     {
       message: { type: mongoose.Schema.Types.ObjectId, ref: "Message" },

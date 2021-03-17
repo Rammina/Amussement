@@ -302,6 +302,26 @@ export const copyToClipboard = (text) => {
   document.execCommand("copy");
   document.body.removeChild(dummy);
 };
+
+// for checking friends
+export const isFriendsWithUser = (userId, friends) => {
+  for (let friend of friends) {
+    if (friend._id === userId && friend.status === "accepted") {
+      return true;
+    }
+  }
+  return false;
+};
+
+export const getFriendStatusWithUser = (userId, friends) => {
+  for (let friend of friends) {
+    if (friend._id === userId) {
+      return friend.status;
+    }
+  }
+  return null;
+};
+
 /*
 // CryptoJS functions
 const keySize = 256;

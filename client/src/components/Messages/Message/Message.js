@@ -2,25 +2,33 @@ import "./Message.scss";
 
 import React, { useState, useContext, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
+import { connect } from "react-redux";
 import ReactEmoji from "react-emoji";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
-import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
+
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 import DeleteMessage from "./DeleteMessage/DeleteMessage";
 import EditMessage from "./EditMessage/EditMessage";
 import UserProfileCard from "../../UserProfileCard/UserProfileCard";
+import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
+import MessageContextMenu from "./MessageContextMenu/MessageContextMenu";
+import UserContextMenu from "./UserContextMenu/UserContextMenu";
 
 import { ChatContext, UserProfileCardContext } from "../../AppContext";
 
+import history from "../../../history";
 import {
   toChatCustomTimestamp,
   timestampToStandardTime,
   copyToClipboard,
+  getFriendStatusWithUser,
+  isFriendsWithUser,
 } from "../../../helpers";
 
-const Message = ({ message, name, sameSenderAsPrevMsg }) => {
-  const [showContextMenu, setShowContextMenu] = useState(false);
+const Message = ({ message, name, sameSenderAsPrevMsg, friends }) => {
+  const [showUserContextMenu, setShowUserContextMenu] = useState(false);
+  const [showMessageContextMenu, setShowMessageContextMenu] = useState(false);
   const [userInfoModalOpen, setUserInfoModalOpen] = useState(false);
   const [showDeleteMessageModal, setShowDeleteMessageModal] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -52,7 +60,8 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
   }, [editedMarkerRef]);
 
   const onCloseContextMenuHandler = () => {
-    setShowContextMenu(false);
+    setShowUserContextMenu(false);
+    setShowMessageContextMenu(false);
   };
 
   const onCopyIdHandler = () => {
@@ -84,6 +93,50 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
     if (message.user.deleted) return null;
 
     setUserInfoModalOpen(true);
+  };
+
+  // message context menu function handlers
+  const editMessageOnClickHandler = () => {
+    setIsEditMode(true);
+    onCloseContextMenuHandler();
+  };
+
+  const deleteMessageOnClickHandler = () => {
+    setShowDeleteMessageModal(true);
+    onCloseContextMenuHandler();
+  };
+
+  const copyIdOnClickHandler = () => {
+    onCopyIdHandler();
+    onCloseContextMenuHandler();
+  };
+
+  // user context menu function handlers
+  const profileOnClickHandler = () => {
+    setUserInfoModalOpen(true);
+    onCloseContextMenuHandler();
+  };
+
+  const sendMessageOnClickHandler = () => {
+    history.push(
+      `/chat?room=DMto${message.user._id}&userType=user&roomType=DM&receiver=${message.user.username}`
+    );
+  };
+
+  const userOnContextMenuHandler = (e) => {
+    if (message.user.deleted) return null;
+    e.preventDefault();
+    e.stopPropagation();
+    setShowUserContextMenu(true);
+    setClientX(e.clientX);
+    setClientY(e.clientY);
+  };
+
+  const messageOnContextMenuHandler = (e) => {
+    e.preventDefault();
+    setShowMessageContextMenu(true);
+    setClientX(e.clientX);
+    setClientY(e.clientY);
   };
 
   // get value  of UserProfileCardContext using this function
@@ -129,55 +182,36 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
     isSentByCurrentUser = true;
   }
 
-  const renderContextMenu = () => {
-    // console.log(isSentByCurrentUser);
-    if (!showContextMenu) return null;
-    let actionButtons = null;
+  const renderUserContextMenu = () => {
+    if (!showUserContextMenu) return null;
 
-    if (isSentByCurrentUser) {
-      actionButtons = (
-        <>
-          <button
-            className="context-menu-button message"
-            onClick={() => {
-              setIsEditMode(true);
-              onCloseContextMenuHandler();
-            }}
-          >
-            <span>Edit Message</span>
-          </button>
-          <button
-            className="context-menu-button message danger"
-            onClick={() => {
-              setShowDeleteMessageModal(true);
-              onCloseContextMenuHandler();
-            }}
-          >
-            <span>Delete Message</span>
-          </button>
-        </>
-      );
-    }
     return (
-      <ContextMenu
-        componentClass="message"
+      <UserContextMenu
+        isSentByCurrentUser={isSentByCurrentUser}
+        clientX={clientX}
+        clientY={clientY}
+        userId={message.user._id}
+        friends={friends}
+        onClose={onCloseContextMenuHandler}
+        profileOnClick={profileOnClickHandler}
+        sendMessageOnClick={sendMessageOnClickHandler}
+      />
+    );
+  };
+
+  const renderMessageContextMenu = () => {
+    // console.log(isSentByCurrentUser);
+    if (!showMessageContextMenu) return null;
+    return (
+      <MessageContextMenu
+        isSentByCurrentUser={isSentByCurrentUser}
         clientX={clientX}
         clientY={clientY}
         onClose={onCloseContextMenuHandler}
-      >
-        <div className="context-menu-buttons-container message">
-          {actionButtons}
-          <button
-            className="context-menu-button message"
-            onClick={() => {
-              onCopyIdHandler();
-              onCloseContextMenuHandler();
-            }}
-          >
-            <span>Copy Message ID</span>
-          </button>
-        </div>
-      </ContextMenu>
+        copyIdOnClick={copyIdOnClickHandler}
+        editMessageOnClick={editMessageOnClickHandler}
+        deleteMessageOnClick={deleteMessageOnClickHandler}
+      />
     );
   };
 
@@ -278,6 +312,7 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
           }
           componentClass={`message ${getDeletedClass()}`}
           onClick={userOnClickHandler}
+          onContextMenu={userOnContextMenuHandler}
         />
       );
       senderText = (
@@ -285,6 +320,7 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
           <p
             className={`sender-text ${getDeletedClass()}`}
             onClick={userOnClickHandler}
+            onContextMenu={userOnContextMenuHandler}
           >
             {isSentByCurrentUser
               ? trimmedName
@@ -302,19 +338,15 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
 
     return (
       <>
-        {renderContextMenu()}
+        {renderUserContextMenu()}
+        {renderMessageContextMenu()}
         {renderDeleteMessageModal()}
         {renderUserInfoModal()}
         <div
           className={`messageContainer justifyStart ${messageContainerClass}`}
           onMouseEnter={onMouseEnterMessageContainerHandler}
           onMouseLeave={onMouseLeaveMessageContainerHandler}
-          onContextMenu={(e) => {
-            e.preventDefault();
-            setShowContextMenu(true);
-            setClientX(e.clientX);
-            setClientY(e.clientY);
-          }}
+          onContextMenu={messageOnContextMenuHandler}
         >
           {renderMessageTimestamp()}
           {senderImage}
@@ -329,5 +361,7 @@ const Message = ({ message, name, sameSenderAsPrevMsg }) => {
 
   return renderMessage();
 };
-
-export default Message;
+const mapStateToProps = (state) => ({
+  friends: state.friends,
+});
+export default connect(mapStateToProps, {})(Message);

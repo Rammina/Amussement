@@ -5,6 +5,8 @@ import { Link, useLocation } from "react-router-dom";
 
 import queryString from "query-string";
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
+import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
+
 // import onlineIcon from "../../icons/onlineIcon.png";
 
 // import { NavContext } from "../../AppContext";
@@ -48,11 +50,32 @@ const RoomItem = (props) => {
 
   const getSelectedClass = () => (isSelectedRoom ? "selected" : true);
 
-  const handleOnMouseEnter = () => {
+  const onMouseEnterHandler = () => {
     setIsMouseHovered(true);
   };
-  const handleOnMouseLeave = () => {
+  const onMouseLeaveHandler = () => {
     setIsMouseHovered(false);
+  };
+
+  const onContextMenuHandler = () => {
+    return (
+      <ContextMenu
+        componentClass="room"
+        clientX={clientX}
+        clientY={clientY}
+        onClose={props.onClose}
+      >
+        <div className="context-menu-buttons-container message user">
+          <button
+            className="context-menu-button message user"
+            onClick={props.profileOnClick}
+          >
+            <span>Profile</span>
+          </button>
+          {actionButtons}
+        </div>
+      </ContextMenu>
+    );
   };
   // const getGuestName=() => {}
   const renderItemContent = () => {
@@ -76,8 +99,9 @@ const RoomItem = (props) => {
     <React.Fragment>
       <div className="room-item-container">
         <Link
-          onMouseEnter={handleOnMouseEnter}
-          onMouseLeave={handleOnMouseLeave}
+          onMouseEnter={onMouseEnterHandler}
+          onMouseLeave={onMouseLeaveHandler}
+          onContextMenu={onContextMenuHandler}
           to={props.toUrl}
           className="room-item-link"
         >

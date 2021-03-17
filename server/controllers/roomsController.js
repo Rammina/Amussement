@@ -44,6 +44,7 @@ exports.create_room = async (req, res) => {
         name,
         type: type || "public",
         messages: [],
+        owner: ownerId,
         members: [{ user: ownerId, roles: ["admin", "owner", "member"] }],
         image_url: image_url || "",
         requires_approval: requires_approval || false,
@@ -125,6 +126,7 @@ exports.join_room = async (req, res) => {
   }
 };
 
+// note: this needs testing
 exports.leave_room = async (req, res) => {
   const {
     name,

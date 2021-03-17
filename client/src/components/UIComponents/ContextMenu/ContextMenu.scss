@@ -39,6 +39,10 @@
   border-radius: 3px;
 }
 
+.context-menu-button.user {
+  min-width: 8rem;
+}
+
 .context-menu-button:hover {
   color: $textFontWhite;
   background-color: #fff1;

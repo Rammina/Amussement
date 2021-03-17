@@ -14,6 +14,7 @@ import Notes from "./Notes/Notes";
 import RemoveFriendModal from "../forms/friend/RemoveFriendModal";
 
 import { addFriendWithId } from "../../flux/actions/friendsActions";
+import { isFriendsWithUser, getFriendStatusWithUser } from "../../helpers";
 
 import { WindowContext, UserProfileCardContext } from "../AppContext";
 
@@ -36,7 +37,10 @@ const UserProfileCard = (props) => {
       setConnectionToUser(friendStatus);
       return friendStatus;
     }
-    // check if selectedUser is a friend
+    setConnectionToUser(
+      getFriendStatusWithUser(selectedUser._id, props.friends)
+    );
+    /*
     for (let friend of props.friends) {
       if (friend._id === selectedUser._id) {
         //found a user with the same ID
@@ -45,6 +49,7 @@ const UserProfileCard = (props) => {
       }
     }
     setConnectionToUser(null);
+    */
     // note: maybe check if user is blocked once the function is implemented
   };
 
