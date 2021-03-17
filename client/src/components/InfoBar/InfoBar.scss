@@ -4,13 +4,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #333;
+  background: $chat-background-color;
   // background: #222;
   padding-left: 0.6rem;
   padding-right: 0.6rem;
   // border-radius: 4px 4px 0 0;
   height: 3.7rem;
   width: 100%;
+  border-bottom: 1.5px solid #fff2;
 }
 
 .leftInnerContainer {

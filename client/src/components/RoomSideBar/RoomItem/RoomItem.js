@@ -58,6 +58,7 @@ const RoomItem = (props) => {
   };
 
   const onContextMenuHandler = () => {
+    /*
     return (
       <ContextMenu
         componentClass="room"
@@ -76,6 +77,7 @@ const RoomItem = (props) => {
         </div>
       </ContextMenu>
     );
+    */
   };
   // const getGuestName=() => {}
   const renderItemContent = () => {

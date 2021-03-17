@@ -58,7 +58,7 @@
 }
 
 .messageContainer:hover {
-  background-color: #eee;
+  background-color: #eeeeee09;
 }
 
 .message-timestamp-same-sender {
@@ -66,7 +66,7 @@
   font-size: 0.7rem;
   top: 0.36rem;
   left: 0.7rem;
-  color: #455c;
+  color: $messageTimeStampColor;
 }
 
 .message-text-container {
@@ -84,8 +84,9 @@
   display: inline-block;
   // align-items: center;
   font-family: $textFont;
-  font-weight: bold;
+  // font-weight: bold;
   color: $senderTextColor;
+  text-shadow: 1px 1px 0 #eee4;
   width: fit-content;
 
   //   letter-spacing: 0.3px;
@@ -103,7 +104,7 @@
 
 .message-timestamp {
   font-size: 0.8rem;
-  color: #455;
+  color: $messageTimeStampColor;
   font-weight: normal;
   text-decoration: none;
 }
@@ -120,7 +121,7 @@
 
 .edited-marker {
   font-size: 0.8rem;
-  color: #455c;
+  color: $messageTimeStampColor;
 }
 
 .edited-marker:hover {
@@ -128,7 +129,7 @@
 }
 
 .message.context-menu-outer-container {
-  max-width: 12rem;
+  max-width: 14rem;
 }
 
 .pl-10 {
@@ -145,14 +146,6 @@
 
 .justifyEnd {
   justify-content: flex-end;
-}
-
-.colorWhite {
-  color: white;
-}
-
-.colorDark {
-  color: #353535;
 }
 
 /* .backgroundBlue {

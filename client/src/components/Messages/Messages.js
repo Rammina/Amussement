@@ -152,8 +152,8 @@ const Messages = (props) => {
   const renderMessages = () => {
     let noMessagesNotification = null;
 
-    if (!props.showInitialLoader && (!messages || messages.length < 1))
-      noMessagesNotification = <div>no messages found</div>;
+    // if (!props.showInitialLoader && (!messages || messages.length < 1))
+    //   noMessagesNotification = <div>no messages found</div>;
 
     return (
       <div
