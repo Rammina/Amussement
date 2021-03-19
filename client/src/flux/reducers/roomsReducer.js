@@ -6,12 +6,14 @@ import {
   GET_ALL_ROOMS_FAIL,
   CREATE_ROOM_SUCCESS,
   CREATE_ROOM_FAIL,
+  DELETE_ROOM_SUCCESS,
+  DELETE_ROOM_FAIL,
   // GET_ROOM_SUCCESS,
   // GET_ROOM_FAIL,
   JOIN_ROOM_SUCCESS,
   JOIN_ROOM_FAIL,
-  // REMOVE_ROOM_SUCCESS,
-  // REMOVE_ROOM_FAIL,
+  LEAVE_ROOM_SUCCESS,
+  LEAVE_ROOM_FAIL,
 } from "../actions/types";
 
 const initialState = [];
@@ -22,7 +24,7 @@ export default (state = initialState, action) => {
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       console.log(action.payload);
-      return [...action.payload.user.rooms];
+      return [...action.payload.rooms];
 
     case GET_ALL_ROOMS_SUCCESS:
       console.log(action.payload);
@@ -32,7 +34,10 @@ export default (state = initialState, action) => {
     case JOIN_ROOM_SUCCESS:
       console.log(action.payload.room);
       return [...state, action.payload.room];
-
+    case LEAVE_ROOM_SUCCESS:
+      return [...action.payload.rooms];
+    case DELETE_ROOM_SUCCESS:
+      return [...state].filter((room) => room._id !== action.payload.roomId);
     // case REMOVE_ROOM_SUCCESS:
     //   return [...state];
     // case GET_ALL_ROOMS_FAIL:
@@ -43,6 +48,7 @@ export default (state = initialState, action) => {
     //   return [];
     case CREATE_ROOM_FAIL:
     case JOIN_ROOM_FAIL:
+    case LEAVE_ROOM_FAIL:
       return state;
     default:
       return state;

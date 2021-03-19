@@ -8,28 +8,36 @@ import ContextMenu from "../../../UIComponents/ContextMenu/ContextMenu";
 
 const RoomContextMenu = (props) => {
   // note: functions that check if current user is owner or a member of the room
-
+  /*
   const leaveRoomOnClickHandler = () => {
     // using a callback will be nice as well
     props.onClose();
     props.leaveRoom(props.userId);
   };
-
+*/
   let actionButtons = null;
   // just need to check if owner or member of a room
   // note: (check for other roles as well in the future)
 
   // owner of the room
-  if (room.owner === props.user._id) {
+  if (props.isOwnedByCurrentUser) {
     actionButtons = (
       <button
-        className="context-menu-button room"
-        onClick={deleteRoomOnClickHandler}
+        className="context-menu-button room danger"
+        onClick={props.deleteRoomOnClick}
       >
-        <span>Add Friend</span>
+        <span>Delete Room</span>
       </button>
     );
-  } else if (room.owner !== props.user._id) {
+  } else if (!props.isOwnedByCurrentUser) {
+    actionButtons = (
+      <button
+        className="context-menu-button room danger"
+        onClick={props.leaveRoomOnClick}
+      >
+        <span>Leave Room</span>
+      </button>
+    );
   }
 
   return (
@@ -40,16 +48,19 @@ const RoomContextMenu = (props) => {
       onClose={props.onClose}
     >
       <div className="context-menu-buttons-container message user">
+        {/*
         <button
           className="context-menu-button message user"
           onClick={props.profileOnClick}
         >
-          <span>Profile</span>
+          <span>Invite Users</span>
         </button>
+        */}
         {actionButtons}
       </div>
     </ContextMenu>
   );
 };
 
-export default connect(null, { addFriendWithId, leaveRoom })(RoomContextMenu);
+// export default connect(null, {})(RoomContextMenu);
+export default RoomContextMenu;

@@ -15,6 +15,8 @@ router.post("/", rooms_controller.create_room);
 // note: might want to use ID instead
 router.patch("/:name/join", rooms_controller.join_room);
 
-router.patch("/:name/leave", rooms_controller.leave_room);
+router.patch("/:id/leave", rooms_controller.leave_room);
+
+router.delete("/:id", rooms_controller.delete_room);
 
 module.exports = router;

@@ -2,18 +2,24 @@ import "./RoomItem.scss";
 
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { connect } from "react-redux";
 
 import queryString from "query-string";
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
-import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
+// import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
+import RoomContextMenu from "./RoomContextMenu/RoomContextMenu";
 
+import { leaveRoom, deleteRoom } from "../../../flux/actions/roomsActions";
 // import onlineIcon from "../../icons/onlineIcon.png";
 
 // import { NavContext } from "../../AppContext";
 
 const RoomItem = (props) => {
+  const [clientX, setClientX] = useState(0);
+  const [clientY, setClientY] = useState(0);
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const [isSelectedRoom, setIsSelectedRoom] = useState(false);
+  const [showRoomContextMenu, setShowRoomContextMenu] = useState(false);
   const location = useLocation();
   console.log(location);
   // console.log(props.location);
@@ -26,7 +32,8 @@ const RoomItem = (props) => {
     };
   }, [location.search]);
 
-  console.log(props.user);
+  let isOwnedByCurrentUser = props.room.owner === props.user._id;
+
   const getUserType = () => (props.user ? "user" : "guest");
 
   const checkSelectedRoom = () => {
@@ -52,33 +59,62 @@ const RoomItem = (props) => {
 
   const onMouseEnterHandler = () => {
     setIsMouseHovered(true);
+    console.log("hovered over room");
   };
   const onMouseLeaveHandler = () => {
     setIsMouseHovered(false);
+    console.log("hovered out of room");
   };
 
-  const onContextMenuHandler = () => {
-    /*
+  const onCloseContextMenuHandler = () => {
+    setShowRoomContextMenu(false);
+  };
+
+  const onRoomContextMenuHandler = (e) => {
+    if (props.room.deleted) return null;
+    e.preventDefault();
+    e.stopPropagation();
+    setShowRoomContextMenu(true);
+    setClientX(e.clientX);
+    setClientY(e.clientY);
+  };
+
+  // room actions function handlers
+
+  const leaveRoomOnClickHandler = () => {
+    // do not allow leaving of room if user is the owner
+    if (!isOwnedByCurrentUser) {
+      props.leaveRoom(props.room._id);
+      // return null;
+    }
+    onCloseContextMenuHandler();
+  };
+
+  const deleteRoomOnClickHandler = () => {
+    // do not allow deleting of room if user is not the owner
+    if (isOwnedByCurrentUser) {
+      props.deleteRoom(props.room._id);
+      // return null;
+    }
+    onCloseContextMenuHandler();
+  };
+
+  const renderRoomContextMenu = () => {
+    if (!showRoomContextMenu) return null;
+
     return (
-      <ContextMenu
-        componentClass="room"
+      <RoomContextMenu
+        isOwnedByCurrentUser={isOwnedByCurrentUser}
         clientX={clientX}
         clientY={clientY}
-        onClose={props.onClose}
-      >
-        <div className="context-menu-buttons-container message user">
-          <button
-            className="context-menu-button message user"
-            onClick={props.profileOnClick}
-          >
-            <span>Profile</span>
-          </button>
-          {actionButtons}
-        </div>
-      </ContextMenu>
+        roomId={props.room._id}
+        onClose={onCloseContextMenuHandler}
+        leaveRoomOnClick={leaveRoomOnClickHandler}
+        deleteRoomOnClick={deleteRoomOnClickHandler}
+      />
     );
-    */
   };
+
   // const getGuestName=() => {}
   const renderItemContent = () => {
     // if there is an image, use the URL in the image tag
@@ -99,11 +135,12 @@ const RoomItem = (props) => {
 
   return (
     <React.Fragment>
+      {renderRoomContextMenu()}
       <div className="room-item-container">
         <Link
           onMouseEnter={onMouseEnterHandler}
           onMouseLeave={onMouseLeaveHandler}
-          onContextMenu={onContextMenuHandler}
+          onContextMenu={onRoomContextMenuHandler}
           to={props.toUrl}
           className="room-item-link"
         >
@@ -120,4 +157,4 @@ const RoomItem = (props) => {
   );
 };
 
-export default RoomItem;
+export default connect(null, { leaveRoom, deleteRoom })(RoomItem);

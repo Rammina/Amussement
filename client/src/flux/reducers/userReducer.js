@@ -20,10 +20,10 @@ import {
   DELETE_USER_ACCOUNT_SUCCESS,
   DELETE_USER_ACCOUNT_FAIL,
   // ROOM RELATED STUFF
-  CREATE_ROOM_SUCCESS,
-  CREATE_ROOM_FAIL,
-  JOIN_ROOM_SUCCESS,
-  JOIN_ROOM_FAIL,
+  // CREATE_ROOM_SUCCESS,
+  // CREATE_ROOM_FAIL,
+  // JOIN_ROOM_SUCCESS,
+  // JOIN_ROOM_FAIL,
 } from "../actions/types";
 
 const initialState = {
@@ -53,8 +53,8 @@ export default (state = initialState, action) => {
     case REGISTER_SUCCESS:
     case EDIT_USER_ACCOUNT_SUCCESS:
     case CHANGE_USER_PASSWORD_SUCCESS:
-    case CREATE_ROOM_SUCCESS:
-    case JOIN_ROOM_SUCCESS:
+      // case CREATE_ROOM_SUCCESS:
+      // case JOIN_ROOM_SUCCESS:
       sanitizedUserPayload = {
         info: { ...state.info, ...action.payload.user },
         isLoading: false,

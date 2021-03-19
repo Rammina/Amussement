@@ -174,7 +174,6 @@ const Chat = (props) => {
     if (userType === "guest") {
       handleUserJoin();
     }
-
     return () => {
       // setMessageRetrievalCount(0);
       // setNoMoreMessagesToLoad(false);
@@ -190,13 +189,13 @@ const Chat = (props) => {
     console.log(props.location.search);
     console.log(props.user);
     console.log("I happened twice");
-    if (!props.isloading && props.user) {
+    if (!props.isLoading && props.user) {
       handleUserJoin();
     }
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-  }, [props.user, location.search]);
+  }, [props.isLoading, location.search]);
 
   // re-update the user
   useEffect(() => {

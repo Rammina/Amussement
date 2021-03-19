@@ -74,11 +74,12 @@ exports.user_load = async (req, res) => {
             _id: user._id,
             username: user.username,
             friends: friends || [],
-            rooms: user.rooms || [],
+            // rooms: user.rooms || [],
             email: user.email,
             image_url: user.image_url || "",
             disabled: false,
           },
+          rooms: user.rooms || [],
         });
       }
     );
@@ -145,10 +146,11 @@ exports.user_register = async (req, res) => {
           _id: savedUser._id,
           username: savedUser.username,
           friends: [],
-          rooms: [],
+
           email: savedUser.email.toLowerCase(),
           image_url: "",
         },
+        rooms: [],
       });
     } catch (e) {
       console.log(e);
@@ -197,11 +199,12 @@ exports.user_login = async (req, res) => {
             _id: user._id,
             username: user.username,
             friends: friends || [],
-            rooms: user.rooms || [],
+            // rooms: user.rooms || [],
             email: user.email,
             image_url: user.image_url || "",
             disabled: false,
           },
+          rooms: user.rooms || [],
         });
       }
     );
