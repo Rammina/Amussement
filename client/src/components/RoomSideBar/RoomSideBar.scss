@@ -3,7 +3,7 @@
 .room-sidebar-outer-container {
   position: relative;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: visible;
   z-index: 20;
   display: flex;
   flex-direction: column;

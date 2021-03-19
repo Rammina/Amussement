@@ -6,10 +6,10 @@
   align-items: center;
   white-space: nowrap;
   // visibility: hidden;
-  opacity: 0;
+  opacity: 1;
   position: absolute;
   top: 0.5rem;
-  left: 4rem;
+  left: 2rem;
   padding: 0.2rem 0.5rem;
 
   // min-width: 4rem;
@@ -26,4 +26,5 @@
 .hover-marker-container.show {
   // visibility: hidden;
   opacity: 1;
+  // left: 1rem;
 }

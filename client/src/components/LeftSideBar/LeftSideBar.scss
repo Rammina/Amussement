@@ -60,6 +60,7 @@
 }
 
 .left-sidebar-room-information-outer-container {
+  z-index: 10;
   width: calc($sidebarWidth);
   padding: 0.5rem;
 }

@@ -1,3 +1,4 @@
+@import "../../utils/variables.scss";
 /* credits to:
 https://loading.io/css/
 */
@@ -30,6 +31,7 @@ https://loading.io/css/
 .messages.lds-ring div {
   width: 1.28rem;
   height: 1.28rem;
+  border-color: $chat-text-color;
 }
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;

@@ -8,8 +8,10 @@
 
 .input-chat-textfield {
   border: none;
-  border-top: 2px solid #d3d3d3;
+  // border-top: 2px solid #d3d3d3;
   border-radius: 0;
+  background-color: $chat-input-background-color;
+  color: $chat-input-text-color;
   //   padding: 5%;
   padding: 0.5rem;
   width: calc(100% - 4rem);
@@ -20,6 +22,10 @@
 
 .input-chat-textfield:focus {
   box-shadow: none;
+}
+
+.input-chat-textfield::placeholder {
+  color: $textFontColorDimmer;
 }
 
 input:focus,
@@ -34,12 +40,12 @@ select:focus {
   text-transform: uppercase;
   text-decoration: none;
   // background: $main-black;
-  background-color: #0000;
+  background-color: $chat-input-background-color;
   // padding: 20px;
   display: inline-block;
   outline: none;
   border: none;
-  border-top: 2px solid #d3d3d3;
+  // border-top: 2px solid #d3d3d3;
   width: 4rem;
 }
 
@@ -59,11 +65,11 @@ select:focus {
 .send-button-image {
   opacity: 1;
   transition: opacity 0.3s ease;
-  filter: invert(13%) sepia(2%) saturate(1682%) hue-rotate(161deg)
-    brightness(97%) contrast(94%);
+  filter: invert(97%) sepia(3%) saturate(226%) hue-rotate(182deg)
+    brightness(94%) contrast(88%);
 }
 
 .send-button-image:hover {
-  filter: invert(25%) sepia(7%) saturate(320%) hue-rotate(161deg)
-    brightness(93%) contrast(87%);
+  filter: invert(99%) sepia(2%) saturate(226%) hue-rotate(258deg)
+    brightness(116%) contrast(94%);
 }

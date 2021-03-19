@@ -16,7 +16,12 @@ import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
 
 import { actionShowLoader } from "../../flux/actions/loaderActions";
-import { NavContext, FooterContext, ChatContext } from "../AppContext";
+import {
+  NavContext,
+  FooterContext,
+  ChatContext,
+  WindowContext,
+} from "../AppContext";
 
 let socket;
 
@@ -37,6 +42,7 @@ const Chat = (props) => {
     navMenuButtonTouched,
   } = useContext(NavContext);
   const { setShowFooter } = useContext(FooterContext);
+  const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
 
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
@@ -197,14 +203,19 @@ const Chat = (props) => {
     });
   }, [props.isLoading, location.search]);
 
-  // re-update the user
+  // remove footer when its desktop mode
+  const handleFooterOnResize = () => {
+    if (isDesktopWidth && isDesktopHeight) {
+      setShowFooter(false);
+    }
+  };
   useEffect(() => {
     setShowFooter(false);
-    console.log(props.user);
-    console.log("I happened twice");
-    if (!props.isloading && props.user) {
-      // handleUserJoin();
-    }
+
+    window.addEventListener("resize", handleFooterOnResize);
+    return () => {
+      window.removeEventListener("resize", handleFooterOnResize);
+    };
   }, []);
 
   // attach another listener every time the address/room changes

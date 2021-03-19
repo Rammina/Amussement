@@ -26,19 +26,7 @@ const RoomSideBar = (props) => {
     <React.Fragment>
       <div className="room-sidebar-outer-container">
         <HomeButton user={props.user} />
-        <RoomItem
-          toUrl={`/chat?room=${"madMax"}&userType=user`}
-          room={{ name: "madMax" }}
-          user={props.user}
-        />
-        <RoomItem
-          toUrl={`/chat?room=${"IloveEmilia"}&userType=user`}
-          room={{
-            name: "IloveEmilia",
-            image_url: `https://res.cloudinary.com/rammina/image/upload/v1598598880/amussement-avatars/5f423937dd4b511da81e2af1-user-avatar.png`,
-          }}
-          user={props.user}
-        />
+
         {renderRoomItems()}
         <AddRoomButton user={props.user} />
       </div>
@@ -58,3 +46,19 @@ const roomSideBar = connect(mapStateToProps, {
 })(RoomSideBar);
 
 export default roomSideBar;
+
+/* Dummy servers
+ <RoomItem
+          toUrl={`/chat?room=${"madMax"}&userType=user`}
+          room={{ name: "madMax" }}
+          user={props.user}
+        />
+        <RoomItem
+          toUrl={`/chat?room=${"IloveEmilia"}&userType=user`}
+          room={{
+            name: "IloveEmilia",
+            image_url: `https://res.cloudinary.com/rammina/image/upload/v1598598880/amussement-avatars/5f423937dd4b511da81e2af1-user-avatar.png`,
+          }}
+          user={props.user}
+        />
+*/
