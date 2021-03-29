@@ -14,6 +14,7 @@ import {
   getErrorClass,
   arrayHasObjectWithPropAndValue,
 } from "../../../../helpers";
+import history from "../../../../history";
 
 import ErrorNotifications from "../../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../../Modal/Modal";
@@ -65,10 +66,17 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 };
 
 const CreateRoomModal = (props) => {
+  // URL redirect functions
+  const redirectToRoomAfterCreateCb = (name, roomType = "public") => {
+    history.push(`/chat?room=${name}&userType=user&roomType=${roomType}`);
+  };
+
   // submit handler
   const onSubmit = async (formValues) => {
     const createRoomSuccessCb = () => {
       props.onModalClose();
+      // should add the option of private rooms in the future
+      redirectToRoomAfterCreateCb(formValues.name, "public");
     };
     console.log(formValues);
     // run an action

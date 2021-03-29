@@ -13,7 +13,7 @@ const userSchema = new Schema({
   disabled: { type: Boolean, default: false },
   // active rooms/DMs
   rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: "Room" }],
-  // active_dm_channels: [{ type: mongoose.Schema.Types.ObjectId, ref: "Room" }],
+  active_dm_rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: "Room" }],
 });
 
 userSchema.plugin(mongooseFriends({ pathName: "friends" }));

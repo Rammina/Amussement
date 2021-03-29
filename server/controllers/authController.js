@@ -57,6 +57,7 @@ exports.user_load = async (req, res) => {
     const user = await User.findById(req.user.id)
       .select("-password")
       .populate("rooms");
+    // .populate("active_dm_rooms");
     // .populate("friends");
     if (!user) throw Error("User does not exist");
     User.getFriends(
@@ -75,11 +76,13 @@ exports.user_load = async (req, res) => {
             username: user.username,
             friends: friends || [],
             // rooms: user.rooms || [],
+            // active_dm_rooms: user.active_dm_rooms || [],
             email: user.email,
             image_url: user.image_url || "",
             disabled: false,
           },
           rooms: user.rooms || [],
+          // dmRooms: user.active_dm_rooms || [],
         });
       }
     );
@@ -151,6 +154,7 @@ exports.user_register = async (req, res) => {
           image_url: "",
         },
         rooms: [],
+        dmRooms: [],
       });
     } catch (e) {
       console.log(e);
@@ -170,11 +174,10 @@ exports.user_login = async (req, res) => {
   try {
     const emailLowerCase = email.toLowerCase();
     // Check for existing user
-    const user = await User.findOne({ email: emailLowerCase })
-      // .select("-password")
-      .populate("rooms");
-    // .select("-password")
-    // .populate("friends");
+    const user = await User.findOne({ email: emailLowerCase }).populate(
+      "rooms"
+    );
+    // .populate("active_dm_rooms");
     if (!user) throw Error("User does not exist.");
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -205,6 +208,7 @@ exports.user_login = async (req, res) => {
             disabled: false,
           },
           rooms: user.rooms || [],
+          // dmRooms: user.active_dm_rooms || [],
         });
       }
     );

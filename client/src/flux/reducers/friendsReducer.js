@@ -1,6 +1,7 @@
 import {
   USER_LOADED,
   LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   GET_ALL_FRIENDS_SUCCESS,
   GET_ALL_FRIENDS_FAIL,
@@ -38,6 +39,7 @@ export default (state = initialState, action) => {
     case REMOVE_FRIEND_FAIL:
       return state;
     case CLEAR_FRIENDS_LIST:
+    case LOGOUT_SUCCESS:
       return [];
     default:
       return state;

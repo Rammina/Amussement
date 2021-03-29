@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import ReactEmoji from "react-emoji";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
-
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 import DeleteMessage from "./DeleteMessage/DeleteMessage";
 import EditMessage from "./EditMessage/EditMessage";
@@ -39,8 +38,8 @@ const Message = ({ message, name, sameSenderAsPrevMsg, friends }) => {
   const [isMouseHoveredOnEdited, setIsMouseHoveredOnEdited] = useState(false);
   const [clientX, setClientX] = useState(0);
   const [clientY, setClientY] = useState(0);
-  const [editedMarkerX, setEditedMarkerX] = useState(-100);
-  const [editedMarkerY, setEditedMarkerY] = useState(-100);
+  const [editedMarkerX, setEditedMarkerX] = useState(-200);
+  const [editedMarkerY, setEditedMarkerY] = useState(-200);
   const editedMarkerRef = useRef(null);
 
   const { deleteMessage, editMessage, chatInputRef } = useContext(ChatContext);
@@ -83,8 +82,8 @@ const Message = ({ message, name, sameSenderAsPrevMsg, friends }) => {
     setIsMouseHoveredOnEdited(true);
   };
   const onMouseLeaveEditedHandler = () => {
-    setEditedMarkerX(-100);
-    setEditedMarkerY(-100);
+    setEditedMarkerX(-200);
+    setEditedMarkerY(-200);
     setIsMouseHoveredOnEdited(false);
   };
 

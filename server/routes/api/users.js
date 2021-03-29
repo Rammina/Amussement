@@ -7,7 +7,9 @@ const settings_controller = require("../../controllers/authController");
 const auth = require("../../middleware/auth");
 // nested routes
 const friendsRouter = require("./friends");
+const dmRoomsRouter = require("./dmRooms");
 router.use("/:id/friends/", friendsRouter);
+router.use("/:id/activeDmRooms/", dmRoomsRouter);
 
 // edit user settings
 // note: all of these should be patch below

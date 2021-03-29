@@ -30,6 +30,20 @@
   width: $profilePictureSize;
 }
 
+.profile-picture-inner-container.sidebar,
+.profile-picture-image.sidebar {
+  height: $profilePictureSizeSidebar;
+  width: $profilePictureSizeSidebar;
+  // border: 1px solid black;
+}
+//
+// .profile-picture-inner-container.message,
+// .profile-picture-image.message {
+//   height: $profilePictureSizeMessage;
+//   width: $profilePictureSizeMessage;
+//   // border: 1px solid black;
+// }
+
 .profile-picture-inner-container.message,
 .profile-picture-image.message {
   height: $profilePictureSizeMessage;

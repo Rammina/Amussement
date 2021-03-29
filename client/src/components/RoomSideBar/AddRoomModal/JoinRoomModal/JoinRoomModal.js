@@ -14,6 +14,7 @@ import {
   getErrorClass,
   arrayHasObjectWithPropAndValue,
 } from "../../../../helpers";
+import history from "../../../../history";
 
 import ErrorNotifications from "../../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../../Modal/Modal";
@@ -65,10 +66,16 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 };
 
 const JoinRoomModal = (props) => {
+  // URL redirect functions
+  const redirectToRoomAfterJoinCb = (name, roomType = "public") => {
+    history.push(`/chat?room=${name}&userType=user&roomType=${roomType}`);
+  };
+
   // submit handler
   const onSubmit = async (formValues) => {
     const joinRoomSuccessCb = () => {
       props.onModalClose();
+      redirectToRoomAfterJoinCb(formValues.name, "public");
     };
     console.log(formValues);
     // run an action

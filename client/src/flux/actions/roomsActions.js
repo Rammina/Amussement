@@ -62,7 +62,7 @@ export const createRoom = (formValues, successCb) => (dispatch, getState) => {
   console.log(formValues);
 
   serverRest
-    .post(`/api/rooms/`, { ...formValues, ownerId: userId })
+    .post(`/api/rooms/`, { ...formValues, senderId: userId })
     .then((res) => {
       dispatch({
         type: CREATE_ROOM_SUCCESS,

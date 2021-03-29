@@ -41,6 +41,7 @@ const AddRoomModal = (props) => {
         <button
           className="create-or-join-button"
           onClick={createRoomOnClickHandler}
+          autoFocus={true}
         >
           <span>Create a Room</span>
           <img

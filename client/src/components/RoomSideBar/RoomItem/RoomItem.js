@@ -1,6 +1,6 @@
 import "./RoomItem.scss";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -10,13 +10,18 @@ import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 import RoomContextMenu from "./RoomContextMenu/RoomContextMenu";
 
 import { leaveRoom, deleteRoom } from "../../../flux/actions/roomsActions";
+import { findPosX, findPosY } from "../../../helpers";
+import history from "../../../history";
 // import onlineIcon from "../../icons/onlineIcon.png";
 
 // import { NavContext } from "../../AppContext";
 
 const RoomItem = (props) => {
+  const roomItemRef = useRef(null);
   const [clientX, setClientX] = useState(0);
   const [clientY, setClientY] = useState(0);
+  const [roomMarkerX, setRoomMarkerX] = useState(-200);
+  const [roomMarkerY, setRoomMarkerY] = useState(-200);
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const [isSelectedRoom, setIsSelectedRoom] = useState(false);
   const [showRoomContextMenu, setShowRoomContextMenu] = useState(false);
@@ -31,6 +36,14 @@ const RoomItem = (props) => {
       // setIsSelectedRoom(false);
     };
   }, [location.search]);
+
+  useEffect(() => {
+    if (roomItemRef.current !== null) {
+      setRoomMarkerX(findPosX(roomItemRef.current));
+      setRoomMarkerY(findPosY(roomItemRef.current));
+    }
+    /*return () => {}*/
+  }, [roomItemRef.current]);
 
   let isOwnedByCurrentUser = props.room.owner === props.user._id;
 
@@ -57,7 +70,7 @@ const RoomItem = (props) => {
 
   const getSelectedClass = () => (isSelectedRoom ? "selected" : true);
 
-  const onMouseEnterHandler = () => {
+  const onMouseEnterHandler = (e) => {
     setIsMouseHovered(true);
     console.log("hovered over room");
   };
@@ -79,12 +92,19 @@ const RoomItem = (props) => {
     setClientY(e.clientY);
   };
 
+  // URL redirect functions
+  const redirectToHomeUponRemovalCb = () => {
+    // only redirect if user is in the room in the first place
+    if (!isSelectedRoom) return null;
+    history.push(`/users/${props.user._id}/home`);
+  };
+
   // room actions function handlers
 
   const leaveRoomOnClickHandler = () => {
     // do not allow leaving of room if user is the owner
     if (!isOwnedByCurrentUser) {
-      props.leaveRoom(props.room._id);
+      props.leaveRoom(props.room._id, redirectToHomeUponRemovalCb);
       // return null;
     }
     onCloseContextMenuHandler();
@@ -93,7 +113,7 @@ const RoomItem = (props) => {
   const deleteRoomOnClickHandler = () => {
     // do not allow deleting of room if user is not the owner
     if (isOwnedByCurrentUser) {
-      props.deleteRoom(props.room._id);
+      props.deleteRoom(props.room._id, redirectToHomeUponRemovalCb);
       // return null;
     }
     onCloseContextMenuHandler();
@@ -136,7 +156,7 @@ const RoomItem = (props) => {
   return (
     <React.Fragment>
       {renderRoomContextMenu()}
-      <div className="room-item-container">
+      <div className="room-item-container" ref={roomItemRef}>
         <Link
           onMouseEnter={onMouseEnterHandler}
           onMouseLeave={onMouseLeaveHandler}
@@ -151,7 +171,14 @@ const RoomItem = (props) => {
             isMouseHovered ? "show" : "hide"
           } ${getSelectedClass()}`}
         ></div>
-        <HoverMarker isShown={isMouseHovered} textContent={props.room.name} />
+        <HoverMarker
+          isShown={isMouseHovered}
+          textContent={props.room.name}
+          customStyle={{
+            left: `calc(${roomMarkerX}px + 4rem)`,
+            top: `calc(${roomMarkerY}px + 0.5rem)`,
+          }}
+        />
       </div>
     </React.Fragment>
   );

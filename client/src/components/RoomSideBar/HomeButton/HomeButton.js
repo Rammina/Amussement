@@ -2,13 +2,17 @@ import HomeImg from "../../../icons/home.png";
 
 import "./HomeButton.scss";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import queryString from "query-string";
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
+import { findPosX, findPosY } from "../../../helpers";
 
 const HomeButton = (props) => {
+  const roomItemRef = useRef(null);
+  const [roomMarkerX, setRoomMarkerX] = useState(-200);
+  const [roomMarkerY, setRoomMarkerY] = useState(-200);
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   const location = useLocation();
@@ -22,6 +26,14 @@ const HomeButton = (props) => {
       // setIsSelected(false);
     };
   }, [location.search]);
+
+  useEffect(() => {
+    if (roomItemRef.current !== null) {
+      setRoomMarkerX(findPosX(roomItemRef.current));
+      setRoomMarkerY(findPosY(roomItemRef.current));
+    }
+    /*return () => {}*/
+  }, [roomItemRef.current]);
 
   console.log(props.user);
 
@@ -48,7 +60,7 @@ const HomeButton = (props) => {
   return (
     props.user && (
       <React.Fragment>
-        <div className="room-item-container">
+        <div className="room-item-container" ref={roomItemRef}>
           <Link
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
@@ -67,7 +79,14 @@ const HomeButton = (props) => {
               isMouseHovered ? "show" : "hide"
             } ${getSelectedClass()}`}
           ></div>
-          <HoverMarker isShown={isMouseHovered} textContent="Home" />
+          <HoverMarker
+            isShown={isMouseHovered}
+            textContent="Home"
+            customStyle={{
+              left: `calc(${roomMarkerX}px + 4rem)`,
+              top: `calc(${roomMarkerY}px + 0.5rem)`,
+            }}
+          />
         </div>
       </React.Fragment>
     )

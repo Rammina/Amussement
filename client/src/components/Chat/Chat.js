@@ -15,6 +15,7 @@ import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
 
+import { addActiveDmRoom } from "../../flux/actions/dmRoomsActions";
 import { actionShowLoader } from "../../flux/actions/loaderActions";
 import {
   NavContext,
@@ -113,6 +114,27 @@ const Chat = (props) => {
         setRoom(`@${receiver}`);
         roomNameforDB = roomName;
         setRoomNameforDB(roomName);
+
+        let alreadyAddedToActive = false;
+        // create DM room (if not created yet)
+        for (let dmRoom of props.dmRooms) {
+          if (dmRoom.name === roomName) {
+            // this room has already been created, and also has been added to user active rooms
+            alreadyAddedToActive = true;
+          }
+        }
+
+        if (!alreadyAddedToActive) {
+          // this should also include adding it to the active DM rooms
+          props.addActiveDmRoom({
+            // senderId: props.user._id,
+            receiverId,
+            participants,
+            name: roomName,
+            type: "DM",
+            requires_approval: "false",
+          });
+        }
       } else {
         setRoom(room);
         roomNameforDB = room;
@@ -380,6 +402,7 @@ const Chat = (props) => {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
+  dmRooms: state.dmRooms,
   error: state.error,
   isLoading: state.auth.isLoading,
   showMessagesInitialLoader: state.loader.showMessagesInitialLoader,
@@ -387,7 +410,9 @@ const mapStateToProps = (state) => ({
   // propsInitialized: true
 });
 
-export default connect(mapStateToProps, { actionShowLoader })(Chat);
+export default connect(mapStateToProps, { actionShowLoader, addActiveDmRoom })(
+  Chat
+);
 
 // const handleResize = () => {
 //   if (!onlineUsersButtonTouched) {

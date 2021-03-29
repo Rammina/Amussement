@@ -2,19 +2,31 @@ import AddImg from "../../../icons/add.png";
 
 import "./AddRoomButton.scss";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import queryString from "query-string";
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 import AddRoomModal from "../AddRoomModal/AddRoomModal";
 
+import { findPosX, findPosY } from "../../../helpers";
+
 const AddRoomButton = (props) => {
+  const roomItemRef = useRef(null);
+  const [roomMarkerX, setRoomMarkerX] = useState(-200);
+  const [roomMarkerY, setRoomMarkerY] = useState(-200);
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   const [addRoomModalOpened, setAddRoomModalOpened] = useState(false);
   const location = useLocation();
-  console.log(location);
+
+  useEffect(() => {
+    if (roomItemRef.current !== null) {
+      setRoomMarkerX(findPosX(roomItemRef.current));
+      setRoomMarkerY(findPosY(roomItemRef.current));
+    }
+    /*return () => {}*/
+  }, [roomItemRef.current]);
 
   const getSelectedClass = () => (isSelected ? "selected" : true);
 
@@ -44,7 +56,7 @@ const AddRoomButton = (props) => {
     props.user && (
       <React.Fragment>
         {renderAddRoomModal()}
-        <div className="room-item-container">
+        <div className="room-item-container" ref={roomItemRef}>
           <button
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
@@ -63,7 +75,14 @@ const AddRoomButton = (props) => {
               isMouseHovered ? "show" : "hide"
             } ${getSelectedClass()}`}
           ></div>
-          <HoverMarker isShown={isMouseHovered} textContent="Add a Room" />
+          <HoverMarker
+            isShown={isMouseHovered}
+            textContent="Add a Room"
+            customStyle={{
+              left: `calc(${roomMarkerX}px + 4rem)`,
+              top: `calc(${roomMarkerY}px + 0.5rem)`,
+            }}
+          />
         </div>
       </React.Fragment>
     )

@@ -18,6 +18,7 @@ const RoomSideBar = (props) => {
         toUrl={`/chat?room=${room.name}&userType=user&roomType=${room.type}`}
         room={room}
         user={props.user}
+        key={room._id || i}
       />
     ));
   };

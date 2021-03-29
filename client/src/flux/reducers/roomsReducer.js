@@ -1,6 +1,7 @@
 import {
   USER_LOADED,
   LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   GET_ALL_ROOMS_SUCCESS,
   GET_ALL_ROOMS_FAIL,
@@ -50,6 +51,8 @@ export default (state = initialState, action) => {
     case JOIN_ROOM_FAIL:
     case LEAVE_ROOM_FAIL:
       return state;
+    case LOGOUT_SUCCESS:
+      return [];
     default:
       return state;
   }

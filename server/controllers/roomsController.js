@@ -2,6 +2,7 @@ require("dotenv").config();
 // import all the mongoose models
 const User = require("../models/user");
 const Room = require("../models/room");
+const Message = require("../models/message");
 
 // const { body, validationResult } = require("express-validator/check");
 // const { sanitizeBody } = require("express-validator/filter");
@@ -13,10 +14,10 @@ exports.get_all_rooms = async (req, res) => {
   console.log("retrieving rooms list");
 
   try {
-    const room = await Room.findById(req.params.id).select("rooms");
-    if (!room) throw Error("Room does not exist.");
+    const user = await User.findById(req.params.id).select("rooms");
+    if (!user) throw Error("User does not exist.");
 
-    res.status(200).json(room.rooms);
+    res.status(200).json(user.rooms);
   } catch (e) {
     console.log(e);
     res.status(400).json({ msg: e.message });
@@ -24,7 +25,14 @@ exports.get_all_rooms = async (req, res) => {
 };
 
 exports.create_room = async (req, res) => {
-  const { name, ownerId, type, requires_approval, image_url } = req.body;
+  const {
+    name,
+    senderId,
+    receiverId,
+    type,
+    requires_approval,
+    image_url,
+  } = req.body;
   let errors = [];
 
   // check if any of the following fields are empty
@@ -40,12 +48,20 @@ exports.create_room = async (req, res) => {
       const room = await Room.findOne({ name });
       if (room) throw Error("Room name already taken.");
 
+      let members = [{ user: senderId, roles: ["admin", "owner", "member"] }];
+      if (type === "DM") {
+        members = [
+          { user: senderId, roles: ["member"] },
+          { user: receiverId, roles: ["member"] },
+        ];
+      }
+
       const newRoom = new Room({
         name,
         type: type || "public",
         messages: [],
         owner: ownerId,
-        members: [{ user: ownerId, roles: ["admin", "owner", "member"] }],
+        members: members,
         image_url: image_url || "",
         requires_approval: requires_approval || false,
       });
@@ -53,7 +69,7 @@ exports.create_room = async (req, res) => {
       if (!savedRoom) throw Error("Failed to create the room.");
 
       // update the owner of the room to add the newly created room to their list of rooms
-      const owner = await User.findById(ownerId);
+      const owner = await User.findById(senderId);
       console.log("owner rooms is");
       console.log(owner);
       console.log(owner.rooms);
@@ -154,10 +170,11 @@ exports.leave_room = async (req, res) => {
       console.log(room.members);
       await room.save();
       // update the user's room list'
-      user.rooms = user.rooms.filter((room) => {
-        room._id !== roomId;
+      user.rooms = user.rooms.filter((userRoom) => {
+        // using == because one is an object and the other is a string, to allow conversion between data types
+        // so it works as intended
+        return userRoom._id != roomId;
       });
-      console.log(user.rooms);
       await user.save();
 
       res.status(200).json({
@@ -195,6 +212,10 @@ exports.delete_room = async (req, res) => {
 
       const room = await Room.findById(roomId);
       if (!room) throw Error("Unable to find that room.");
+
+      // delete all the messages that belong to this room
+      // Site.deleteMany({ userUID: uid, id: [10, 2, 3, 5]}, function(err)
+      await Message.deleteMany({ room: room.name });
       await room.remove();
       res.status(200).json({ roomId });
     } catch (e) {
