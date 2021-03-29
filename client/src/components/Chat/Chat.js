@@ -10,6 +10,7 @@ import * as constants from "../../utils/constants.js";
 
 import OnlineUsersContainer from "../OnlineUsersContainer/OnlineUsersContainer";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
+import DmRoomList from "../DmRoomList/DmRoomList";
 
 import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
@@ -365,6 +366,18 @@ const Chat = (props) => {
     chatInputRef,
   });
 
+  const renderLeftSidebarContent = () => {
+    if (roomType === "DM") {
+      return (
+        <LeftSideBar heading="Direct Messages">
+          <DmRoomList />
+        </LeftSideBar>
+      );
+    } else {
+      return <LeftSideBar heading={room}></LeftSideBar>;
+    }
+  };
+
   const renderChatContent = () => {
     // console.log(props.propsInitialized);
     console.log(messages);
@@ -376,7 +389,7 @@ const Chat = (props) => {
       return (
         <React.Fragment>
           <div className="chat sidebar-outer-container">
-            <LeftSideBar heading={room} />
+            {renderLeftSidebarContent()}
           </div>
           <div className={`chat-area-container ${getContainerClass()}`}>
             <InfoBar room={room} />

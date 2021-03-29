@@ -11,7 +11,7 @@ import serverRest from "../../apis/serverRest";
 
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
 import RoomSideBar from "../RoomSideBar/RoomSideBar";
-import ProfilePicture from "../ProfilePicture/ProfilePicture";
+import DmRoomList from "../DmRoomList/DmRoomList";
 
 import { FooterContext } from "../AppContext";
 import { getAllDmRooms } from "../../flux/actions/dmRoomsActions";
@@ -29,52 +29,13 @@ const Home = (props) => {
     props.getAllDmRooms(id);
   }, []);
 
-  const renderOpenedDmRooms = () => {
-    if (!props.user || !props.dmRooms) return null;
-    const rooms = props.dmRooms;
-
-    const getReceiverInDmRoom = (room) => {
-      for (let member of room.members) {
-        if (member.user._id !== props.user._id) {
-          return (
-            <>
-              <Link
-                to={`/chat?room=DMto${member.user._id}&userType=user&roomType=DM&receiver=${member.user.username}`}
-                className="left-sidebar-item-outer-container"
-              >
-                <ProfilePicture
-                  imageSrc={member.user.image_url || ""}
-                  componentClass={`sidebar`}
-                  // onClick={userOnClickHandler}
-                  // onContextMenu={userOnContextMenuHandler}
-                />
-                <span className="left-sidebar-item-text">
-                  {member.user.username}
-                </span>
-              </Link>
-            </>
-          );
-        }
-      }
-    };
-    return rooms.map((room) => {
-      console.log(room.name);
-      console.log(room);
-      console.log(room.members);
-      // get the user that is not the current logged in one
-
-      console.log(room);
-      return getReceiverInDmRoom(room);
-    });
-  };
-
   return (
     <React.Fragment>
       <div className="user-home-page-container">
         <div className="home sidebar-outer-container">
           {/*note: this should show all of the direct messages that are opened*/}
           <LeftSideBar heading="Direct Messages" alwaysShow={true}>
-            {renderOpenedDmRooms()}
+            <DmRoomList />
           </LeftSideBar>
         </div>
       </div>
