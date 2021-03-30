@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
-// import { removeActiveDmRoom } from "../../flux/actions/dmRoomsActions";
+import {
+  getAllDmRooms,
+  /*removeActiveDmRoom*/
+} from "../../flux/actions/dmRoomsActions";
 
 import ProfilePicture from "../ProfilePicture/ProfilePicture";
 
 const DmRoomList = (props) => {
+  const location = useLocation();
+
+  // retrieve DM rooms every time the user or the URL changes
+  const getDmRoomsHandler = () => {
+    // only get the rooms if user is logged in in the first place
+    if (props.user && props.user._id) props.getAllDmRooms(props.user._id);
+  };
+  useEffect(() => {
+    getDmRoomsHandler();
+    /*return () => {}*/
+  }, [props.user, location.search]);
+
+  // render functions
   if (!props.user || !props.dmRooms) return null;
   const rooms = props.dmRooms;
 
@@ -52,5 +68,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
+  getAllDmRooms,
   //removeActiveDmRoom
 })(DmRoomList);

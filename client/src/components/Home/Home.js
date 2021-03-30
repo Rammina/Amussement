@@ -14,7 +14,7 @@ import RoomSideBar from "../RoomSideBar/RoomSideBar";
 import DmRoomList from "../DmRoomList/DmRoomList";
 
 import { FooterContext } from "../AppContext";
-import { getAllDmRooms } from "../../flux/actions/dmRoomsActions";
+// import { getAllDmRooms } from "../../flux/actions/dmRoomsActions";
 
 // import { renderError, getErrorClass } from "../../helpers";
 
@@ -26,7 +26,7 @@ const Home = (props) => {
   useEffect(() => {
     console.log(props.match.params.id);
     setShowFooter(true);
-    props.getAllDmRooms(id);
+    // props.getAllDmRooms(id);
   }, []);
 
   return (
@@ -50,6 +50,4 @@ const mapStateToProps = (state) => ({
   error: state.error,
 });
 
-const home = connect(mapStateToProps, { getAllDmRooms })(Home);
-
-export default home;
+export default connect(mapStateToProps, {})(Home);

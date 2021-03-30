@@ -41,7 +41,6 @@ exports.get_all_dm_rooms = async (req, res) => {
 
 exports.add_active_dm_room = async (req, res) => {
   const {
-    senderId,
     receiverId,
     participants,
     name,
@@ -51,11 +50,9 @@ exports.add_active_dm_room = async (req, res) => {
   let errors = [];
 
   // check if any of the following fields are empty
-  if (!senderId) {
-    errors.push({
-      msg: "Sender ID missing. Unauthorized action. Please login.",
-    });
-  }
+  const senderId = req.params.id;
+  if (!senderId) errors.push({ msg: "Sender ID missing." });
+
   if (!receiverId) {
     errors.push({ msg: "Receiver ID missing." });
   }
@@ -88,18 +85,23 @@ exports.add_active_dm_room = async (req, res) => {
         if (!savedRoom) throw Error("Failed to create the room.");
       }
 
+      let addNothing = false;
       console.log(user.active_dm_rooms);
       for (let activeRoom of user.active_dm_rooms) {
         if (activeRoom.name === name) {
+          addNothing = true;
           // don't add any more and just return null so it doesn't change anything
           res.status(200).json(null);
         }
       }
-      const addedRoom = savedRoom || room;
-      user.active_dm_rooms = [...user.active_dm_rooms, addedRoom];
-      await user.save();
+      // note: figure out what's causing the duplicate
+      if (!addNothing) {
+        const addedRoom = savedRoom || room;
+        user.active_dm_rooms = [...user.active_dm_rooms, addedRoom];
+        await user.save();
 
-      res.status(200).json(user.active_dm_rooms);
+        res.status(200).json(user.active_dm_rooms);
+      }
     } catch (e) {
       console.log(e);
       res.status(400).json({ msg: e.message });

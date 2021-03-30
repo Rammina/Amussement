@@ -59,7 +59,7 @@ export const addActiveDmRoom = (values, successCb) => (dispatch, getState) => {
   serverRest
     .post(`/api/users/${userId}/activeDmRooms/`, {
       ...values,
-      senderId: userId,
+      // senderId: userId,
     })
     .then((res) => {
       dispatch({
