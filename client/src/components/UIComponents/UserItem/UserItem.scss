@@ -1,0 +1,17 @@
+.user-item-outer-container {
+  display: flex;
+  align-items: center;
+  // display: block;
+  width: 100%;
+  height: 2.5rem;
+  // background-color: #fff1;
+  border-radius: 5px;
+  margin-top: 0.2rem;
+  padding: 0.2rem;
+}
+
+.user-item-text {
+  width: fit-content;
+  font-size: 1.1rem;
+  // vertical-align: middle;
+}

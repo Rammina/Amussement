@@ -17,9 +17,11 @@
   z-index: 0;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
   min-width: $onlineUsersWidth;
   width: $onlineUsersWidth;
   padding: 1rem;
+  padding-bottom: 2rem;
   color: white;
   // background-color: #222;
   background-color: #232628;

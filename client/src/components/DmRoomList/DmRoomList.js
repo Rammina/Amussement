@@ -8,7 +8,7 @@ import {
   /*removeActiveDmRoom*/
 } from "../../flux/actions/dmRoomsActions";
 
-import ProfilePicture from "../ProfilePicture/ProfilePicture";
+import UserItem from "../UIComponents/UserItem/UserItem";
 
 const DmRoomList = (props) => {
   const location = useLocation();
@@ -30,24 +30,7 @@ const DmRoomList = (props) => {
   const getReceiverInDmRoom = (room) => {
     for (let member of room.members) {
       if (member.user._id !== props.user._id) {
-        return (
-          <>
-            <Link
-              to={`/chat?room=DMto${member.user._id}&userType=user&roomType=DM&receiver=${member.user.username}`}
-              className="left-sidebar-item-outer-container"
-            >
-              <ProfilePicture
-                imageSrc={member.user.image_url || ""}
-                componentClass={`sidebar`}
-                // onClick={userOnClickHandler}
-                // onContextMenu={userOnContextMenuHandler}
-              />
-              <span className="left-sidebar-item-text">
-                {member.user.username}
-              </span>
-            </Link>
-          </>
-        );
+        return <UserItem isLink={true} user={member.user} />;
       }
     }
   };

@@ -145,14 +145,9 @@ const Chat = (props) => {
 
       // if(props.propsInitialized) {
       if (props.user) {
-        const name = props.user.username || "anon";
-        console.log(name);
-        // const id = props.user._id || "";
-        const image_url = props.user.image_url || "";
-        console.log(image_url);
         socket.emit(
           "join",
-          { name, room: roomNameforDB || room, image_url },
+          { user: props.user, room: roomNameforDB || room },
           (error) => {
             if (error) {
               // send a browser alert

@@ -99,12 +99,12 @@ app.use(flash());
 // triggers when the user connects
 io.on("connect", (socket) => {
   // listen for any user join sent from the client side
-  socket.on("join", ({ name, room, messageRetrievalCount = 0 }, callback) => {
-    console.log(name + "name hello there");
-    console.log(room + "room hello there");
-    const { error, user } = addUser({
-      id: socket.id,
-      name,
+  socket.on("join", ({ user, room, messageRetrievalCount = 0 }, callback) => {
+    //const {username}
+
+    const { error, userObject } = addUser({
+      ...user,
+      socketId: socket.id,
       room,
     });
     console.log("the current users after adding are:");
@@ -113,9 +113,9 @@ io.on("connect", (socket) => {
     if (error) return callback(error);
 
     // have the user join the room
-    socket.join(user.room);
+    socket.join(userObject.room);
     // this helper function returns messages from a room
-    retrieveMessagesFromDB(user.room, messageRetrievalCount)
+    retrieveMessagesFromDB(userObject.room, messageRetrievalCount)
       .then((messages) => {
         // console.log(messages);
         // emit only works for the sender
@@ -123,9 +123,9 @@ io.on("connect", (socket) => {
       })
       .then(() => {
         // note: user joining notifications used to be here but removed because it's obnoxious
-        io.to(user.room).emit("roomData", {
-          room: user.room,
-          users: getUsersInRoom(user.room),
+        io.to(userObject.room).emit("roomData", {
+          room: userObject.room,
+          users: getUsersInRoom(userObject.room),
         });
       });
 

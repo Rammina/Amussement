@@ -6,6 +6,8 @@ import onlineIcon from "../../icons/onlineIcon.png";
 
 import { NavContext } from "../AppContext";
 
+import UserItem from "../UIComponents/UserItem/UserItem";
+
 const OnlineUsersContainer = ({ users }) => {
   const {
     onlineUsersShow,
@@ -34,6 +36,10 @@ const OnlineUsersContainer = ({ users }) => {
     };
   }, []);
 
+  useEffect(() => {
+    console.log(users);
+  }, [users]);
+
   const getContainerClass = () => {
     return onlineUsersShow ? "show" : "hide";
   };
@@ -51,14 +57,23 @@ const OnlineUsersContainer = ({ users }) => {
         {users ? (
           <div>
             <h1 className="online-users-status">Online -- {users.length}</h1>
-            <div className="activeContainer">
-              {users.map(({ name }) => (
-                <div key={name} className="activeItem">
-                  <img alt="Online Icon" src={onlineIcon} />
-                  <h2 className={`online-users-username`}>{name}</h2>
-                </div>
-              ))}
-            </div>
+            {users.map((user) => (
+              <>
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+                <UserItem isLink={false} user={user} />
+              </>
+            ))}
           </div>
         ) : null}
       </div>
@@ -69,6 +84,16 @@ const OnlineUsersContainer = ({ users }) => {
 export default OnlineUsersContainer;
 
 /*
+  <div className="activeContainer">
+              {users.map(({ username }) => (
+                <div key={username} className="activeItem">
+                  <img alt="Online Icon" src={onlineIcon} />
+                  <h2 className={`online-users-username`}>{username}</h2>
+                </div>
+              ))}
+            </div>
+
+
   const [containerTouched, setContainerTouched] = useState(false);
   const [disableTabletResizeEffects, setDisableTabletResizeEffects] = useState(
     false
