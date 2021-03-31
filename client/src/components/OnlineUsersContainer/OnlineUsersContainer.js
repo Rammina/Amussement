@@ -58,21 +58,12 @@ const OnlineUsersContainer = ({ users }) => {
           <div>
             <h1 className="online-users-status">Online -- {users.length}</h1>
             {users.map((user) => (
-              <>
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-                <UserItem isLink={false} user={user} />
-              </>
+              <UserItem
+                isLink={false}
+                user={user}
+                noCloseButton={true}
+                key={user._id}
+              />
             ))}
           </div>
         ) : null}

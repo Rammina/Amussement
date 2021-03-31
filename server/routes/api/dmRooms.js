@@ -10,6 +10,6 @@ router.get("/", dm_rooms_controller.get_all_dm_rooms);
 
 router.post("/", dm_rooms_controller.add_active_dm_room);
 
-// router.patch("/:id/leave", dm_rooms_controller.leave_room);
+router.patch("/:roomId/leave", dm_rooms_controller.remove_active_dm_room);
 
 module.exports = router;

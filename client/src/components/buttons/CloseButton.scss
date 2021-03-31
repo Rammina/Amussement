@@ -5,6 +5,21 @@
   height: 3rem;
   background-color: #0000;
 }
+.close-button-container.user-item {
+  position: absolute;
+  right: 0.4rem;
+  top: 0.4rem;
+  // top: 25%;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.close-button.user-item {
+  // position: absolute;
+  // right: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  // float: right;
+}
 
 .close-icon-img {
   background-color: #0000;
@@ -12,6 +27,11 @@
   height: 1.25rem;
   filter: invert(91%) sepia(2%) saturate(416%) hue-rotate(182deg)
     brightness(96%) contrast(96%);
+}
+
+.close-icon-img.user-item {
+  width: 0.6rem;
+  height: 0.6rem;
 }
 
 .modal-heading-container.modal-header-content-container > .close-button {

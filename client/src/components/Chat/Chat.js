@@ -16,7 +16,10 @@ import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
 
-import { addActiveDmRoom } from "../../flux/actions/dmRoomsActions";
+import {
+  addActiveDmRoom,
+  moveDmRoomToFront,
+} from "../../flux/actions/dmRoomsActions";
 import { actionShowLoader } from "../../flux/actions/loaderActions";
 import {
   NavContext,
@@ -178,6 +181,19 @@ const Chat = (props) => {
     });
   };
 
+  const handleResize = () => {
+    if (isDesktopWidth || isDesktopHeight) setShowFooter(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    // cleanup function
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     console.log("endpoint and location useEffect");
     const { userType } = queryString.parse(props.location.search);
@@ -281,7 +297,10 @@ const Chat = (props) => {
       socket.emit(
         "sendMessage",
         { message, user: props.user, room: targetRoom },
-        () => setMessage("")
+        () => {
+          props.moveDmRoomToFront(targetRoom);
+          setMessage("");
+        }
       );
     }
   };
@@ -418,9 +437,11 @@ const mapStateToProps = (state) => ({
   // propsInitialized: true
 });
 
-export default connect(mapStateToProps, { actionShowLoader, addActiveDmRoom })(
-  Chat
-);
+export default connect(mapStateToProps, {
+  actionShowLoader,
+  addActiveDmRoom,
+  moveDmRoomToFront,
+})(Chat);
 
 // const handleResize = () => {
 //   if (!onlineUsersButtonTouched) {

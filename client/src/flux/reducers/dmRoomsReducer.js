@@ -7,8 +7,10 @@ import {
   GET_ALL_ACTIVE_DM_ROOMS_FAIL,
   ADD_ACTIVE_DM_ROOM_SUCCESS,
   ADD_ACTIVE_DM_ROOM_FAIL,
+  REMOVE_ACTIVE_DM_ROOM,
   REMOVE_ACTIVE_DM_ROOM_SUCCESS,
   REMOVE_ACTIVE_DM_ROOM_FAIL,
+  MOVE_DM_ROOM_TO_FRONT,
 } from "../actions/types";
 
 const initialState = [];
@@ -26,15 +28,24 @@ export default (state = initialState, action) => {
       return [...action.payload];
     case ADD_ACTIVE_DM_ROOM_SUCCESS:
       console.log(action.payload);
-      return action.payload === null ? state : [...action.payload];
+      return action.payload === null ? state : [action.payload, ...state];
+    case REMOVE_ACTIVE_DM_ROOM:
+      return [...state].filter((room) => room._id !== action.payload);
     case REMOVE_ACTIVE_DM_ROOM_SUCCESS:
-      return [...action.payload.dmRooms];
-
+      return [...action.payload];
+    case MOVE_DM_ROOM_TO_FRONT:
+      // check if first item has the same name, if true so just return state
+      if (state.length > 0 && state[0].name === action.payload) return state;
+      // otherwise, move the room to position 0
+      const room = [...state].filter((room) => room.name === action.payload);
+      const rooms = [...state].filter((room) => room.name !== action.payload);
+      // room returns an array with one item
+      rooms.unshift(room[0]);
+      return rooms;
     case GET_ALL_ACTIVE_DM_ROOMS_FAIL:
     case ADD_ACTIVE_DM_ROOM_FAIL:
     case REMOVE_ACTIVE_DM_ROOM_FAIL:
-    // case LOGOUT_F
-    //   return state;
+      return state;
     case LOGOUT_SUCCESS:
       return [];
     default:

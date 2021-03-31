@@ -3,10 +3,7 @@ import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
-import {
-  getAllDmRooms,
-  /*removeActiveDmRoom*/
-} from "../../flux/actions/dmRoomsActions";
+import { getAllDmRooms } from "../../flux/actions/dmRoomsActions";
 
 import UserItem from "../UIComponents/UserItem/UserItem";
 
@@ -30,7 +27,14 @@ const DmRoomList = (props) => {
   const getReceiverInDmRoom = (room) => {
     for (let member of room.members) {
       if (member.user._id !== props.user._id) {
-        return <UserItem isLink={true} user={member.user} />;
+        return (
+          <UserItem
+            isLink={true}
+            user={member.user}
+            room={room}
+            key={room._id}
+          />
+        );
       }
     }
   };
@@ -52,5 +56,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getAllDmRooms,
-  //removeActiveDmRoom
 })(DmRoomList);

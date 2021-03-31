@@ -1,11 +1,35 @@
-import React, { useEffect } from "react";
+import "./UserItem.scss";
 
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
+import CloseButton from "../../buttons/CloseButton";
+
+import {
+  getAllDmRooms,
+  removeActiveDmRoom,
+} from "../../../flux/actions/dmRoomsActions";
 
 const UserItem = (props) => {
+  const renderCloseButton = () => {
+    if (props.noCloseButton || !props.room) return null;
+
+    const closeButtonOnClickHandler = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      props.removeActiveDmRoom(props.room._id);
+    };
+
+    return (
+      <CloseButton
+        componentClass="user-item"
+        onClickHandler={closeButtonOnClickHandler}
+      />
+    );
+  };
+
   const renderContent = () => {
     return (
       <>
@@ -16,10 +40,11 @@ const UserItem = (props) => {
           // onContextMenu={userOnContextMenuHandler}
         />
         <span className="user-item-text">{props.user.username}</span>
+        {renderCloseButton()}
       </>
     );
   };
-  const renderContentWrapper = () => {
+  const renderComponent = () => {
     if (props.isLink) {
       return (
         <Link
@@ -33,7 +58,7 @@ const UserItem = (props) => {
       return <div className="user-item-outer-container">{renderContent()}</div>;
     }
   };
-  return renderContentWrapper();
+  return renderComponent();
 };
 
-export default UserItem;
+export default connect(null, { removeActiveDmRoom })(UserItem);

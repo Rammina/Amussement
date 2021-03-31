@@ -11,29 +11,22 @@ import {
   GET_ALL_ACTIVE_DM_ROOMS_FAIL,
   ADD_ACTIVE_DM_ROOM_SUCCESS,
   ADD_ACTIVE_DM_ROOM_FAIL,
+  REMOVE_ACTIVE_DM_ROOM,
   REMOVE_ACTIVE_DM_ROOM_SUCCESS,
   REMOVE_ACTIVE_DM_ROOM_FAIL,
+  MOVE_DM_ROOM_TO_FRONT,
 } from "./types";
 
 export const getAllDmRooms = (id) => (dispatch, getState) => {
   console.log("getting all rooms");
+  //note: temporary solution to prevent frequent get requests (should have a way of checking if it already loaded once)
+  if (getState().dmRooms.length > 0) return null;
   const userId = id || getState().user.info._id || getState().user.info.id;
 
   serverRest
     .get(`/api/users/${userId}/activeDmRooms/`)
     .then((res) => {
       let rooms = res.data;
-      // let sortedData = null;
-      // console.log(rooms);
-      //
-      // // note: sorting should be based on date (last activity)
-      // if (typeof rooms !== "undefined" && rooms.length > 0) {
-      //   // the array is defined and has at least one element
-      //   let data = null;
-      //   console.log(rooms);
-      //   sortedData = rooms.sort(compareValues("name"));
-      //   console.log(sortedData);
-      // }
 
       dispatch({
         type: GET_ALL_ACTIVE_DM_ROOMS_SUCCESS,
@@ -91,17 +84,20 @@ export const removeActiveDmRoom = (roomId, successCb) => (
   const userId = getState().user.info._id || getState().user.info.id;
   console.log(roomId);
 
+  dispatch({
+    type: REMOVE_ACTIVE_DM_ROOM,
+    payload: roomId,
+  });
+
   // note:might want to change this to roomId in the future
   serverRest
-    .patch(`/api/users/${userId}/activeDmRooms/`, { roomId })
+    .patch(`/api/users/${userId}/activeDmRooms/${roomId}/leave`)
     .then((res) => {
-      dispatch({
-        type: REMOVE_ACTIVE_DM_ROOM_SUCCESS,
-        payload: {
-          /*note: think about should be returned from the server as payload*/
-          ...res.data,
-        },
-      });
+      // dispatch({
+      //   type: REMOVE_ACTIVE_DM_ROOM_SUCCESS,
+      //   payload: res.data,
+      // });
+
       // dispatch(getAllRooms(userId));
       // history.push(`/users/${userId}/rooms`);
       dispatch(clearErrors());
@@ -118,4 +114,18 @@ export const removeActiveDmRoom = (roomId, successCb) => (
     .finally(() => {
       // dispatch(actionShowLoader("removeRoomModalForm", false));
     });
+};
+
+export const moveDmRoomToFront = (roomName, successCb) => (dispatch) => {
+  console.log(roomName);
+
+  try {
+    dispatch({
+      type: MOVE_DM_ROOM_TO_FRONT,
+      payload: roomName,
+    });
+    if (successCb) successCb();
+  } catch (err) {
+    console.log(err);
+  }
 };

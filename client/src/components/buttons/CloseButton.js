@@ -3,14 +3,14 @@ import "./CloseButton.scss";
 
 import React, { useEffect, useContext } from "react";
 
-const CloseButton = props => {
+const CloseButton = (props) => {
   useEffect(() => {
     // code to run on first render
   }, []);
 
-  const onClickHandler = () => {
+  const onClickHandler = (e) => {
     if (props.onClickHandler) {
-      props.onClickHandler();
+      props.onClickHandler(e);
     }
   };
   const getClassName = () => (props.componentClass ? props.componentClass : "");
@@ -35,7 +35,7 @@ const CloseButton = props => {
           className={`close-button ${getClassName()} ${getHideOnMobileClass()} ${getHideOnDesktopClass()}`}
           id={`${getButtonId()}`}
           onClick={onClickHandler}
-          onKeyDown={e => {
+          onKeyDown={(e) => {
             if (e.shiftKey && e.key === "Tab") {
               e.preventDefault();
               e.stopPropagation();

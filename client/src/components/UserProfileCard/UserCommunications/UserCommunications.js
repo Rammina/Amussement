@@ -59,6 +59,7 @@ const UserCommunications = (props) => {
   return (
     <section className="user-profile-card-section-sub-container buttons-container">
       <Link
+        onClick={props.sendMessageOnClickHandler}
         to={`/chat?room=DMto${selectedUser._id}&userType=user&roomType=DM&receiver=${selectedUser.username}`}
       >
         <Button text="Message">

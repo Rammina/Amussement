@@ -6,6 +6,7 @@ import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 
 import { UserProfileCardContext, WindowContext } from "../../AppContext";
 import { addFriendWithId } from "../../../flux/actions/friendsActions";
+import { addActiveDmRoom } from "../../../flux/actions/dmRoomsActions";
 
 const UserIdentity = (props) => {
   const { selectedUser } = useContext(UserProfileCardContext);
@@ -26,9 +27,11 @@ const UserIdentity = (props) => {
       // ||notfriends
     )
       return null;
+
     if (props.connectionToUser === "accepted") {
       return (
         <Link
+          onClick={props.sendMessageOnClickHandler}
           to={`/chat?room=DMto${selectedUser._id}&userType=user&roomType=DM&receiver=${selectedUser.username}`}
         >
           <button className="user-identity-action-button">Send Message</button>

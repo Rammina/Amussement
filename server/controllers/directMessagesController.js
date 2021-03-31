@@ -40,13 +40,7 @@ exports.get_all_dm_rooms = async (req, res) => {
 };
 
 exports.add_active_dm_room = async (req, res) => {
-  const {
-    receiverId,
-    participants,
-    name,
-    type = "DM",
-    requires_approval = false,
-  } = req.body;
+  const { receiverId, name, type = "DM", requires_approval = false } = req.body;
   let errors = [];
 
   // check if any of the following fields are empty
@@ -62,10 +56,23 @@ exports.add_active_dm_room = async (req, res) => {
   } else {
     try {
       const user = await User.findById(senderId)
-        .select("active_dm_rooms")
-        .populate("active_dm_rooms");
-      if (!user) throw Error("User does not exist.");
+        .select("username image_url active_dm_rooms")
+        .populate({
+          path: "active_dm_rooms",
+          populate: [{ path: "members", populate: { path: "user" } }],
+        });
+      if (!user) throw Error("Sender does not exist.");
+      console.log(user);
+      // note: don't use spread (...) operator on mongoose document object, it will most likely break and not work as intended
+      // console.log({ ...user });
 
+      const receiver = await User.findById(receiverId).select(
+        "username image_url"
+      );
+      if (!receiver) throw Error("Sender does not exist.");
+      console.log(receiver);
+
+      // look for the room first and check if it exists
       const room = await Room.findOne({ name });
       let savedRoom = null;
       // if the room doesn't exist yet, create one on the database
@@ -94,13 +101,39 @@ exports.add_active_dm_room = async (req, res) => {
           res.status(200).json(null);
         }
       }
-      // note: figure out what's causing the duplicate
+      // add  the room as active
       if (!addNothing) {
         const addedRoom = savedRoom || room;
-        user.active_dm_rooms = [...user.active_dm_rooms, addedRoom];
-        await user.save();
+        const addedRoomObject = { ...addedRoom._doc };
+        // to make it compatible with the frontend, and make it so that the users are objects and not IDs
+        addedRoomObject.members = [
+          {
+            user: {
+              _id: user._id,
+              username: user.username,
+              image_url: user.image_url,
+            },
+            roles: ["member"],
+          },
+          {
+            user: {
+              _id: receiver._id,
+              username: receiver.username,
+              image_url: receiver.image_url,
+            },
+            roles: ["member"],
+          },
+        ];
+        console.log("132");
+        console.log(addedRoomObject.members);
+        console.log(addedRoomObject);
+        console.log([addedRoomObject]);
+        console.log(user.active_dm_rooms);
 
-        res.status(200).json(user.active_dm_rooms);
+        user.active_dm_rooms = [...user.active_dm_rooms, addedRoomObject];
+        await user.save();
+        // console.log(user.active_dm_rooms);
+        res.status(200).json(addedRoomObject);
       }
     } catch (e) {
       console.log(e);
@@ -110,7 +143,7 @@ exports.add_active_dm_room = async (req, res) => {
 };
 
 exports.remove_active_dm_room = async (req, res) => {
-  const { roomId } = req.body;
+  const roomId = req.params.roomId;
   const userId = req.params.id;
   let errors = [];
 
@@ -130,15 +163,20 @@ exports.remove_active_dm_room = async (req, res) => {
     try {
       const user = await User.findById(userId)
         .select("active_dm_rooms")
-        .populate("active_dm_rooms");
+        .populate({
+          path: "active_dm_rooms",
+          populate: [{ path: "members", populate: { path: "user" } }],
+        });
+
       if (!user) throw Error("User does not exist.");
 
       user.active_dm_rooms = user.active_dm_rooms.filter(
         (room) => room._id != roomId
       );
-
+      // note: figure out what's wrong here? I think it's the reducer
       await user.save();
-      res.status(200).json(user.active_dm_rooms);
+      res.status(200);
+      // res.status(200).json(user.active_dm_rooms);
     } catch (e) {
       console.log(e);
       res.status(400).json({ msg: e.message });

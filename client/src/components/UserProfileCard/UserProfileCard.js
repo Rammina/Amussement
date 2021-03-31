@@ -14,6 +14,7 @@ import Notes from "./Notes/Notes";
 import RemoveFriendModal from "../forms/friend/RemoveFriendModal";
 
 import { addFriendWithId } from "../../flux/actions/friendsActions";
+import { addActiveDmRoom } from "../../flux/actions/dmRoomsActions";
 import { isFriendsWithUser, getFriendStatusWithUser } from "../../helpers";
 
 import { WindowContext, UserProfileCardContext } from "../AppContext";
@@ -72,6 +73,27 @@ const UserProfileCard = (props) => {
     setConnectionToUser("requested");
   };
 
+  const sendMessageOnClickHandler = () => {
+    let alreadyAddedToActive = false;
+    let roomName = `${[props.user._id, selectedUser._id].sort().join("_")}DM`;
+    for (let dmRoom of props.dmRooms) {
+      if (dmRoom.name === roomName) {
+        // this room has already been created, and also has been added to user active rooms
+        alreadyAddedToActive = true;
+      }
+    }
+    if (!alreadyAddedToActive) {
+      props.addActiveDmRoom({
+        // senderId: props.user._id,
+        receiver: selectedUser,
+        receiverId: selectedUser._id,
+        name: roomName,
+        type: "DM",
+        requires_approval: "false",
+      });
+    }
+  };
+
   const openRemoveFriendModalHandler = () => {
     setRemoveFriendModalOpen(true);
   };
@@ -99,6 +121,7 @@ const UserProfileCard = (props) => {
         connectionToUser={connectionToUser}
         addFriend={addFriendHandler}
         openRemoveFriend={openRemoveFriendModalHandler}
+        sendMessageOnClickHandler={sendMessageOnClickHandler}
       />
     ) : null;
 
@@ -216,6 +239,7 @@ const UserProfileCard = (props) => {
                   isCurrentUser={isCurrentUser}
                   connectionToUser={connectionToUser}
                   addFriend={addFriendHandler}
+                  sendMessageOnClickHandler={sendMessageOnClickHandler}
                 />
               </section>
               {renderSectionSelectorButtons()}
@@ -243,6 +267,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   // removeFriend,
   addFriendWithId,
+  addActiveDmRoom,
 })(UserProfileCard);
 
 /*

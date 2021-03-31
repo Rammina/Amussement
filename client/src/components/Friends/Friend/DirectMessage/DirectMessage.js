@@ -12,6 +12,28 @@ import { connect } from "react-redux";
 import "./DirectMessage.scss";
 
 const DirectMessage = (props) => {
+  /*
+  const sendMessageOnClickHandler = () => {
+    let alreadyAddedToActive = false;
+    let roomName = `${[props.user._id, selectedUser._id].sort().join("_")}DM`;
+    for (let dmRoom of props.dmRooms) {
+      if (dmRoom.name === roomName) {
+        // this room has already been created, and also has been added to user active rooms
+        alreadyAddedToActive = true;
+      }
+    }
+    if (!alreadyAddedToActive) {
+      props.addActiveDmRoom({
+        // senderId: props.user._id,
+        receiver: selectedUser,
+        receiverId: selectedUser._id,
+        name: roomName,
+        type: "DM",
+        requires_approval: "false",
+      });
+    }
+  };
+  */
   return (
     <button
       className="friend-item-div-button"
