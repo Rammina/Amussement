@@ -5,6 +5,7 @@ import React, { useContext, useEffect } from "react";
 import onlineIcon from "../../icons/onlineIcon.png";
 
 import RoomSideBar from "../RoomSideBar/RoomSideBar";
+import UserStatus from "../UserStatus/UserStatus";
 
 import { NavContext, FooterContext } from "../AppContext";
 
@@ -63,8 +64,9 @@ const LeftSideBarContainer = (props) => {
       <div className={`left-sidebar-container ${getContainerClass()}`}>
         <RoomSideBar />
         <div className={`left-sidebar-room-information-outer-container`}>
-          <h1 className="left-sidebar-status">{props.heading || null}</h1>
+          <h1 className="left-sidebar-heading">{props.heading || null}</h1>
           {props.children}
+          <UserStatus />
         </div>
       </div>
     </React.Fragment>

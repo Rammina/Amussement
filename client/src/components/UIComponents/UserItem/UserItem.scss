@@ -1,3 +1,5 @@
+@import "../../../utils/variables.scss";
+
 .user-item-outer-container {
   position: relative;
   display: flex;
@@ -9,10 +11,25 @@
   border-radius: 5px;
   margin-top: 0.2rem;
   padding: 0.2rem;
+  padding-left: 0.6rem;
+  color: $textFontColorSlightDim;
+}
+
+.user-item-outer-container:hover {
+  background-color: #ffffff08;
+  color: $textFontColor;
+  cursor: pointer;
+}
+
+.user-item-outer-container.active,
+.user-item-outer-container.active:hover {
+  background-color: #fff1;
+  color: $textFontWhite;
 }
 
 .user-item-text {
   width: fit-content;
+
   font-size: 1.1rem;
   // vertical-align: middle;
 }

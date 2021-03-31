@@ -41,8 +41,11 @@
   // padding-left: calc(1 + $sidebarWidth);
 }
 
-.left-sidebar-status {
-  color: #ccc;
+.left-sidebar-heading {
+  position: relative;
+  top: 0.2rem;
+  left: 0.6rem;
+  color: $textFontColor;
   text-transform: uppercase;
   font-size: 1rem;
   padding-bottom: 0.8rem;
@@ -61,6 +64,7 @@
 
 .left-sidebar-room-information-outer-container {
   z-index: 10;
+  position: relative;
   // width: calc($sidebarWidth);
   width: 100%;
   padding: 0.5rem;

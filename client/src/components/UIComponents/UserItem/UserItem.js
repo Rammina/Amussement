@@ -3,6 +3,7 @@ import "./UserItem.scss";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import queryString from "query-string";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 import CloseButton from "../../buttons/CloseButton";
@@ -13,6 +14,12 @@ import {
 } from "../../../flux/actions/dmRoomsActions";
 
 const UserItem = (props) => {
+  const location = useLocation();
+  const { receiver } = queryString.parse(location.search);
+
+  const getActiveClass = () =>
+    receiver === props.user.username ? "active" : "";
+
   const renderCloseButton = () => {
     if (props.noCloseButton || !props.room) return null;
 
@@ -49,7 +56,7 @@ const UserItem = (props) => {
       return (
         <Link
           to={`/chat?room=DMto${props.user._id}&userType=user&roomType=DM&receiver=${props.user.username}`}
-          className="user-item-outer-container"
+          className={`user-item-outer-container ${getActiveClass()}`}
         >
           {renderContent()}
         </Link>
