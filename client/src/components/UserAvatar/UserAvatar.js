@@ -151,6 +151,7 @@ const UserAvatar = (props) => {
             id="user-avatar-image-submit"
             className="user-avatar modal-button form-button submit"
             type="submit"
+            onClick={handleSubmitFile}
           >
             {renderLoader()} Submit Image
           </button>

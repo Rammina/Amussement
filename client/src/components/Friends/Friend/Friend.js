@@ -112,9 +112,9 @@ const Friend = (props) => {
       } else if (status === "accepted") {
         return (
           <>
-            <CallButton />
+            {/* <CallButton /> */}
             {/*note:this should lead to a direct message instance/component*/}
-            <DirectMessage />
+            <DirectMessage friend={friend} />
           </>
         );
       }

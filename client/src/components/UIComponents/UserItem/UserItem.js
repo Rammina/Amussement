@@ -1,12 +1,15 @@
 import "./UserItem.scss";
 
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import queryString from "query-string";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 import CloseButton from "../../buttons/CloseButton";
+import UserProfileCard from "../../UserProfileCard/UserProfileCard";
+
+import { UserProfileCardContext } from "../../AppContext";
 
 import {
   getAllDmRooms,
@@ -15,11 +18,36 @@ import {
 } from "../../../flux/actions/dmRoomsActions";
 
 const UserItem = (props) => {
+  const [userInfoModalOpen, setUserInfoModalOpen] = useState(false);
   const location = useLocation();
   const { receiver } = queryString.parse(location.search);
 
   const getActiveClass = () =>
     receiver === props.user.username ? "active" : "";
+
+  const userItemClickHandler = () => {
+    setUserInfoModalOpen(true);
+  };
+
+  const renderUserInfoModal = () => {
+    if (!userInfoModalOpen) return null;
+
+    // get value  of UserProfileCardContext using this function
+    const getUserProfileCardContextValue = () => {
+      return { selectedUser: props.user };
+    };
+
+    return (
+      <UserProfileCardContext.Provider value={getUserProfileCardContextValue()}>
+        <UserProfileCard
+          componentClass="user-item"
+          onModalClose={() => {
+            setUserInfoModalOpen(false);
+          }}
+        />
+      </UserProfileCardContext.Provider>
+    );
+  };
 
   const renderCloseButton = () => {
     if (props.noCloseButton || !props.room) return null;
@@ -66,7 +94,17 @@ const UserItem = (props) => {
         </Link>
       );
     } else {
-      return <div className="user-item-outer-container">{renderContent()}</div>;
+      return (
+        <>
+          {renderUserInfoModal()}
+          <div
+            className="user-item-outer-container"
+            onClick={userItemClickHandler}
+          >
+            {renderContent()}
+          </div>
+        </>
+      );
     }
   };
   return renderComponent();

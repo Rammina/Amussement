@@ -22,11 +22,12 @@ const initialState = [];
 export default (state = initialState, action) => {
   switch (action.type) {
     // case USER_LOADED:
-    // case LOGIN_SUCCESS:
-    // case REGISTER_SUCCESS:
-    //   // note: should sort them by last activity
-    //   console.log(action.payload);
-    //   return [...action.payload.dmRooms];
+    case LOGIN_SUCCESS:
+    case REGISTER_SUCCESS:
+      // note: should sort them by last activity
+
+      return [];
+
     case GET_ALL_ACTIVE_DM_ROOMS_SUCCESS:
       console.log(action.payload);
       return [...action.payload];

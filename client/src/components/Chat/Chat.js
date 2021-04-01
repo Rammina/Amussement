@@ -298,7 +298,7 @@ const Chat = (props) => {
         "sendMessage",
         { message, user: props.user, room: targetRoom },
         () => {
-          props.moveDmRoomToFront(targetRoom);
+          if (roomType === "DM") props.moveDmRoomToFront(targetRoom);
           setMessage("");
         }
       );
