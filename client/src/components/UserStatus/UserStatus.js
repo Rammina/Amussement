@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import ProfilePicture from "../ProfilePicture/ProfilePicture";
 
 const UserStatus = (props) => {
-  return (
+  return props.user ? (
     <div className="user-status-outer-container">
       <div className="user-status-user-container">
         <ProfilePicture
@@ -21,7 +21,7 @@ const UserStatus = (props) => {
       </div>
       <div className="user-status-buttons-container"></div>
     </div>
-  );
+  ) : null;
 };
 
 const mapStateToProps = (state) => ({

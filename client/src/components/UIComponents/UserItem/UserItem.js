@@ -11,6 +11,7 @@ import CloseButton from "../../buttons/CloseButton";
 import {
   getAllDmRooms,
   removeActiveDmRoom,
+  removeActiveDmRoomWithName,
 } from "../../../flux/actions/dmRoomsActions";
 
 const UserItem = (props) => {
@@ -26,7 +27,10 @@ const UserItem = (props) => {
     const closeButtonOnClickHandler = (e) => {
       e.preventDefault();
       e.stopPropagation();
-      props.removeActiveDmRoom(props.room._id);
+      if (props.room._id) props.removeActiveDmRoom(props.room._id);
+      else if (props.room.name) {
+        props.removeActiveDmRoomWithName(props.room.name);
+      }
     };
 
     return (
@@ -68,4 +72,7 @@ const UserItem = (props) => {
   return renderComponent();
 };
 
-export default connect(null, { removeActiveDmRoom })(UserItem);
+export default connect(null, {
+  removeActiveDmRoom,
+  removeActiveDmRoomWithName,
+})(UserItem);

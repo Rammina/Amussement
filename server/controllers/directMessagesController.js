@@ -184,6 +184,48 @@ exports.remove_active_dm_room = async (req, res) => {
   }
 };
 
+exports.remove_active_dm_room_with_name = async (req, res) => {
+  const { name } = req.body;
+  const userId = req.params.id;
+  let errors = [];
+
+  // check if any of the following fields are empty
+  if (!userId) {
+    errors.push({
+      msg: "Sender ID missing. Unauthorized action. Please login.",
+    });
+  }
+  if (!name) {
+    errors.push({ msg: "Room name missing." });
+  }
+
+  if (errors.length > 0) {
+    res.status(400).json({ errors });
+  } else {
+    try {
+      const user = await User.findById(userId)
+        .select("active_dm_rooms")
+        .populate({
+          path: "active_dm_rooms",
+          populate: [{ path: "members", populate: { path: "user" } }],
+        });
+
+      if (!user) throw Error("User does not exist.");
+
+      user.active_dm_rooms = user.active_dm_rooms.filter(
+        (room) => room.name != name
+      );
+      // note: figure out what's wrong here? I think it's the reducer
+      await user.save();
+      res.status(200);
+      // res.status(200).json(user.active_dm_rooms);
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ msg: e.message });
+    }
+  }
+};
+
 /*
 
 

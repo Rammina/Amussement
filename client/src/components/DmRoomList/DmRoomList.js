@@ -32,7 +32,7 @@ const DmRoomList = (props) => {
             isLink={true}
             user={member.user}
             room={room}
-            key={room._id}
+            key={room._id || room.name}
           />
         );
       }

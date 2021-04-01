@@ -121,24 +121,24 @@ const Chat = (props) => {
 
         let alreadyAddedToActive = false;
         // create DM room (if not created yet)
-        for (let dmRoom of props.dmRooms) {
-          if (dmRoom.name === roomName) {
-            // this room has already been created, and also has been added to user active rooms
-            alreadyAddedToActive = true;
-          }
-        }
-
-        if (!alreadyAddedToActive) {
-          // this should also include adding it to the active DM rooms
-          props.addActiveDmRoom({
-            // senderId: props.user._id,
-            receiverId,
-            participants,
-            name: roomName,
-            type: "DM",
-            requires_approval: "false",
-          });
-        }
+        // for (let dmRoom of props.dmRooms) {
+        //   if (dmRoom.name === roomName) {
+        //     // this room has already been created, and also has been added to user active rooms
+        //     alreadyAddedToActive = true;
+        //   }
+        // }
+        //
+        // if (!alreadyAddedToActive) {
+        //   // this should also include adding it to the active DM rooms
+        //   props.addActiveDmRoom({
+        //     // senderId: props.user._id,
+        //     receiverId,
+        //     participants,
+        //     name: roomName,
+        //     type: "DM",
+        //     requires_approval: "false",
+        //   });
+        // }
       } else {
         setRoom(room);
         roomNameforDB = room;

@@ -25,7 +25,17 @@ import {
   isFriendsWithUser,
 } from "../../../helpers";
 
-const Message = ({ message, name, sameSenderAsPrevMsg, friends }) => {
+import { addActiveDmRoom } from "../../../flux/actions/dmRoomsActions";
+
+const Message = ({
+  message,
+  name,
+  sameSenderAsPrevMsg,
+  friends,
+  user,
+  dmRooms,
+  addActiveDmRoom,
+}) => {
   const [showUserContextMenu, setShowUserContextMenu] = useState(false);
   const [showMessageContextMenu, setShowMessageContextMenu] = useState(false);
   const [userInfoModalOpen, setUserInfoModalOpen] = useState(false);
@@ -117,6 +127,33 @@ const Message = ({ message, name, sameSenderAsPrevMsg, friends }) => {
   };
 
   const sendMessageOnClickHandler = () => {
+    let alreadyAddedToActive = false;
+    let roomName = `${[user._id, message.user._id].sort().join("_")}DM`;
+
+    for (let dmRoom of dmRooms) {
+      if (dmRoom.name === roomName) {
+        alreadyAddedToActive = true;
+      }
+    }
+
+    if (!alreadyAddedToActive) {
+      addActiveDmRoom({
+        // senderId: props.user._id,
+        owner: null,
+        receiver: message.user,
+        receiverId: message.user._id,
+        messages: [],
+        members: [
+          { user: user, roles: ["member"] },
+          { user: message.user, roles: ["member"] },
+        ],
+        image_url: "",
+        name: roomName,
+        type: "DM",
+        requires_approval: "false",
+      });
+    }
+
     history.push(
       `/chat?room=DMto${message.user._id}&userType=user&roomType=DM&receiver=${message.user.username}`
     );
@@ -361,6 +398,9 @@ const Message = ({ message, name, sameSenderAsPrevMsg, friends }) => {
   return renderMessage();
 };
 const mapStateToProps = (state) => ({
+  //note: pass it down normally if it causes lag
+  user: state.user.info,
   friends: state.friends,
+  dmRooms: state.dmRooms,
 });
-export default connect(mapStateToProps, {})(Message);
+export default connect(mapStateToProps, { addActiveDmRoom })(Message);

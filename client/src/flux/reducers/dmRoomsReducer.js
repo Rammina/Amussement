@@ -5,11 +5,15 @@ import {
   REGISTER_SUCCESS,
   GET_ALL_ACTIVE_DM_ROOMS_SUCCESS,
   GET_ALL_ACTIVE_DM_ROOMS_FAIL,
+  ADD_ACTIVE_DM_ROOM,
   ADD_ACTIVE_DM_ROOM_SUCCESS,
   ADD_ACTIVE_DM_ROOM_FAIL,
   REMOVE_ACTIVE_DM_ROOM,
   REMOVE_ACTIVE_DM_ROOM_SUCCESS,
   REMOVE_ACTIVE_DM_ROOM_FAIL,
+  REMOVE_ACTIVE_DM_ROOM_WITH_NAME,
+  REMOVE_ACTIVE_DM_ROOM_WITH_NAME_SUCCESS,
+  REMOVE_ACTIVE_DM_ROOM_WITH_NAME_FAIL,
   MOVE_DM_ROOM_TO_FRONT,
 } from "../actions/types";
 
@@ -26,13 +30,22 @@ export default (state = initialState, action) => {
     case GET_ALL_ACTIVE_DM_ROOMS_SUCCESS:
       console.log(action.payload);
       return [...action.payload];
+    case ADD_ACTIVE_DM_ROOM:
     case ADD_ACTIVE_DM_ROOM_SUCCESS:
       console.log(action.payload);
+      // note: this should guard for duplicates
+      for (let room of state) {
+        if (room.name === action.payload.name) return state;
+      }
       return action.payload === null ? state : [action.payload, ...state];
     case REMOVE_ACTIVE_DM_ROOM:
       return [...state].filter((room) => room._id !== action.payload);
+    case REMOVE_ACTIVE_DM_ROOM_WITH_NAME:
+      return [...state].filter((room) => room.name !== action.payload);
     case REMOVE_ACTIVE_DM_ROOM_SUCCESS:
+    case REMOVE_ACTIVE_DM_ROOM_WITH_NAME_SUCCESS:
       return [...action.payload];
+
     case MOVE_DM_ROOM_TO_FRONT:
       // check if first item has the same name, if true so just return state
       if (state.length > 0 && state[0].name === action.payload) return state;
@@ -45,6 +58,7 @@ export default (state = initialState, action) => {
     case GET_ALL_ACTIVE_DM_ROOMS_FAIL:
     case ADD_ACTIVE_DM_ROOM_FAIL:
     case REMOVE_ACTIVE_DM_ROOM_FAIL:
+    case REMOVE_ACTIVE_DM_ROOM_WITH_NAME_FAIL:
       return state;
     case LOGOUT_SUCCESS:
       return [];

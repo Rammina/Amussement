@@ -9,11 +9,15 @@ import { compareValues } from "../../helpers";
 import {
   GET_ALL_ACTIVE_DM_ROOMS_SUCCESS,
   GET_ALL_ACTIVE_DM_ROOMS_FAIL,
+  ADD_ACTIVE_DM_ROOM,
   ADD_ACTIVE_DM_ROOM_SUCCESS,
   ADD_ACTIVE_DM_ROOM_FAIL,
   REMOVE_ACTIVE_DM_ROOM,
   REMOVE_ACTIVE_DM_ROOM_SUCCESS,
   REMOVE_ACTIVE_DM_ROOM_FAIL,
+  REMOVE_ACTIVE_DM_ROOM_WITH_NAME,
+  REMOVE_ACTIVE_DM_ROOM_WITH_NAME_SUCCESS,
+  REMOVE_ACTIVE_DM_ROOM_WITH_NAME_FAIL,
   MOVE_DM_ROOM_TO_FRONT,
 } from "./types";
 
@@ -49,16 +53,27 @@ export const addActiveDmRoom = (values, successCb) => (dispatch, getState) => {
   // const roomName = values.name;
   console.log(values);
 
+  // if target user is available, add the room to frontend immediately to make it more responsive
+  if (values.receiver) {
+    dispatch({
+      type: ADD_ACTIVE_DM_ROOM,
+      payload: values,
+    });
+  }
+
   serverRest
     .post(`/api/users/${userId}/activeDmRooms/`, {
       ...values,
       // senderId: userId,
     })
     .then((res) => {
-      dispatch({
-        type: ADD_ACTIVE_DM_ROOM_SUCCESS,
-        payload: res.data,
-      });
+      // note: temporary stopgap to prevent duplicate addition
+      if (!values.receiver) {
+        dispatch({
+          type: ADD_ACTIVE_DM_ROOM_SUCCESS,
+          payload: res.data,
+        });
+      }
       // dispatch(getAllRooms(userId));
       // history.push(`/users/${userId}/rooms`);
       dispatch(clearErrors());
@@ -82,8 +97,6 @@ export const removeActiveDmRoom = (roomId, successCb) => (
   getState
 ) => {
   const userId = getState().user.info._id || getState().user.info.id;
-  console.log(roomId);
-
   dispatch({
     type: REMOVE_ACTIVE_DM_ROOM,
     payload: roomId,
@@ -116,13 +129,49 @@ export const removeActiveDmRoom = (roomId, successCb) => (
     });
 };
 
-export const moveDmRoomToFront = (roomName, successCb) => (dispatch) => {
-  console.log(roomName);
+export const removeActiveDmRoomWithName = (name, successCb) => (
+  dispatch,
+  getState
+) => {
+  const userId = getState().user.info._id || getState().user.info.id;
+  dispatch({
+    type: REMOVE_ACTIVE_DM_ROOM_WITH_NAME,
+    payload: name,
+  });
 
+  serverRest
+    .patch(`/api/users/${userId}/activeDmRooms/${name}/leave_with_name`, {
+      name,
+    })
+    .then((res) => {
+      // dispatch({
+      //   type: REMOVE_ACTIVE_DM_ROOM_SUCCESS,
+      //   payload: res.data,
+      // });
+
+      // dispatch(getAllRooms(userId));
+      // history.push(`/users/${userId}/rooms`);
+      dispatch(clearErrors());
+      if (successCb) successCb();
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(err.response);
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: REMOVE_ACTIVE_DM_ROOM_WITH_NAME_FAIL,
+      });
+    })
+    .finally(() => {
+      // dispatch(actionShowLoader("removeRoomModalForm", false));
+    });
+};
+
+export const moveDmRoomToFront = (name, successCb) => (dispatch) => {
   try {
     dispatch({
       type: MOVE_DM_ROOM_TO_FRONT,
-      payload: roomName,
+      payload: name,
     });
     if (successCb) successCb();
   } catch (err) {

@@ -41,7 +41,7 @@ const UserProfileCard = (props) => {
     setConnectionToUser(
       getFriendStatusWithUser(selectedUser._id, props.friends)
     );
-    /*
+
     for (let friend of props.friends) {
       if (friend._id === selectedUser._id) {
         //found a user with the same ID
@@ -50,7 +50,7 @@ const UserProfileCard = (props) => {
       }
     }
     setConnectionToUser(null);
-    */
+
     // note: maybe check if user is blocked once the function is implemented
   };
 
@@ -76,17 +76,25 @@ const UserProfileCard = (props) => {
   const sendMessageOnClickHandler = () => {
     let alreadyAddedToActive = false;
     let roomName = `${[props.user._id, selectedUser._id].sort().join("_")}DM`;
+
     for (let dmRoom of props.dmRooms) {
       if (dmRoom.name === roomName) {
-        // this room has already been created, and also has been added to user active rooms
         alreadyAddedToActive = true;
       }
     }
+
     if (!alreadyAddedToActive) {
       props.addActiveDmRoom({
         // senderId: props.user._id,
+        owner: null,
         receiver: selectedUser,
         receiverId: selectedUser._id,
+        messages: [],
+        members: [
+          { user: props.user, roles: ["member"] },
+          { user: selectedUser, roles: ["member"] },
+        ],
+        image_url: "",
         name: roomName,
         type: "DM",
         requires_approval: "false",
@@ -262,6 +270,7 @@ const UserProfileCard = (props) => {
 const mapStateToProps = (state) => ({
   user: state.user.info,
   friends: state.friends,
+  dmRooms: state.dmRooms,
 });
 
 export default connect(mapStateToProps, {
