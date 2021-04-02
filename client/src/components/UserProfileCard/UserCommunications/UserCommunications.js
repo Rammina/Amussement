@@ -11,6 +11,7 @@ import Button from "./Button/Button";
 
 const UserCommunications = (props) => {
   const { selectedUser } = useContext(UserProfileCardContext);
+
   const renderFriendButton = () => {
     // do not render add friend button if already friends
     if (props.connectionToUser === "accepted") return null;
@@ -60,7 +61,7 @@ const UserCommunications = (props) => {
     <section className="user-profile-card-section-sub-container buttons-container">
       <Link
         onClick={props.sendMessageOnClickHandler}
-        to={`/chat?room=DMto${selectedUser._id}&userType=user&roomType=DM&receiver=${selectedUser.username}`}
+        to={`/chat?room=${props.dmRoomName}&userType=user&roomType=DM&receiver=${selectedUser.username}`}
       >
         <Button text="Message">
           <img

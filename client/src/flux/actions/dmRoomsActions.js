@@ -101,7 +101,7 @@ export const removeActiveDmRoom = (roomId, successCb) => (
     type: REMOVE_ACTIVE_DM_ROOM,
     payload: roomId,
   });
-
+  if (successCb) successCb();
   // note:might want to change this to roomId in the future
   serverRest
     .patch(`/api/users/${userId}/activeDmRooms/${roomId}/leave`)
@@ -114,7 +114,6 @@ export const removeActiveDmRoom = (roomId, successCb) => (
       // dispatch(getAllRooms(userId));
       // history.push(`/users/${userId}/rooms`);
       dispatch(clearErrors());
-      if (successCb) successCb();
     })
     .catch((err) => {
       console.log(err);
@@ -138,7 +137,8 @@ export const removeActiveDmRoomWithName = (name, successCb) => (
     type: REMOVE_ACTIVE_DM_ROOM_WITH_NAME,
     payload: name,
   });
-
+  // there is a consistency bug in which it will show the deleted object
+  if (successCb) successCb();
   serverRest
     .patch(`/api/users/${userId}/activeDmRooms/${name}/leave_with_name`, {
       name,
@@ -152,7 +152,6 @@ export const removeActiveDmRoomWithName = (name, successCb) => (
       // dispatch(getAllRooms(userId));
       // history.push(`/users/${userId}/rooms`);
       dispatch(clearErrors());
-      if (successCb) successCb();
     })
     .catch((err) => {
       console.log(err);

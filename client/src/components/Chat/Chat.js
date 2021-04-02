@@ -112,9 +112,9 @@ const Chat = (props) => {
         setRoomType("DM");
         //note: might want to create a function for trimming DM rooms to make this cleaner
         //note: receiver should be an ID to DM to
-        let receiverId = room.substring(4);
-        let participants = [props.user._id, receiverId].sort();
-        let roomName = `${participants.join("_")}DM`;
+        // let receiverId = room.substring(4);
+        // let participants = [props.user._id, receiverId].sort();
+        let roomName = room;
         setRoom(`@${receiver}`);
         roomNameforDB = roomName;
         setRoomNameforDB(roomName);

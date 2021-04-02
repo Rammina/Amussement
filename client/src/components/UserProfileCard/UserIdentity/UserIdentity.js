@@ -1,6 +1,6 @@
 import EllipsisImg from "../../../icons/ellipsis.png";
 
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 
@@ -32,7 +32,7 @@ const UserIdentity = (props) => {
       return (
         <Link
           onClick={props.sendMessageOnClickHandler}
-          to={`/chat?room=DMto${selectedUser._id}&userType=user&roomType=DM&receiver=${selectedUser.username}`}
+          to={`/chat?room=${props.dmRoomName}&userType=user&roomType=DM&receiver=${selectedUser.username}`}
         >
           <button className="user-identity-action-button">Send Message</button>
         </Link>

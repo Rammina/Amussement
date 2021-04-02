@@ -56,7 +56,11 @@ exports.user_load = async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
       .select("-password")
-      .populate("rooms");
+      .populate("rooms")
+      .populate({
+        path: "active_dm_rooms",
+        populate: [{ path: "members", populate: { path: "user" } }],
+      });
     // .populate("active_dm_rooms");
     // .populate("friends");
     if (!user) throw Error("User does not exist");
@@ -82,7 +86,7 @@ exports.user_load = async (req, res) => {
             disabled: false,
           },
           rooms: user.rooms || [],
-          // dmRooms: user.active_dm_rooms || [],
+          dmRooms: user.active_dm_rooms || [],
         });
       }
     );
@@ -174,10 +178,12 @@ exports.user_login = async (req, res) => {
   try {
     const emailLowerCase = email.toLowerCase();
     // Check for existing user
-    const user = await User.findOne({ email: emailLowerCase }).populate(
-      "rooms"
-    );
-    // .populate("active_dm_rooms");
+    const user = await User.findOne({ email: emailLowerCase })
+      .populate("rooms")
+      .populate({
+        path: "active_dm_rooms",
+        populate: [{ path: "members", populate: { path: "user" } }],
+      });
     if (!user) throw Error("User does not exist.");
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -208,7 +214,7 @@ exports.user_login = async (req, res) => {
             disabled: false,
           },
           rooms: user.rooms || [],
-          // dmRooms: user.active_dm_rooms || [],
+          dmRooms: user.active_dm_rooms || [],
         });
       }
     );

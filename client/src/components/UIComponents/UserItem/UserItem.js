@@ -1,6 +1,6 @@
 import "./UserItem.scss";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import queryString from "query-string";
@@ -8,25 +8,104 @@ import queryString from "query-string";
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 import CloseButton from "../../buttons/CloseButton";
 import UserProfileCard from "../../UserProfileCard/UserProfileCard";
+import UserContextMenu from "../../UserContextMenu/UserContextMenu";
 
 import { UserProfileCardContext } from "../../AppContext";
 
 import {
-  getAllDmRooms,
+  // getAllDmRooms,
+  addActiveDmRoom,
   removeActiveDmRoom,
   removeActiveDmRoomWithName,
 } from "../../../flux/actions/dmRoomsActions";
 
+import history from "../../../history";
+
 const UserItem = (props) => {
   const [userInfoModalOpen, setUserInfoModalOpen] = useState(false);
+  const [showUserContextMenu, setShowUserContextMenu] = useState(false);
+  const [isMouseHoveredOnContainer, setIsMouseHoveredOnContainer] = useState(
+    false
+  );
+  const [clientX, setClientX] = useState(0);
+  const [clientY, setClientY] = useState(0);
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const [dmRoomName, setDmRoomName] = useState("");
   const location = useLocation();
-  const { receiver } = queryString.parse(location.search);
+  const { room } = queryString.parse(location.search);
 
-  const getActiveClass = () =>
-    receiver === props.user.username ? "active" : "";
+  useEffect(() => {
+    console.log(props.currentUser);
+    if (props.currentUser) {
+      setDmRoomName(
+        `${[props.currentUser._id, props.user._id].sort().join("_")}DM`
+      );
+      setIsCurrentUser(props.currentUser._id === props.user._id);
+    }
+    /*return () => {}*/
+  }, [props.currentUser]);
 
-  const userItemClickHandler = () => {
+  const getActiveClass = () => (room === props.room.name ? "active" : "");
+
+  const onCloseContextMenuHandler = () => {
+    setShowUserContextMenu(false);
+  };
+
+  const onMouseEnterContainerHandler = () => {
+    setIsMouseHoveredOnContainer(true);
+  };
+
+  const onMouseLeaveContainerHandler = () => {
+    setIsMouseHoveredOnContainer(false);
+  };
+
+  const userItemOnClickHandler = () => {
     setUserInfoModalOpen(true);
+  };
+
+  const userItemOnContextMenuHandler = (e) => {
+    if (props.user.deleted) return null;
+    e.preventDefault();
+    e.stopPropagation();
+    setShowUserContextMenu(true);
+    setClientX(e.clientX);
+    setClientY(e.clientY);
+  };
+
+  const profileOnClickHandler = () => {
+    setUserInfoModalOpen(true);
+    onCloseContextMenuHandler();
+  };
+
+  const sendMessageOnClickHandler = () => {
+    let alreadyAddedToActive = false;
+    for (let dmRoom of props.dmRooms) {
+      if (dmRoom.name === dmRoomName) {
+        alreadyAddedToActive = true;
+      }
+    }
+
+    if (!alreadyAddedToActive) {
+      props.addActiveDmRoom({
+        // senderId: props.user._id,
+        owner: null,
+        receiver: props.user,
+        receiverId: props.user._id,
+        messages: [],
+        members: [
+          { user: props.currentUser, roles: ["member"] },
+          { user: props.user, roles: ["member"] },
+        ],
+        image_url: "",
+        name: dmRoomName,
+        type: "DM",
+        requires_approval: "false",
+      });
+    }
+
+    history.push(
+      `/chat?room=${dmRoomName}&userType=user&roomType=DM&receiver=${props.user.username}`
+    );
   };
 
   const renderUserInfoModal = () => {
@@ -49,15 +128,46 @@ const UserItem = (props) => {
     );
   };
 
+  const renderUserContextMenu = () => {
+    if (!showUserContextMenu) return null;
+
+    return (
+      <UserContextMenu
+        // note: think about how to make this recyclable
+        isCurrentUser={isCurrentUser}
+        clientX={clientX}
+        clientY={clientY}
+        userId={props.user._id}
+        friends={props.friends}
+        onClose={onCloseContextMenuHandler}
+        profileOnClick={profileOnClickHandler}
+        sendMessageOnClick={sendMessageOnClickHandler}
+      />
+    );
+  };
+
   const renderCloseButton = () => {
     if (props.noCloseButton || !props.room) return null;
 
     const closeButtonOnClickHandler = (e) => {
       e.preventDefault();
       e.stopPropagation();
-      if (props.room._id) props.removeActiveDmRoom(props.room._id);
+      const removeActiveDmRoomSuccessCb = () => {
+        console.log(!room === props.room.name);
+        if (!room === props.room.name) return null;
+
+        // redirect to Home if inside DM that is being removed
+        // note: this is very wrong because this is the targeted user not a current logged in user
+        history.push(`/users/${props.currentUser._id}/home`);
+      };
+
+      if (props.room._id)
+        props.removeActiveDmRoom(props.room._id, removeActiveDmRoomSuccessCb);
       else if (props.room.name) {
-        props.removeActiveDmRoomWithName(props.room.name);
+        props.removeActiveDmRoomWithName(
+          props.room.name,
+          removeActiveDmRoomSuccessCb
+        );
       }
     };
 
@@ -87,7 +197,7 @@ const UserItem = (props) => {
     if (props.isLink) {
       return (
         <Link
-          to={`/chat?room=DMto${props.user._id}&userType=user&roomType=DM&receiver=${props.user.username}`}
+          to={`/chat?room=${dmRoomName}&userType=user&roomType=DM&receiver=${props.user.username}`}
           className={`user-item-outer-container ${getActiveClass()}`}
         >
           {renderContent()}
@@ -99,7 +209,7 @@ const UserItem = (props) => {
           {renderUserInfoModal()}
           <div
             className="user-item-outer-container"
-            onClick={userItemClickHandler}
+            onClick={userItemOnClickHandler}
           >
             {renderContent()}
           </div>
@@ -110,7 +220,13 @@ const UserItem = (props) => {
   return renderComponent();
 };
 
-export default connect(null, {
+const mapStateToProps = (state) => ({
+  currentUser: state.user.info,
+  friends: state.friends,
+});
+
+export default connect(mapStateToProps, {
   removeActiveDmRoom,
   removeActiveDmRoomWithName,
+  addActiveDmRoom,
 })(UserItem);

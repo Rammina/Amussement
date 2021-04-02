@@ -29,6 +29,14 @@ const UserProfileCard = (props) => {
   const { selectedUser, friendStatus } = useContext(UserProfileCardContext);
   const modalElement = useRef(null);
 
+  const [dmRoomName, setDmRoomName] = useState("");
+  useEffect(() => {
+    console.log(props.user);
+    if (props.user)
+      setDmRoomName(`${[props.user._id, selectedUser._id].sort().join("_")}DM`);
+    /*return () => {}*/
+  }, [props.user]);
+
   const checkIfUserIsSelf = () => {
     if (selectedUser._id === props.user._id) setIsCurrentUser(true);
   };
@@ -130,6 +138,7 @@ const UserProfileCard = (props) => {
         addFriend={addFriendHandler}
         openRemoveFriend={openRemoveFriendModalHandler}
         sendMessageOnClickHandler={sendMessageOnClickHandler}
+        dmRoomName={dmRoomName}
       />
     ) : null;
 
@@ -153,7 +162,10 @@ const UserProfileCard = (props) => {
         <React.Fragment>
           <div className="user-profile-card-outer-container" ref={modalElement}>
             <section className="user-profile-card-section-container">
-              <UserIdentity isCurrentUser={isCurrentUser} />
+              <UserIdentity
+                isCurrentUser={isCurrentUser}
+                dmRoomName={dmRoomName}
+              />
               {renderUserCommunications()}
             </section>
             <section className="user-profile-card-section-container">
@@ -248,6 +260,7 @@ const UserProfileCard = (props) => {
                   connectionToUser={connectionToUser}
                   addFriend={addFriendHandler}
                   sendMessageOnClickHandler={sendMessageOnClickHandler}
+                  dmRoomName={dmRoomName}
                 />
               </section>
               {renderSectionSelectorButtons()}

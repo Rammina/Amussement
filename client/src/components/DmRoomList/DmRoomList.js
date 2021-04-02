@@ -13,7 +13,9 @@ const DmRoomList = (props) => {
   // retrieve DM rooms every time the user or the URL changes
   const getDmRoomsHandler = () => {
     // only get the rooms if user is logged in in the first place
-    if (props.user && props.user._id) props.getAllDmRooms(props.user._id);
+    // note: has consistency bugs and it should check if it's already loaded once so it doesn't repeat anymore
+    if (props.user && props.user._id && !props.dmRooms)
+      props.getAllDmRooms(props.user._id);
   };
   useEffect(() => {
     getDmRoomsHandler();

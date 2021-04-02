@@ -24,7 +24,7 @@ const UserContextMenu = (props) => {
   let actionButtons = null;
   // sent by a friend
   if (
-    !props.isSentByCurrentUser &&
+    !props.isCurrentUser &&
     getFriendStatusWithUser(props.userId, props.friends) === "accepted"
   ) {
     actionButtons = (
@@ -44,7 +44,7 @@ const UserContextMenu = (props) => {
       </>
     );
   } else if (
-    !props.isSentByCurrentUser &&
+    !props.isCurrentUser &&
     getFriendStatusWithUser(props.userId, props.friends) === "requested"
   ) {
     actionButtons = (
@@ -58,7 +58,7 @@ const UserContextMenu = (props) => {
       </>
     );
   } else if (
-    !props.isSentByCurrentUser &&
+    !props.isCurrentUser &&
     getFriendStatusWithUser(props.userId, props.friends) === "pending"
   ) {
     actionButtons = (
@@ -73,7 +73,7 @@ const UserContextMenu = (props) => {
     );
   }
   // sent by a non-friend
-  else if (!props.isSentByCurrentUser) {
+  else if (!props.isCurrentUser) {
     actionButtons = (
       <button
         className="context-menu-button message user"

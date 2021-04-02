@@ -1,6 +1,6 @@
 import ChatIconImg from "../../../../icons/chat.png";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 // import serverRest from "../../apis/serverRest";
@@ -13,9 +13,17 @@ import { addActiveDmRoom } from "../../../../flux/actions/dmRoomsActions";
 import "./DirectMessage.scss";
 
 const DirectMessage = (props) => {
+  const [roomName, setRoomName] = useState("");
+
+  useEffect(() => {
+    if (props.user)
+      setRoomName(`${[props.user._id, props.friend._id].sort().join("_")}DM`);
+    /*return () => {}*/
+  }, [props.user]);
+
+  // let roomName = `${[props.user._id, props.friend._id].sort().join("_")}DM`;
   const sendMessageOnClickHandler = () => {
     let alreadyAddedToActive = false;
-    let roomName = `${[props.user._id, props.friend._id].sort().join("_")}DM`;
 
     for (let dmRoom of props.dmRooms) {
       if (dmRoom.name === roomName) {
@@ -44,7 +52,7 @@ const DirectMessage = (props) => {
 
   return (
     <Link
-      to={`/chat?room=DMto${props.friend._id}&userType=user&roomType=DM&receiver=${props.friend.username}`}
+      to={`/chat?room=${roomName}&userType=user&roomType=DM&receiver=${props.friend.username}`}
       className="friend-item-div-button"
       title={props.text || "Direct Message"}
       onClick={(e) => {

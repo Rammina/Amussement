@@ -18,27 +18,38 @@ import {
 } from "../actions/types";
 
 const initialState = [];
+// const initialState={retrievedAfterUserLoad: false, rooms:}
+
+const sortRoomsByLastActivity = (rooms, order = "ascending") => {
+  if (rooms >= 2) {
+    rooms.sort(function (a, b) {
+      return new Date(b.last_activity) - new Date(a.last_activity);
+    });
+    if (order === "descending") rooms.reverse();
+  }
+  return rooms;
+};
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    // case USER_LOADED:
+    case USER_LOADED:
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
       // note: should sort them by last activity
-
-      return [];
+      console.log();
+      return sortRoomsByLastActivity([...action.payload.dmRooms]);
 
     case GET_ALL_ACTIVE_DM_ROOMS_SUCCESS:
       console.log(action.payload);
       return [...action.payload];
     case ADD_ACTIVE_DM_ROOM:
     case ADD_ACTIVE_DM_ROOM_SUCCESS:
-      console.log(action.payload);
-      // note: this should guard for duplicates
       for (let room of state) {
         if (room.name === action.payload.name) return state;
       }
-      return action.payload === null ? state : [action.payload, ...state];
+      // sort by last activity
+      if (action.payload === null) return state;
+      return sortRoomsByLastActivity([action.payload, ...state]);
     case REMOVE_ACTIVE_DM_ROOM:
       return [...state].filter((room) => room._id !== action.payload);
     case REMOVE_ACTIVE_DM_ROOM_WITH_NAME:

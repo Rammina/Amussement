@@ -12,7 +12,7 @@ import EditMessage from "./EditMessage/EditMessage";
 import UserProfileCard from "../../UserProfileCard/UserProfileCard";
 import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
 import MessageContextMenu from "./MessageContextMenu/MessageContextMenu";
-import UserContextMenu from "./UserContextMenu/UserContextMenu";
+import UserContextMenu from "../../UserContextMenu/UserContextMenu";
 
 import { ChatContext, UserProfileCardContext } from "../../AppContext";
 
@@ -155,7 +155,7 @@ const Message = ({
     }
 
     history.push(
-      `/chat?room=DMto${message.user._id}&userType=user&roomType=DM&receiver=${message.user.username}`
+      `/chat?room=${roomName}&userType=user&roomType=DM&receiver=${message.user.username}`
     );
   };
 
@@ -223,7 +223,7 @@ const Message = ({
 
     return (
       <UserContextMenu
-        isSentByCurrentUser={isSentByCurrentUser}
+        isCurrentUser={isSentByCurrentUser}
         clientX={clientX}
         clientY={clientY}
         userId={message.user._id}
