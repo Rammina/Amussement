@@ -100,7 +100,7 @@ const JoinRoomModal = (props) => {
     return (
       <Modal
         componentClass="join-room"
-        headerClassName="user-settings-sidebar-header"
+        headerClassName="settings-page-sidebar-header"
         headingText="Join a Room"
         onModalClose={() => {
           props.onModalClose();

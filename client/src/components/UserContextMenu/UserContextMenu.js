@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import ContextMenu from "../../../UIComponents/ContextMenu/ContextMenu";
+import ContextMenu from "../UIComponents/ContextMenu/ContextMenu";
 
-import { getFriendStatusWithUser } from "../../../../helpers";
+import { getFriendStatusWithUser } from "../../helpers";
 import {
   addFriendWithId,
   removeFriend,
-} from "../../../../flux/actions/friendsActions";
+} from "../../flux/actions/friendsActions";
 
 const UserContextMenu = (props) => {
   const addFriendOnClickHandler = () => {
@@ -24,8 +24,10 @@ const UserContextMenu = (props) => {
   let actionButtons = null;
   // sent by a friend
   if (
-    !props.isCurrentUser &&
-    getFriendStatusWithUser(props.userId, props.friends) === "accepted"
+    props.friendStatus === "accepted" ||
+    (props.friends &&
+      !props.isCurrentUser &&
+      getFriendStatusWithUser(props.userId, props.friends) === "accepted")
   ) {
     actionButtons = (
       <>
@@ -44,8 +46,10 @@ const UserContextMenu = (props) => {
       </>
     );
   } else if (
-    !props.isCurrentUser &&
-    getFriendStatusWithUser(props.userId, props.friends) === "requested"
+    props.friendStatus === "requested" ||
+    (props.friends &&
+      !props.isCurrentUser &&
+      getFriendStatusWithUser(props.userId, props.friends) === "requested")
   ) {
     actionButtons = (
       <>
@@ -58,8 +62,10 @@ const UserContextMenu = (props) => {
       </>
     );
   } else if (
-    !props.isCurrentUser &&
-    getFriendStatusWithUser(props.userId, props.friends) === "pending"
+    props.friendStatus === "pending" ||
+    (props.friends &&
+      !props.isCurrentUser &&
+      getFriendStatusWithUser(props.userId, props.friends) === "pending")
   ) {
     actionButtons = (
       <>

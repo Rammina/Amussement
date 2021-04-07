@@ -188,6 +188,57 @@ exports.leave_room = async (req, res) => {
   }
 };
 
+exports.update_room_name = async (req, res) => {
+  const { name, roomId, userId } = req.body;
+  let errors = [];
+
+  // check if any of the following fields are empty
+  if (!name) {
+    errors.push({ msg: "Please provide a name for the room." });
+  }
+  if (!roomId) {
+    errors.push({ msg: "Please provide an ID for the room." });
+  }
+  if (!userId) {
+    errors.push({
+      msg: "Please provide an ID for the user making the request.",
+    });
+  }
+  // if there are errors, re-\ render the page but with the values that were filled in
+  // note: figure out how to send errors to thefrontend
+  if (errors.length > 0) {
+    res.status(400).json({ errors });
+  } else {
+    try {
+      let authorized = false;
+      // get the room using roomId
+      const room = await Room.findById(roomId).populate("members.user");
+      if (!room) throw Error("Unable to find that room.");
+      //  allow action if the user is the owner
+      if (room.owner == userId) authorized = true;
+      // check the members of the room and check if user is authorized to perform the action (admin)
+      for (let member of room.members) {
+        if (member.user._id == userId) {
+          for (let role of member.roles) {
+            // allow the user to update the name if they are an admin
+            if (role === "admin") authorized = true;
+          }
+        }
+      }
+      if (authorized) {
+        room.name = name;
+        await room.save();
+        res.status(200).json({ roomId, name });
+      } else {
+        throw Error("Unauthorized action.");
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ msg: e.message });
+    }
+  }
+};
+
 exports.delete_room = async (req, res) => {
   const { roomId, userId } = req.body;
   let errors = [];

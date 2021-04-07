@@ -1,10 +1,13 @@
-@import "../../utils/variables.scss";
-
-.user-settings-page-container {
+@import "../utils/variables.scss";
+// note: make this recyclable for both users and rooms
+.settings-page-window-container {
   position: relative;
+
   margin: 0;
   display: block;
   // min-heigInht: calc(100vh + 0rem);
+  min-width: 100vw;
+  min-height: 100vh;
   height: auto;
   background-color: $main-black;
   color: $textFontColor;
@@ -12,7 +15,10 @@
   overflow: hidden;
 }
 
-.user-settings-outer-flex-container {
+.settings-page-window-container.room {
+}
+
+.settings-page-outer-flex-container {
   display: flex;
   width: 100%;
   height: auto;
@@ -21,7 +27,7 @@
   padding-bottom: 5rem;
 }
 
-.user-settings-sidebar-outer-container {
+.settings-page-sidebar-outer-container {
   // display: none;
   padding-top: 3rem;
   // background-color: #333;
@@ -34,7 +40,7 @@
   // overflow: hidden;
 }
 
-#user-settings-close-button {
+#settings-page-close-button {
   display: none;
   position: relative;
   height: 3rem;
@@ -42,7 +48,7 @@
   right: 0;
 }
 
-.user-settings-sidebar-header {
+.settings-page-sidebar-header {
   // z-index: 100;
   position: fixed;
   top: 0;
@@ -57,13 +63,13 @@
   background-color: $secondary-black;
 }
 
-.user-settings-header-heading {
+.settings-page-header-heading {
   display: inline-block;
   font-size: 1.3rem;
   // height: 1.3rem;
 }
 
-#user-settings-logout-button {
+#settings-page-logout-button {
   width: 3rem;
   height: 3rem;
   background-color: #0000;
@@ -72,7 +78,7 @@
     brightness(105%) contrast(109%);
 }
 
-.user-settings-sidebar-button {
+.settings-page-sidebar-button {
   width: 100%;
   height: 3rem;
   margin-top: 0.2rem;
@@ -80,7 +86,7 @@
   font-family: $textFont;
 }
 
-.user-settings-sidebar-item {
+.settings-page-sidebar-item {
   display: flex;
   align-items: center;
   width: 100%;
@@ -94,13 +100,13 @@
   // border: 1px solid black;
 }
 
-.user-settings-sidebar-item:hover {
+.settings-page-sidebar-item:hover {
   color: $textFontColorHover;
   background-color: #ffffff0d;
   // color: rgb(255, 255, 255);
 }
 
-.user-settings-content-container {
+.settings-page-content-container {
   z-index: 2;
   // display: none;
   position: absolute;
@@ -111,7 +117,7 @@
   overflow-x: hidden;
 }
 
-.user-settings-content-header {
+.settings-page-content-header {
   z-index: 30;
   position: fixed;
   top: 0;
@@ -127,7 +133,7 @@
   background-color: $secondary-black;
 }
 
-// .user-settings-sidebar-header {
+// .settings-page-sidebar-header {
 //   display: flex;
 //   align-items: center;
 //
@@ -135,10 +141,10 @@
 //   background-color: #232628;
 // }
 
-.user-settings-section-container {
+.settings-page-section-container {
 }
 
-.user-settings-content-header-heading {
+.settings-page-content-header-heading {
   position: relative;
   right: 0.5rem;
 }
@@ -148,28 +154,28 @@
   height: 2rem;
 }
 
-#user-settings-logout-button:hover {
+#settings-page-logout-button:hover {
   filter: invert(58%) sepia(42%) saturate(481%) hue-rotate(308deg)
     brightness(93%) contrast(108%);
 }
-#user-settings-desktop-logout {
+#settings-page-desktop-logout {
   color: $dangerTextColor;
 }
-#user-settings-desktop-logout:hover {
+#settings-page-desktop-logout:hover {
   color: $dangerTextColorHover;
   background-color: #f772;
 }
 
-.close-button-container.user-settings {
+.close-button-container.settings-page {
   display: none;
 }
 
-.user-settings-sidebar-outer-container.fake {
+.settings-page-sidebar-outer-container.fake {
   display: none;
 }
 
 @media screen and (min-width: 1200px) and (min-height: 600px) {
-  .user-settings-outer-flex-container {
+  .settings-page-outer-flex-container {
     display: flex;
     width: 100%;
     height: auto;
@@ -177,19 +183,19 @@
     min-height: 100%;
     padding-bottom: 0rem;
   }
-  .user-settings-sidebar-outer-container {
+  .settings-page-sidebar-outer-container {
     z-index: 20;
     position: fixed;
     min-height: 100vh;
   }
-  .user-settings-sidebar-outer-container.fake {
+  .settings-page-sidebar-outer-container.fake {
     z-index: 0;
     display: block;
     position: relative;
     visibility: hidden;
     width: 45vw;
   }
-  .close-button-container.user-settings {
+  .close-button-container.settings-page {
     display: flex;
     position: relative;
     justify-content: center;
@@ -201,7 +207,7 @@
     height: 5rem;
   }
 
-  #user-settings-close-button {
+  #settings-page-close-button {
     // z-index: 50;
     display: block;
     /*position: fixed;
@@ -215,7 +221,7 @@
     width: 2.5rem;
     border-radius: 50%;
   }
-  #user-settings-close-button:hover {
+  #settings-page-close-button:hover {
     background-color: #fff1;
   }
   #user-setting-close-image {
@@ -223,7 +229,7 @@
     height: 1rem;
   }
 
-  #user-settings-close-label {
+  #settings-page-close-label {
     // z-index: 50;
     display: block;
     /*  position: fixed;
@@ -235,7 +241,7 @@
     font-size: 0.9rem;
     font-weight: bold;
   }
-  .user-settings-sidebar-outer-container {
+  .settings-page-sidebar-outer-container {
     display: flex;
     justify-content: flex-end;
     background-color: $secondary-black;
@@ -250,24 +256,24 @@
     // text-align: right;
     overflow: hidden;
   }
-  .user-settings-sidebar-middle-container {
+  .settings-page-sidebar-middle-container {
     max-width: 14rem;
   }
-  .user-settings-sidebar-header {
+  .settings-page-sidebar-header {
     position: relative;
     // background-color: #0000;
     margin: 0;
   }
-  .user-settings-sidebar-item,
-  .user-settings-sidebar-button {
+  .settings-page-sidebar-item,
+  .settings-page-sidebar-button {
     border-radius: 5px;
   }
-  .user-settings-sidebar-item.selected,
-  .user-settings-sidebar-item.selected:hover {
+  .settings-page-sidebar-item.selected,
+  .settings-page-sidebar-item.selected:hover {
     background-color: #ffffff15;
     color: $textFontColorHover;
   }
-  .user-settings-content-container {
+  .settings-page-content-container {
     position: relative;
     padding: 2rem;
     padding-left: 2.6rem;
@@ -277,7 +283,7 @@
     max-width: 60rem;
     // overflow-y: scroll;
   }
-  .user-settings-content-header {
+  .settings-page-content-header {
     // I think this should be replaced with a heading only
     display: none;
     //   position: relative;
@@ -293,19 +299,19 @@
 
 // double condition to ensure that sidebar size remains consistent
 @media screen and (min-width: 1200px) and (max-width: 1399px) {
-  .user-settings-sidebar-outer-container {
+  .settings-page-sidebar-outer-container {
     max-width: 16.5rem;
   }
 }
 
 @media screen and (min-width: 1600px) and (min-height: 600px) {
-  .user-settings-sidebar-outer-container.fake {
+  .settings-page-sidebar-outer-container.fake {
     width: 43vw;
   }
 }
 
 @media screen and (min-width: 1650px) and (min-height: 600px) {
-  .user-settings-sidebar-outer-container.fake {
+  .settings-page-sidebar-outer-container.fake {
     width: 33vw;
   }
 }

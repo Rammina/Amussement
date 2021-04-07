@@ -1,17 +1,16 @@
 import LogoutImg from "../../icons/logout.png";
 
-import "./UserSettings.scss";
+import "../SettingsPage.scss";
 
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
 
 import serverRest from "../../apis/serverRest";
 import history from "../../history";
 
 import UserInfo from "../UserInfo/UserInfo";
-import Footer from "../Footer/Footer";
+// import Footer from "../Footer/Footer";
 import CloseButton from "../buttons/CloseButton";
 
 import { logout } from "../../flux/actions/authActions";
@@ -79,7 +78,7 @@ const UserSettings = (props) => {
     if (isDesktopWidth) return null;
     return (
       <span>
-        <button id="user-settings-logout-button" onClick={onLogoutClick}>
+        <button id="settings-page-logout-button" onClick={onLogoutClick}>
           <img className="logout-icon-img" src={LogoutImg} alt="Logout Icon" />
         </button>
       </span>
@@ -90,13 +89,13 @@ const UserSettings = (props) => {
     if (!isDesktopWidth) return null;
     return (
       <button
-        className="user-settings-sidebar-button"
-        id="user-settings-desktop-logout-button"
+        className="settings-page-sidebar-button"
+        id="settings-page-desktop-logout-button"
         onClick={onLogoutClick}
       >
         <li
-          className={`user-settings-sidebar-item`}
-          id="user-settings-desktop-logout"
+          className={`settings-page-sidebar-item`}
+          id="settings-page-desktop-logout"
         >
           Log Out
         </li>
@@ -113,22 +112,22 @@ const UserSettings = (props) => {
 
   // render
   return (
-    <div className="user-settings-page-container">
-      <div className="user-settings-outer-flex-container">
-        <div className="user-settings-sidebar-outer-container">
-          <div className="user-settings-sidebar-middle-container">
-            <header className="user-settings-sidebar-header">
-              <h1 className="user-settings-header-heading">User Settings</h1>
+    <div className="settings-page-window-container">
+      <div className="settings-page-outer-flex-container">
+        <div className="settings-page-sidebar-outer-container">
+          <div className="settings-page-sidebar-middle-container">
+            <header className="settings-page-sidebar-header">
+              <h1 className="settings-page-header-heading">User Settings</h1>
               {renderHeaderLogOut()}
             </header>
-            <div className="user-settings-sidebar-inner-container">
-              <ul className="user-settings-sidebar-items">
+            <div className="settings-page-sidebar-inner-container">
+              <ul className="settings-page-sidebar-items">
                 {
-                  // <Link to={`users/${userId}/settings/account`} className="user-settings-sidebar-link">
+                  // <Link to={`users/${userId}/settings/account`} className="settings-page-sidebar-link">
                 }
 
                 <button
-                  className="user-settings-sidebar-button"
+                  className="settings-page-sidebar-button"
                   onClick={() => {
                     setMyAccountOpened(true);
                     setAppearanceOpened(false);
@@ -136,7 +135,7 @@ const UserSettings = (props) => {
                   }}
                 >
                   <li
-                    className={`user-settings-sidebar-item ${
+                    className={`settings-page-sidebar-item ${
                       myAccountOpened ? "selected" : ""
                     }`}
                   >
@@ -144,7 +143,7 @@ const UserSettings = (props) => {
                   </li>
                 </button>
                 <button
-                  className="user-settings-sidebar-button"
+                  className="settings-page-sidebar-button"
                   onClick={() => {
                     setMyAccountOpened(false);
                     setAppearanceOpened(true);
@@ -152,7 +151,7 @@ const UserSettings = (props) => {
                   }}
                 >
                   <li
-                    className={`user-settings-sidebar-item ${
+                    className={`settings-page-sidebar-item ${
                       appearanceOpened ? "selected" : ""
                     }`}
                   >
@@ -160,7 +159,7 @@ const UserSettings = (props) => {
                   </li>
                 </button>
                 <button
-                  className="user-settings-sidebar-button"
+                  className="settings-page-sidebar-button"
                   onClick={() => {
                     setMyAccountOpened(false);
                     setAppearanceOpened(false);
@@ -168,7 +167,7 @@ const UserSettings = (props) => {
                   }}
                 >
                   <li
-                    className={`user-settings-sidebar-item ${
+                    className={`settings-page-sidebar-item ${
                       friendsOpened ? "selected" : ""
                     }`}
                   >
@@ -180,13 +179,13 @@ const UserSettings = (props) => {
             </div>
           </div>
         </div>
-        <div className="user-settings-sidebar-outer-container fake"></div>
+        <div className="settings-page-sidebar-outer-container fake"></div>
 
         {renderSection()}
 
         {/*  <button
           className=""
-          id="user-settings-close-button"
+          id="settings-page-close-button"
           onClick={() => {
             //note: re-\ implement this because it's buggy right now
             // history.goBack();

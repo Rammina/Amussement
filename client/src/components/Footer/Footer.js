@@ -17,11 +17,18 @@ const Footer = (props) => {
   useEffect(() => {}, []);
 
   const getHomeButtonClass = () =>
-    pathname.includes("/home") || pathname.includes("/chat") ? "selected" : "";
+    (pathname.includes("/home") && pathname.includes("/users")) ||
+    pathname.includes("/chat")
+      ? "selected"
+      : "";
   const getFriendsButtonClass = () =>
-    pathname.includes("/friends") ? "selected" : "";
+    pathname.includes("/friends") && pathname.includes("/users")
+      ? "selected"
+      : "";
   const getSettingsButtonClass = () =>
-    pathname.includes("/settings") ? "selected" : "";
+    pathname.includes("/settings") && pathname.includes("/users")
+      ? "selected"
+      : "";
 
   const getShowFooterClass = () => (showFooter ? "show" : "hide");
 

@@ -102,7 +102,7 @@ const EditAccount = (props) => {
           console.log("closing edit-account modal");
           props.hideSection();
         }}
-        headerClassName="user-settings-sidebar-header"
+        headerClassName="settings-page-sidebar-header"
         headingText="Edit Account"
         actionButtons={
           <button

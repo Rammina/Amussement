@@ -72,7 +72,7 @@ const AddRoomModal = (props) => {
         <Modal
           componentClass="add-room"
           isSlideUp={true}
-          headerClassName="user-settings-sidebar-header"
+          headerClassName="settings-page-sidebar-header"
           headingText="Add a room"
           noHeader={true}
           noFooter={true}
@@ -87,7 +87,7 @@ const AddRoomModal = (props) => {
       return (
         <Modal
           componentClass="add-room"
-          headerClassName="user-settings-sidebar-header"
+          headerClassName="settings-page-sidebar-header"
           headingText="Add a room"
           // noHeader={true}
           modalId="create-or-join-modal"

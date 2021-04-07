@@ -9,6 +9,13 @@
   background-image: url("../icons/pattern.png");
 }
 
+#settings-page {
+  z-index: 90;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
 .heading-title {
   display: none;
   margin: 0;

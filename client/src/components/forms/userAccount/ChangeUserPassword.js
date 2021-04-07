@@ -110,7 +110,7 @@ const ChangeUserPassword = (props) => {
         console.log("closing change-user-password modal");
         props.hideSection();
       }}
-      headerClassName="user-settings-sidebar-header"
+      headerClassName="settings-page-sidebar-header"
       headingText={renderHeadingText()}
       actionButtons={
         <button

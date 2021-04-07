@@ -96,7 +96,7 @@ const AddFriend = (props) => {
       onModalClose={() => {
         props.onModalClose();
       }}
-      headerClassName="user-settings-sidebar-header"
+      headerClassName="settings-page-sidebar-header"
       headingText="Add Friend"
       actionButtons={
         <button

@@ -6,8 +6,8 @@ import { connect } from "react-redux";
 
 import queryString from "query-string";
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
-// import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
 import RoomContextMenu from "./RoomContextMenu/RoomContextMenu";
+import RoomSettings from "../../RoomSettings/RoomSettings";
 
 import { leaveRoom, deleteRoom } from "../../../flux/actions/roomsActions";
 import { findPosX, findPosY } from "../../../helpers";
@@ -25,6 +25,7 @@ const RoomItem = (props) => {
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const [isSelectedRoom, setIsSelectedRoom] = useState(false);
   const [showRoomContextMenu, setShowRoomContextMenu] = useState(false);
+  const [showRoomSettings, setShowRoomSettings] = useState(false);
   const location = useLocation();
   console.log(location);
   // console.log(props.location);
@@ -100,6 +101,10 @@ const RoomItem = (props) => {
   };
 
   // room actions function handlers
+  const roomSettingsOnClickHandler = () => {
+    setShowRoomSettings(true);
+    onCloseContextMenuHandler();
+  };
 
   const leaveRoomOnClickHandler = () => {
     // do not allow leaving of room if user is the owner
@@ -131,10 +136,14 @@ const RoomItem = (props) => {
         onClose={onCloseContextMenuHandler}
         leaveRoomOnClick={leaveRoomOnClickHandler}
         deleteRoomOnClick={deleteRoomOnClickHandler}
+        roomSettingsOnClick={roomSettingsOnClickHandler}
       />
     );
   };
-
+  const renderRoomSettings = () => {
+    if (!showRoomSettings) return null;
+    return <RoomSettings />;
+  };
   // const getGuestName=() => {}
   const renderItemContent = () => {
     // if there is an image, use the URL in the image tag
@@ -155,6 +164,7 @@ const RoomItem = (props) => {
 
   return (
     <React.Fragment>
+      {renderRoomSettings()}
       {renderRoomContextMenu()}
       <div className="room-item-container" ref={roomItemRef}>
         <Link

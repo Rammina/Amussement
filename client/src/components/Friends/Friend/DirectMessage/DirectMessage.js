@@ -3,12 +3,7 @@ import ChatIconImg from "../../../../icons/chat.png";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-// import serverRest from "../../apis/serverRest";
-
 import { connect } from "react-redux";
-
-// import { directMessage } from "../../../../flux/actions/friendsActions";
-import { addActiveDmRoom } from "../../../../flux/actions/dmRoomsActions";
 
 import "./DirectMessage.scss";
 
@@ -22,33 +17,6 @@ const DirectMessage = (props) => {
   }, [props.user]);
 
   // let roomName = `${[props.user._id, props.friend._id].sort().join("_")}DM`;
-  const sendMessageOnClickHandler = () => {
-    let alreadyAddedToActive = false;
-
-    for (let dmRoom of props.dmRooms) {
-      if (dmRoom.name === roomName) {
-        alreadyAddedToActive = true;
-      }
-    }
-
-    if (!alreadyAddedToActive) {
-      props.addActiveDmRoom({
-        // senderId: props.user._id,
-        owner: null,
-        receiver: props.friend,
-        receiverId: props.friend._id,
-        messages: [],
-        members: [
-          { user: props.user, roles: ["member"] },
-          { user: props.friend, roles: ["member"] },
-        ],
-        image_url: "",
-        name: roomName,
-        type: "DM",
-        requires_approval: "false",
-      });
-    }
-  };
 
   return (
     <Link
@@ -57,7 +25,7 @@ const DirectMessage = (props) => {
       title={props.text || "Direct Message"}
       onClick={(e) => {
         e.stopPropagation();
-        sendMessageOnClickHandler();
+        props.sendMessageOnClickHandler();
       }}
     >
       <img
@@ -69,12 +37,4 @@ const DirectMessage = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user.info,
-  dmRooms: state.dmRooms,
-});
-
-export default connect(mapStateToProps, {
-  // directMessage,
-  addActiveDmRoom,
-})(DirectMessage);
+export default DirectMessage;

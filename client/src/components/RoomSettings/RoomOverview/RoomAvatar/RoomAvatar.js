@@ -1,28 +1,28 @@
-import DefaultAvatarImg from "../../images/default-avatar.jpg";
+// import DefaultAvatarImg from "../../../../images/default-room-avatar.jpg";
 
-import "./UserAvatar.scss";
+import "./RoomAvatar.scss";
 
 import React, { useState, useEffect, useRef, useContext } from "react";
 import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
-import BackButton from "../buttons/BackButton";
-import CloseButton from "../buttons/CloseButton";
-import Modal from "../Modal/Modal";
+import BackButton from "../../../buttons/BackButton";
+import CloseButton from "../../../buttons/CloseButton";
+import Modal from "../../../Modal/Modal";
 
-import serverRest from "../../apis/serverRest";
-import cloudinaryRest from "../../apis/cloudinaryRest";
+// import serverRest from "../../../../apis/serverRest";
+// import cloudinaryRest from "../../../../apis/cloudinaryRest";
 
-import { actionShowLoader } from "../../flux/actions/loaderActions";
-import { editUserAvatar } from "../../flux/actions/settingsActions";
+import { actionShowLoader } from "../../../../flux/actions/loaderActions";
+// import { editRoomAvatar } from "../../../../flux/actions/settingsActions";
 
-import { WindowContext } from "../AppContext";
+import { WindowContext } from "../../../AppContext";
 
-import ProfilePicture from "../ProfilePicture/ProfilePicture";
-import LoadingSpinner from "../loaders/LoadingSpinner";
+import ProfilePicture from "../../../ProfilePicture/ProfilePicture";
+import LoadingSpinner from "../../../loaders/LoadingSpinner";
 
-const UserAvatar = (props) => {
+const RoomAvatar = (props) => {
   const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
   const [imageUploadName, setImageUploadName] = useState(null);
   const [fileInputState, setFileInputState] = useState("");
@@ -33,9 +33,9 @@ const UserAvatar = (props) => {
   //refs
   let inputImageRef = useRef(null);
   const getAvatarUrl = () => {
-    if (props.user) {
-      if (props.user.image_url) {
-        return props.user.image_url;
+    if (props.room) {
+      if (props.room.image_url) {
+        return props.room.image_url;
       }
     }
     return "";
@@ -61,7 +61,7 @@ const UserAvatar = (props) => {
   };
 
   const uploadImage = async (base64EncodedImage) => {
-    await props.editUserAvatar(base64EncodedImage, props.user._id);
+    await props.editRoomAvatar(base64EncodedImage, props.room._id);
     setImageUploadModalOpen(false);
   };
 
@@ -71,7 +71,7 @@ const UserAvatar = (props) => {
     if (!previewSource) {
       return;
     }
-    props.actionShowLoader("uploadUserAvatarForm", true);
+    props.actionShowLoader("uploadRoomAvatarForm", true);
     uploadImage(previewSource);
   };
 
@@ -87,7 +87,7 @@ const UserAvatar = (props) => {
       return ReactDOM.createPortal(
         <React.Fragment>
           <Modal
-            componentClass="user-avatar"
+            componentClass="room-avatar"
             onModalClose={() => {
               console.log("this is automatically closing");
               setImageUploadModalOpen(false);
@@ -96,23 +96,23 @@ const UserAvatar = (props) => {
             headingText="Upload Avatar"
           >
             <form encType="multipart/form-data" onSubmit={handleSubmitFile}>
-              <div className={`user-avatar modal-content-container`}>
+              <div className={`room-avatar modal-content-container`}>
                 {previewSource && (
                   <img
-                    id="user-avatar-preview-image"
+                    id="room-avatar-preview-image"
                     src={previewSource}
                     alt="Chosen Image"
                   />
                 )}
-                <p className="user-avatar modal-paragraph">{imageUploadName}</p>
+                <p className="room-avatar modal-paragraph">{imageUploadName}</p>
 
                 <div
                   className="two-buttons-container"
-                  id="user-avatar-buttons-container"
+                  id="room-avatar-buttons-container"
                 >
                   <button
-                    id="user-avatar-image-cancel"
-                    className="user-avatar modal-button cancel-button hide-on-mobile"
+                    id="room-avatar-image-cancel"
+                    className="room-avatar modal-button cancel-button hide-on-mobile"
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
@@ -122,8 +122,8 @@ const UserAvatar = (props) => {
                     Cancel
                   </button>
                   <button
-                    id="user-avatar-image-submit"
-                    className="user-avatar modal-button form-button submit"
+                    id="room-avatar-image-submit"
+                    className="room-avatar modal-button form-button submit"
                     type="submit"
                   >
                     {renderLoader()} Submit Image
@@ -139,7 +139,7 @@ const UserAvatar = (props) => {
     // otherwise, render the desktop version
     return ReactDOM.createPortal(
       <Modal
-        componentClass="user-avatar"
+        componentClass="room-avatar"
         onModalClose={() => {
           console.log("this is automatically closing");
           setImageUploadModalOpen(false);
@@ -148,8 +148,8 @@ const UserAvatar = (props) => {
         headingText="Upload Avatar"
         actionButtons={
           <button
-            id="user-avatar-image-submit"
-            className="user-avatar modal-button form-button submit"
+            id="room-avatar-image-submit"
+            className="room-avatar modal-button form-button submit"
             type="submit"
             onClick={handleSubmitFile}
           >
@@ -158,15 +158,15 @@ const UserAvatar = (props) => {
         }
       >
         <form encType="multipart/form-data" onSubmit={handleSubmitFile}>
-          <div className={`user-avatar modal-content-container`}>
+          <div className={`room-avatar modal-content-container`}>
             {previewSource && (
               <img
-                id="user-avatar-preview-image"
+                id="room-avatar-preview-image"
                 src={previewSource}
                 alt="Chosen Image"
               />
             )}
-            <p className="user-avatar modal-paragraph">{imageUploadName}</p>
+            <p className="room-avatar modal-paragraph">{imageUploadName}</p>
           </div>
         </form>
       </Modal>,
@@ -175,23 +175,23 @@ const UserAvatar = (props) => {
   };
 
   return (
-    <div className="" id="user-avatar-change-container">
+    <div className="" id="room-avatar-change-container">
       <form
-        id="user-avatar-form"
+        id="room-avatar-form"
         encType="multipart/form-data"
         onSubmit={handleSubmitFile}
       >
         <label
-          htmlFor="user-avatar-upload"
+          htmlFor="room-avatar-upload"
           className=""
-          id="user-avatar-upload-label"
+          id="room-avatar-upload-label"
         >
-          Change Avatar
+          Change Room Avatar
         </label>
         <input
           ref={inputImageRef}
           type="file"
-          id="user-avatar-upload"
+          id="room-avatar-upload"
           name="profile-avatar"
           accept="image/*"
           value={fileInputState}
@@ -207,7 +207,7 @@ const UserAvatar = (props) => {
 
       <ProfilePicture
         imageSrc={`${getAvatarUrl()}` || DefaultAvatarImg}
-        componentClass="user-avatar"
+        componentClass="room-avatar"
       />
     </div>
   );
@@ -215,12 +215,12 @@ const UserAvatar = (props) => {
 const mapStateToProps = (state) => ({
   user: state.user.info,
   error: state.error,
-  showLoader: state.loader.showUploadUserAvatarFormLoader,
+  showLoader: state.loader.showUploadRoomAvatarFormLoader,
 });
 
-const userAvatar = connect(mapStateToProps, {
-  editUserAvatar,
+const roomAvatar = connect(mapStateToProps, {
+  editRoomAvatar,
   actionShowLoader,
-})(UserAvatar);
+})(RoomAvatar);
 
-export default userAvatar;
+export default roomAvatar;

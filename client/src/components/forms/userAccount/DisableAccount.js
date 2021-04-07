@@ -96,7 +96,7 @@ const DisableAccount = (props) => {
           console.log("closing disable-account modal");
           props.hideSection();
         }}
-        headerClassName="user-settings-sidebar-header"
+        headerClassName="settings-page-sidebar-header"
         headingText="Disable Account"
         actionButtons={
           <button

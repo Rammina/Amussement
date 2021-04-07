@@ -22,12 +22,20 @@ const RoomContextMenu = (props) => {
   // owner of the room
   if (props.isOwnedByCurrentUser) {
     actionButtons = (
-      <button
-        className="context-menu-button room danger"
-        onClick={props.deleteRoomOnClick}
-      >
-        <span>Delete Room</span>
-      </button>
+      <>
+        <button
+          className="context-menu-button room"
+          onClick={props.roomSettingsOnClick}
+        >
+          <span>Room Settings</span>
+        </button>
+        <button
+          className="context-menu-button room danger"
+          onClick={props.deleteRoomOnClick}
+        >
+          <span>Delete Room</span>
+        </button>
+      </>
     );
   } else if (!props.isOwnedByCurrentUser) {
     actionButtons = (

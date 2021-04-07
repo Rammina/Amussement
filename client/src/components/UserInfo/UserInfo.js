@@ -53,11 +53,11 @@ const UserInfo = (props) => {
       <div className="my-account-section-heading-container desktop">
         <h1 className="my-account-section-heading desktop">My Account</h1>
         <CloseButton
-          componentClass="user-settings"
-          buttonId="user-settings-close-button"
+          componentClass="settings-page"
+          buttonId="settings-page-close-button"
           imageId="user-setting-close-image"
           buttonLabel={
-            <span className="close-button-label" id="user-settings-close-label">
+            <span className="close-button-label" id="settings-page-close-label">
               esc
             </span>
           }
@@ -196,12 +196,12 @@ const UserInfo = (props) => {
   // render
   return (
     props.user && (
-      <div className="user-settings-content-container">
+      <div className="settings-page-content-container">
         {renderDesktopHeading()}
         {renderSection()}
 
         <div className="my-account-section-container profile-outer-container">
-          <div className="user-settings-content-header">
+          <div className="settings-page-content-header">
             <BackButton
               componentClass="my-account"
               buttonId="my-account-back-button"
@@ -211,7 +211,7 @@ const UserInfo = (props) => {
 
             <h1
               id="my-account-section-heading"
-              className="user-settings-content-header-heading"
+              className="settings-page-content-header-heading"
             >
               My Account
             </h1>

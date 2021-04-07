@@ -101,7 +101,7 @@ const CreateRoomModal = (props) => {
     return (
       <Modal
         componentClass="create-room"
-        headerClassName="user-settings-sidebar-header"
+        headerClassName="settings-page-sidebar-header"
         headingText="Create a Room"
         onModalClose={() => {
           props.onModalClose();

@@ -13,6 +13,7 @@ import Login from "./Login/Login";
 import Home from "./Home/Home";
 import Friends from "./Friends/Friends";
 import UserSettings from "./UserSettings/UserSettings";
+import RoomSettings from "./RoomSettings/RoomSettings";
 import Footer from "./Footer/Footer";
 
 import { NavContext, FooterContext, WindowContext } from "./AppContext";
@@ -154,8 +155,8 @@ const App = (props) => {
         <Route path="/" exact component={Join} />
         <Route path="/auth/register" exact component={Register} />
         <Route path="/auth/login" exact component={Login} />
-
         <Route path="/users/:id/settings" component={UserSettings} />
+        {/*<Route path="/rooms/:id/settings" component={RoomSettings} />*/}
         {/*note: try to figure out a way to make this one work when selecting/clicking a friend*/}
         <Route path="/users/:id/friends" component={Friends} />
         <FooterContext.Provider value={getFooterContextValue()}>

@@ -1,0 +1,286 @@
+@import "../../../utils/variables.scss";
+
+#room-container,
+#room-buttons-container {
+  max-width: 25rem;
+  margin: 1rem auto;
+}
+
+.room-overview-content-container {
+  z-index: 2;
+  // display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 0;
+  background-color: $main-black;
+}
+
+// #room-overview-back-button {
+//   position: relative;
+//   right: 0.8rem;
+// }
+.room-overview-section-container {
+  position: relative;
+  padding: 1rem;
+}
+
+.room-container {
+  display: flex;
+  // justify-content: center;
+  margin: 0 0.7rem;
+  margin-top: 4rem;
+  overflow: visible;
+}
+
+#room-large-image-container {
+  display: inline-block;
+
+  width: $profilePictureSize;
+  height: $profilePictureSize;
+}
+
+#user-large-image {
+  opacity: 1;
+  z-index: 20;
+  display: inline-block;
+  // background-color: pink;
+  width: $profilePictureSize;
+  height: $profilePictureSize;
+  border-radius: 50%;
+}
+
+#room-information-container {
+  margin-left: 1rem;
+  position: relative;
+  // left: 0.5rem;
+}
+
+.room-information {
+  // display: inline-block;
+  width: fit-content;
+  padding-right: 1rem;
+  // margin: 0;
+  font-size: 1.15rem;
+  word-break: break-word;
+}
+
+#room-email {
+  font-size: 1rem;
+  color: $textFontColorDim;
+}
+
+.room-information.label {
+  display: none;
+}
+
+#room-buttons-container {
+  justify-content: center;
+  max-width: none;
+  // margin-top: 1.5rem;
+}
+
+.room-button {
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  height: 2.8rem;
+  width: 44%;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  background-color: $light-mint;
+  font-family: $textFont;
+  font-size: 1.05rem;
+  // margin-left
+}
+
+.room-button:hover {
+  background-color: $light-mint-hover;
+}
+
+.account-management-items {
+  margin-top: 0.7rem;
+}
+
+.account-management-button {
+  width: 100%;
+  height: 3rem;
+  margin-top: 0.2rem;
+  background-color: #0000;
+  font-family: "Roboto", sans-serif;
+}
+.account-management-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 3rem;
+  vertical-align: middle;
+  text-align: left;
+  padding-left: 0.5rem;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  color: $textFontColor;
+}
+.account-management-item:hover {
+  color: $textFontColorHover;
+  background-color: #ffffff0d;
+  // color: rgb(255, 255, 255);
+}
+
+#delete-account-button-item {
+  color: $dangerTextColor;
+}
+
+#delete-account-button-item:hover {
+  color: $dangerTextColorHover;
+  background-color: #f772;
+}
+
+#account-management-section-container {
+  padding-bottom: 4rem;
+}
+
+@media screen and (min-width: 450px) and (min-height: 350px) {
+  .room-overview-section-container {
+    position: relative;
+    top: 4rem;
+
+    // border: 1px solid white;
+    width: 85%;
+    max-width: 35rem;
+    margin: 0 auto;
+    padding-left: 0;
+  }
+  .room-overview-section-container.mt-1-r {
+    margin-top: 1rem;
+  }
+  .room-overview.section-heading {
+    position: relative;
+    // right: 1rem;
+  }
+
+  .room-info-outer-container {
+    // background-color: #292b2f;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .room-container {
+    margin: 0 1rem;
+    margin-left: 0.5rem;
+  }
+  #room-information-container {
+    // left: 1.5rem;
+    top: 0.3rem;
+  }
+  .room-information {
+    font-size: 1.25rem;
+    margin-top: 0.15rem;
+  }
+}
+@media screen and (min-width: 600px) and (min-height: 350px) {
+  .room-container {
+    // margin: 0 1rem;
+    margin-left: 0.8rem;
+  }
+}
+
+@media screen and (min-width: 700px) and (min-height: 400px) {
+  .room-container {
+    justify-content: flex-start;
+    margin-left: 1rem;
+  }
+}
+
+@media screen and (min-width: 750px) and (min-height: 450px) {
+  .room-overview-section-container {
+    // display: flex;
+    padding: 1.5rem;
+    width: 80%;
+    max-width: 38rem;
+  }
+  .room-overview-section-container.mt-1-r {
+    margin-top: 1rem;
+  }
+  .room-container {
+  }
+  #room-information-container {
+    // margin-left: 1.5rem;
+  }
+
+  #room-buttons-container {
+    margin-top: 1.75rem;
+  }
+  .room-information.label:first-child {
+    margin-top: 0;
+  }
+  .room-information.label {
+    display: block;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    color: $textFontColorDim;
+  }
+  #room-email {
+    color: $textFontColor;
+  }
+  #room-change-password-button {
+    // margin-left: 2.5rem;
+  }
+}
+
+@media screen and (min-width: 1200px) and (min-height: 600px) {
+  .room-overview-section-container {
+    // display: flex;
+    margin: 0;
+    top: 0;
+    width: 85%;
+    max-width: 40rem;
+  }
+  .room-overview-section-container.mt-1-r {
+    margin-top: 1rem;
+  }
+  .room-overview-section-heading-container.desktop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 45rem;
+  }
+  .room-overview-section-heading.desktop {
+    padding: 1rem 0;
+    padding-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  #account-management-section-container {
+    padding-bottom: 6rem;
+  }
+  .room-container {
+  }
+  .room-information-container {
+  }
+
+  #room-buttons-container {
+    width: 100%;
+    max-width: none;
+  }
+  .account-management.two-buttons-container {
+    justify-content: flex-start;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .account-management-button {
+    width: fit-content;
+    height: 3rem;
+    background-color: $dangerBackgroundColor;
+    color: $textFontWhite;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  .account-management-button:hover {
+    background-color: $dangerBackgroundColorHover;
+  }
+  #delete-account-button {
+    margin-left: 1rem;
+  }
+}

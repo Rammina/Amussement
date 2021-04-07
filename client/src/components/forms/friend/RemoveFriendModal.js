@@ -104,7 +104,7 @@ const RemoveFriendModal = (props) => {
           console.log("closing remove-friend modal");
           props.onModalClose();
         }}
-        headerClassName="user-settings-sidebar-header"
+        headerClassName="settings-page-sidebar-header"
         headingText={renderHeadingText()}
         actionButtons={
           <button

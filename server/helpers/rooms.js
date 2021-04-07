@@ -23,4 +23,13 @@ const updateRoomLastActivityUsingName = async (name) => {
   }
 };
 
-module.exports = { updateRoomLastActivity, updateRoomLastActivityUsingName };
+const updateRoomName = async (room, name) => {
+  room.name = name;
+  await room.save();
+};
+
+module.exports = {
+  updateRoomLastActivity,
+  updateRoomLastActivityUsingName,
+  updateRoomName,
+};

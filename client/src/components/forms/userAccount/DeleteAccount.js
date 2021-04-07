@@ -91,7 +91,7 @@ const DeleteAccount = (props) => {
           console.log("closing delete-account modal");
           props.hideSection();
         }}
-        headerClassName="user-settings-sidebar-header"
+        headerClassName="settings-page-sidebar-header"
         headingText="Delete Account"
         actionButtons={
           <button

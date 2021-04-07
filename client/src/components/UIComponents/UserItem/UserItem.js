@@ -196,20 +196,26 @@ const UserItem = (props) => {
   const renderComponent = () => {
     if (props.isLink) {
       return (
-        <Link
-          to={`/chat?room=${dmRoomName}&userType=user&roomType=DM&receiver=${props.user.username}`}
-          className={`user-item-outer-container ${getActiveClass()}`}
-        >
-          {renderContent()}
-        </Link>
+        <>
+          {renderUserContextMenu()}
+          <Link
+            to={`/chat?room=${dmRoomName}&userType=user&roomType=DM&receiver=${props.user.username}`}
+            className={`user-item-outer-container ${getActiveClass()}`}
+            onContextMenu={userItemOnContextMenuHandler}
+          >
+            {renderContent()}
+          </Link>
+        </>
       );
     } else {
       return (
         <>
           {renderUserInfoModal()}
+          {renderUserContextMenu()}
           <div
             className="user-item-outer-container"
             onClick={userItemOnClickHandler}
+            onContextMenu={userItemOnContextMenuHandler}
           >
             {renderContent()}
           </div>

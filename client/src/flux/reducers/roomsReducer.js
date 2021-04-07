@@ -15,6 +15,8 @@ import {
   JOIN_ROOM_FAIL,
   LEAVE_ROOM_SUCCESS,
   LEAVE_ROOM_FAIL,
+  UPDATE_ROOM_NAME_SUCCESS,
+  UPDATE_ROOM_NAME_FAIL,
 } from "../actions/types";
 
 const initialState = [];
@@ -37,6 +39,16 @@ export default (state = initialState, action) => {
       return [...state, action.payload.room];
     case LEAVE_ROOM_SUCCESS:
       return [...action.payload.rooms];
+    case UPDATE_ROOM_NAME_SUCCESS:
+      // note: this should update that specific room in the list of rooms without displacing it
+      // try at finding it using ID and then changing its value using the action.payload
+      return state.map((room) => {
+        if (room._id === action.payload.roomId) {
+          room.name = action.payload.name;
+        }
+        return room;
+      });
+    // return ;
     case DELETE_ROOM_SUCCESS:
       return [...state].filter((room) => room._id !== action.payload.roomId);
     // case REMOVE_ROOM_SUCCESS:

@@ -15,14 +15,33 @@ import RemoveFriendModal from "../../forms/friend/RemoveFriendModal";
 import CallButton from "./CallButton/CallButton";
 import DirectMessage from "./DirectMessage/DirectMessage";
 import UserProfileCard from "../../UserProfileCard/UserProfileCard";
-
+import UserContextMenu from "../../UserContextMenu/UserContextMenu";
 import { UserProfileCardContext } from "../../AppContext";
 
+import { addActiveDmRoom } from "../../../flux/actions/dmRoomsActions";
+import history from "../../../history";
 // import { renderError, getErrorClass } from "../../helpers";
 
 const Friend = (props) => {
+  const [clientX, setClientX] = useState(0);
+  const [clientY, setClientY] = useState(0);
+  const [showUserContextMenu, setShowUserContextMenu] = useState(false);
+  const [isMouseHoveredOnContainer, setIsMouseHoveredOnContainer] = useState(
+    false
+  );
   const [friendInfoModalOpen, setFriendInfoModalOpen] = useState(false);
   const [removeFriendModalOpen, setRemoveFriendModalOpen] = useState(false);
+  const [dmRoomName, setDmRoomName] = useState("");
+  // const location = useLocation();
+  // const { room } = queryString.parse(location.search);
+
+  useEffect(() => {
+    if (props.user) {
+      setDmRoomName(`${[props.user._id, friend._id].sort().join("_")}DM`);
+    }
+    /*return () => {}*/
+  }, [props.user]);
+
   useEffect(() => {
     console.log(props.friend);
   }, []);
@@ -40,6 +59,61 @@ const Friend = (props) => {
 
   const getFriendInfoModalClass = () => {
     return friendInfoModalOpen ? "show" : "hide";
+  };
+
+  const onCloseContextMenuHandler = () => {
+    setShowUserContextMenu(false);
+  };
+
+  const profileOnClickHandler = () => {
+    setFriendInfoModalOpen(true);
+    onCloseContextMenuHandler();
+  };
+
+  const sendMessageOnClickHandler = () => {
+    let alreadyAddedToActive = false;
+
+    for (let dmRoom of props.dmRooms) {
+      if (dmRoom.name === dmRoomName) {
+        alreadyAddedToActive = true;
+      }
+    }
+
+    if (!alreadyAddedToActive) {
+      props.addActiveDmRoom({
+        // senderId: props.user._id,
+        owner: null,
+        receiver: friend,
+        receiverId: friend._id,
+        messages: [],
+        members: [
+          { user: props.user, roles: ["member"] },
+          { user: props.friend, roles: ["member"] },
+        ],
+        image_url: "",
+        name: dmRoomName,
+        type: "DM",
+        requires_approval: "false",
+      });
+    }
+    history.push(
+      `/chat?room=${dmRoomName}&userType=user&roomType=DM&receiver=${friend.username}`
+    );
+  };
+
+  const userItemOnClickHandler = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setFriendInfoModalOpen(true);
+  };
+
+  const userItemOnContextMenuHandler = (e) => {
+    if (props.user.deleted) return null;
+    e.preventDefault();
+    e.stopPropagation();
+    setShowUserContextMenu(true);
+    setClientX(e.clientX);
+    setClientY(e.clientY);
   };
 
   const openRemoveFriendModalHandler = () => {
@@ -60,6 +134,26 @@ const Friend = (props) => {
       />
     );
   };
+
+  const renderUserContextMenu = () => {
+    if (!showUserContextMenu) return null;
+
+    return (
+      <UserContextMenu
+        // note: think about how to make this recyclable
+        isCurrentUser={false}
+        clientX={clientX}
+        clientY={clientY}
+        userId={friend._id}
+        friendStatus={status}
+        // friends={props.friends}
+        onClose={onCloseContextMenuHandler}
+        profileOnClick={profileOnClickHandler}
+        sendMessageOnClick={sendMessageOnClickHandler}
+      />
+    );
+  };
+
   const renderAvatar = (className) => {
     const avatarUrl = friend.image_url;
     return (
@@ -114,7 +208,11 @@ const Friend = (props) => {
           <>
             {/* <CallButton /> */}
             {/*note:this should lead to a direct message instance/component*/}
-            <DirectMessage friend={friend} />
+            <DirectMessage
+              user={props.user}
+              friend={friend}
+              sendMessageOnClickHandler={sendMessageOnClickHandler}
+            />
           </>
         );
       }
@@ -140,18 +238,13 @@ const Friend = (props) => {
   const renderFriend = () => {
     return (
       <React.Fragment>
+        {renderUserContextMenu()}
         {renderFriendInfoModal()}
         {renderRemoveFriendModal()}
         <div
           className="friend-item-container"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log(
-              "this is being activated upon exiting remove friend modal"
-            );
-            setFriendInfoModalOpen(true);
-          }}
+          onClick={userItemOnClickHandler}
+          onContextMenu={userItemOnContextMenuHandler}
         >
           <li className="friend-item">
             <div className="friend-item-div information">
@@ -171,13 +264,13 @@ const Friend = (props) => {
 
   return <React.Fragment>{renderFriend()}</React.Fragment>;
 };
-/*
-const mapStateToProps = state => ({
-  user: state.user.info,
-  friends: state.friends,
-  error: state.error
-});
-*/
-const friendComponent = connect(null, {})(Friend);
 
-export default friendComponent;
+const mapStateToProps = (state) => ({
+  user: state.user.info,
+  dmRooms: state.dmRooms,
+});
+
+export default connect(mapStateToProps, {
+  // directMessage,
+  addActiveDmRoom,
+})(Friend);
