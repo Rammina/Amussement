@@ -142,7 +142,7 @@ const ChangeUserPassword = (props) => {
                 },
                 labelProps: {
                   class: "textfield-label",
-                  text: "Current Password",
+                  text: "Current Password *",
                   id: "change-user-password-password-label",
                 },
               }}
@@ -165,7 +165,7 @@ const ChangeUserPassword = (props) => {
                 },
                 labelProps: {
                   class: "textfield-label",
-                  text: "New Password",
+                  text: "New Password *",
                   id: "change-user-password-new-password-label",
                 },
               }}
@@ -188,7 +188,7 @@ const ChangeUserPassword = (props) => {
                 },
                 labelProps: {
                   class: "textfield-label",
-                  text: "Confirm New Password",
+                  text: "Confirm New Password *",
                   id: "change-user-password-new-password-2-label",
                 },
               }}

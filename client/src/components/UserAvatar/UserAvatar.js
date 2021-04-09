@@ -15,7 +15,10 @@ import serverRest from "../../apis/serverRest";
 import cloudinaryRest from "../../apis/cloudinaryRest";
 
 import { actionShowLoader } from "../../flux/actions/loaderActions";
-import { editUserAvatar } from "../../flux/actions/settingsActions";
+import {
+  editUserAvatar,
+  removeUserAvatar,
+} from "../../flux/actions/settingsActions";
 
 import { WindowContext } from "../AppContext";
 
@@ -209,6 +212,14 @@ const UserAvatar = (props) => {
         imageSrc={`${getAvatarUrl()}` || DefaultAvatarImg}
         componentClass="user-avatar"
       />
+      <button
+        className="profile-information user-avatar-remove below-avatar show-750w"
+        onClick={() => {
+          props.removeUserAvatar();
+        }}
+      >
+        Remove
+      </button>
     </div>
   );
 };
@@ -221,6 +232,7 @@ const mapStateToProps = (state) => ({
 const userAvatar = connect(mapStateToProps, {
   editUserAvatar,
   actionShowLoader,
+  removeUserAvatar,
 })(UserAvatar);
 
 export default userAvatar;

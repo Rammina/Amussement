@@ -218,6 +218,7 @@ const UserInfo = (props) => {
           </div>
           <div className="profile-container">
             <UserAvatar />
+
             <div className="" id="profile-information-container">
               <label className="profile-information label">USERNAME</label>
               <p className="profile-information" id="profile-username">
@@ -229,8 +230,7 @@ const UserInfo = (props) => {
                 {getEmail()}
               </p>
               <button
-                className="profile-information"
-                id="user-avatar-remove"
+                className="profile-information user-avatar-remove hide-750w"
                 onClick={() => {
                   props.removeUserAvatar();
                 }}
@@ -274,8 +274,7 @@ const UserInfo = (props) => {
     )
   );
 };
-{
-}
+
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,

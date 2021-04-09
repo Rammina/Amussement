@@ -96,6 +96,12 @@ const JoinRoomModal = (props) => {
     return <LoadingSpinner showLoader={props.showLoader} />;
   };
 
+  // note: change the content depending on whether password is being required
+  const renderPasswordForm = () => {
+    if (!props.roomPasswordForm.password_required) return null;
+
+    // note: plan out how to render the password part of the modal
+  };
   const renderContent = () => {
     return (
       <Modal
@@ -176,6 +182,7 @@ const mapStateToProps = (state) => ({
   user: state.user.info,
   error: state.error,
   showLoader: state.loader.showJoinRoomModalFormLoader,
+  roomPasswordForm: state.roomPasswordForm,
 });
 
 const joinRoomModalComponent = connect(mapStateToProps, {

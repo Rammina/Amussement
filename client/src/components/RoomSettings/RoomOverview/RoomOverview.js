@@ -2,7 +2,8 @@ import LeftArrowImg from "../../../icons/left-arrow.png";
 
 import "./RoomOverview.scss";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { render } from "react-dom";
 import { Route, Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
@@ -12,28 +13,27 @@ import { Field, reduxForm } from "redux-form";
 
 import history from "../../../history";
 
-// import EditAccount from "../forms/userAccount/EditAccount";
-// import ChangeUserPassword from "../forms/userAccount/ChangeUserPassword";
-// import DisableAccount from "../forms/userAccount/DisableAccount";
-// import DeleteAccount from "../forms/userAccount/DeleteAccount";
-// import RoomAvatar from "./RoomAvatar/RoomAvatar";
+import EditRoom from "../../forms/room/EditRoom";
+import RoomAvatar from "./RoomAvatar/RoomAvatar";
 import BackButton from "../../buttons/BackButton";
 import CloseButton from "../../buttons/CloseButton";
 
 import { clearErrors } from "../../../flux/actions/errorActions";
-import { render } from "react-dom";
+
+import { WindowContext, RoomContext } from "../../AppContext";
 
 const RoomOverview = (props) => {
-  // const [editAccountOpened, setEditAccountOpened] = useState(false);
+  const [editRoomOpened, setEditRoomOpened] = useState(false);
   // const [changePasswordOpened, setChangePasswordOpened] = useState(false);
-  // const [disableAccountOpened, setDisableAccountOpened] = useState(false);
-  // const [deleteAccountOpened, setDeleteAccountOpened] = useState(false);
-
+  // const [disableRoomOpened, setDisableRoomOpened] = useState(false);
+  // const [deleteRoomOpened, setDeleteRoomOpened] = useState(false);
   const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
   const [imageUploadName, setImageUploadName] = useState(null);
   const [fileInputState, setFileInputState] = useState("");
   const [selectedFile, setSelectedFile] = useState("");
   const [previewSource, setPreviewSource] = useState("");
+  const { isDesktopWidth } = useContext(WindowContext);
+  const { room } = useContext(RoomContext);
   const { id } = useParams();
 
   useEffect(() => {}, []);
@@ -42,7 +42,7 @@ const RoomOverview = (props) => {
   let inputImageRef = useRef(null);
 
   const renderDesktopHeading = () => {
-    if (!props.isDesktopWidth) return null;
+    if (!isDesktopWidth) return null;
     return (
       <div className="room-overview-section-heading-container desktop">
         <h1 className="room-overview-section-heading desktop">Room Overview</h1>
@@ -65,6 +65,15 @@ const RoomOverview = (props) => {
     );
   };
 
+  const renderEditRoom = () => {
+    if (!editRoomOpened) return null;
+
+    const editRoomOnCloseHandler = () => {
+      setEditRoomOpened(false);
+    };
+    return <EditRoom initialValues={room} onClose={editRoomOnCloseHandler} />;
+  };
+
   const renderSection = () => {
     return null;
   };
@@ -80,6 +89,7 @@ const RoomOverview = (props) => {
           {renderDesktopHeading()}
           {renderSection()}
           */}
+        {renderEditRoom()}
         <div className="room-overview-section-container room-info-outer-container">
           <div className="settings-page-content-header">
             <BackButton
@@ -102,27 +112,55 @@ const RoomOverview = (props) => {
             <div className="" id="room-information-container">
               <label className="room-information label">ROOM NAME</label>
               <p className="room-information" id="room-name">
-                {props.name}
+                {room.name}
               </p>
 
               <button
-                className="room-information"
-                id="user-avatar-remove"
+                className="room-information room-avatar-remove hide-750w"
                 onClick={() => {
-                  // props.removeRoomAvatar();
+                  // props.removeUserAvatar();
                 }}
               >
                 Remove Image
               </button>
             </div>
           </div>
+
+          <div className="two-buttons-container" id="room-buttons-container">
+            <button
+              className="room-button"
+              id="room-upload-button"
+              onClick={() => {
+                // setImageUploadModalOpen(true);
+              }}
+            >
+              Upload Image
+            </button>
+            <button
+              className="room-button"
+              id="room-edit-button"
+              onClick={() => {
+                setEditRoomOpened(true);
+              }}
+            >
+              Edit Room
+            </button>
+            {/*<button
+              className="room-button"
+              id="room-change-password-button"
+              onClick={() => {
+                // setChangePasswordOpened(true);
+              }}
+            >
+              Change Password
+            </button>*/}
+          </div>
         </div>
       </div>
     )
   );
 };
-{
-}
+
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
@@ -148,10 +186,10 @@ reduxForm({
     className="room-button"
     id="room-edit-button"
     onClick={() => {
-      // setEditAccountOpened(true);
+      // setEditRoomOpened(true);
     }}
   >
-    Edit Account
+    Edit Room
   </button>
 
   <button

@@ -144,7 +144,7 @@ const DisableAccount = (props) => {
                   },
                   labelProps: {
                     class: "textfield-label",
-                    text: "Password",
+                    text: "Password *",
                     id: "disable-account-password-label",
                   },
                 }}

@@ -8,7 +8,11 @@ const Schema = mongoose.Schema;
 
 var RoomSchema = new Schema({
   name: { type: String, required: true, minlength: 1 },
-  type: { type: String, required: true, enum: ["public", "DM", "groupDM"] },
+  type: {
+    type: String,
+    required: true,
+    enum: ["public", "private", "DM", "groupDM"],
+  },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
   messages: [
     {
@@ -41,6 +45,7 @@ var RoomSchema = new Schema({
   image_url: { type: String, minlength: 0, maxlength: 500 },
   registered_on: { type: Date, default: Date.now() },
   requires_approval: { type: Boolean, default: false },
+  password: { type: String },
   // note: not sure if this is client-side or server-side
   disabled: { type: Boolean, default: false },
   muted: { type: Boolean, default: false },

@@ -17,7 +17,7 @@ import Modal from "../../../Modal/Modal";
 import { actionShowLoader } from "../../../../flux/actions/loaderActions";
 // import { editRoomAvatar } from "../../../../flux/actions/settingsActions";
 
-import { WindowContext } from "../../../AppContext";
+import { WindowContext, RoomContext } from "../../../AppContext";
 
 import ProfilePicture from "../../../ProfilePicture/ProfilePicture";
 import LoadingSpinner from "../../../loaders/LoadingSpinner";
@@ -29,13 +29,14 @@ const RoomAvatar = (props) => {
   const [selectedFile, setSelectedFile] = useState("");
   const [previewSource, setPreviewSource] = useState("");
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
+  const { room } = useContext(RoomContext);
 
   //refs
   let inputImageRef = useRef(null);
   const getAvatarUrl = () => {
-    if (props.room) {
-      if (props.room.image_url) {
-        return props.room.image_url;
+    if (room) {
+      if (room.image_url) {
+        return room.image_url;
       }
     }
     return "";
@@ -61,7 +62,7 @@ const RoomAvatar = (props) => {
   };
 
   const uploadImage = async (base64EncodedImage) => {
-    await props.editRoomAvatar(base64EncodedImage, props.room._id);
+    // await props.editRoomAvatar(base64EncodedImage, room._id);
     setImageUploadModalOpen(false);
   };
 
@@ -76,6 +77,23 @@ const RoomAvatar = (props) => {
   };
 
   const renderLoader = () => <LoadingSpinner showLoader={props.showLoader} />;
+
+  const renderRoomImage = () => {
+    if (!room || !room.image_url || !room.image_url === "")
+      return (
+        <div class="profile-picture-outer-container room-avatar">
+          <div className="room-avatar profile-picture-inner-container no-image">
+            {room.name.charAt(0)}
+          </div>
+        </div>
+      );
+    return (
+      <ProfilePicture
+        imageSrc={`${getAvatarUrl()}`}
+        componentClass="room-avatar"
+      />
+    );
+  };
 
   const renderImageUploadModal = () => {
     console.log(imageUploadName);
@@ -205,10 +223,15 @@ const RoomAvatar = (props) => {
         {renderImageUploadModal()}
       </form>
 
-      <ProfilePicture
-        imageSrc={`${getAvatarUrl()}` || DefaultAvatarImg}
-        componentClass="room-avatar"
-      />
+      {renderRoomImage()}
+      <button
+        className="room-information room-avatar-remove below-avatar show-750w"
+        onClick={() => {
+          // props.removeUserAvatar();
+        }}
+      >
+        Remove
+      </button>
     </div>
   );
 };
@@ -219,7 +242,7 @@ const mapStateToProps = (state) => ({
 });
 
 const roomAvatar = connect(mapStateToProps, {
-  editRoomAvatar,
+  // editRoomAvatar,
   actionShowLoader,
 })(RoomAvatar);
 

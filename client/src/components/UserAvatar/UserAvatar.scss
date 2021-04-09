@@ -6,7 +6,7 @@
   border-radius: 50%;
   background-color: #0000;
   width: $profilePictureSize;
-  height: $profilePictureSize;
+  height: auto;
   overflow: visible;
 }
 
@@ -103,26 +103,42 @@
   margin-top: 3rem;
 }
 
-#user-avatar-remove {
+.user-avatar-remove {
   font-size: 1rem;
   color: $dangerTextColor;
   background-color: #0000;
   // width: fit-content;
 }
 
-#user-avatar-remove:hover {
+.user-avatar-remove.below-avatar {
+  display: block;
+  padding: 0;
+  text-align: center;
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 0.5rem;
+}
+
+.user-avatar-remove.show-750w {
+  display: none;
+}
+
+.user-avatar-remove:hover {
   color: $dangerTextColorHover;
 }
 
 // $profilePictureSize450w: 6rem;
 
 @media screen and (min-width: 450px) {
-  #user-avatar-change-container,
   #user-avatar-upload-label,
   .user-avatar.profile-picture-image,
   .user-avatar.profile-picture-inner-container {
     width: $profilePictureSize450w;
     height: $profilePictureSize450w;
+  }
+  #user-avatar-change-container {
+    width: $profilePictureSize450w;
+    height: auto;
   }
   #user-avatar-upload-label:hover {
     color: #fff;
@@ -131,7 +147,6 @@
 }
 
 @media screen and (min-width: 750px) and (min-height: 450px) {
-  #user-avatar-change-container,
   #user-avatar-upload-label,
   .user-avatar.profile-picture-image,
   .user-avatar.profile-picture-inner-container {
@@ -140,8 +155,18 @@
     width: $profilePictureSize750w;
     height: $profilePictureSize750w;
   }
+  #user-avatar-change-container {
+    width: $profilePictureSize750w;
+    height: auto;
+  }
   .user-avatar.profile-picture-image {
     top: 0;
+  }
+  .user-avatar-remove.show-750w {
+    display: block;
+  }
+  .user-avatar-remove.hide-750w {
+    display: none;
   }
 }
 @media screen and (min-width: 400px) and (min-height: 400px) {

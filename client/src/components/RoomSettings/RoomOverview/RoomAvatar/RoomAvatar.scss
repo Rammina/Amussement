@@ -1,4 +1,4 @@
-@import "../../utils/variables.scss";
+@import "../../../../utils/variables.scss";
 
 #room-avatar-change-container {
   position: relative;
@@ -15,6 +15,14 @@
 
   width: $profilePictureSize;
   height: $profilePictureSize;
+}
+
+.room-avatar.profile-picture-inner-container.no-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $grayblue;
+  font-size: 1.7rem;
 }
 
 .room-avatar.profile-picture-image {
@@ -103,14 +111,27 @@
   margin-top: 3rem;
 }
 
-#room-avatar-remove {
+.room-avatar-remove {
   font-size: 1rem;
   color: $dangerTextColor;
   background-color: #0000;
   // width: fit-content;
 }
 
-#room-avatar-remove:hover {
+.room-avatar-remove.below-avatar {
+  display: block;
+  padding: 0;
+  text-align: center;
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 0.5rem;
+}
+
+.room-avatar-remove.show-750w {
+  display: none;
+}
+
+.room-avatar-remove:hover {
   color: $dangerTextColorHover;
 }
 
@@ -142,6 +163,13 @@
   }
   .room-avatar.profile-picture-image {
     top: 0;
+  }
+
+  .room-avatar-remove.show-750w {
+    display: block;
+  }
+  .room-avatar-remove.hide-750w {
+    display: none;
   }
 }
 @media screen and (min-width: 400px) and (min-height: 400px) {

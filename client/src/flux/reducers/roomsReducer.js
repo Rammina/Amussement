@@ -17,6 +17,8 @@ import {
   LEAVE_ROOM_FAIL,
   UPDATE_ROOM_NAME_SUCCESS,
   UPDATE_ROOM_NAME_FAIL,
+  EDIT_ROOM_SUCCESS,
+  EDIT_ROOM_FAIL,
 } from "../actions/types";
 
 const initialState = [];
@@ -26,25 +28,35 @@ export default (state = initialState, action) => {
     case USER_LOADED:
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      console.log(action.payload);
+      // action.payload.rooms - array of rooms
       return [...action.payload.rooms];
 
     case GET_ALL_ROOMS_SUCCESS:
       console.log(action.payload);
+      // action.payload is array of rooms
       // note: should probably sort them alphabetically
       return [...action.payload];
     case CREATE_ROOM_SUCCESS:
     case JOIN_ROOM_SUCCESS:
+      // action.payload is an object that contains a room property (object)
       console.log(action.payload.room);
       return [...state, action.payload.room];
     case LEAVE_ROOM_SUCCESS:
+      // action.payload.rooms is array of rooms
       return [...action.payload.rooms];
     case UPDATE_ROOM_NAME_SUCCESS:
-      // note: this should update that specific room in the list of rooms without displacing it
-      // try at finding it using ID and then changing its value using the action.payload
+      // action.payload is object with roomId and name
       return state.map((room) => {
         if (room._id === action.payload.roomId) {
           room.name = action.payload.name;
+        }
+        return room;
+      });
+    case EDIT_ROOM_SUCCESS:
+      // action.payload is room object
+      return state.map((room) => {
+        if (room._id === action.payload._id) {
+          room = action.payload;
         }
         return room;
       });
@@ -62,6 +74,7 @@ export default (state = initialState, action) => {
     case CREATE_ROOM_FAIL:
     case JOIN_ROOM_FAIL:
     case LEAVE_ROOM_FAIL:
+    case EDIT_ROOM_FAIL:
       return state;
     case LOGOUT_SUCCESS:
       return [];

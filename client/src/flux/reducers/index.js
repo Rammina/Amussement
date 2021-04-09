@@ -5,6 +5,7 @@ import errorReducer from "./errorReducer.js";
 import userReducer from "./userReducer.js";
 import friendsReducer from "./friendsReducer.js";
 import roomsReducer from "./roomsReducer.js";
+import roomPasswordFormReducer from "./roomPasswordFormReducer.js";
 import dmRoomsReducer from "./dmRoomsReducer.js";
 import modalSubmitReducer from "./modalSubmitReducer.js";
 import loaderReducer from "./loaderReducer.js";
@@ -16,6 +17,7 @@ export default combineReducers({
   user: userReducer,
   friends: friendsReducer,
   rooms: roomsReducer,
+  roomPasswordForm: roomPasswordFormReducer,
   dmRooms: dmRoomsReducer,
   error: errorReducer,
   modalSubmit: modalSubmitReducer,

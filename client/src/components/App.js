@@ -20,7 +20,7 @@ import { NavContext, FooterContext, WindowContext } from "./AppContext";
 import { loadUser } from "../flux/actions/authActions";
 import * as constants from "../utils/constants.js";
 
-const App = (props) => {
+export const App = (props) => {
   const { DESKTOP_WIDTH, DESKTOP_HEIGHT } = constants;
   const [isDesktopWidth, setIsDesktopWidth] = useState(false);
   const [isDesktopHeight, setIsDesktopHeight] = useState(false);
@@ -150,24 +150,26 @@ const App = (props) => {
 
   //note: add chat for logged in users
   return (
-    <Router history={history}>
-      <WindowContext.Provider value={getWindowContextValue()}>
-        <Route path="/" exact component={Join} />
-        <Route path="/auth/register" exact component={Register} />
-        <Route path="/auth/login" exact component={Login} />
-        <Route path="/users/:id/settings" component={UserSettings} />
-        {/*<Route path="/rooms/:id/settings" component={RoomSettings} />*/}
-        {/*note: try to figure out a way to make this one work when selecting/clicking a friend*/}
-        <Route path="/users/:id/friends" component={Friends} />
-        <FooterContext.Provider value={getFooterContextValue()}>
-          <NavContext.Provider value={getNavContextValue()}>
-            <Route path="/users/:id/home" exact component={Home} />
-            <Route path="/chat" component={Chat} />
-          </NavContext.Provider>
-          <Footer />
-        </FooterContext.Provider>
-      </WindowContext.Provider>
-    </Router>
+    <div data-test="component-app">
+      <Router history={history}>
+        <WindowContext.Provider value={getWindowContextValue()}>
+          <Route path="/" exact component={Join} />
+          <Route path="/auth/register" exact component={Register} />
+          <Route path="/auth/login" exact component={Login} />
+          <Route path="/users/:id/settings" component={UserSettings} />
+          {/*<Route path="/rooms/:id/settings" component={RoomSettings} />*/}
+          {/*note: try to figure out a way to make this one work when selecting/clicking a friend*/}
+          <Route path="/users/:id/friends" component={Friends} />
+          <FooterContext.Provider value={getFooterContextValue()}>
+            <NavContext.Provider value={getNavContextValue()}>
+              <Route path="/users/:id/home" exact component={Home} />
+              <Route path="/chat" component={Chat} />
+            </NavContext.Provider>
+            <Footer />
+          </FooterContext.Provider>
+        </WindowContext.Provider>
+      </Router>
+    </div>
   );
 };
 

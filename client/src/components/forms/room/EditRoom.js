@@ -1,24 +1,28 @@
-import "./DeleteAccount.scss";
+import "./EditRoom.scss";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReactDOM from "react-dom";
+import { Link } from "react-router-dom";
 
 import serverRest from "../../../apis/serverRest";
 
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
-import { deleteUserAccount } from "../../../flux/actions/settingsActions";
+import { editRoom } from "../../../flux/actions/roomsActions";
+
+import { modalStatusReset } from "../../../flux/actions/modalActions";
 import { actionShowLoader } from "../../../flux/actions/loaderActions";
-import { renderError, getErrorClass } from "../../../helpers";
+import { renderError, getErrorClass, validateEmail } from "../../../helpers";
 
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../Modal/Modal";
 import CancelButton from "../../buttons/CancelButton";
 import LoadingSpinner from "../../loaders/LoadingSpinner";
 
-import history from "../../../history";
+import { RoomContext } from "../../AppContext";
 
+import history from "../../../history";
 const onInput = (e) => {
   e.preventDefault();
   e.stopPropagation();
@@ -26,10 +30,10 @@ const onInput = (e) => {
 const handleEnterKeyOnField = (e) => {
   // This prevents submission bugging or refreshing upon pressing enter
   // in an input field inside a form
-  /* if (e.keyCode === 13) {
-    e.preventDefault();
-    e.stopPropagation();
-  } */
+  // if (e.keyCode === 13) {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  // }
 };
 
 const renderInput = ({ input, meta, inputProps, labelProps }) => {
@@ -57,12 +61,14 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
         }}
         autoFocus={inputProps.autoFocus || false}
       />
-      {renderError(meta, "delete-account")}
+      {renderError(meta, "edit-room")}
     </React.Fragment>
   );
 };
 
-const DeleteAccount = (props) => {
+const EditRoom = (props) => {
+  const { isSelectedRoom } = useContext(RoomContext);
+  const room = props.initialValues;
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
     console.log(errorMessage);
@@ -78,74 +84,92 @@ const DeleteAccount = (props) => {
 
   // submit handler
   const onSubmit = async (formValues) => {
+    const successCb = () => {
+      props.actionShowLoader("editRoomModalForm", false);
+      props.onClose();
+      if (isSelectedRoom)
+        history.push(
+          `chat?room=${formValues.name}&userType=user&roomType=public`
+        );
+    };
     console.log(formValues);
-    props.actionShowLoader("deleteAccountForm", true);
-    await props.deleteUserAccount(formValues);
+    // check if it succeeded or it produced an error
+    formValues.roomId = room._id;
+    props.actionShowLoader("editRoomModalForm", true);
+    await props.editRoom(formValues, successCb);
   };
 
   const content = (
     <React.Fragment>
       <Modal
-        componentClass="delete-account"
+        componentClass="edit-room"
         onModalClose={() => {
-          console.log("closing delete-account modal");
-          props.hideSection();
+          console.log("closing edit-room modal");
+          props.onClose();
         }}
         headerClassName="settings-page-sidebar-header"
-        headingText="Delete Account"
+        headingText="Edit Room"
         actionButtons={
           <button
-            id="delete-account-submit"
-            className={"form-button submit mt-20 danger"}
+            className={"form-button submit mt-20"}
             type="submit"
             onClick={props.handleSubmit(onSubmit)}
           >
-            {renderLoader()} Delete Account
+            {renderLoader()} Save
           </button>
         }
       >
-        <form id="delete-account-form" autoComplete="off">
-          <div className="delete-account form-content-container modal-form-content">
-            <p className="modal-paragraph delete-account">
-              Are you sure you want to delete your account?
-            </p>
-            <p
-              id="delete-account-description-paragraph"
-              className="modal-paragraph small-text delete-account"
-            >
-              Warning: Deleted accounts cannot be restored.
-            </p>
-
+        <form id="edit-room-form" autoComplete="off">
+          <div className="edit-room form-content-container modal-form-content">
             {renderErrorNotifications()}
+            <div className="textfield-container">
+              <Field
+                name="name"
+                component={renderInput}
+                type="text"
+                props={{
+                  inputProps: {
+                    placeholder: "Name",
+                    className: "textfield",
+                    maxLength: "30",
+                    autoComplete: "off",
+                    id: "edit-room-name-field",
+                    autoFocus: true,
+                  },
+                  labelProps: {
+                    class: "textfield-label",
+                    text: "Name *",
+                    id: "edit-room-name-label",
+                  },
+                }}
+              />
+            </div>
 
-            <div
-              className="textfield-container"
-              id="delete-account-password-container"
-            >
+            <div className="textfield-container">
               <Field
                 name="password"
                 component={renderInput}
                 type="password"
                 props={{
                   inputProps: {
-                    placeholder: "Enter Password for Confirmation",
+                    placeholder: "Room Password",
                     className: "textfield",
                     maxLength: "30",
                     autoComplete: "off",
                     type: "password",
-                    id: "delete-account-password-field",
-
-                    autoFocus: true,
+                    id: "edit-room-password-field",
+                    // autoFocus: true
                   },
                   labelProps: {
                     class: "textfield-label",
-                    text: "Password *",
-                    id: "delete-account-password-label",
+                    text: "Password",
+                    id: "edit-room-password-label",
                   },
                 }}
               />
             </div>
           </div>
+          {/*this is only here so that Enter submit works*/}
           <button
             type="submit"
             onClick={props.handleSubmit(onSubmit)}
@@ -158,15 +182,14 @@ const DeleteAccount = (props) => {
     </React.Fragment>
   );
 
-  // render
   return ReactDOM.createPortal(content, document.getElementById("modal"));
 };
 
 const validate = (formValues) => {
   console.log(formValues);
   const errors = {};
-  if (!formValues.password) {
-    errors.password = "Please input your password.";
+  if (!formValues.name) {
+    errors.name = "Please input a room name.";
   }
   return errors;
 };
@@ -174,17 +197,19 @@ const validate = (formValues) => {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
-  showLoader: state.loader.showDeleteAccountFormLoader,
+  editRoomSubmitSuccess: state.modalSubmit.editRoomSubmitSuccess,
+  showLoader: state.loader.showEditRoomModalFormLoader,
 });
 
-const deleteAccount = connect(mapStateToProps, {
-  deleteUserAccount,
+const editRoomComponent = connect(mapStateToProps, {
+  editRoom,
+  modalStatusReset,
   actionShowLoader,
-})(DeleteAccount);
+})(EditRoom);
 
 export default reduxForm({
-  form: "deleteAccount",
+  form: "editRoom",
   keepDirtyOnReinitialize: true,
   enableReinitialize: true,
   validate,
-})(deleteAccount);
+})(editRoomComponent);

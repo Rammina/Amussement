@@ -14,7 +14,7 @@ import CloseButton from "../buttons/CloseButton";
 import { WindowContext } from "../AppContext";
 // import { renderError, getErrorClass } from "../../helpers";
 
-const RoomSettings = (props) => {
+export const RoomSettings = (props) => {
   const { roomId } = useParams();
   const [roomOverviewOpened, setRoomOverviewOpened] = useState(false);
   // const [appearanceOpened, setAppearanceOpened] = useState(false);
@@ -34,7 +34,6 @@ const RoomSettings = (props) => {
       if (roomOverviewOpened) {
         return (
           <RoomOverview
-            roomId={roomId}
             closeRoomOverview={() => {
               setRoomOverviewOpened(false);
             }}
@@ -47,9 +46,6 @@ const RoomSettings = (props) => {
         console.log("Opening my account on desktop with");
         return (
           <RoomOverview
-            isDesktopWidth={true}
-            isDesktopHeight={true}
-            roomId={roomId}
             closeRoomOverview={() => {
               setRoomOverviewOpened(false);
             }}
@@ -80,7 +76,10 @@ const RoomSettings = (props) => {
 
   // content
   const renderContent = () => (
-    <div className="settings-page-window-container">
+    <div
+      className="settings-page-window-container"
+      data-test="component-room-settings"
+    >
       <div className="settings-page-outer-flex-container">
         <div className="settings-page-sidebar-outer-container">
           <div className="settings-page-sidebar-middle-container">

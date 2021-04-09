@@ -103,7 +103,7 @@ const RegisterForm = (props) => {
               },
               labelProps: {
                 class: "textfield-label",
-                text: "Email",
+                text: "Email *",
                 id: "register-form-email-label",
               },
             }}
@@ -125,7 +125,7 @@ const RegisterForm = (props) => {
               },
               labelProps: {
                 class: "textfield-label",
-                text: "Username",
+                text: "Username *",
                 id: "register-form-username-label",
               },
             }}
@@ -148,7 +148,7 @@ const RegisterForm = (props) => {
               },
               labelProps: {
                 class: "textfield-label",
-                text: "Password",
+                text: "Password *",
                 id: "register-form-password-label",
               },
             }}
@@ -168,7 +168,7 @@ const RegisterForm = (props) => {
                 required: true,
               },
               labelProps: {
-                text: "Date of Birth",
+                text: "Date of Birth *",
                 class: "textfield-label",
                 id: "register-form-date_of_birth-label",
               },

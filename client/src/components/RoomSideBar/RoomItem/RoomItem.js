@@ -12,9 +12,8 @@ import RoomSettings from "../../RoomSettings/RoomSettings";
 import { leaveRoom, deleteRoom } from "../../../flux/actions/roomsActions";
 import { findPosX, findPosY } from "../../../helpers";
 import history from "../../../history";
-// import onlineIcon from "../../icons/onlineIcon.png";
 
-// import { NavContext } from "../../AppContext";
+import { RoomContext } from "../../AppContext";
 
 const RoomItem = (props) => {
   const roomItemRef = useRef(null);
@@ -140,9 +139,20 @@ const RoomItem = (props) => {
       />
     );
   };
+
   const renderRoomSettings = () => {
     if (!showRoomSettings) return null;
-    return <RoomSettings />;
+
+    const getRoomContextValue = () => ({
+      room: props.room,
+      isSelectedRoom,
+    });
+
+    return (
+      <RoomContext.Provider value={getRoomContextValue()}>
+        <RoomSettings />
+      </RoomContext.Provider>
+    );
   };
   // const getGuestName=() => {}
   const renderItemContent = () => {

@@ -133,7 +133,7 @@ const EditAccount = (props) => {
                   },
                   labelProps: {
                     class: "textfield-label",
-                    text: "Username",
+                    text: "Username *",
                     id: "edit-account-username-label",
                   },
                 }}
@@ -156,7 +156,7 @@ const EditAccount = (props) => {
                   },
                   labelProps: {
                     class: "textfield-label",
-                    text: "Email",
+                    text: "Email *",
                     id: "edit-account-email-label",
                   },
                 }}
@@ -180,7 +180,7 @@ const EditAccount = (props) => {
                   },
                   labelProps: {
                     class: "textfield-label",
-                    text: "Password",
+                    text: "Password *",
                     id: "edit-account-password-label",
                   },
                 }}

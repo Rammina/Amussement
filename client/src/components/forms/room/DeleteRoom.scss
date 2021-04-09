@@ -1,0 +1,51 @@
+@import "../../../utils/variables.scss";
+
+#delete-account-form {
+  padding-bottom: 1.5rem;
+}
+
+.delete-account.form-content-container.modal-form-content {
+  display: flex;
+  // align-content: center;
+  // align-items: center;
+  padding: 0 1rem;
+  padding-top: 3rem;
+  margin: 0 auto;
+  margin-top: 2rem;
+  max-width: 30rem;
+}
+
+.delete-account.modal-paragraph {
+  position: relative;
+  left: 0.3rem;
+  max-width: 23rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#delete-account-description-paragraph {
+  margin-top: 0.5rem;
+  color: $dangerTextColorLight;
+}
+
+#delete-account-password-container {
+  margin-top: 1rem;
+}
+
+#delete-account-submit {
+}
+
+@media screen and (min-width: 1200px) and (min-height: 600px) {
+  #delete-account-form {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 3rem;
+  }
+  .delete-account.form-content-container.modal-form-content {
+    padding-top: 0;
+  }
+  #delete-account-password-container {
+    margin-top: 2rem;
+    padding: 0;
+  }
+}

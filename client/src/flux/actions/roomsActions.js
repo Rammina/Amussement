@@ -19,6 +19,11 @@ import {
   DELETE_ROOM_FAIL,
   UPDATE_ROOM_NAME_SUCCESS,
   UPDATE_ROOM_NAME_FAIL,
+  EDIT_ROOM_SUCCESS,
+  EDIT_ROOM_FAIL,
+  ROOM_PASSWORD_REQUIRED,
+  ROOM_PASSWORD_SUBMIT_SUCCESS,
+  ROOM_PASSWORD_SUBMIT_FAIL,
 } from "./types";
 
 export const getAllRooms = (id) => (dispatch, getState) => {
@@ -100,17 +105,25 @@ export const joinRoom = (formValues, successCb) => (dispatch, getState) => {
   serverRest
     .patch(`/api/rooms/${roomName}/join`, { ...formValues, userId })
     .then((res) => {
-      dispatch({
-        type: JOIN_ROOM_SUCCESS,
-        payload: {
-          /*note: think about should be returned from the server as payload*/
-          ...res.data,
-        },
-      });
-      // dispatch(getAllRooms(userId));
-      // history.push(`/users/${userId}/rooms`);
-      dispatch(clearErrors());
-      if (successCb) successCb();
+      // if the server returns our response indicating that a message is required, ask the user for the password
+      if (res.data.password_required) {
+        dispatch({
+          type: ROOM_PASSWORD_REQUIRED,
+          payload: { roomId: res.data.roomId },
+        });
+      } else {
+        dispatch({
+          type: JOIN_ROOM_SUCCESS,
+          payload: {
+            /*note: think about should be returned from the server as payload*/
+            ...res.data,
+          },
+        });
+        // dispatch(getAllRooms(userId));
+        // history.push(`/users/${userId}/rooms`);
+        dispatch(clearErrors());
+        if (successCb) successCb();
+      }
     })
     .catch((err) => {
       console.log(err);
@@ -227,5 +240,39 @@ export const updateRoomName = (formValues, successCb) => (
     })
     .finally(() => {
       dispatch(actionShowLoader("updateRoomNameModalForm", false));
+    });
+};
+
+export const editRoom = (formValues, successCb) => (dispatch, getState) => {
+  const userId = getState().user.info._id || getState().user.info.id;
+
+  serverRest
+    .patch(`/api/rooms/${formValues.roomId}/edit_room`, {
+      ...formValues,
+      userId,
+    })
+    .then((res) => {
+      dispatch({
+        type: EDIT_ROOM_SUCCESS,
+        payload: {
+          /*note: think about should be returned from the server as payload*/
+          ...res.data,
+        },
+      });
+      // dispatch(getAllRooms(userId));
+      // history.push(`/users/${userId}/rooms`);
+      dispatch(clearErrors());
+      if (successCb) successCb();
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(err.response);
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: EDIT_ROOM_FAIL,
+      });
+    })
+    .finally(() => {
+      dispatch(actionShowLoader("editRoomModalForm", false));
     });
 };
