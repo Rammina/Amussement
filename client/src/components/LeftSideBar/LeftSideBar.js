@@ -7,7 +7,7 @@ import onlineIcon from "../../icons/onlineIcon.png";
 import RoomSideBar from "../RoomSideBar/RoomSideBar";
 import UserStatus from "../UserStatus/UserStatus";
 
-import { NavContext, FooterContext } from "../AppContext";
+import { NavContext, FooterContext, WindowContext } from "../AppContext";
 
 const LeftSideBarContainer = (props) => {
   const {
@@ -17,6 +17,7 @@ const LeftSideBarContainer = (props) => {
     setMessagesContainerMoveRight,
   } = useContext(NavContext);
   const { setShowFooter } = useContext(FooterContext);
+  const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
@@ -51,6 +52,11 @@ const LeftSideBarContainer = (props) => {
     return leftSideBarShow ? "show" : "hide";
   };
 
+  const renderUserStatus = () => {
+    if (!isDesktopWidth || !isDesktopHeight) return null;
+    return <UserStatus />;
+  };
+
   return (
     <React.Fragment>
       <div
@@ -66,7 +72,7 @@ const LeftSideBarContainer = (props) => {
         <div className={`left-sidebar-room-information-outer-container`}>
           <h1 className="left-sidebar-heading">{props.heading || null}</h1>
           {props.children}
-          <UserStatus />
+          {renderUserStatus()}
         </div>
       </div>
     </React.Fragment>
