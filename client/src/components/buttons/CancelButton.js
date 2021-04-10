@@ -3,7 +3,7 @@ import "./CancelButton.scss";
 
 import React, { useEffect, useContext } from "react";
 
-const CancelButton = props => {
+const CancelButton = (props) => {
   useEffect(() => {
     // code to run on first render
   }, []);
@@ -15,7 +15,7 @@ const CancelButton = props => {
   };
   const getClassName = () => (props.componentClass ? props.componentClass : "");
   const getButtonId = () => (props.buttonId ? props.buttonId : "");
-  
+
   const getHideOnMobileClass = () =>
     props.hideOnMobile ? "hide-on-mobile" : "";
   const getHideOnDesktopClass = () =>
@@ -26,28 +26,23 @@ const CancelButton = props => {
 
   return (
     <React.Fragment>
-      
-        <button
-          
-
-          className={`cancel-button ${getClassName()} ${getHideOnMobileClass()} ${getHideOnDesktopClass()}`}
-          id={`${getButtonId()}`}
-          onClick={onClickHandler}
-          onKeyDown={e => {
-            if (e.shiftKey && e.key === "Tab") {
-              e.preventDefault();
-              e.stopPropagation();
-            }
-          }}
-          
-        >
-          Cancel
-        </button>
-        {renderButtonLabel()}
-      
+      <button
+        className={`cancel-button ${getClassName()} ${getHideOnMobileClass()} ${getHideOnDesktopClass()}`}
+        id={`${getButtonId()}`}
+        onClick={onClickHandler}
+        type="button"
+        onKeyDown={(e) => {
+          if (e.shiftKey && e.key === "Tab") {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }}
+      >
+        Cancel
+      </button>
+      {renderButtonLabel()}
     </React.Fragment>
   );
 };
 
 export default CancelButton;
-

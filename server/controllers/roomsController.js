@@ -1,4 +1,5 @@
 require("dotenv").config();
+const bcrypt = require("bcryptjs");
 // import all the mongoose models
 const User = require("../models/user");
 const Room = require("../models/room");
@@ -27,6 +28,7 @@ exports.get_all_rooms = async (req, res) => {
 exports.create_room = async (req, res) => {
   const {
     name,
+    password,
     senderId,
     receiverId,
     type,
@@ -56,8 +58,21 @@ exports.create_room = async (req, res) => {
         ];
       }
 
+      let hash = null;
+      // if password was included in the request body
+      if (password) {
+        // check if salt generation has any errors
+        const salt = await bcrypt.genSalt(10);
+        if (!salt)
+          throw Error("Something went wrong with encrypting the password.");
+        // check if hashing the password has any errors
+        hash = await bcrypt.hash(password, salt);
+        if (!hash) throw Error("Something went wrong hashing the password.");
+      }
+
       const newRoom = new Room({
         name,
+        password: hash,
         type: type || "public",
         messages: [],
         owner: senderId,
@@ -124,8 +139,69 @@ exports.join_room = async (req, res) => {
 
       // check if the room requires a password to join
       if (room.password) {
-        res.status(200).json({ password_required: true, roomId: room._id });
+        // request the next part of the form which asks for a password
+        res
+          .status(200)
+          .json({ password_required: true, roomId: room._id, name: room.name });
       }
+      // continue and add the room to the list of the rooms of the user,
+      // and add the user as a member of the room
+      else {
+        // just update the room's members
+        room.members = [...room.members, { user: userId, roles: ["member"] }];
+        await room.save();
+        // update the user's room list'
+        user.rooms = [...user.rooms, room];
+        await user.save();
+
+        res.status(200).json({
+          room,
+          // user: { rooms: user.rooms },
+        });
+      }
+      l;
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ msg: e.message });
+    }
+  }
+};
+
+exports.submit_room_password = async (req, res) => {
+  const { password, roomId, userId } = req.body;
+
+  let errors = [];
+
+  // check if any of the following fields are empty
+  if (!password) {
+    errors.push({ msg: "Please provide the room's password." });
+  }
+  if (!userId) {
+    errors.push({ msg: "Unauthorized user. Please log in." });
+  }
+  if (!roomId) {
+    errors.push({ msg: "No room ID provided." });
+  }
+  // if there are errors, re-\ render the page but with the values that were filled in
+  // note: figure out how to send errors to thefrontend
+  if (errors.length > 0) {
+    res.status(400).json({ errors });
+  } else {
+    try {
+      const user = await User.findById(userId).populate("rooms");
+      if (!user) throw Error("Unable to find user with that ID.");
+
+      // check if user is already in that room
+      for (let room of user.rooms) {
+        if (room._id == roomId) throw Error("Already a member of this room.");
+      }
+
+      const room = await Room.findById(roomId);
+      if (!room) throw Error("Unable to find room with that ID.");
+
+      // check if the password is correct, throw an error if not
+      const isMatch = await bcrypt.compare(password, room.password);
+      if (!isMatch) throw Error("Password is incorrect.");
 
       // just update the room's members
       room.members = [...room.members, { user: userId, roles: ["member"] }];

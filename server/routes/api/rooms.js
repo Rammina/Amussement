@@ -15,6 +15,11 @@ router.post("/", rooms_controller.create_room);
 // note: might want to use ID instead
 router.patch("/:name/join", rooms_controller.join_room);
 
+router.patch(
+  "/:id/submit_room_password",
+  rooms_controller.submit_room_password
+);
+
 router.patch("/:id/leave", rooms_controller.leave_room);
 
 router.patch("/:id/edit_room", rooms_controller.edit_room);

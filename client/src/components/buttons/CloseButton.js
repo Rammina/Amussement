@@ -35,6 +35,7 @@ const CloseButton = (props) => {
           className={`close-button ${getClassName()} ${getHideOnMobileClass()} ${getHideOnDesktopClass()}`}
           id={`${getButtonId()}`}
           onClick={onClickHandler}
+          type="button"
           onKeyDown={(e) => {
             if (e.shiftKey && e.key === "Tab") {
               e.preventDefault();

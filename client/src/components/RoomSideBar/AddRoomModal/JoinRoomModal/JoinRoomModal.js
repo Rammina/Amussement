@@ -18,143 +18,41 @@ import history from "../../../../history";
 
 import ErrorNotifications from "../../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../../Modal/Modal";
-import CancelButton from "../../../buttons/CancelButton";
-import LoadingSpinner from "../../../loaders/LoadingSpinner";
-
-const onInput = (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-};
-
-const handleEnterKeyOnField = (e) => {
-  // This prevents submission bugging or refreshing upon pressing enter
-  // in an input field inside a form
-  /* if (e.keyCode === 13) {
-    e.preventDefault();
-    e.stopPropagation();
-  } */
-};
-
-const renderInput = ({ input, meta, inputProps, labelProps }) => {
-  const errorClass = getErrorClass(meta);
-  const labelClass = labelProps.class || null;
-  const labelId = labelProps.id || null;
-  return (
-    <React.Fragment>
-      <label
-        htmlFor={inputProps.id}
-        className={`${errorClass} ${labelClass}`}
-        id={labelId || ""}
-      >
-        {labelProps.text}
-      </label>
-      <input
-        {...inputProps}
-        {...input}
-        className={`${inputProps.className} ${errorClass}`}
-        onKeyDown={(e) => {
-          handleEnterKeyOnField(e);
-        }}
-        onInput={(e) => {
-          onInput(e);
-        }}
-        autoFocus={inputProps.autoFocus || false}
-      />
-      {renderError(meta, "join-room")}
-    </React.Fragment>
-  );
-};
+import JoinRoom from "../../../forms/room/JoinRoom";
+import RoomPasswordConfirmation from "../../../forms/room/RoomPasswordConfirmation";
 
 const JoinRoomModal = (props) => {
-  // URL redirect functions
-  const redirectToRoomAfterJoinCb = (name, roomType = "public") => {
-    history.push(`/chat?room=${name}&userType=user&roomType=${roomType}`);
+  const { roomPasswordForm } = props;
+  const getPasswordIsRequired = () => {
+    return roomPasswordForm.password_required;
   };
 
-  // submit handler
-  const onSubmit = async (formValues) => {
-    const joinRoomSuccessCb = () => {
-      props.onModalClose();
-      redirectToRoomAfterJoinCb(formValues.name, "public");
-    };
-    console.log(formValues);
-    // run an action
-    props.actionShowLoader("joinRoomModalForm", true);
-    await props.joinRoom(formValues, joinRoomSuccessCb);
+  // change the content depending on whether password is being required
+  const renderForm = () => {
+    // ask for the room name
+    if (!getPasswordIsRequired())
+      return <JoinRoom onModalClose={props.onModalClose} />;
+    const { name, roomId } = roomPasswordForm;
+    // if password is being asked, show the form for the room password
+    return (
+      <RoomPasswordConfirmation
+        name={name}
+        roomId={roomId}
+        onModalClose={props.onModalClose}
+      />
+    );
   };
 
-  const renderErrorNotifications = () => {
-    const errorMessage = props.error.msg;
-    console.log(errorMessage);
-    if (errorMessage) {
-      return <ErrorNotifications message={errorMessage.msg || null} />;
-    }
-    return null;
-  };
-
-  const renderLoader = () => {
-    return <LoadingSpinner showLoader={props.showLoader} />;
-  };
-
-  // note: change the content depending on whether password is being required
-  const renderPasswordForm = () => {
-    if (!props.roomPasswordForm.password_required) return null;
-
-    // note: plan out how to render the password part of the modal
-  };
   const renderContent = () => {
     return (
       <Modal
         componentClass="join-room"
         headerClassName="settings-page-sidebar-header"
         headingText="Join a Room"
-        onModalClose={() => {
-          props.onModalClose();
-        }}
-        actionButtons={
-          <button
-            id="remove-friend-submit"
-            className={"form-button submit mt-20"}
-            type="submit"
-            onClick={props.handleSubmit(onSubmit)}
-          >
-            {renderLoader()} Join Room
-          </button>
-        }
+        onModalClose={props.onModalClose}
+        noFooter={true}
       >
-        <form id="join-room-form" autoComplete="off">
-          <div className="join-room form-content-container modal-form-content">
-            {renderErrorNotifications()}
-            <Field
-              name="name"
-              component={renderInput}
-              type="text"
-              props={{
-                inputProps: {
-                  placeholder: "Room Name",
-                  className: "textfield",
-                  maxLength: "30",
-                  autoComplete: "off",
-                  id: "join-room-username-field",
-                  type: "text",
-                  autoFocus: true,
-                },
-                labelProps: {
-                  class: "textfield-label",
-                  text: "Room Name",
-                  id: "join-room-username-label",
-                },
-              }}
-            />
-          </div>
-          <button
-            type="submit"
-            onClick={props.handleSubmit(onSubmit)}
-            style={{ display: "none" }}
-          >
-            Save
-          </button>
-        </form>
+        {renderForm()}
       </Modal>
     );
   };
@@ -166,17 +64,6 @@ const JoinRoomModal = (props) => {
   );
 };
 
-const validate = (formValues) => {
-  console.log(formValues);
-
-  const errors = {};
-  if (!formValues.name) {
-    errors.name = "Please input a room name.";
-  }
-
-  return errors;
-};
-
 const mapStateToProps = (state) => ({
   // friends: state.friends,
   user: state.user.info,
@@ -185,14 +72,18 @@ const mapStateToProps = (state) => ({
   roomPasswordForm: state.roomPasswordForm,
 });
 
-const joinRoomModalComponent = connect(mapStateToProps, {
+export default connect(mapStateToProps, {
   actionShowLoader,
   joinRoom,
 })(JoinRoomModal);
 
-export default reduxForm({
-  form: "joinRoomModal",
-  keepDirtyOnReinitialize: true,
-  enableReinitialize: true,
-  validate,
-})(joinRoomModalComponent);
+/*actionButtons={
+  <button
+    id="remove-friend-submit"
+    className={"form-button submit mt-20"}
+    type="submit"
+    onClick={props.handleSubmit(onSubmit)}
+  >
+    {renderLoader()} Join Room
+  </button>
+  }*/

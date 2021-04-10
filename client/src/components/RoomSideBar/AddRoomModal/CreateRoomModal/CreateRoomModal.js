@@ -108,7 +108,7 @@ const CreateRoomModal = (props) => {
         }}
         actionButtons={
           <button
-            id="remove-friend-submit"
+            id="create-room-submit"
             className={"form-button submit mt-20"}
             type="submit"
             onClick={props.handleSubmit(onSubmit)}
@@ -136,8 +136,28 @@ const CreateRoomModal = (props) => {
                 },
                 labelProps: {
                   class: "textfield-label",
-                  text: "Room Name",
+                  text: "Room Name *",
                   id: "create-room-username-label",
+                },
+              }}
+            />
+            <Field
+              name="password"
+              component={renderInput}
+              type="text"
+              props={{
+                inputProps: {
+                  placeholder: "Room Password",
+                  className: "textfield",
+                  maxLength: "30",
+                  autoComplete: "off",
+                  id: "create-room-password-field",
+                  type: "password",
+                },
+                labelProps: {
+                  class: "textfield-label",
+                  text: "Room Password (optional)",
+                  id: "create-room-password-label",
                 },
               }}
             />

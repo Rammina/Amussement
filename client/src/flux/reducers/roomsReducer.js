@@ -19,6 +19,8 @@ import {
   UPDATE_ROOM_NAME_FAIL,
   EDIT_ROOM_SUCCESS,
   EDIT_ROOM_FAIL,
+  ROOM_PASSWORD_SUBMIT_SUCCESS,
+  ROOM_PASSWORD_SUBMIT_FAIL,
 } from "../actions/types";
 
 const initialState = [];
@@ -38,7 +40,9 @@ export default (state = initialState, action) => {
       return [...action.payload];
     case CREATE_ROOM_SUCCESS:
     case JOIN_ROOM_SUCCESS:
+    case ROOM_PASSWORD_SUBMIT_SUCCESS:
       // action.payload is an object that contains a room property (object)
+      console.log(action.payload);
       console.log(action.payload.room);
       return [...state, action.payload.room];
     case LEAVE_ROOM_SUCCESS:
@@ -75,6 +79,7 @@ export default (state = initialState, action) => {
     case JOIN_ROOM_FAIL:
     case LEAVE_ROOM_FAIL:
     case EDIT_ROOM_FAIL:
+    case ROOM_PASSWORD_SUBMIT_FAIL:
       return state;
     case LOGOUT_SUCCESS:
       return [];

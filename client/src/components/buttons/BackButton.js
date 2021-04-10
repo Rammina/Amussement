@@ -3,7 +3,7 @@ import "./BackButton.scss";
 
 import React, { useEffect, useContext } from "react";
 
-const BackButton = props => {
+const BackButton = (props) => {
   useEffect(() => {
     // code to run on first render
   }, []);
@@ -30,7 +30,8 @@ const BackButton = props => {
         className={`back-button ${getClassName()} ${getHideOnDesktopClass()}`}
         id={`${getButtonId()}`}
         onClick={onClickHandler}
-        onKeyDown={e => {
+        type="button"
+        onKeyDown={(e) => {
           if (e.shiftKey && e.key === "Tab") {
             e.preventDefault();
             e.stopPropagation();

@@ -106,11 +106,13 @@ export const joinRoom = (formValues, successCb) => (dispatch, getState) => {
     .patch(`/api/rooms/${roomName}/join`, { ...formValues, userId })
     .then((res) => {
       // if the server returns our response indicating that a message is required, ask the user for the password
+      console.log(res.data);
       if (res.data.password_required) {
         dispatch({
           type: ROOM_PASSWORD_REQUIRED,
-          payload: { roomId: res.data.roomId },
+          payload: res.data,
         });
+        dispatch(clearErrors());
       } else {
         dispatch({
           type: JOIN_ROOM_SUCCESS,
@@ -134,7 +136,35 @@ export const joinRoom = (formValues, successCb) => (dispatch, getState) => {
       });
     })
     .finally(() => {
-      dispatch(actionShowLoader("joinRoomModalForm", false));
+      dispatch(actionShowLoader("joinRoomForm", false));
+    });
+};
+
+export const submitRoomPassword = (formValues, successCb) => (
+  dispatch,
+  getState
+) => {
+  const userId = getState().user.info._id || getState().user.info.id;
+  console.log(formValues);
+
+  serverRest
+    .patch(`/api/rooms/${formValues.roomId}/submit_room_password`, {
+      ...formValues,
+      userId,
+    })
+    .then((res) => {
+      dispatch({ type: "ROOM_PASSWORD_SUBMIT_SUCCESS", payload: res.data });
+      dispatch(clearErrors());
+      if (successCb) successCb();
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(err.response);
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({ type: "ROOM_PASSWORD_SUBMIT_FAIL" });
+    })
+    .finally(() => {
+      dispatch(actionShowLoader("roomPasswordConfirmation", false));
     });
 };
 

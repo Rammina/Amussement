@@ -139,7 +139,7 @@ const DeleteAccount = (props) => {
                   },
                   labelProps: {
                     class: "textfield-label",
-                    text: "Password",
+                    text: "Password *",
                     id: "delete-account-password-label",
                   },
                 }}
