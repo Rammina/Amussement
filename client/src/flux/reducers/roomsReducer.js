@@ -19,6 +19,8 @@ import {
   UPDATE_ROOM_NAME_FAIL,
   EDIT_ROOM_SUCCESS,
   EDIT_ROOM_FAIL,
+  EDIT_ROOM_AVATAR_SUCCESS,
+  EDIT_ROOM_AVATAR_FAIL,
   ROOM_PASSWORD_SUBMIT_SUCCESS,
   ROOM_PASSWORD_SUBMIT_FAIL,
 } from "../actions/types";
@@ -65,6 +67,13 @@ export default (state = initialState, action) => {
         return room;
       });
     // return ;
+    case EDIT_ROOM_AVATAR_SUCCESS:
+      return state.map((room) => {
+        if (room._id === action.payload._id) {
+          room.image_url = action.payload.image_url;
+        }
+        return room;
+      });
     case DELETE_ROOM_SUCCESS:
       return [...state].filter((room) => room._id !== action.payload.roomId);
     // case REMOVE_ROOM_SUCCESS:
@@ -80,6 +89,7 @@ export default (state = initialState, action) => {
     case LEAVE_ROOM_FAIL:
     case EDIT_ROOM_FAIL:
     case ROOM_PASSWORD_SUBMIT_FAIL:
+    case EDIT_ROOM_AVATAR_FAIL:
       return state;
     case LOGOUT_SUCCESS:
       return [];

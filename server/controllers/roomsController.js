@@ -1,5 +1,6 @@
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
+const { cloudinary } = require("../utils/cloudinary");
 // import all the mongoose models
 const User = require("../models/user");
 const Room = require("../models/room");
@@ -318,6 +319,44 @@ exports.update_room_name = async (req, res) => {
       console.log(e);
       res.status(400).json({ msg: e.message });
     }
+  }
+};
+
+exports.upload_avatar = async (req, res) => {
+  try {
+    const fileStr = req.body.data;
+    const { userId } = req.body;
+    const roomId = req.params.id;
+
+    const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
+      upload_preset: "amussement_setups",
+      public_id: `${roomId}-room-avatar`,
+      width: 350,
+      height: 350,
+      crop: "limit",
+    });
+
+    const avatarUrl = uploadedResponse.secure_url;
+    const updatedRoom = await Room.findByIdAndUpdate(
+      roomId,
+      {
+        $set: {
+          image_url: avatarUrl,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    if (!updatedRoom) throw Error("Failed to update the room.");
+    console.log("succeeded in uploading the avatar");
+    res.status(200).json({
+      image_url: avatarUrl,
+      _id: roomId,
+    });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ msg: e.message });
   }
 };
 

@@ -15,7 +15,7 @@ import Modal from "../../../Modal/Modal";
 // import cloudinaryRest from "../../../../apis/cloudinaryRest";
 
 import { actionShowLoader } from "../../../../flux/actions/loaderActions";
-// import { editRoomAvatar } from "../../../../flux/actions/settingsActions";
+import { editRoomAvatar } from "../../../../flux/actions/roomsActions";
 
 import { WindowContext, RoomContext } from "../../../AppContext";
 
@@ -62,7 +62,7 @@ const RoomAvatar = (props) => {
   };
 
   const uploadImage = async (base64EncodedImage) => {
-    // await props.editRoomAvatar(base64EncodedImage, room._id);
+    await props.editRoomAvatar(base64EncodedImage, room._id);
     setImageUploadModalOpen(false);
   };
 
@@ -111,7 +111,7 @@ const RoomAvatar = (props) => {
               setImageUploadModalOpen(false);
             }}
             headerClassName="settings-page-sidebar-header"
-            headingText="Upload Avatar"
+            headingText="Upload Room Icon"
           >
             <form encType="multipart/form-data" onSubmit={handleSubmitFile}>
               <div className={`room-avatar modal-content-container`}>
@@ -163,7 +163,7 @@ const RoomAvatar = (props) => {
           setImageUploadModalOpen(false);
         }}
         headerClassName="settings-page-sidebar-header"
-        headingText="Upload Avatar"
+        headingText="Upload Room Icon"
         actionButtons={
           <button
             id="room-avatar-image-submit"
@@ -236,13 +236,12 @@ const RoomAvatar = (props) => {
   );
 };
 const mapStateToProps = (state) => ({
-  user: state.user.info,
   error: state.error,
   showLoader: state.loader.showUploadRoomAvatarFormLoader,
 });
 
 const roomAvatar = connect(mapStateToProps, {
-  // editRoomAvatar,
+  editRoomAvatar,
   actionShowLoader,
 })(RoomAvatar);
 

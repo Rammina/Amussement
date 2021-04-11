@@ -33,7 +33,7 @@ const upload = multer({
   fileFilter: function (req, file, cb) {
     checkFileType(/jpeg|jpg|png|gif/, file, cb);
   },
-}).single("shoesImage");
+}).single("userImage");
 
 // check file type
 const checkFileType = (regexp, file, cb) => {
@@ -230,6 +230,9 @@ exports.user_upload_avatar = async (req, res) => {
     const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
       upload_preset: "amussement_setups",
       public_id: `${req.params.id}-user-avatar`,
+      width: 350,
+      height: 350,
+      crop: "limit",
     });
 
     const avatarUrl = uploadedResponse.secure_url;
@@ -248,7 +251,7 @@ exports.user_upload_avatar = async (req, res) => {
     console.log("succeeded in uploading the avatar");
     res.status(200).json({
       user: {
-        image_url: uploadedResponse.secure_url,
+        image_url: avatarUrl,
       },
     });
   } catch (e) {

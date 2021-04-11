@@ -2,6 +2,7 @@ import "../SettingsPage.scss";
 
 import React, { useState, useEffect, useContext } from "react";
 import ReactDOM from "react-dom";
+import PropTypes from "prop-types";
 import { Link, useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -9,13 +10,13 @@ import serverRest from "../../apis/serverRest";
 import history from "../../history";
 
 import RoomOverview from "./RoomOverview/RoomOverview";
-import CloseButton from "../buttons/CloseButton";
+import SettingsCloseButton from "../buttons/SettingsCloseButton";
 
 import { WindowContext } from "../AppContext";
 // import { renderError, getErrorClass } from "../../helpers";
 
 export const RoomSettings = (props) => {
-  const { roomId } = useParams();
+  // const { roomId } = useParams();
   const [roomOverviewOpened, setRoomOverviewOpened] = useState(false);
   // const [appearanceOpened, setAppearanceOpened] = useState(false);
   // const [friendsOpened, setFriendsOpened] = useState(false);
@@ -118,6 +119,8 @@ export const RoomSettings = (props) => {
         <div className="settings-page-sidebar-outer-container fake"></div>
 
         {renderSection()}
+
+        <SettingsCloseButton onClose={props.onClose} />
       </div>
     </div>
   );
@@ -130,5 +133,9 @@ export const RoomSettings = (props) => {
 };
 
 const roomSettings = connect(null, {})(RoomSettings);
+
+RoomSettings.propTypes = {
+  roomId: PropTypes.string,
+};
 
 export default roomSettings;

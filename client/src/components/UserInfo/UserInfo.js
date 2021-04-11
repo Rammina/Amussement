@@ -52,21 +52,6 @@ const UserInfo = (props) => {
     return (
       <div className="my-account-section-heading-container desktop">
         <h1 className="my-account-section-heading desktop">My Account</h1>
-        <CloseButton
-          componentClass="settings-page"
-          buttonId="settings-page-close-button"
-          imageId="user-setting-close-image"
-          buttonLabel={
-            <span className="close-button-label" id="settings-page-close-label">
-              esc
-            </span>
-          }
-          onClickHandler={() => {
-            //note: re-\ implement this because it's buggy right now
-            // history.goBack();
-            history.push(`/users/${id}/home`);
-          }}
-        />
       </div>
     );
   };

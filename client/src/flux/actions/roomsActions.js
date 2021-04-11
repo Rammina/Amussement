@@ -1,5 +1,6 @@
 import axios from "axios";
 import serverRest from "../../apis/serverRest";
+import cloudinaryRest from "../../apis/cloudinaryRest";
 import history from "../../history";
 import { returnErrors, clearErrors } from "./errorActions";
 import { actionShowLoader } from "./loaderActions";
@@ -21,6 +22,8 @@ import {
   UPDATE_ROOM_NAME_FAIL,
   EDIT_ROOM_SUCCESS,
   EDIT_ROOM_FAIL,
+  EDIT_ROOM_AVATAR_SUCCESS,
+  EDIT_ROOM_AVATAR_FAIL,
   ROOM_PASSWORD_REQUIRED,
   ROOM_PASSWORD_SUBMIT_SUCCESS,
   ROOM_PASSWORD_SUBMIT_FAIL,
@@ -201,40 +204,6 @@ export const leaveRoom = (roomId, successCb) => (dispatch, getState) => {
     });
 };
 
-export const deleteRoom = (roomId, successCb) => (dispatch, getState) => {
-  const userId = getState().user.info._id || getState().user.info.id;
-  console.log(roomId);
-
-  axios
-    .delete(`http://localhost:5000/api/rooms/${roomId}`, {
-      data: { roomId, userId },
-    })
-    .then((res) => {
-      dispatch({
-        type: DELETE_ROOM_SUCCESS,
-        payload: {
-          /*note: think about should be returned from the server as payload*/
-          ...res.data,
-        },
-      });
-      // dispatch(getAllRooms(userId));
-      // history.push(`/users/${userId}/rooms`);
-      dispatch(clearErrors());
-      if (successCb) successCb();
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log(err.response);
-      dispatch(returnErrors(err.response.data, err.response.status));
-      dispatch({
-        type: DELETE_ROOM_FAIL,
-      });
-    })
-    .finally(() => {
-      // dispatch(actionShowLoader("leaveRoomModalForm", false));
-    });
-};
-
 export const updateRoomName = (formValues, successCb) => (
   dispatch,
   getState
@@ -304,5 +273,96 @@ export const editRoom = (formValues, successCb) => (dispatch, getState) => {
     })
     .finally(() => {
       dispatch(actionShowLoader("editRoomModalForm", false));
+    });
+};
+
+export const editRoomAvatar = (base64EncodedImage, roomId) => {
+  return async function (dispatch, getState) {
+    const userId = getState().user.info._id || getState().user.info.id;
+    try {
+      await cloudinaryRest
+        .patch(
+          `/api/rooms/${roomId}/upload_avatar`,
+          JSON.stringify({ data: base64EncodedImage, userId })
+        )
+        .then((res) => {
+          console.log(res.data);
+          dispatch({ type: EDIT_ROOM_AVATAR_SUCCESS, payload: res.data });
+        });
+    } catch (err) {
+      console.log(err);
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "EDIT_ROOM_AVATAR_FAIL"
+        )
+      );
+      dispatch({ type: EDIT_ROOM_AVATAR_FAIL });
+    } finally {
+      dispatch(actionShowLoader("uploadRoomAvatarForm", false));
+    }
+  };
+};
+
+/*
+export const removeUserAvatar = (id) => {
+  return async function (dispatch, getState) {
+    const userId = id || getState().user.info._id || getState().user.info.id;
+    try {
+      await cloudinaryRest
+        .patch(`/api/users/${userId}/settings/remove-avatar`, {
+          message: "remove avatar",
+        })
+        .then((res) => {
+          console.log(res.data);
+          dispatch({ type: REMOVE_USER_AVATAR_SUCCESS, payload: res.data });
+        });
+    } catch (err) {
+      console.log(err);
+      dispatch(
+        returnErrors(
+          err.response.data,
+          err.response.status,
+          "REMOVE_USER_AVATAR_FAIL"
+        )
+      );
+      dispatch({ type: REMOVE_USER_AVATAR_FAIL });
+    }
+  };
+};
+*/
+
+export const deleteRoom = (roomId, successCb) => (dispatch, getState) => {
+  const userId = getState().user.info._id || getState().user.info.id;
+  console.log(roomId);
+
+  axios
+    .delete(`http://localhost:5000/api/rooms/${roomId}`, {
+      data: { roomId, userId },
+    })
+    .then((res) => {
+      dispatch({
+        type: DELETE_ROOM_SUCCESS,
+        payload: {
+          /*note: think about should be returned from the server as payload*/
+          ...res.data,
+        },
+      });
+      // dispatch(getAllRooms(userId));
+      // history.push(`/users/${userId}/rooms`);
+      dispatch(clearErrors());
+      if (successCb) successCb();
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(err.response);
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: DELETE_ROOM_FAIL,
+      });
+    })
+    .finally(() => {
+      // dispatch(actionShowLoader("leaveRoomModalForm", false));
     });
 };

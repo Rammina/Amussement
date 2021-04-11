@@ -74,6 +74,13 @@ app.use(
   "/api/users/:id/settings/upload-avatar",
   express.urlencoded({ extended: "true" })
 );
+
+app.use("/api/rooms/:id/upload_avatar", express.json({ limit: "50mb" }));
+app.use(
+  "/api/rooms/:id/upload_avatar",
+  express.urlencoded({ extended: "true" })
+);
+
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: false }));

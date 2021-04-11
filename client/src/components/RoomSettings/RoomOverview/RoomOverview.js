@@ -49,7 +49,7 @@ const RoomOverview = (props) => {
         <CloseButton
           componentClass="settings-page"
           buttonId="settings-page-close-button"
-          imageId="user-setting-close-image"
+          imageId="settings-page-close-image"
           buttonLabel={
             <span className="close-button-label" id="settings-page-close-label">
               esc

@@ -11,7 +11,7 @@ import history from "../../history";
 
 import UserInfo from "../UserInfo/UserInfo";
 // import Footer from "../Footer/Footer";
-import CloseButton from "../buttons/CloseButton";
+import SettingsCloseButton from "../buttons/SettingsCloseButton";
 
 import { logout } from "../../flux/actions/authActions";
 import { clearFriendsList } from "../../flux/actions/friendsActions";
@@ -195,6 +195,11 @@ const UserSettings = (props) => {
           x
         </button>
         */}
+        <SettingsCloseButton
+          onClose={() => {
+            history.push(`/users/${id}/home`);
+          }}
+        />
       </div>
     </div>
   );

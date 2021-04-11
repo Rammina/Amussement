@@ -24,6 +24,8 @@ router.patch("/:id/leave", rooms_controller.leave_room);
 
 router.patch("/:id/edit_room", rooms_controller.edit_room);
 
+router.patch("/:id/upload_avatar", rooms_controller.upload_avatar);
+
 router.delete("/:id", rooms_controller.delete_room);
 
 module.exports = router;

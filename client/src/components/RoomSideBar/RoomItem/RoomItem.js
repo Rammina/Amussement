@@ -105,6 +105,11 @@ const RoomItem = (props) => {
     onCloseContextMenuHandler();
   };
 
+  const roomSettingsOnCloseHandler = () => {
+    setShowRoomSettings(false);
+    // onCloseContextMenuHandler();
+  };
+
   const leaveRoomOnClickHandler = () => {
     // do not allow leaving of room if user is the owner
     if (!isOwnedByCurrentUser) {
@@ -150,7 +155,7 @@ const RoomItem = (props) => {
 
     return (
       <RoomContext.Provider value={getRoomContextValue()}>
-        <RoomSettings />
+        <RoomSettings onClose={roomSettingsOnCloseHandler} />
       </RoomContext.Provider>
     );
   };
