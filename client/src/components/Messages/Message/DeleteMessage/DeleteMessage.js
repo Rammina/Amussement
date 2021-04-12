@@ -35,13 +35,13 @@ const DeleteMessage = (props) => {
               />
             </div>
           </div>
-          <div class="message-text-container ">
+          <div class="message-text-container">
             <p class="sender-text ">{message.username}</p>
             <span class="message-timestamp beside-sender">
               Today at 6:49 PM
             </span>
             <div class="messageBox">
-              <p class="messageText colorDark  ">{message.text}</p>
+              <p class="message-text">{message.text}</p>
             </div>
           </div>
         </div>

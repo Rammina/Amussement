@@ -322,7 +322,7 @@ exports.update_room_name = async (req, res) => {
   }
 };
 
-exports.upload_avatar = async (req, res) => {
+exports.upload_icon = async (req, res) => {
   try {
     const fileStr = req.body.data;
     const { userId } = req.body;
@@ -330,18 +330,18 @@ exports.upload_avatar = async (req, res) => {
 
     const uploadedResponse = await cloudinary.uploader.upload(fileStr, {
       upload_preset: "amussement_setups",
-      public_id: `${roomId}-room-avatar`,
+      public_id: `${roomId}-room-icon`,
       width: 350,
       height: 350,
       crop: "limit",
     });
 
-    const avatarUrl = uploadedResponse.secure_url;
+    const iconUrl = uploadedResponse.secure_url;
     const updatedRoom = await Room.findByIdAndUpdate(
       roomId,
       {
         $set: {
-          image_url: avatarUrl,
+          image_url: iconUrl,
         },
       },
       {
@@ -349,9 +349,9 @@ exports.upload_avatar = async (req, res) => {
       }
     );
     if (!updatedRoom) throw Error("Failed to update the room.");
-    console.log("succeeded in uploading the avatar");
+
     res.status(200).json({
-      image_url: avatarUrl,
+      image_url: iconUrl,
       _id: roomId,
     });
   } catch (e) {

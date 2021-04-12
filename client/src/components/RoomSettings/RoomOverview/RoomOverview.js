@@ -14,7 +14,7 @@ import { Field, reduxForm } from "redux-form";
 import history from "../../../history";
 
 import EditRoom from "../../forms/room/EditRoom";
-import RoomAvatar from "./RoomAvatar/RoomAvatar";
+import RoomIcon from "./RoomIcon/RoomIcon";
 import BackButton from "../../buttons/BackButton";
 import CloseButton from "../../buttons/CloseButton";
 
@@ -107,7 +107,7 @@ const RoomOverview = (props) => {
             </h1>
           </div>
           <div className="room-container">
-            <RoomAvatar />
+            <RoomIcon />
 
             <div className="" id="room-information-container">
               <label className="room-information label">ROOM NAME</label>
@@ -116,7 +116,7 @@ const RoomOverview = (props) => {
               </p>
 
               <button
-                className="room-information room-avatar-remove hide-750w"
+                className="room-information room-icon-remove hide-750w"
                 onClick={() => {
                   // props.removeUserAvatar();
                 }}
@@ -168,7 +168,7 @@ const mapStateToProps = (state) => ({
 });
 
 const userInfo = connect(mapStateToProps, {
-  // removeRoomAvatar
+  // removeRoomIcon
   clearErrors,
 })(RoomOverview);
 

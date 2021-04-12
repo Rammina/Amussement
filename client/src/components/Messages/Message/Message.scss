@@ -26,6 +26,13 @@
   // overflow: visible;
 }
 
+.messageText textarea.message-text {
+  background-color: #ffffff0f;
+  border-radius: 5px;
+  border: none;
+  box-shadow: none;
+}
+
 /*
 .message-text:hover {
   background-color: #eee;
@@ -73,6 +80,7 @@
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  word-break: break-word;
   // align-items: center;
   // padding-top: 1.5rem;
 }

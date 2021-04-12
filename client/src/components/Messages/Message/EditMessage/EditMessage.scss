@@ -2,14 +2,14 @@
 
 .message-text.edit-mode {
   margin-top: 0.5rem;
-  border: 1px solid $messageTextColor;
+  // border: 1px solid $messageTextColor;
 }
 
 .edit-message-instruction-message {
   position: relative;
   bottom: 0.5rem;
   font-size: 0.75rem;
-  color: $senderTextColor;
+  color: $textFontColorSlightDim;
 }
 
 .edit-message-instruction-message.no-image {

@@ -27,11 +27,23 @@
   // width: 6rem;
 }
 
+.user-status-button-container {
+  position: relative;
+  display: inline-block;
+  margin: 0 0.5rem;
+}
+
+.user-status.hover-marker-container {
+  position: absolute;
+  top: -2.5rem;
+  left: -1.4rem;
+  // right: 0.9rem;
+}
+
 .user-status-button {
   display: inline-block;
   width: 1.4rem;
   height: 1.4rem;
-  margin: 0 0.5rem;
 }
 
 .user-status-button:hover {

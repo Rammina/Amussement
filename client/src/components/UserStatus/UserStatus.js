@@ -16,7 +16,26 @@ const UserStatus = (props) => {
   const [settingsMarkerY, setSettingsMarkerY] = useState(-200);
   const [friendsMarkerX, setFriendsMarkerX] = useState(-200);
   const [friendsMarkerY, setFriendsMarkerY] = useState(-200);
-  const [isMouseHovered, setIsMouseHovered] = useState(false);
+  const [isMouseHoveredOnFriends, setIsMouseHoveredOnFriends] = useState(false);
+  const [isMouseHoveredOnSettings, setIsMouseHoveredOnSettings] = useState(
+    false
+  );
+
+  const onMouseEnterFriendsHandler = () => {
+    setIsMouseHoveredOnFriends(true);
+  };
+
+  const onMouseLeaveFriendsHandler = () => {
+    setIsMouseHoveredOnFriends(false);
+  };
+
+  const onMouseEnterSettingsHandler = () => {
+    setIsMouseHoveredOnSettings(true);
+  };
+
+  const onMouseLeaveSettingsHandler = () => {
+    setIsMouseHoveredOnSettings(false);
+  };
 
   return props.user ? (
     <div className="user-status-outer-container">
@@ -30,26 +49,44 @@ const UserStatus = (props) => {
         <span className="user-status-item-text">{props.user.username}</span>
       </div>
       <div className="user-status-buttons-container">
-        <Link
-          className="user-status-button"
-          to={`users/${props.user._id}/friends`}
-        >
-          <img
-            className="user-status-button-image"
-            src={FriendsImg}
-            alt="Group Icon"
+        <div className="user-status-button-container">
+          <HoverMarker
+            className="user-status"
+            isShown={isMouseHoveredOnFriends}
+            textContent="Friends"
           />
-        </Link>
-        <Link
-          className="user-status-button"
-          to={`users/${props.user._id}/settings`}
-        >
-          <img
-            className="user-status-button-image"
-            src={SettingsImg}
-            alt="Gear Icon"
+          <Link
+            className="user-status-button"
+            to={`users/${props.user._id}/friends`}
+            onMouseEnter={onMouseEnterFriendsHandler}
+            onMouseLeave={onMouseLeaveFriendsHandler}
+          >
+            <img
+              className="user-status-button-image"
+              src={FriendsImg}
+              alt="Group Icon"
+            />
+          </Link>
+        </div>
+        <div className="user-status-button-container">
+          <HoverMarker
+            className="user-status"
+            isShown={isMouseHoveredOnSettings}
+            textContent="Settings"
           />
-        </Link>
+          <Link
+            className="user-status-button"
+            to={`users/${props.user._id}/settings`}
+            onMouseEnter={onMouseEnterSettingsHandler}
+            onMouseLeave={onMouseLeaveSettingsHandler}
+          >
+            <img
+              className="user-status-button-image"
+              src={SettingsImg}
+              alt="Gear Icon"
+            />
+          </Link>
+        </div>
       </div>
     </div>
   ) : null;

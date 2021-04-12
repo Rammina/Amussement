@@ -62,9 +62,12 @@
   height: 2.25rem;
   padding: 0.4rem;
   bottom: 4.5rem;
-  right: 2.3rem;
+  right: 1.2rem;
   border-radius: 50%;
-  box-shadow: 3px 3px 3px -2px #333;
+  // box-shadow: 3px 3px 3px -2px #333;
+  -webkit-box-shadow: 0px 10px 13px -7px #000000,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
+  box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
   // animation: 0.3s ease-out forwards scroll-down-button-show;
   // transition: transform 0.3s ease-out, opacity 0.3s ease-out;
   // 0.3s ease-out
@@ -83,6 +86,12 @@
 #messages-container-scroll-down-img {
   width: 1.45rem;
   height: 1.45rem;
+}
+
+@media screen and (min-width: 768px) and (min-height: 350px) {
+  #messages-container-scroll-down-button {
+    right: 2.3rem;
+  }
 }
 
 @keyframes scroll-down-button-hide {

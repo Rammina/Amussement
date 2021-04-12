@@ -22,8 +22,8 @@ import {
   UPDATE_ROOM_NAME_FAIL,
   EDIT_ROOM_SUCCESS,
   EDIT_ROOM_FAIL,
-  EDIT_ROOM_AVATAR_SUCCESS,
-  EDIT_ROOM_AVATAR_FAIL,
+  EDIT_ROOM_ICON_SUCCESS,
+  EDIT_ROOM_ICON_FAIL,
   ROOM_PASSWORD_REQUIRED,
   ROOM_PASSWORD_SUBMIT_SUCCESS,
   ROOM_PASSWORD_SUBMIT_FAIL,
@@ -276,18 +276,18 @@ export const editRoom = (formValues, successCb) => (dispatch, getState) => {
     });
 };
 
-export const editRoomAvatar = (base64EncodedImage, roomId) => {
+export const editRoomIcon = (base64EncodedImage, roomId) => {
   return async function (dispatch, getState) {
     const userId = getState().user.info._id || getState().user.info.id;
     try {
       await cloudinaryRest
         .patch(
-          `/api/rooms/${roomId}/upload_avatar`,
+          `/api/rooms/${roomId}/upload_icon`,
           JSON.stringify({ data: base64EncodedImage, userId })
         )
         .then((res) => {
           console.log(res.data);
-          dispatch({ type: EDIT_ROOM_AVATAR_SUCCESS, payload: res.data });
+          dispatch({ type: EDIT_ROOM_ICON_SUCCESS, payload: res.data });
         });
     } catch (err) {
       console.log(err);
@@ -295,12 +295,12 @@ export const editRoomAvatar = (base64EncodedImage, roomId) => {
         returnErrors(
           err.response.data,
           err.response.status,
-          "EDIT_ROOM_AVATAR_FAIL"
+          "EDIT_ROOM_ICON_FAIL"
         )
       );
-      dispatch({ type: EDIT_ROOM_AVATAR_FAIL });
+      dispatch({ type: EDIT_ROOM_ICON_FAIL });
     } finally {
-      dispatch(actionShowLoader("uploadRoomAvatarForm", false));
+      dispatch(actionShowLoader("uploadRoomIconForm", false));
     }
   };
 };
