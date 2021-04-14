@@ -151,6 +151,7 @@ const RoomItem = (props) => {
     const getRoomContextValue = () => ({
       room: props.room,
       isSelectedRoom,
+      roomSettingsOnCloseHandler,
     });
 
     return (

@@ -33,7 +33,7 @@ const RoomOverview = (props) => {
   const [selectedFile, setSelectedFile] = useState("");
   const [previewSource, setPreviewSource] = useState("");
   const { isDesktopWidth } = useContext(WindowContext);
-  const { room } = useContext(RoomContext);
+  const { room, roomSettingsOnCloseHandler } = useContext(RoomContext);
   const { id } = useParams();
 
   useEffect(() => {}, []);
@@ -58,7 +58,8 @@ const RoomOverview = (props) => {
           onClickHandler={() => {
             //note: re-\ implement this because it's buggy right now
             // history.goBack();
-            history.push(`/users/${id}/home`);
+            // history.push(`/users/${id}/home`);
+            roomSettingsOnCloseHandler();
           }}
         />
       </div>

@@ -63,10 +63,19 @@
   background-color: $secondary-black;
 }
 
+#room-settings-header {
+  justify-content: flex-start;
+}
+
 .settings-page-header-heading {
   display: inline-block;
   font-size: 1.3rem;
   // height: 1.3rem;
+}
+
+#room-settings-header-heading {
+  position: relative;
+  right: 0.7rem;
 }
 
 #settings-page-logout-button {
@@ -106,15 +115,18 @@
   // color: rgb(255, 255, 255);
 }
 
+// note: This is causing scroll down behaivor and doesn't really fit the content
 .settings-page-content-container {
   z-index: 2;
   // display: none;
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: auto;
+  min-height: 99vh;
   padding: 0.5rem 0;
   background-color: $main-black;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .settings-page-content-header {
@@ -158,10 +170,12 @@
   filter: invert(58%) sepia(42%) saturate(481%) hue-rotate(308deg)
     brightness(93%) contrast(108%);
 }
-#settings-page-desktop-logout {
+#settings-page-desktop-logout,
+#settings-page-delete-room {
   color: $dangerTextColor;
 }
-#settings-page-desktop-logout:hover {
+#settings-page-desktop-logout:hover,
+#settings-page-delete-room:hover {
   color: $dangerTextColorHover;
   background-color: #f772;
 }

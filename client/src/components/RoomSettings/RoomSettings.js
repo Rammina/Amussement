@@ -10,9 +10,11 @@ import serverRest from "../../apis/serverRest";
 import history from "../../history";
 
 import RoomOverview from "./RoomOverview/RoomOverview";
+import BackButton from "../buttons/BackButton";
+
 import SettingsCloseButton from "../buttons/SettingsCloseButton";
 
-import { WindowContext } from "../AppContext";
+import { WindowContext, RoomContext } from "../AppContext";
 // import { renderError, getErrorClass } from "../../helpers";
 
 export const RoomSettings = (props) => {
@@ -21,37 +23,29 @@ export const RoomSettings = (props) => {
   // const [appearanceOpened, setAppearanceOpened] = useState(false);
   // const [friendsOpened, setFriendsOpened] = useState(false);
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
+  const { roomSettingsOnCloseHandler } = useContext(RoomContext);
 
   useEffect(() => {
     if (isDesktopWidth && isDesktopHeight) setRoomOverviewOpened(true);
   }, []);
 
   // function handlers
+  const roomOverviewOnCloseHandler = () => {
+    setRoomOverviewOpened(false);
+  };
 
   // render functions
   const renderSection = () => {
     if (!isDesktopWidth || !isDesktopHeight) {
       // if(isDesktopWidth) return null;
       if (roomOverviewOpened) {
-        return (
-          <RoomOverview
-            closeRoomOverview={() => {
-              setRoomOverviewOpened(false);
-            }}
-          />
-        );
+        return <RoomOverview closeRoomOverview={roomOverviewOnCloseHandler} />;
       }
     } else {
       // this is for desktop versions of the components
       if (roomOverviewOpened) {
         console.log("Opening my account on desktop with");
-        return (
-          <RoomOverview
-            closeRoomOverview={() => {
-              setRoomOverviewOpened(false);
-            }}
-          />
-        );
+        return <RoomOverview closeRoomOverview={roomOverviewOnCloseHandler} />;
       }
     }
     return null;
@@ -84,8 +78,22 @@ export const RoomSettings = (props) => {
       <div className="settings-page-outer-flex-container">
         <div className="settings-page-sidebar-outer-container">
           <div className="settings-page-sidebar-middle-container">
-            <header className="settings-page-sidebar-header">
-              <h1 className="settings-page-header-heading">Room Settings</h1>
+            <header
+              className="settings-page-sidebar-header"
+              id="room-settings-header"
+            >
+              <BackButton
+                componentClass="room-settings"
+                buttonId="room-settings-back-button"
+                hideOnDesktop={true}
+                onClickHandler={roomSettingsOnCloseHandler}
+              />
+              <h1
+                className="settings-page-header-heading"
+                id="room-settings-header-heading"
+              >
+                Room Settings
+              </h1>
               {/*
                             {renderHeaderLogOut()}
               */}

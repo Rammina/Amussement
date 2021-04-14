@@ -144,8 +144,10 @@
 @media screen and (min-width: 450px) and (min-height: 350px) {
   .room-overview-section-container {
     position: relative;
+    overflow-y: hidden;
     top: 4rem;
-
+    height: fit-content;
+    min-height: 10rem;
     // border: 1px solid white;
     width: 85%;
     max-width: 35rem;
