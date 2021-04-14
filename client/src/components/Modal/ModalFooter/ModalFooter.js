@@ -21,6 +21,7 @@ const ModalFooter = (props) => {
         onClickHandler={() => {
           props.onModalClose();
         }}
+        autoFocusOnCancel={props.autoFocusOnCancel || false}
       />
     );
   };

@@ -8,8 +8,9 @@ import queryString from "query-string";
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 import RoomContextMenu from "./RoomContextMenu/RoomContextMenu";
 import RoomSettings from "../../RoomSettings/RoomSettings";
+import DeleteRoom from "../../forms/room/DeleteRoom";
 
-import { leaveRoom, deleteRoom } from "../../../flux/actions/roomsActions";
+import { leaveRoom } from "../../../flux/actions/roomsActions";
 import { findPosX, findPosY } from "../../../helpers";
 import history from "../../../history";
 
@@ -25,6 +26,7 @@ const RoomItem = (props) => {
   const [isSelectedRoom, setIsSelectedRoom] = useState(false);
   const [showRoomContextMenu, setShowRoomContextMenu] = useState(false);
   const [showRoomSettings, setShowRoomSettings] = useState(false);
+  const [deleteRoomOpened, setDeleteRoomOpened] = useState(false);
   const location = useLocation();
   console.log(location);
   // console.log(props.location);
@@ -122,10 +124,13 @@ const RoomItem = (props) => {
   const deleteRoomOnClickHandler = () => {
     // do not allow deleting of room if user is not the owner
     if (isOwnedByCurrentUser) {
-      props.deleteRoom(props.room._id, redirectToHomeUponRemovalCb);
-      // return null;
+      setDeleteRoomOpened(true);
     }
     onCloseContextMenuHandler();
+  };
+
+  const deleteRoomOnCloseHandler = () => {
+    setDeleteRoomOpened(false);
   };
 
   const renderRoomContextMenu = () => {
@@ -160,6 +165,16 @@ const RoomItem = (props) => {
       </RoomContext.Provider>
     );
   };
+  const renderRoomDeleteModal = () => {
+    if (!deleteRoomOpened) return null;
+    return (
+      <DeleteRoom
+        room={props.room}
+        redirectToHomeUponRemovalCb={redirectToHomeUponRemovalCb}
+        onClose={deleteRoomOnCloseHandler}
+      />
+    );
+  };
   // const getGuestName=() => {}
   const renderItemContent = () => {
     // if there is an image, use the URL in the image tag
@@ -182,6 +197,7 @@ const RoomItem = (props) => {
     <React.Fragment>
       {renderRoomSettings()}
       {renderRoomContextMenu()}
+      {renderRoomDeleteModal()}
       <div className="room-item-container" ref={roomItemRef}>
         <Link
           onMouseEnter={onMouseEnterHandler}
@@ -210,4 +226,4 @@ const RoomItem = (props) => {
   );
 };
 
-export default connect(null, { leaveRoom, deleteRoom })(RoomItem);
+export default connect(null, { leaveRoom })(RoomItem);

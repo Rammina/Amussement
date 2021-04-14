@@ -48,6 +48,7 @@ const Modal = (props) => {
         footerClassName={props.footerClassName}
         onModalClose={props.onModalClose}
         actionButtons={props.actionButtons}
+        autoFocusOnCancel={props.autoFocusOnCancel || false}
       />
     );
   };

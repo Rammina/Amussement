@@ -31,6 +31,7 @@ const CancelButton = (props) => {
         id={`${getButtonId()}`}
         onClick={onClickHandler}
         type="button"
+        autoFocus={props.autoFocusOnCancel || false}
         onKeyDown={(e) => {
           if (e.shiftKey && e.key === "Tab") {
             e.preventDefault();

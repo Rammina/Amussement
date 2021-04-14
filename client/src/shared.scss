@@ -414,6 +414,16 @@ textarea {
   color: $textFontColorSlightDim;
 }
 
+.modal-paragraph.enlarged-text {
+  margin: 1rem auto;
+  font-size: 1.3rem;
+  color: $glowingYellowTextColor;
+}
+
+.modal-paragraph.centered {
+  text-align: center;
+}
+
 .modal-form-content {
   padding-top: 4rem;
 }
