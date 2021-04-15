@@ -51,6 +51,7 @@
   text-transform: uppercase;
   font-size: 1rem;
   padding-bottom: 0.8rem;
+  margin-top: 1rem;
 }
 
 .activeItem {
@@ -72,10 +73,42 @@
   padding: 0.5rem;
 }
 
+#left-sidebar-friends-button {
+  display: flex;
+  align-items: center;
+  padding-left: 0.6rem;
+  width: 100%;
+  min-height: 2.6rem;
+  color: $textFontColor;
+  text-align: left;
+  border-radius: 4px;
+  // font-size: 1.1rem;
+}
+
+#left-sidebar-friends-button:hover {
+  background-color: #fff1;
+  color: $textFontWhite;
+}
+
+#left-sidebar-button-image {
+  width: 1.4rem;
+  height: 1.4rem;
+  filter: invert(94%) sepia(14%) saturate(50%) hue-rotate(182deg)
+    brightness(96%) contrast(87%);
+}
+
+#left-sidebar-button-text {
+  margin-left: 0.9rem;
+  font-size: 1.05rem;
+}
+
 @media screen and (min-width: 0px) {
 }
 
 @media screen and (min-width: 1200px) {
+}
+
+@media screen and (min-width: 1200px) and (min-height: 600px) {
   .left-sidebar-container {
     display: flex;
     transform: translate(0rem, 0);
@@ -85,5 +118,9 @@
   .backdrop.left-sidebar.show {
     visibility: hidden;
     transition: none;
+  }
+  .left-sidebar-heading {
+    font-size: 0.9rem;
+    color: $textFontColorSlightDim;
   }
 }

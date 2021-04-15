@@ -51,8 +51,8 @@
     brightness(93%) contrast(92%);
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1200px) and (min-height: 600px) {
   #user-footer-container {
-    // display: none;
+    display: none;
   }
 }
