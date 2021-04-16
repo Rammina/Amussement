@@ -51,7 +51,7 @@
   text-transform: uppercase;
   font-size: 1rem;
   padding-bottom: 0.8rem;
-  margin-top: 1rem;
+  // margin-top: 1rem;
 }
 
 .activeItem {
@@ -73,7 +73,7 @@
   padding: 0.5rem;
 }
 
-#left-sidebar-friends-button {
+.left-sidebar-friends-button {
   display: flex;
   align-items: center;
   padding-left: 0.6rem;
@@ -82,10 +82,13 @@
   color: $textFontColor;
   text-align: left;
   border-radius: 4px;
+  margin-bottom: 1rem;
   // font-size: 1.1rem;
 }
 
-#left-sidebar-friends-button:hover {
+.left-sidebar-friends-button:hover,
+.left-sidebar-friends-button.active,
+.left-sidebar-friends-button.active:hover {
   background-color: #fff1;
   color: $textFontWhite;
 }

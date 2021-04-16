@@ -9,8 +9,9 @@
   color: $textFontColor;
   // padding-bottom: 3rem;
 }
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1200px) and (min-height: 600px) {
   .user-home-page-container {
+    display: flex;
     // height: 100%;
     padding-bottom: 0;
   }

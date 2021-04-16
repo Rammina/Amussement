@@ -12,8 +12,9 @@ import serverRest from "../../apis/serverRest";
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
 import RoomSideBar from "../RoomSideBar/RoomSideBar";
 import DmRoomList from "../DmRoomList/DmRoomList";
+import Friends from "../Friends/Friends";
 
-import { FooterContext } from "../AppContext";
+import { FooterContext, WindowContext } from "../AppContext";
 // import { getAllDmRooms } from "../../flux/actions/dmRoomsActions";
 
 // import { renderError, getErrorClass } from "../../helpers";
@@ -22,12 +23,18 @@ const Home = (props) => {
   const { id } = useParams();
   const userId = props.user ? props.user._id || props.user.id : null;
   const { setShowFooter } = useContext(FooterContext);
+  const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
 
   useEffect(() => {
     console.log(props.match.params.id);
     setShowFooter(true);
     // props.getAllDmRooms(id);
   }, []);
+
+  const renderFriendsComponent = () => {
+    if (!isDesktopWidth || !isDesktopHeight) return null;
+    return <Friends />;
+  };
 
   return (
     <React.Fragment>
@@ -38,6 +45,7 @@ const Home = (props) => {
             <DmRoomList />
           </LeftSideBar>
         </div>
+        {renderFriendsComponent()}
       </div>
     </React.Fragment>
   );

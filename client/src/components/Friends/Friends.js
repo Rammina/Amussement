@@ -2,7 +2,7 @@ import AddUserImg from "../../icons/add-user.png";
 
 import "./Friends.scss";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Route, Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 // import { Field, reduxForm } from "redux-form";
@@ -16,33 +16,29 @@ import AddFriend from "../forms/friend/AddFriend";
 
 import { getAllFriends } from "../../flux/actions/friendsActions";
 
+import { FooterContext, WindowContext } from "../AppContext";
+
 // import { renderError, getErrorClass } from "../../helpers";
 
 const Friends = (props) => {
   const [friendsList, setFriendsList] = useState(null);
   const [addFriendOpened, setAddFriendOpened] = useState(false);
-
-  useEffect(() => {
-    console.log(props.match.params.id);
-    // note: could be redundant now
-    // props.getAllFriends(props.match.params.id);
-  }, []);
+  const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
 
   const location = useLocation();
   console.log(location.pathname);
-  /*
-  const hideSection = sectionName => {
-    if (!props.error.msg) {
-      if (sectionName === "AddFriend" || sectionName === "add-friend") {
-        setAddFriendOpened(false);
-      }
-    }
-  };
-  hideSection={() => {
-    hideSection("AddFriend");
-  }}
 
-*/
+  useEffect(() => {
+    // redirect to home when going to friends page in desktop mode
+    if (!isDesktopWidth || !isDesktopHeight) return null;
+    if (
+      location.pathname.includes("/friends") &&
+      !location.pathname.includes("public") &&
+      !location.pathname.includes("/chat")
+    ) {
+      history.push(`/users/${props.user._id}/home`);
+    }
+  }, [location.pathname]);
 
   const closeAddFriendModalHandler = () => {
     history.push(`/users/${props.user._id}/friends`);
@@ -73,47 +69,78 @@ const Friends = (props) => {
     ));
   };
 
-  return !props.user ? null : (
-    <React.Fragment>
-      <div className="friends-page-container">
-        <div className="friends-outer-flex-container">
-          <div className="friends-sidebar-outer-container"> </div>
-          <section className="friends-section-outer-container">
-            <header className="friends-section-header">
-              <h1 className="friends-header-heading">Friends</h1>
-              <Link
-                to={`/users/${props.user._id}/friends/add`}
-                className="friends-header-link"
-              >
-                <button
-                  className="friends-header-button"
-                  id="add-friend-button"
-                  onClick={() => {
-                    // add friend modal
-                    // setAddFriendOpened(true);
-                  }}
-                >
-                  <img
-                    className={`friends-button-image`}
-                    src={AddUserImg}
-                    alt="Add User Icon"
-                  />
-                </button>
-              </Link>
-            </header>
+  const renderContent = () => {
+    if (!isDesktopWidth || !isDesktopHeight) {
+      return (
+        <React.Fragment>
+          <div className="friends-page-container">
+            <div className="friends-outer-flex-container">
+              <div className="friends-sidebar-outer-container"> </div>
+              <section className="friends-section-outer-container">
+                <header className="friends-section-header">
+                  <h1 className="friends-header-heading">Friends</h1>
 
-            <div className="friends-section-inner-container">
-              <ul className="friends-section-items">{renderFriends()}</ul>
+                  <Link
+                    to={`/users/${props.user._id}/friends/add`}
+                    className="friends-header-link"
+                  >
+                    <button
+                      className="friends-header-button"
+                      id="add-friend-button"
+                    >
+                      <img
+                        className={`friends-button-image`}
+                        src={AddUserImg}
+                        alt="Add User Icon"
+                      />
+                    </button>
+                  </Link>
+                </header>
+
+                <div className="friends-section-inner-container">
+                  <ul className="friends-section-items">{renderFriends()}</ul>
+                </div>
+              </section>
+              <div className="friends-sidebar-outer-container"> </div>
             </div>
-          </section>
-          <div className="friends-sidebar-outer-container"> </div>
-        </div>
-      </div>
-      <Route path={`/users/:userId/friends/add`} exact>
-        <AddFriend onModalClose={closeAddFriendModalHandler} />
-      </Route>
-    </React.Fragment>
-  );
+          </div>
+          <Route path={`/users/:userId/friends/add`} exact>
+            <AddFriend onModalClose={closeAddFriendModalHandler} />
+          </Route>
+        </React.Fragment>
+      );
+    }
+    return (
+      <>
+        <section className="friends-section-outer-container">
+          <header className="friends-section-header">
+            <h1 className="friends-header-heading">Friends</h1>
+            <button className="friends-header-button">All</button>
+
+            <button className="friends-header-button">Pending</button>
+            <Link
+              to={`/users/${props.user._id}/friends/add`}
+              className="friends-header-link"
+            >
+              <button className="friends-header-button" id="add-friend-button">
+                Add Friend
+              </button>
+            </Link>
+          </header>
+
+          <div className="friends-section-inner-container">
+            <ul className="friends-section-items">{renderFriends()}</ul>
+          </div>
+        </section>
+
+        <Route path={`/users/:userId/friends/add`} exact>
+          <AddFriend onModalClose={closeAddFriendModalHandler} />
+        </Route>
+      </>
+    );
+  };
+
+  return !props.user ? null : renderContent();
 };
 
 const mapStateToProps = (state) => ({

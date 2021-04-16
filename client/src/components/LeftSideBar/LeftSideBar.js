@@ -3,7 +3,8 @@ import FriendsImg from "../../icons/friends.png";
 import "./LeftSideBar.scss";
 
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { connect } from "react-redux";
 import queryString from "query-string";
 
 import onlineIcon from "../../icons/onlineIcon.png";
@@ -34,13 +35,20 @@ const LeftSideBarContainer = (props) => {
   }, []);
 
   useEffect(() => {
+    const { roomType } = queryString.parse(location.search);
     if (
-      location.pathname.includes("home") &&
-      !location.pathname.includes("chat")
+      // should be only at home page
+      (location.pathname.includes("/home") &&
+        !location.pathname.includes("public") &&
+        !location.pathname.includes("/chat")) ||
+      // or in DMs
+      roomType === "DM"
     ) {
       setShowFriendsButton(true);
+    } else {
+      setShowFriendsButton(false);
     }
-  }, [location.pathname]);
+  }, [location.pathname, location.search]);
 
   const handleResize = () => {
     console.log("This triggers");
@@ -67,14 +75,31 @@ const LeftSideBarContainer = (props) => {
     return leftSideBarShow ? "show" : "hide";
   };
 
+  const getFriendsButtonClass = () => {
+    if (!isDesktopWidth || !isDesktopHeight) return "";
+    if (
+      // should be only at home page
+      location.pathname.includes("/home") &&
+      !location.pathname.includes("public") &&
+      !location.pathname.includes("/chat")
+    ) {
+      return "active";
+    }
+    return "";
+  };
+
   const renderFriendsButton = () => {
     if (!isDesktopWidth || !isDesktopHeight) return null;
     if (!showFriendsButton) return null;
+
     return (
-      <button id="left-sidebar-friends-button">
+      <Link
+        className={`left-sidebar-friends-button ${getFriendsButtonClass()}`}
+        to={`/users/${props.user && props.user._id}/home`}
+      >
         <img id="left-sidebar-button-image" src={FriendsImg} alt="Group Icon" />
         <span id="left-sidebar-button-text">Friends</span>
-      </button>
+      </Link>
     );
   };
 
@@ -106,4 +131,8 @@ const LeftSideBarContainer = (props) => {
   );
 };
 
-export default LeftSideBarContainer;
+const mapStateToProps = (state) => ({
+  user: state.user.info,
+});
+
+export default connect(mapStateToProps, {})(LeftSideBarContainer);

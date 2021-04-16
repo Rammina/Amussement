@@ -57,7 +57,7 @@ const UserStatus = (props) => {
           />
           <Link
             className="user-status-button"
-            to={`/users/${props.user._id}/friends`}
+            to={`/users/${props.user._id}/home`}
             onMouseEnter={onMouseEnterFriendsHandler}
             onMouseLeave={onMouseLeaveFriendsHandler}
           >
