@@ -133,11 +133,11 @@
     // max-width: 30rem;
   }
   .friends-section-outer-container {
-    // max-width: 40rem;
-    min-width: 0;
+    min-width: calc(100vw - (1 *#{$sidebarWidth}) - #{$roomSidebarWidth});
     padding: 0;
     height: auto;
     min-height: 100vh;
+
     // width: calc(100vw - (1 *#{$sidebarWidth}) - #{$roomSidebarWidth});
   }
   .friends-sidebar-outer-container {
@@ -156,10 +156,21 @@
     height: 3rem;
     padding: 0 0.8rem;
     margin: 0;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     // background-color: #111;
     background-color: $secondary-black;
+  }
+
+  .friends-header-button {
+    width: fit-content;
+    color: $textFontColorDim;
+    margin: 0 1rem;
+  }
+
+  #add-friend-button {
+    background-color: $discord-mobile-green;
+    color: $textFontWhite;
   }
 
   .friends-section-inner-container {

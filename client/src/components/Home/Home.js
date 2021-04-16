@@ -10,7 +10,6 @@ import { Field, reduxForm } from "redux-form";
 import serverRest from "../../apis/serverRest";
 
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
-import RoomSideBar from "../RoomSideBar/RoomSideBar";
 import DmRoomList from "../DmRoomList/DmRoomList";
 import Friends from "../Friends/Friends";
 
@@ -26,10 +25,9 @@ const Home = (props) => {
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
 
   useEffect(() => {
-    console.log(props.match.params.id);
-    setShowFooter(true);
+    if (!isDesktopWidth || !isDesktopHeight) setShowFooter(true);
     // props.getAllDmRooms(id);
-  }, []);
+  }, [isDesktopWidth, isDesktopHeight]);
 
   const renderFriendsComponent = () => {
     if (!isDesktopWidth || !isDesktopHeight) return null;
@@ -40,10 +38,9 @@ const Home = (props) => {
     <React.Fragment>
       <div className="user-home-page-container">
         <div className="home sidebar-outer-container">
-          {/*note: this should show all of the direct messages that are opened*/}
-          <LeftSideBar heading="Direct Messages" alwaysShow={true}>
+          {/*<LeftSideBar heading="Direct Messages" alwaysShow={true}>
             <DmRoomList />
-          </LeftSideBar>
+          </LeftSideBar>*/}
         </div>
         {renderFriendsComponent()}
       </div>

@@ -11,11 +11,15 @@ import onlineIcon from "../../icons/onlineIcon.png";
 
 import RoomSideBar from "../RoomSideBar/RoomSideBar";
 import UserStatus from "../UserStatus/UserStatus";
+import DmRoomList from "../DmRoomList/DmRoomList";
 
 import { NavContext, FooterContext, WindowContext } from "../AppContext";
 
 const LeftSideBarContainer = (props) => {
   const [showFriendsButton, setShowFriendsButton] = useState(false);
+  const [alwaysShow, setAlwaysShow] = useState(false);
+  const [showDmRoomList, setShowDmRoomList] = useState(false);
+  const [sidebarHeading, setSidebarHeading] = useState("");
   const {
     getNavMenuButtonTouched,
     leftSideBarShow,
@@ -36,6 +40,7 @@ const LeftSideBarContainer = (props) => {
 
   useEffect(() => {
     const { roomType } = queryString.parse(location.search);
+
     if (
       // should be only at home page
       (location.pathname.includes("/home") &&
@@ -45,9 +50,32 @@ const LeftSideBarContainer = (props) => {
       roomType === "DM"
     ) {
       setShowFriendsButton(true);
+      setShowDmRoomList(true);
     } else {
       setShowFriendsButton(false);
+      setShowDmRoomList(false);
     }
+    // always show left sidebar on home
+    if (
+      location.pathname.includes("/home") &&
+      !location.pathname.includes("public") &&
+      !location.pathname.includes("/chat")
+    ) {
+      setAlwaysShow(true);
+    } else {
+      setAlwaysShow(false);
+    }
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
+    const { room, roomType } = queryString.parse(location.search);
+    if (location.pathname.includes("/chat") && roomType !== "DM") {
+      setSidebarHeading(room);
+    } else {
+      setSidebarHeading("Direct Messages");
+    }
+
+    /*return () => {}*/
   }, [location.pathname, location.search]);
 
   const handleResize = () => {
@@ -69,7 +97,7 @@ const LeftSideBarContainer = (props) => {
   };
 
   const getContainerClass = () => {
-    if (props.alwaysShow) {
+    if (alwaysShow) {
       return "show";
     }
     return leftSideBarShow ? "show" : "hide";
@@ -108,11 +136,17 @@ const LeftSideBarContainer = (props) => {
     return <UserStatus />;
   };
 
+  const renderDmRoomList = () => {
+    if (!showDmRoomList) return null;
+    return <DmRoomList />;
+  };
+
   return (
     <React.Fragment>
       <div
         className={`left-sidebar backdrop ${getContainerClass()}`}
         onClick={() => {
+          console.log("clicking backdrop");
           setLeftSideBarShow(false);
           setMessagesContainerMoveRight(false);
           setShowFooter(false);
@@ -122,8 +156,8 @@ const LeftSideBarContainer = (props) => {
         <RoomSideBar />
         <div className={`left-sidebar-room-information-outer-container`}>
           {renderFriendsButton()}
-          <h1 className="left-sidebar-heading">{props.heading || null}</h1>
-          {props.children}
+          <h1 className="left-sidebar-heading">{sidebarHeading}</h1>
+          {renderDmRoomList()}
           {renderUserStatus()}
         </div>
       </div>

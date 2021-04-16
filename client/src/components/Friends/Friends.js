@@ -30,7 +30,8 @@ const Friends = (props) => {
 
   useEffect(() => {
     // redirect to home when going to friends page in desktop mode
-    if (!isDesktopWidth || !isDesktopHeight) return null;
+    if (!isDesktopWidth || !isDesktopHeight) return;
+    if (!props.user) return;
     if (
       location.pathname.includes("/friends") &&
       !location.pathname.includes("public") &&
@@ -38,14 +39,21 @@ const Friends = (props) => {
     ) {
       history.push(`/users/${props.user._id}/home`);
     }
-  }, [location.pathname]);
+    return;
+  }, [location.pathname, isDesktopWidth, isDesktopHeight, props.user]);
+
+  const addFriendOnClickHandler = () => {
+    setAddFriendOpened(true);
+  };
 
   const closeAddFriendModalHandler = () => {
-    history.push(`/users/${props.user._id}/friends`);
+    setAddFriendOpened(false);
   };
+
   const renderAddFriendModal = () => {
     console.log("rendering add friend");
     if (!addFriendOpened) return null;
+    return <AddFriend onModalClose={closeAddFriendModalHandler} />;
   };
 
   const renderFriends = (category) => {
@@ -80,21 +88,17 @@ const Friends = (props) => {
                 <header className="friends-section-header">
                   <h1 className="friends-header-heading">Friends</h1>
 
-                  <Link
-                    to={`/users/${props.user._id}/friends/add`}
-                    className="friends-header-link"
+                  <button
+                    className="friends-header-button"
+                    id="add-friend-button"
+                    onClick={addFriendOnClickHandler}
                   >
-                    <button
-                      className="friends-header-button"
-                      id="add-friend-button"
-                    >
-                      <img
-                        className={`friends-button-image`}
-                        src={AddUserImg}
-                        alt="Add User Icon"
-                      />
-                    </button>
-                  </Link>
+                    <img
+                      className={`friends-button-image`}
+                      src={AddUserImg}
+                      alt="Add User Icon"
+                    />
+                  </button>
                 </header>
 
                 <div className="friends-section-inner-container">
@@ -104,9 +108,7 @@ const Friends = (props) => {
               <div className="friends-sidebar-outer-container"> </div>
             </div>
           </div>
-          <Route path={`/users/:userId/friends/add`} exact>
-            <AddFriend onModalClose={closeAddFriendModalHandler} />
-          </Route>
+          {renderAddFriendModal()}
         </React.Fragment>
       );
     }
@@ -118,14 +120,14 @@ const Friends = (props) => {
             <button className="friends-header-button">All</button>
 
             <button className="friends-header-button">Pending</button>
-            <Link
-              to={`/users/${props.user._id}/friends/add`}
-              className="friends-header-link"
+
+            <button
+              className="friends-header-button"
+              id="add-friend-button"
+              onClick={addFriendOnClickHandler}
             >
-              <button className="friends-header-button" id="add-friend-button">
-                Add Friend
-              </button>
-            </Link>
+              Add Friend
+            </button>
           </header>
 
           <div className="friends-section-inner-container">
@@ -133,9 +135,7 @@ const Friends = (props) => {
           </div>
         </section>
 
-        <Route path={`/users/:userId/friends/add`} exact>
-          <AddFriend onModalClose={closeAddFriendModalHandler} />
-        </Route>
+        {renderAddFriendModal()}
       </>
     );
   };

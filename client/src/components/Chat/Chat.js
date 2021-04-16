@@ -403,7 +403,7 @@ const Chat = (props) => {
       return (
         <React.Fragment>
           <div className="chat sidebar-outer-container">
-            {renderLeftSidebarContent()}
+            {/*{renderLeftSidebarContent()}*/}
           </div>
           <div className={`chat-area-container ${getContainerClass()}`}>
             <InfoBar room={room} />
@@ -423,7 +423,7 @@ const Chat = (props) => {
     return null;
   };
 
-  return <div className="outerContainer">{renderChatContent()}</div>;
+  return renderChatContent();
 };
 
 const mapStateToProps = (state) => ({

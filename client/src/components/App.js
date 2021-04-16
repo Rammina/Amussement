@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { Router, Route, Redirect, Switch } from "react-router-dom";
 import history from "../history";
 
+import LeftSideBar from "./LeftSideBar/LeftSideBar";
+
 import Chat from "./Chat/Chat";
 import Join from "./Join/Join";
 import Register from "./Register/Register";
@@ -150,7 +152,7 @@ export const App = (props) => {
 
   //note: add chat for logged in users
   return (
-    <div data-test="component-app">
+    <div id="app-outer-container" data-test="component-app">
       <Router history={history}>
         <WindowContext.Provider value={getWindowContextValue()}>
           <Route path="/" exact component={Join} />
@@ -162,6 +164,9 @@ export const App = (props) => {
           <Route path="/users/:id/friends" component={Friends} />
           <FooterContext.Provider value={getFooterContextValue()}>
             <NavContext.Provider value={getNavContextValue()}>
+              <div className="sidebar-outer-container">
+                <LeftSideBar heading="Direct Messages"></LeftSideBar>
+              </div>
               <Route path="/users/:id/home" exact component={Home} />
               <Route path="/chat" component={Chat} />
             </NavContext.Provider>
