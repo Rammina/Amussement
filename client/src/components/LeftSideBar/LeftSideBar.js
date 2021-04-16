@@ -142,26 +142,28 @@ const LeftSideBarContainer = (props) => {
   };
 
   return (
-    <React.Fragment>
-      <div
-        className={`left-sidebar backdrop ${getContainerClass()}`}
-        onClick={() => {
-          console.log("clicking backdrop");
-          setLeftSideBarShow(false);
-          setMessagesContainerMoveRight(false);
-          setShowFooter(false);
-        }}
-      ></div>
-      <div className={`left-sidebar-container ${getContainerClass()}`}>
-        <RoomSideBar />
-        <div className={`left-sidebar-room-information-outer-container`}>
-          {renderFriendsButton()}
-          <h1 className="left-sidebar-heading">{sidebarHeading}</h1>
-          {renderDmRoomList()}
-          {renderUserStatus()}
+    props.user && (
+      <React.Fragment>
+        <div
+          className={`left-sidebar backdrop ${getContainerClass()}`}
+          onClick={() => {
+            console.log("clicking backdrop");
+            setLeftSideBarShow(false);
+            setMessagesContainerMoveRight(false);
+            setShowFooter(false);
+          }}
+        ></div>
+        <div className={`left-sidebar-container ${getContainerClass()}`}>
+          <RoomSideBar />
+          <div className={`left-sidebar-room-information-outer-container`}>
+            {renderFriendsButton()}
+            <h1 className="left-sidebar-heading">{sidebarHeading}</h1>
+            {renderDmRoomList()}
+            {renderUserStatus()}
+          </div>
         </div>
-      </div>
-    </React.Fragment>
+      </React.Fragment>
+    )
   );
 };
 

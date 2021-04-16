@@ -30,6 +30,7 @@ export const App = (props) => {
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
   const [navMenuButtonClass, setNavMenuButtonClass] = useState(null);
   const [showFooter, setShowFooter] = useState(true);
+  const [showUserSettings, setShowUserSettings] = useState(false);
   const [onlineUsersButtonRef, setOnlineUsersButtonRef] = useState(null);
   const [onlineUsersButtonClass, setOnlineUsersButtonClass] = useState(null);
 
@@ -150,6 +151,11 @@ export const App = (props) => {
     };
   };
 
+  const renderUserSettings = () => {
+    if (!showUserSettings) return null;
+    return <UserSettings />;
+  };
+
   //note: add chat for logged in users
   return (
     <div id="app-outer-container" data-test="component-app">
@@ -158,7 +164,8 @@ export const App = (props) => {
           <Route path="/" exact component={Join} />
           <Route path="/auth/register" exact component={Register} />
           <Route path="/auth/login" exact component={Login} />
-          <Route path="/users/:id/settings" component={UserSettings} />
+
+          {renderUserSettings()}
           {/*<Route path="/rooms/:id/settings" component={RoomSettings} />*/}
           {/*note: try to figure out a way to make this one work when selecting/clicking a friend*/}
           <Route path="/users/:id/friends" component={Friends} />

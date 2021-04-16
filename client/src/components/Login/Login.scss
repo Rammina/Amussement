@@ -35,6 +35,11 @@
   // border-bottom: 2px solid $main-mint;
 }
 
+#register-text-link {
+  // padding: 0 0.5rem;
+  word-break: break-word;
+}
+
 // @media screen and (min-height: 450px) {
 //   .login.form-content-container {
 //     min-height: calc(87vh + 13rem);
