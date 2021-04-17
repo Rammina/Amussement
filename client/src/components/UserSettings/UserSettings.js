@@ -195,11 +195,7 @@ const UserSettings = (props) => {
           x
         </button>
         */}
-        <SettingsCloseButton
-          onClose={() => {
-            history.push(`/users/${id}/home`);
-          }}
-        />
+        <SettingsCloseButton onClose={props.settingsOnCloseHandler} />
       </div>
     </div>
   );

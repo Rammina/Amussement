@@ -137,7 +137,7 @@
     padding: 0;
     height: auto;
     min-height: 100vh;
-
+    background-color: $chat-background-color;
     // width: calc(100vw - (1 *#{$sidebarWidth}) - #{$roomSidebarWidth});
   }
   .friends-sidebar-outer-container {
@@ -159,7 +159,7 @@
     justify-content: flex-start;
     align-items: center;
     // background-color: #111;
-    background-color: $secondary-black;
+    background-color: $chat-infobar-background-color;
   }
 
   .friends-header-button {
@@ -171,6 +171,14 @@
   #add-friend-button {
     background-color: $discord-mobile-green;
     color: $textFontWhite;
+    text-shadow: 1px 1px 0 #1114;
+    padding: 0.1rem 0.5rem;
+    height: 2.2rem;
+    border-radius: 6.5px;
+  }
+
+  #add-friend-button:hover {
+    background-color: $discord-mobile-green-dim;
   }
 
   .friends-section-inner-container {

@@ -18,7 +18,12 @@ import UserSettings from "./UserSettings/UserSettings";
 import RoomSettings from "./RoomSettings/RoomSettings";
 import Footer from "./Footer/Footer";
 
-import { NavContext, FooterContext, WindowContext } from "./AppContext";
+import {
+  NavContext,
+  FooterContext,
+  WindowContext,
+  UserSettingsContext,
+} from "./AppContext";
 import { loadUser } from "../flux/actions/authActions";
 import * as constants from "../utils/constants.js";
 
@@ -151,9 +156,27 @@ export const App = (props) => {
     };
   };
 
+  const settingsOnOpenHandler = () => {
+    setLeftSideBarShow(false);
+    setShowUserSettings(true);
+  };
+
+  const settingsOnCloseHandler = () => {
+    setShowUserSettings(false);
+  };
+
+  const getUserSettingsContextValue = () => ({
+    showUserSettings,
+    settingsOnOpenHandler,
+    settingsOnCloseHandler,
+  });
+
   const renderUserSettings = () => {
+    if (!isDesktopWidth || !isDesktopHeight)
+      return <Route path="/users/:id/settings" component={UserSettings} />;
     if (!showUserSettings) return null;
-    return <UserSettings />;
+
+    return <UserSettings settingsOnCloseHandler={settingsOnCloseHandler} />;
   };
 
   //note: add chat for logged in users
@@ -169,16 +192,18 @@ export const App = (props) => {
           {/*<Route path="/rooms/:id/settings" component={RoomSettings} />*/}
           {/*note: try to figure out a way to make this one work when selecting/clicking a friend*/}
           <Route path="/users/:id/friends" component={Friends} />
-          <FooterContext.Provider value={getFooterContextValue()}>
-            <NavContext.Provider value={getNavContextValue()}>
-              <div className="sidebar-outer-container">
-                <LeftSideBar heading="Direct Messages"></LeftSideBar>
-              </div>
-              <Route path="/users/:id/home" exact component={Home} />
-              <Route path="/chat" component={Chat} />
-            </NavContext.Provider>
-            <Footer />
-          </FooterContext.Provider>
+          <UserSettingsContext.Provider value={getUserSettingsContextValue()}>
+            <FooterContext.Provider value={getFooterContextValue()}>
+              <NavContext.Provider value={getNavContextValue()}>
+                <div className="sidebar-outer-container">
+                  <LeftSideBar heading="Direct Messages"></LeftSideBar>
+                </div>
+                <Route path="/users/:id/home" exact component={Home} />
+                <Route path="/chat" component={Chat} />
+              </NavContext.Provider>
+              <Footer />
+            </FooterContext.Provider>
+          </UserSettingsContext.Provider>
         </WindowContext.Provider>
       </Router>
     </div>

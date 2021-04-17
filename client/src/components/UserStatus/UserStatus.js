@@ -3,13 +3,15 @@ import SettingsImg from "../../icons/settings.png";
 
 import "./UserStatus.scss";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import ProfilePicture from "../ProfilePicture/ProfilePicture";
 import HoverMarker from "../UIComponents/HoverMarker/HoverMarker";
+
+import { UserSettingsContext } from "../AppContext";
 
 const UserStatus = (props) => {
   const [settingsMarkerX, setSettingsMarkerX] = useState(-200);
@@ -20,6 +22,7 @@ const UserStatus = (props) => {
   const [isMouseHoveredOnSettings, setIsMouseHoveredOnSettings] = useState(
     false
   );
+  const { settingsOnOpenHandler } = useContext(UserSettingsContext);
 
   const onMouseEnterFriendsHandler = () => {
     setIsMouseHoveredOnFriends(true);
@@ -74,9 +77,9 @@ const UserStatus = (props) => {
             isShown={isMouseHoveredOnSettings}
             textContent="Settings"
           />
-          <Link
+          <button
             className="user-status-button"
-            to={`/users/${props.user._id}/settings`}
+            onClick={settingsOnOpenHandler}
             onMouseEnter={onMouseEnterSettingsHandler}
             onMouseLeave={onMouseLeaveSettingsHandler}
           >
@@ -85,7 +88,7 @@ const UserStatus = (props) => {
               src={SettingsImg}
               alt="Gear Icon"
             />
-          </Link>
+          </button>
         </div>
       </div>
     </div>

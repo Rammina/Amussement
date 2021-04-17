@@ -8,12 +8,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { FooterContext } from "../AppContext";
+import { FooterContext, UserSettingsContext } from "../AppContext";
 
 const Footer = (props) => {
   const userId = props.user ? props.user._id || props.user.id : null;
   const pathname = useLocation().pathname;
   const { showFooter } = useContext(FooterContext);
+  const { settingsOnOpenHandler } = useContext(UserSettingsContext);
+
   useEffect(() => {}, []);
 
   const getHomeButtonClass = () =>
@@ -67,8 +69,8 @@ const Footer = (props) => {
           </Link>
           <Link
             className={`user-footer-link ${getSettingsButtonClass()}`}
-            to={`/users/${userId}/settings`}
             title="Settings"
+            to={`/users/${props.user._id}/settings`}
           >
             <img
               className={`footer-button-image`}
