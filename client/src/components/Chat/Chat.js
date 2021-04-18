@@ -110,35 +110,13 @@ const Chat = (props) => {
       setName(getUserFromProps());
       if (roomType === "DM") {
         setRoomType("DM");
-        //note: might want to create a function for trimming DM rooms to make this cleaner
-        //note: receiver should be an ID to DM to
-        // let receiverId = room.substring(4);
-        // let participants = [props.user._id, receiverId].sort();
+
         let roomName = room;
         setRoom(`@${receiver}`);
         roomNameforDB = roomName;
         setRoomNameforDB(roomName);
 
         let alreadyAddedToActive = false;
-        // create DM room (if not created yet)
-        // for (let dmRoom of props.dmRooms) {
-        //   if (dmRoom.name === roomName) {
-        //     // this room has already been created, and also has been added to user active rooms
-        //     alreadyAddedToActive = true;
-        //   }
-        // }
-        //
-        // if (!alreadyAddedToActive) {
-        //   // this should also include adding it to the active DM rooms
-        //   props.addActiveDmRoom({
-        //     // senderId: props.user._id,
-        //     receiverId,
-        //     participants,
-        //     name: roomName,
-        //     type: "DM",
-        //     requires_approval: "false",
-        //   });
-        // }
       } else {
         setRoom(room);
         roomNameforDB = room;
@@ -146,7 +124,6 @@ const Chat = (props) => {
         setRoomType("public");
       }
 
-      // if(props.propsInitialized) {
       if (props.user) {
         socket.emit(
           "join",
@@ -157,7 +134,6 @@ const Chat = (props) => {
               // note:this should be replaced with redux action for error handling
               alert(error);
             } else {
-              // scrollToBottom();
             }
           }
         );

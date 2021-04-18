@@ -15,7 +15,7 @@ const RoomSideBar = (props) => {
   const renderRoomItems = () => {
     return props.rooms.map((room, i) => (
       <RoomItem
-        toUrl={`/chat?room=${room.name}&userType=user&roomType=${room.type}`}
+        toUrl={`/chat?room=${room._id}&userType=user&roomType=${room.type}`}
         room={room}
         user={props.user}
         key={room._id || i}
