@@ -68,15 +68,16 @@ const LeftSideBarContainer = (props) => {
   }, [location.pathname, location.search]);
 
   useEffect(() => {
-    const { room, roomType } = queryString.parse(location.search);
+    const { roomType } = queryString.parse(location.search);
     if (location.pathname.includes("/chat") && roomType !== "DM") {
-      setSidebarHeading(room);
+      if (!props.currentRoom) return;
+      setSidebarHeading(props.currentRoom.name);
     } else {
       setSidebarHeading("Direct Messages");
     }
 
     /*return () => {}*/
-  }, [location.pathname, location.search]);
+  }, [location.pathname, location.search, props.currentRoom]);
 
   const handleResize = () => {
     console.log("This triggers");
@@ -169,6 +170,7 @@ const LeftSideBarContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   user: state.user.info,
+  currentRoom: state.currentRoom,
 });
 
 export default connect(mapStateToProps, {})(LeftSideBarContainer);

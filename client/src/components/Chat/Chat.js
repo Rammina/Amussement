@@ -20,6 +20,7 @@ import {
   addActiveDmRoom,
   moveDmRoomToFront,
 } from "../../flux/actions/dmRoomsActions";
+import { getRoom } from "../../flux/actions/roomsActions";
 import { actionShowLoader } from "../../flux/actions/loaderActions";
 import {
   NavContext,
@@ -53,6 +54,7 @@ const Chat = (props) => {
   const [roomName, setRoomName] = useState("");
   const [roomType, setRoomType] = useState("public");
   const [roomNameforDB, setRoomNameforDB] = useState("");
+  const [roomId, setRoomId] = useState("");
   const [users, setUsers] = useState("");
   const [userRetrievalAttempts, setUserRetrievalAttempts] = useState(0);
   const [messageRetrievalCount, setMessageRetrievalCount] = useState(0);
@@ -86,13 +88,14 @@ const Chat = (props) => {
   const handleUserJoin = () => {
     const { receiver } = queryString.parse(props.location.search);
     const currentRoom = props.currentRoom;
-    const { type, name } = currentRoom;
+    const { type, name, _id } = currentRoom;
     // note: Replace all the URL based information with redux store information (props.currentRoom)
     if (Object.keys(currentRoom).length === 0) return null;
 
     let roomNameforDB = null;
     // wait for props to initialize first before joining
     setName(getUserFromProps());
+    setRoomId(_id);
     if (type === "DM") {
       setRoomType("DM");
 
@@ -110,18 +113,14 @@ const Chat = (props) => {
     }
 
     if (props.user) {
-      socket.emit(
-        "join",
-        { user: props.user, room: roomNameforDB || name },
-        (error) => {
-          if (error) {
-            // send a browser alert
-            // note:this should be replaced with redux action for error handling
-            alert(error);
-          } else {
-          }
+      socket.emit("join", { user: props.user, roomId: _id }, (error) => {
+        if (error) {
+          // send a browser alert
+          // note:this should be replaced with redux action for error handling
+          alert(error);
+        } else {
         }
-      );
+      });
     }
 
     userJoinCount++;
@@ -142,20 +141,16 @@ const Chat = (props) => {
     });
   };
 
-  const handleResize = () => {
-    if (isDesktopWidth || isDesktopHeight) setShowFooter(false);
-  };
-
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    // cleanup function
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
+    // retrieve room information using the room ID on the URL
+    const { room } = queryString.parse(props.location.search);
+    // only get the room details if there is no room yet on the redux store, and if it's a different room  (after swapping)
+    if (!props.currentRoom && room != props.currentRoom._id) {
+      props.getRoom(room);
+    }
+    // do not connect socket until the room information is retrieved
+    // note:this may not even be necessary because only ID is used by the server side anyway
+    if (!props.currentRoom) return;
     console.log("endpoint and location useEffect");
     // const { userType } = queryString.parse(props.location.search);
     // console.log(props.location.search);
@@ -177,17 +172,18 @@ const Chat = (props) => {
 
       socket.close();
     };
-  }, [ENDPOINT, location.search]);
+  }, [ENDPOINT, location.search, props.currentRoom]);
 
   // re-update the user and users list
   useEffect(() => {
+    if (!props.currentRoom) return;
     if (!props.isLoading && props.user) {
       handleUserJoin();
     }
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-  }, [props.isLoading, location.search]);
+  }, [props.isLoading, location.search, props.currentRoom]);
 
   // remove footer when its desktop mode
   const handleFooterOnResize = () => {
@@ -195,9 +191,10 @@ const Chat = (props) => {
       setShowFooter(false);
     }
   };
-  useEffect(() => {
-    setShowFooter(false);
 
+  useEffect(() => {
+    // footer related stuff
+    setShowFooter(false);
     window.addEventListener("resize", handleFooterOnResize);
     return () => {
       window.removeEventListener("resize", handleFooterOnResize);
@@ -237,20 +234,19 @@ const Chat = (props) => {
 
   // handles the sending of messages
   const sendMessage = (event) => {
-    // use the name for the database if it exists (needed for DM rooms)
-    let targetRoom = roomNameforDB || roomName;
-    let roomId = props.currentRoom._id;
     // prevent page refresh
     event.preventDefault();
-    console.log(message);
-    console.log(targetRoom);
     // if message exists, send the event
     if (message) {
       socket.emit(
         "sendMessage",
-        { message, user: props.user, room: { name: targetRoom, _id: roomId } },
+        {
+          message,
+          user: props.user,
+          roomId,
+        },
         () => {
-          if (roomType === "DM") props.moveDmRoomToFront(targetRoom);
+          if (roomType === "DM") props.moveDmRoomToFront(roomId);
           setMessage("");
         }
       );
@@ -259,55 +255,52 @@ const Chat = (props) => {
 
   // handles the deletion of messages
   const deleteMessage = (id) => {
-    let room = roomNameforDB || roomName;
-    console.log(id);
     // if message exists, send the event
     if (id) {
-      socket.emit("deleteMessage", id, room, () => {
+      let cb = () => {
         console.log("deleting message");
-      });
+      };
+      socket.emit("deleteMessage", { id, roomId, cb });
     }
   };
 
   const editMessage = (id, text) => {
-    let room = roomNameforDB || room;
-    console.log(id);
-    console.log(text);
     // if message exists, send the event
     if (id && text) {
-      socket.emit("editMessage", id, text, room, () => {
+      let cb = () => {
         console.log("editing message");
-      });
+      };
+      socket.emit("editMessage", { id, text, roomId, cb });
     }
   };
+
   const loadMoreMessages = () => {
     if (noMoreMessagesToLoad) return;
 
     props.actionShowLoader("messagesPrevious", true);
-    socket.emit(
-      "load more messages",
-      room,
-      getMessageRetrievalCount(),
-      (retrievedMessages) => {
-        // if (error) console.log(error);
-        incrementMessageRetrievalCount();
-        console.log("message retrieval count is now:");
-        console.log(getMessageRetrievalCount());
-        console.log(retrievedMessages.length);
-        console.log(retrievedMessages.length % MESSAGES_PER_BATCH);
-        console.log(messages.length === retrievedMessages.length);
-        if (
-          !(retrievedMessages.length % MESSAGES_PER_BATCH === 0) ||
-          messages.length === retrievedMessages.length
-        ) {
-          setNoMoreMessagesToLoad(true);
-          // return;
-        }
-        setMessages([...retrievedMessages]);
-        scrollTo("firstMessagePreviousBatch", "chat-messages-container");
-        props.actionShowLoader("messagesPrevious", false);
+
+    const loadMoreMessagesCb = (retrievedMessages) => {
+      // increase the number of messages to be retrieved next retrieval
+      incrementMessageRetrievalCount();
+      // check if there are no more messages to load (all the messages in a room already retrieved)
+      if (
+        !(retrievedMessages.length % MESSAGES_PER_BATCH === 0) ||
+        messages.length === retrievedMessages.length
+      ) {
+        setNoMoreMessagesToLoad(true);
       }
-    );
+      // add the messages to be rendered on the frontend
+      setMessages([...retrievedMessages]);
+      // scroll down to the last message the user was able to view before retrieval
+      scrollTo("firstMessagePreviousBatch", "chat-messages-container");
+      props.actionShowLoader("messagesPrevious", false);
+    };
+
+    socket.emit("load more messages", {
+      roomId,
+      messageRetrievalCount: getMessageRetrievalCount(),
+      cb: loadMoreMessagesCb,
+    });
   };
 
   const getContainerClass = () => {
@@ -340,7 +333,7 @@ const Chat = (props) => {
         </LeftSideBar>
       );
     } else {
-      return <LeftSideBar heading={room}></LeftSideBar>;
+      return <LeftSideBar heading={roomName}></LeftSideBar>;
     }
   };
 
@@ -349,16 +342,14 @@ const Chat = (props) => {
     console.log(messages);
     console.log(name);
     // console.log(props.user.username);
-    if (name && room) {
-      console.log(name);
-      console.log(room);
+    if (name && roomName) {
       return (
         <React.Fragment>
           <div className="chat sidebar-outer-container">
             {/*{renderLeftSidebarContent()}*/}
           </div>
           <div className={`chat-area-container ${getContainerClass()}`}>
-            <InfoBar room={room} />
+            <InfoBar roomName={roomName} />
             <ChatContext.Provider value={getChatContextValue()}>
               <Messages messages={messages} name={name} />
               <Input
@@ -392,4 +383,20 @@ export default connect(mapStateToProps, {
   actionShowLoader,
   addActiveDmRoom,
   moveDmRoomToFront,
+  getRoom,
 })(Chat);
+
+/*
+const handleResize = () => {
+  if (isDesktopWidth && isDesktopHeight) setShowFooter(false);
+};
+
+useEffect(() => {
+  window.addEventListener("resize", handleResize);
+  handleResize();
+  // cleanup function
+  return () => {
+    window.removeEventListener("resize", handleResize);
+  };
+}, []);
+*/

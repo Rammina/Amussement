@@ -11,7 +11,7 @@ import closeIcon from "../../icons/close-icon.png";
 
 import { NavContext, FooterContext } from "../AppContext";
 
-const InfoBar = ({ room }) => {
+const InfoBar = ({ roomName }) => {
   const {
     toggleRoomSideBarShow,
     navMenuButtonTouched,
@@ -49,7 +49,7 @@ const InfoBar = ({ room }) => {
             alt="Navigation Menu"
           />
         </div>
-        <h3 className="room-title">{room}</h3>
+        <h3 className="room-title">{roomName}</h3>
       </div>
       <div className="rightInnerContainer">
         <div

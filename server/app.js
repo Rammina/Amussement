@@ -103,23 +103,24 @@ app.use(flash());
 // triggers when the user connects
 io.on("connect", (socket) => {
   // listen for any user join sent from the client side
-  socket.on("join", ({ user, room, messageRetrievalCount = 0 }, callback) => {
+  socket.on("join", ({ user, roomId, messageRetrievalCount = 0 }, callback) => {
     //const {username}
 
     const { error, userObject } = addUser({
       ...user,
       socketId: socket.id,
-      room,
+      roomId,
     });
     console.log("the current users after adding are:");
-    console.log(getUsersInRoom(room));
+    console.log(getUsersInRoom(roomId));
 
     if (error) return callback(error);
 
     // have the user join the room
-    socket.join(userObject.room);
+    console.log(userObject.roomId);
+    socket.join(userObject.roomId);
     // this helper function returns messages from a room
-    retrieveMessagesFromDB(userObject.room, messageRetrievalCount)
+    retrieveMessagesFromDB(userObject.roomId, messageRetrievalCount)
       .then((messages) => {
         // console.log(messages);
         // emit only works for the sender
@@ -127,9 +128,9 @@ io.on("connect", (socket) => {
       })
       .then(() => {
         // note: user joining notifications used to be here but removed because it's obnoxious
-        io.to(userObject.room).emit("roomData", {
-          room: userObject.room,
-          users: getUsersInRoom(userObject.room),
+        io.to(userObject.roomId).emit("roomData", {
+          roomId: userObject.roomId,
+          users: getUsersInRoom(userObject.roomId),
         });
       });
 
@@ -137,26 +138,20 @@ io.on("connect", (socket) => {
   });
 
   // listens to an event called "sendMessage" and fires the callback function
-  socket.on("sendMessage", ({ message, user, room }, callback) => {
-    console.log("sendMessage event triggered");
-    console.log(message);
-    console.log(user);
-    console.log(`the name of the room is ${room}`);
+  socket.on("sendMessage", ({ message, user, roomId }, callback) => {
     let messageAttributes = {
       text: message,
       username: user.username,
       user: user._id || user.id,
       image_url: user.image_url,
-      room,
+      room: roomId,
     };
     console.log(messageAttributes);
 
     const emitMessageCb = (message) => {
-      console.log("successfully stored the message in the database");
-      console.log("159");
-      console.log(message);
       // Sends the message to everyone
-      io.to(room).emit("message", { ...message._doc, user });
+      // note: maybe there is a better way to handle this instead of message._doc
+      io.to(roomId).emit("message", { ...message._doc, user });
       socket.emit("scrollToBottomAfterSending");
     };
     try {
@@ -171,30 +166,26 @@ io.on("connect", (socket) => {
     }
   });
 
-  socket.on("deleteMessage", (id, room, callback) => {
+  socket.on("deleteMessage", ({ id, roomId, cb }) => {
     try {
       deleteMessageFromDB(id).then(() => {
-        console.log("successfully Deleted the message in the database");
-        console.log(room);
-        io.to(room).emit("deletedMessage", id);
+        io.to(roomId).emit("deletedMessage", id);
       });
-      // do something after the message is sent to the backend frontend
-      callback();
+
+      cb();
     } catch (e) {
       // should have proper error handling, state that it failed to store the message
       console.log(e);
     }
   });
 
-  socket.on("editMessage", (id, text, room, callback) => {
+  socket.on("editMessage", ({ id, text, roomId, cb }) => {
     try {
       editMessageOnDB(id, text).then(() => {
-        console.log("successfully updated the message in the database");
-        console.log(room);
-        io.to(room).emit("editedMessage", id, text);
+        io.to(roomId).emit("editedMessage", id, text);
       });
       // do something after the message is sent to the backend frontend
-      callback();
+      cb();
     } catch (e) {
       // should have proper error handling, state that it failed to store the message
       console.log(e);
@@ -202,27 +193,23 @@ io.on("connect", (socket) => {
   });
 
   //note: retrieve more messages (should only work on the client side)
-  socket.on("load more messages", (room, messageRetrievalCount, callback) => {
-    console.log(room);
-    console.log(messageRetrievalCount);
-    console.log(callback);
+  socket.on("load more messages", ({ roomId, messageRetrievalCount, cb }) => {
     // this helper function returns messages from a room
-    retrieveMessagesFromDB(room, messageRetrievalCount).then((messages) => {
-      console.log(messages.length);
-      // io.emit("load previous messages", messages.reverse());
-      callback(messages.reverse());
+    retrieveMessagesFromDB(roomId, messageRetrievalCount).then((messages) => {
+      cb(messages.reverse());
     });
   });
 
   // listen to a disconnected event and send a message that the user has disconnected
   socket.on("disconnect", () => {
     console.log("disconnect message:" + socket.id);
+    console.log("the current users in the room are:");
     console.log(getUsersInRoom());
     const user = removeUser(socket.id);
     if (user) {
-      io.to(user.room).emit("roomData", {
-        room: user.room,
-        users: getUsersInRoom(user.room),
+      io.to(user.roomId).emit("roomData", {
+        roomId: user.roomId,
+        users: getUsersInRoom(user.roomId),
       });
     }
   });

@@ -7,8 +7,7 @@ const messageSchema = new Schema(
     text: { type: String, minlength: 1, maxlength: 2000, required: true },
     username: { type: String, required: true, minlength: 1 },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    room: { type: String, required: true, minlength: 1 },
-
+    room: { type: mongoose.Schema.Types.ObjectId, required: true },
     // image_url: { type: String, minlength: 0, maxlength: 500 },
     // sent_on: { type: Date, required: true, default: Date.now() }
     // link

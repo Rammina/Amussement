@@ -1,17 +1,15 @@
 const Message = require("../models/message");
 const { getUsersInRoom } = require("./users");
-const { updateRoomLastActivityUsingName } = require("./rooms");
+const { updateRoomLastActivity } = require("./rooms");
 const { MESSAGES_PER_BATCH } = require("../utils/constants.js");
 
 const storeMessageToDb = async (messageAttributes) => {
   try {
     const messageObject = new Message(messageAttributes);
     const savedMessage = await messageObject.save();
-    //note should also update the room's last activity date to check order for direct messages
     if (!savedMessage)
       throw Error("Unable to store the message in the database.");
-    // note: using name temporarily until id is implemented for room property of messages
-    updateRoomLastActivityUsingName(messageAttributes.room);
+    updateRoomLastActivity(messageAttributes.room);
     return savedMessage;
   } catch (e) {
     console.log(e);

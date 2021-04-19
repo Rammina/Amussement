@@ -31,3 +31,10 @@ exports.isAddedFriend = (friends, usernameToAdd) => {
   }
   return false;
 };
+
+exports.sortAlphabeticallyByProp = (property) =>
+  function (a, b) {
+    var textA = a.property.toUpperCase();
+    var textB = b.property.toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
+  };

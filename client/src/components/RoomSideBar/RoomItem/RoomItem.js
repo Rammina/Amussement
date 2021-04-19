@@ -104,9 +104,9 @@ const RoomItem = (props) => {
 
   // room actions function handlers
 
-  const roomOnClickHandler = () => {
-    props.updateCurrentRoom(props.room);
-  };
+  // const roomOnClickHandler = () => {
+  //   props.updateCurrentRoom(props.room);
+  // };
 
   const roomSettingsOnClickHandler = () => {
     setShowRoomSettings(true);
@@ -211,7 +211,7 @@ const RoomItem = (props) => {
           onMouseLeave={onMouseLeaveHandler}
           onContextMenu={onRoomContextMenuHandler}
           to={props.toUrl}
-          onClick={roomOnClickHandler}
+          // onClick={roomOnClickHandler}
         >
           {renderItemContent()}
         </Link>
