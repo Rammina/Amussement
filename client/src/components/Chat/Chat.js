@@ -50,7 +50,7 @@ const Chat = (props) => {
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
 
   const [name, setName] = useState("");
-  const [room, setRoom] = useState("");
+  const [roomName, setRoomName] = useState("");
   const [roomType, setRoomType] = useState("public");
   const [roomNameforDB, setRoomNameforDB] = useState("");
   const [users, setUsers] = useState("");
@@ -84,61 +84,46 @@ const Chat = (props) => {
   };
 
   const handleUserJoin = () => {
-    const { guestName, room, userType, roomType, receiver } = queryString.parse(
-      props.location.search
-    );
-    // handle getting the user differently based on query string (userType)
-    // guest/user/admin
-    if (userType === "guest") {
-      if (userJoinCount > 0) {
-        return;
-      }
-      setName(guestName || "anon");
-      setRoom(room);
-      const name = guestName || "anon";
-      socket.emit("join", { name, room }, (error) => {
-        console.log("join attempt");
-        if (error) {
-          // send a browser alert
-          // note:this should be replaced with redux action for error handling
-          alert(error);
-        }
-      });
-    } else if (userType === "user") {
-      let roomNameforDB = null;
-      // wait for props to initialize first before joining
-      setName(getUserFromProps());
-      if (roomType === "DM") {
-        setRoomType("DM");
+    const { receiver } = queryString.parse(props.location.search);
+    const currentRoom = props.currentRoom;
+    const { type, name } = currentRoom;
+    // note: Replace all the URL based information with redux store information (props.currentRoom)
+    if (Object.keys(currentRoom).length === 0) return null;
 
-        let roomName = room;
-        setRoom(`@${receiver}`);
-        roomNameforDB = roomName;
-        setRoomNameforDB(roomName);
+    let roomNameforDB = null;
+    // wait for props to initialize first before joining
+    setName(getUserFromProps());
+    if (type === "DM") {
+      setRoomType("DM");
 
-        let alreadyAddedToActive = false;
-      } else {
-        setRoom(room);
-        roomNameforDB = room;
-        setRoomNameforDB(room);
-        setRoomType("public");
-      }
+      let roomName = name;
+      setRoomName(`@${receiver}`);
+      roomNameforDB = roomName;
+      setRoomNameforDB(roomName);
 
-      if (props.user) {
-        socket.emit(
-          "join",
-          { user: props.user, room: roomNameforDB || room },
-          (error) => {
-            if (error) {
-              // send a browser alert
-              // note:this should be replaced with redux action for error handling
-              alert(error);
-            } else {
-            }
-          }
-        );
-      }
+      let alreadyAddedToActive = false;
+    } else {
+      setRoomName(name);
+      roomNameforDB = name;
+      setRoomNameforDB(name);
+      setRoomType("public");
     }
+
+    if (props.user) {
+      socket.emit(
+        "join",
+        { user: props.user, room: roomNameforDB || name },
+        (error) => {
+          if (error) {
+            // send a browser alert
+            // note:this should be replaced with redux action for error handling
+            alert(error);
+          } else {
+          }
+        }
+      );
+    }
+
     userJoinCount++;
   };
 
@@ -172,8 +157,8 @@ const Chat = (props) => {
 
   useEffect(() => {
     console.log("endpoint and location useEffect");
-    const { userType } = queryString.parse(props.location.search);
-    console.log(props.location.search);
+    // const { userType } = queryString.parse(props.location.search);
+    // console.log(props.location.search);
     socket = io(ENDPOINT);
     // note: this should be changed once database for room messages is used
     /*temporary stopgap measure to clear messages every time the URL changes*/
@@ -187,24 +172,15 @@ const Chat = (props) => {
       scrollToBottom("chat-messages-container");
     });
 
-    if (userType === "guest") {
-      handleUserJoin();
-    }
     return () => {
-      // setMessageRetrievalCount(0);
-      // setNoMoreMessagesToLoad(false);
       console.log("disconnected");
 
       socket.close();
-      // setMessages((messages) => []);
     };
   }, [ENDPOINT, location.search]);
 
   // re-update the user and users list
   useEffect(() => {
-    console.log(props.location.search);
-    console.log(props.user);
-    console.log("I happened twice");
     if (!props.isLoading && props.user) {
       handleUserJoin();
     }
@@ -261,9 +237,9 @@ const Chat = (props) => {
 
   // handles the sending of messages
   const sendMessage = (event) => {
-    // console.log(room);
     // use the name for the database if it exists (needed for DM rooms)
-    let targetRoom = roomNameforDB || room;
+    let targetRoom = roomNameforDB || roomName;
+    let roomId = props.currentRoom._id;
     // prevent page refresh
     event.preventDefault();
     console.log(message);
@@ -272,7 +248,7 @@ const Chat = (props) => {
     if (message) {
       socket.emit(
         "sendMessage",
-        { message, user: props.user, room: targetRoom },
+        { message, user: props.user, room: { name: targetRoom, _id: roomId } },
         () => {
           if (roomType === "DM") props.moveDmRoomToFront(targetRoom);
           setMessage("");
@@ -283,7 +259,7 @@ const Chat = (props) => {
 
   // handles the deletion of messages
   const deleteMessage = (id) => {
-    let room = roomNameforDB || room;
+    let room = roomNameforDB || roomName;
     console.log(id);
     // if message exists, send the event
     if (id) {
@@ -405,12 +381,11 @@ const Chat = (props) => {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
+  currentRoom: state.currentRoom,
   dmRooms: state.dmRooms,
   error: state.error,
   isLoading: state.auth.isLoading,
   showMessagesInitialLoader: state.loader.showMessagesInitialLoader,
-
-  // propsInitialized: true
 });
 
 export default connect(mapStateToProps, {
@@ -418,47 +393,3 @@ export default connect(mapStateToProps, {
   addActiveDmRoom,
   moveDmRoomToFront,
 })(Chat);
-
-// const handleResize = () => {
-//   if (!onlineUsersButtonTouched) {
-//     if (window.innerWidth >= 1200) {
-//       // setOnlineUsersShow(true);
-//       setMessagesContainerMoveLeft(true);
-//     } else {
-//       // setOnlineUsersShow(false);
-//       setMessagesContainerMoveLeft(false);
-//     }
-//   }
-//   if (!navMenuButtonTouched) {
-//     if (window.innerWidth >= 1000) {
-//       // setMessagesContainerMoveLeft(true);
-//     } else {
-//       // setMessagesContainerMoveLeft(false);
-//     }
-//   }
-// };
-
-// const onLoadPreviousMessages = (retrievedMessages) => {
-//   if (
-//     !retrievedMessages.length % 30 ||
-//     messages.length === retrievedMessages.length
-//   ) {
-//     setNoMoreMessagesToLoad(true);
-//     return;
-//   }
-//   incrementMessageRetrievalCount();
-//   setMessages([...retrievedMessages]);
-//   // console.log(`the length of messages is ${messages.length}`);
-//   // console.log(`retrieved messages ${messageRetrievalCount} times`);
-//   // console.log(messageRetrievalCount);
-//   // console.log(getMessageRetrievalCount());
-//   // console.log(noMoreMessagesToLoad);
-// };
-//
-// // adding a listener for retrieving more messages
-// useEffect(() => {
-//   socket.on("load previous messages", (retrievedMessages) => {
-//     onLoadPreviousMessages(retrievedMessages);
-//   });
-//   /*return () => {}*/
-// }, [ENDPOINT, location.search /*messageRetrievalCount*/]);

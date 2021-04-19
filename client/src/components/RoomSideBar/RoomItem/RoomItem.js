@@ -11,6 +11,7 @@ import RoomSettings from "../../RoomSettings/RoomSettings";
 import DeleteRoom from "../../forms/room/DeleteRoom";
 
 import { leaveRoom } from "../../../flux/actions/roomsActions";
+import { updateCurrentRoom } from "../../../flux/actions/currentRoomActions";
 import { findPosX, findPosY } from "../../../helpers";
 import history from "../../../history";
 
@@ -102,6 +103,11 @@ const RoomItem = (props) => {
   };
 
   // room actions function handlers
+
+  const roomOnClickHandler = () => {
+    props.updateCurrentRoom(props.room);
+  };
+
   const roomSettingsOnClickHandler = () => {
     setShowRoomSettings(true);
     onCloseContextMenuHandler();
@@ -200,11 +206,12 @@ const RoomItem = (props) => {
       {renderRoomDeleteModal()}
       <div className="room-item-container" ref={roomItemRef}>
         <Link
+          className="room-item-link"
           onMouseEnter={onMouseEnterHandler}
           onMouseLeave={onMouseLeaveHandler}
           onContextMenu={onRoomContextMenuHandler}
           to={props.toUrl}
-          className="room-item-link"
+          onClick={roomOnClickHandler}
         >
           {renderItemContent()}
         </Link>
@@ -226,4 +233,4 @@ const RoomItem = (props) => {
   );
 };
 
-export default connect(null, { leaveRoom })(RoomItem);
+export default connect(null, { leaveRoom, updateCurrentRoom })(RoomItem);
