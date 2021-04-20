@@ -229,6 +229,7 @@ const UserItem = (props) => {
 const mapStateToProps = (state) => ({
   currentUser: state.user.info,
   friends: state.friends,
+  dmRooms: state.dmRooms,
 });
 
 export default connect(mapStateToProps, {

@@ -10,7 +10,7 @@ const addUser = ({ socketId, _id, username, roomId, image_url }) => {
   roomId = roomId.trim();
 
   const existingUser = users.find(
-    (user) => user.room === room && user.username === username
+    (user) => user.roomId === roomId && user.username === username
     // note: implement something like:
     // user => user.room === room && user.name === name && user.id===id
   );
@@ -25,7 +25,7 @@ const addUser = ({ socketId, _id, username, roomId, image_url }) => {
   users.push(userObject);
   console.log("users are:");
   console.log(users);
-  users.sort(sortAlphabeticallyByProp(username));
+  users.sort(sortAlphabeticallyByProp("username"));
   console.log("users are:");
   console.log(users);
   return { userObject };

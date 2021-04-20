@@ -4,6 +4,7 @@ const router = express.Router();
 const rooms_controller = require("../../controllers/roomsController");
 
 router.get("/:id", rooms_controller.get_room);
+router.get("/dmRooms/:roomName", rooms_controller.get_dm_room);
 
 router.post("/", rooms_controller.create_room);
 // note: might want to use ID instead

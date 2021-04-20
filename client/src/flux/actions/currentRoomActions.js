@@ -5,14 +5,17 @@ import { returnErrors, clearErrors } from "./errorActions";
 import {
   GET_ROOM_SUCCESS,
   GET_ROOM_FAIL,
+  GET_DM_ROOM_SUCCESS,
+  GET_DM_ROOM_FAIL,
   UPDATE_CURRENT_ROOM,
   CLEAR_CURRENT_ROOM,
 } from "./types";
 
 export const getRoom = (roomId, successCb) => (dispatch, getState) => {
   const userId = getState().user.info._id || getState().user.info.id;
+  console.log(userId);
   serverRest
-    .get(`/api/rooms/${roomId}`, { userId })
+    .get(`/api/rooms/${roomId}?userId=${userId}`)
     .then((res) => {
       dispatch({
         type: GET_ROOM_SUCCESS,
@@ -28,6 +31,33 @@ export const getRoom = (roomId, successCb) => (dispatch, getState) => {
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: GET_ROOM_FAIL,
+      });
+    })
+    .finally(() => {
+      // dispatch(actionShowLoader("ChatForm", false));
+    });
+};
+
+export const getDmRoom = (roomName, successCb) => (dispatch, getState) => {
+  const userId = getState().user.info._id || getState().user.info.id;
+  console.log(userId);
+  serverRest
+    .get(`/api/rooms/dmRooms/${roomName}?userId=${userId}`)
+    .then((res) => {
+      dispatch({
+        type: GET_DM_ROOM_SUCCESS,
+        payload: res.data,
+      });
+      dispatch(clearErrors());
+      if (successCb) successCb();
+    })
+    .catch((err) => {
+      console.log(err.response.data);
+      //note: dispatch an action Creator that indicates that the user is not allowed to dm that person
+      // and should redirect to home?
+      dispatch(returnErrors(err.response.data, err.response.status));
+      dispatch({
+        type: GET_DM_ROOM_FAIL,
       });
     })
     .finally(() => {

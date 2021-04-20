@@ -27,9 +27,11 @@ exports.get_all_rooms = async (req, res) => {
 };
 
 exports.get_room = async (req, res) => {
-  const { userId } = req.body;
+  const { userId } = req.query;
+  console.log(userId);
   console.log("retrieving a specific room");
   try {
+    // use ID search for public rooms
     const room = await Room.findById(req.params.id).populate("messages");
     if (!room) throw Error("Unable to find room.");
 
@@ -40,8 +42,27 @@ exports.get_room = async (req, res) => {
         isMember = true;
       }
     }
+    console.log(userId);
+    console.log(`isMember is ${isMember}`);
     if (isMember) res.status(200).json(room);
     else throw Error("User is not a member of this room.");
+  } catch (e) {
+    res.status(400).json({ msg: e.message });
+  }
+};
+
+exports.get_dm_room = async (req, res) => {
+  const { userId } = req.query;
+  console.log(userId);
+  console.log("retrieving a specific room");
+  try {
+    // use ID search for public rooms
+    const room = await Room.find({ name: req.params.roomName }).populate(
+      "messages"
+    );
+    if (!room) throw Error("Unable to find room.");
+
+    res.status(200).json(room);
   } catch (e) {
     res.status(400).json({ msg: e.message });
   }

@@ -20,7 +20,7 @@ import {
   addActiveDmRoom,
   moveDmRoomToFront,
 } from "../../flux/actions/dmRoomsActions";
-import { getRoom } from "../../flux/actions/currentRoomActions";
+import { getRoom, getDmRoom } from "../../flux/actions/currentRoomActions";
 import { actionShowLoader } from "../../flux/actions/loaderActions";
 import {
   NavContext,
@@ -144,14 +144,22 @@ const Chat = (props) => {
 
   useEffect(() => {
     // retrieve room information using the room ID on the URL
-    const { room } = queryString.parse(props.location.search);
+    const { room, roomType } = queryString.parse(props.location.search);
+    console.log("Connecting socket");
     // only get the room details if there is no room yet on the redux store, and if it's a different room  (after swapping)
     if (!props.user) return;
     if (
       !props.currentRoom ||
       (props.currentRoom && room != props.currentRoom._id)
     ) {
-      props.getRoom(room);
+      // note: change retreival behaivor depending on room type
+      console.log("Retreiving room info");
+      console.log(props.user);
+      if (roomType === "DM") {
+        props.getDmRoom({ room });
+      } else {
+        props.getRoom(room);
+      }
     }
     // do not connect socket until the room information is retrieved
     // note:this may not even be necessary because only ID is used by the server side anyway
@@ -208,6 +216,7 @@ const Chat = (props) => {
 
   // attach another listener every time the address/room changes
   useEffect(() => {
+    if (!socket) return;
     console.log(props.location.search);
     socket.on("message", (message) => {
       // non-\ mutational push to the messages array
@@ -235,7 +244,7 @@ const Chat = (props) => {
         return [...messages];
       });
     });
-  }, [location.search]);
+  }, [location.search, socket]);
 
   // handles the sending of messages
   const sendMessage = (event) => {
@@ -389,6 +398,7 @@ export default connect(mapStateToProps, {
   addActiveDmRoom,
   moveDmRoomToFront,
   getRoom,
+  getDmRoom,
 })(Chat);
 
 /*
