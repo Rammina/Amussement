@@ -26,6 +26,27 @@ exports.get_all_rooms = async (req, res) => {
   }
 };
 
+exports.get_room = async (req, res) => {
+  const { userId } = req.body;
+  console.log("retrieving a specific room");
+  try {
+    const room = await Room.findById(req.params.id).populate("messages");
+    if (!room) throw Error("Unable to find room.");
+
+    // check the members of the room and check if user is a member
+    let isMember = false;
+    for (let member of room.members) {
+      if (member.user._id == userId) {
+        isMember = true;
+      }
+    }
+    if (isMember) res.status(200).json(room);
+    else throw Error("User is not a member of this room.");
+  } catch (e) {
+    res.status(400).json({ msg: e.message });
+  }
+};
+
 exports.create_room = async (req, res) => {
   const {
     name,

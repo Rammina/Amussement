@@ -3,6 +3,8 @@ const router = express.Router();
 
 const rooms_controller = require("../../controllers/roomsController");
 
+router.get("/:id", rooms_controller.get_room);
+
 router.post("/", rooms_controller.create_room);
 // note: might want to use ID instead
 router.patch("/:name/join", rooms_controller.join_room);

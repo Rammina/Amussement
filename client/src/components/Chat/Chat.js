@@ -20,7 +20,7 @@ import {
   addActiveDmRoom,
   moveDmRoomToFront,
 } from "../../flux/actions/dmRoomsActions";
-import { getRoom } from "../../flux/actions/roomsActions";
+import { getRoom } from "../../flux/actions/currentRoomActions";
 import { actionShowLoader } from "../../flux/actions/loaderActions";
 import {
   NavContext,
@@ -67,6 +67,22 @@ const Chat = (props) => {
 
   const location = useLocation();
 
+  // helper/utility functions
+  // should make these more reusable
+  const scrollToBottom = function (containerId) {
+    scroll.scrollToBottom({
+      duration: 0,
+      containerId: containerId,
+    });
+  };
+
+  const scrollTo = function (targetElement, containerId) {
+    scroller.scrollTo(targetElement, {
+      duration: 0,
+      containerId: containerId,
+    });
+  };
+
   //component variables
   let userJoinCount = 0;
   // let messageRetrievalCount = 0;
@@ -98,7 +114,7 @@ const Chat = (props) => {
     setRoomId(_id);
     if (type === "DM") {
       setRoomType("DM");
-
+      // customizing DM room name
       let roomName = name;
       setRoomName(`@${receiver}`);
       roomNameforDB = roomName;
@@ -106,8 +122,8 @@ const Chat = (props) => {
 
       let alreadyAddedToActive = false;
     } else {
+      // for public chat, the names should be the same
       setRoomName(name);
-      roomNameforDB = name;
       setRoomNameforDB(name);
       setRoomType("public");
     }
@@ -126,26 +142,15 @@ const Chat = (props) => {
     userJoinCount++;
   };
 
-  // should make these more reusable
-  const scrollToBottom = function (containerId) {
-    scroll.scrollToBottom({
-      duration: 0,
-      containerId: containerId,
-    });
-  };
-
-  const scrollTo = function (targetElement, containerId) {
-    scroller.scrollTo(targetElement, {
-      duration: 0,
-      containerId: containerId,
-    });
-  };
-
   useEffect(() => {
     // retrieve room information using the room ID on the URL
     const { room } = queryString.parse(props.location.search);
     // only get the room details if there is no room yet on the redux store, and if it's a different room  (after swapping)
-    if (!props.currentRoom && room != props.currentRoom._id) {
+    if (!props.user) return;
+    if (
+      !props.currentRoom ||
+      (props.currentRoom && room != props.currentRoom._id)
+    ) {
       props.getRoom(room);
     }
     // do not connect socket until the room information is retrieved
@@ -172,7 +177,7 @@ const Chat = (props) => {
 
       socket.close();
     };
-  }, [ENDPOINT, location.search, props.currentRoom]);
+  }, [ENDPOINT, location.search, props.currentRoom, props.user]);
 
   // re-update the user and users list
   useEffect(() => {
