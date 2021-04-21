@@ -164,17 +164,24 @@
 
   .friends-header-button {
     width: fit-content;
+    height: 2.2rem;
+    border-radius: 6.5px;
+    padding: 0.1rem 0.7rem;
     color: $textFontColorDim;
-    margin: 0 1rem;
+    margin: 0 0.4rem;
+  }
+
+  .friends-header-button:hover,
+  .friends-header-button.active {
+    color: $textFontWhite;
+    background-color: #fff1;
   }
 
   #add-friend-button {
     background-color: $discord-mobile-green;
     color: $textFontWhite;
     text-shadow: 1px 1px 0 #1114;
-    padding: 0.1rem 0.5rem;
-    height: 2.2rem;
-    border-radius: 6.5px;
+    margin: 0 1rem;
   }
 
   #add-friend-button:hover {

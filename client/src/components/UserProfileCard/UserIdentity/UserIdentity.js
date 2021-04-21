@@ -57,7 +57,10 @@ const UserIdentity = (props) => {
 
   const renderEllipsisButton = () =>
     !props.isCurrentUser ? (
-      <button id="user-profile-card-ellipsis-button">
+      <button
+        id="user-profile-card-ellipsis-button"
+        onClick={props.ellipsisOnClickHandler}
+      >
         <img
           className={`ellipsis-icon-img`}
           src={EllipsisImg}

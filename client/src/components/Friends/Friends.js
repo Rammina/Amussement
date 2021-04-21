@@ -18,16 +18,15 @@ import { getAllFriends } from "../../flux/actions/friendsActions";
 
 import { FooterContext, WindowContext } from "../AppContext";
 
-// import { renderError, getErrorClass } from "../../helpers";
+import { sortAlphabeticallyByNestedProp } from "../../helpers";
 
 const Friends = (props) => {
   const [friendsList, setFriendsList] = useState(null);
   const [addFriendOpened, setAddFriendOpened] = useState(false);
+  const [category, setCategory] = useState("");
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
 
   const location = useLocation();
-  console.log(location.pathname);
-
   useEffect(() => {
     // redirect to home when going to friends page in desktop mode
     if (!isDesktopWidth || !isDesktopHeight) return;
@@ -41,6 +40,17 @@ const Friends = (props) => {
     }
     return;
   }, [location.pathname, isDesktopWidth, isDesktopHeight, props.user]);
+
+  const getAllFriendsButtonClass = () => (!category ? "active" : "");
+  const getPendingButtonClass = () => (category === "pending" ? "active" : "");
+
+  const allFriendsButtonOnClickHandler = () => {
+    setCategory("");
+  };
+
+  const pendingButtonOnClickHandler = () => {
+    setCategory("pending");
+  };
 
   const addFriendOnClickHandler = () => {
     setAddFriendOpened(true);
@@ -56,25 +66,26 @@ const Friends = (props) => {
     return <AddFriend onModalClose={closeAddFriendModalHandler} />;
   };
 
-  const renderFriends = (category) => {
+  const renderFriends = () => {
     // category - string
-    console.log(props.friends);
-    console.log(props.friends.length);
     // check if there are no friends or if the array is undefined
     if (!props.friends) return null;
     if (props.friends.length < 1) return null;
+    const friends = props.friends.sort(
+      sortAlphabeticallyByNestedProp("friend", "username")
+    );
+
     // render everything (especially in the case of All Friends)
-    if (!category)
-      return props.friends.map((friend, i) => (
+    if (!category || category === "")
+      return friends.map((friend, i) => <Friend key={i} friend={friend} />);
+    else if (category === "pending") {
+      const filteredFriends = friends.filter((friend) => {
+        return friend.status === "pending" || friend.status === "requested";
+      });
+      return filteredFriends.map((friend, i) => (
         <Friend key={i} friend={friend} />
       ));
-
-    const filteredFriends = props.friends.filter((friend) => {
-      return friend.status === category;
-    });
-    return filteredFriends.map((friend, i) => (
-      <Friend key={i} friend={friend} />
-    ));
+    }
   };
 
   const renderContent = () => {
@@ -117,9 +128,19 @@ const Friends = (props) => {
         <section className="friends-section-outer-container">
           <header className="friends-section-header">
             <h1 className="friends-header-heading">Friends</h1>
-            <button className="friends-header-button">All</button>
+            <button
+              className={`friends-header-button ${getAllFriendsButtonClass()}`}
+              onClick={allFriendsButtonOnClickHandler}
+            >
+              All
+            </button>
 
-            <button className="friends-header-button">Pending</button>
+            <button
+              className={`friends-header-button ${getPendingButtonClass()}`}
+              onClick={pendingButtonOnClickHandler}
+            >
+              Pending
+            </button>
 
             <button
               className="friends-header-button"

@@ -105,7 +105,7 @@ io.on("connect", (socket) => {
   // listen for any user join sent from the client side
   socket.on("join", ({ user, roomId, messageRetrievalCount = 0 }, callback) => {
     //const {username}
-
+    console.log(`roomId is ${roomId}`);
     const { error, userObject } = addUser({
       ...user,
       socketId: socket.id,

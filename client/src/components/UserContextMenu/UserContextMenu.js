@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { connect } from "react-redux";
 
 import ContextMenu from "../UIComponents/ContextMenu/ContextMenu";
 
+import RemoveFriendModal from "../forms/friend/RemoveFriendModal";
 import { getFriendStatusWithUser } from "../../helpers";
 import {
   addFriendWithId,
@@ -10,15 +11,35 @@ import {
 } from "../../flux/actions/friendsActions";
 
 const UserContextMenu = (props) => {
+  const [showRemoveFriendModal, setShowRemoveFriendModal] = useState(false);
+
   const addFriendOnClickHandler = () => {
     props.onClose();
-    props.addFriendWithId(props.userId);
+    props.addFriendWithId(props.selectedUser._id);
   };
 
   const removeFriendOnClickHandler = () => {
-    // using a callback will be nice as well
+    setShowRemoveFriendModal(true);
+    // props.onClose();
+  };
+
+  const closeRemoveFriendModalHandler = () => {
+    setShowRemoveFriendModal(false);
     props.onClose();
-    props.removeFriend(props.userId);
+  };
+
+  const renderRemoveFriendModal = () => {
+    if (!showRemoveFriendModal) return null;
+    return (
+      <RemoveFriendModal
+        selectedUser={props.selectedUser}
+        connectionToUser={getFriendStatusWithUser(
+          props.selectedUser._id,
+          props.friends
+        )}
+        onModalClose={closeRemoveFriendModalHandler}
+      />
+    );
   };
 
   let actionButtons = null;
@@ -27,7 +48,8 @@ const UserContextMenu = (props) => {
     props.friendStatus === "accepted" ||
     (props.friends &&
       !props.isCurrentUser &&
-      getFriendStatusWithUser(props.userId, props.friends) === "accepted")
+      getFriendStatusWithUser(props.selectedUser._id, props.friends) ===
+        "accepted")
   ) {
     actionButtons = (
       <>
@@ -49,7 +71,8 @@ const UserContextMenu = (props) => {
     props.friendStatus === "requested" ||
     (props.friends &&
       !props.isCurrentUser &&
-      getFriendStatusWithUser(props.userId, props.friends) === "requested")
+      getFriendStatusWithUser(props.selectedUser._id, props.friends) ===
+        "requested")
   ) {
     actionButtons = (
       <>
@@ -65,7 +88,8 @@ const UserContextMenu = (props) => {
     props.friendStatus === "pending" ||
     (props.friends &&
       !props.isCurrentUser &&
-      getFriendStatusWithUser(props.userId, props.friends) === "pending")
+      getFriendStatusWithUser(props.selectedUser._id, props.friends) ===
+        "pending")
   ) {
     actionButtons = (
       <>
@@ -90,23 +114,29 @@ const UserContextMenu = (props) => {
     );
   }
 
-  return (
-    <ContextMenu
-      componentClass="message user"
-      clientX={props.clientX}
-      clientY={props.clientY}
-      onClose={props.onClose}
-    >
-      <div className="context-menu-buttons-container message user">
-        <button
-          className="context-menu-button message user"
-          onClick={props.profileOnClick}
-        >
-          <span>Profile</span>
-        </button>
-        {actionButtons}
-      </div>
-    </ContextMenu>
+  return showRemoveFriendModal ? (
+    // show the modal
+    renderRemoveFriendModal()
+  ) : (
+    // otherwise, show the context menu
+    <>
+      <ContextMenu
+        componentClass="message user"
+        clientX={props.clientX}
+        clientY={props.clientY}
+        onClose={props.onClose}
+      >
+        <div className="context-menu-buttons-container message user">
+          <button
+            className="context-menu-button message user"
+            onClick={props.profileOnClick}
+          >
+            <span>Profile</span>
+          </button>
+          {actionButtons}
+        </div>
+      </ContextMenu>
+    </>
   );
 };
 

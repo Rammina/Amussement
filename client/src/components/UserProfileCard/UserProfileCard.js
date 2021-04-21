@@ -12,6 +12,7 @@ import UserCommunications from "./UserCommunications/UserCommunications";
 import UserConnections from "./UserConnections/UserConnections";
 import Notes from "./Notes/Notes";
 import RemoveFriendModal from "../forms/friend/RemoveFriendModal";
+import UserContextMenu from "../UserContextMenu/UserContextMenu";
 
 import { addFriendWithId } from "../../flux/actions/friendsActions";
 import { addActiveDmRoom } from "../../flux/actions/dmRoomsActions";
@@ -20,6 +21,9 @@ import { isFriendsWithUser, getFriendStatusWithUser } from "../../helpers";
 import { WindowContext, UserProfileCardContext } from "../AppContext";
 
 const UserProfileCard = (props) => {
+  const [clientX, setClientX] = useState(-200);
+  const [clientY, setClientY] = useState(-200);
+  const [showUserContextMenu, setShowUserContextMenu] = useState(false);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [connectionToUser, setConnectionToUser] = useState(null);
   const [modalHeight, setModalHeight] = useState(0);
@@ -81,6 +85,18 @@ const UserProfileCard = (props) => {
     setConnectionToUser("requested");
   };
 
+  const ellipsisOnClickHandler = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowUserContextMenu(true);
+    setClientX(e.clientX);
+    setClientY(e.clientY);
+  };
+
+  const onCloseContextMenuHandler = () => {
+    setShowUserContextMenu(false);
+  };
+
   const sendMessageOnClickHandler = () => {
     let alreadyAddedToActive = false;
     let roomName = `${[props.user._id, selectedUser._id].sort().join("_")}DM`;
@@ -119,6 +135,23 @@ const UserProfileCard = (props) => {
   };
 
   // render functions
+  const renderUserContextMenu = () => {
+    if (!showUserContextMenu) return null;
+
+    return (
+      <UserContextMenu
+        isCurrentUser={false}
+        clientX={clientX}
+        clientY={clientY}
+        selectedUser={selectedUser}
+        friends={props.friends}
+        noProfileButton={true}
+        onClose={onCloseContextMenuHandler}
+        sendMessageOnClick={sendMessageOnClickHandler}
+      />
+    );
+  };
+
   const renderRemoveFriendModal = () => {
     if (!removeFriendModalOpen) return null;
     return (
@@ -165,11 +198,11 @@ const UserProfileCard = (props) => {
               <UserIdentity
                 isCurrentUser={isCurrentUser}
                 dmRoomName={dmRoomName}
+                ellipsisOnClickHandler={ellipsisOnClickHandler}
               />
               {renderUserCommunications()}
             </section>
             <section className="user-profile-card-section-container">
-              {renderUserConnections()}
               <Notes />
             </section>
           </div>
@@ -220,28 +253,13 @@ const UserProfileCard = (props) => {
           >
             User Info
           </button>
-          <button
-            className={`user-profile-card-button ${getMutualFriendsButtonClass()}`}
-            onClick={() => {
-              setSelectedSection("mutualFriends");
-            }}
-          >
-            Mutual Friends
-          </button>
-          <button
-            className={`user-profile-card-button ${getMutualServersButtonClass()}`}
-            onClick={() => {
-              setSelectedSection("mutualServers");
-            }}
-          >
-            Mutual Servers
-          </button>
         </section>
       ) : null;
 
     // render desktop content
     return (
       <React.Fragment>
+        {renderUserContextMenu()}
         {renderRemoveFriendModal()}
         <Modal
           componentClass={`user-profile-card ${props.componentClass}`}
@@ -260,6 +278,7 @@ const UserProfileCard = (props) => {
                   connectionToUser={connectionToUser}
                   addFriend={addFriendHandler}
                   sendMessageOnClickHandler={sendMessageOnClickHandler}
+                  ellipsisOnClickHandler={ellipsisOnClickHandler}
                   dmRoomName={dmRoomName}
                 />
               </section>
@@ -292,26 +311,25 @@ export default connect(mapStateToProps, {
   addActiveDmRoom,
 })(UserProfileCard);
 
+// note: there are no servers right now so just going to put this away
 /*
-return (
-  <>
-    <div
-      // className={`backdrop ${getModalOpenClass()} ${getClassName()}`}
-      className={`backdrop ${props.getFriendInfoModalClass()}`}
-      onClick={() => {
-        // props.onModalClose();
-      }}
-    ></div>
-    <div
-      className={`user-profile-card-outer-container modal slide-up ${props.getFriendInfoModalClass()}`}
-      //note: should have a dynamic state-based value for this depending on how tall the element is
-      style={{ transform: "translateY(100vh) translateY(-20rem)" }}
-    >
-      <h3 className="user-profile-card modal-heading">
-        {props.friend.username}
-      </h3>
-      {props.renderAvatar()}
-    </div>
-  </>
-);
-*/
+  <button
+    className={`user-profile-card-button ${getMutualFriendsButtonClass()}`}
+    onClick={() => {
+      setSelectedSection("mutualFriends");
+    }}
+  >
+    Mutual Friends
+  </button>
+  <button
+    className={`user-profile-card-button ${getMutualServersButtonClass()}`}
+    onClick={() => {
+      setSelectedSection("mutualServers");
+    }}
+  >
+    Mutual Servers
+  </button>
+  */
+
+//note: there are no servers but this was above notes section on mobile
+// {renderUserConnections()}

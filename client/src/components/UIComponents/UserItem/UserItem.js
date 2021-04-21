@@ -19,6 +19,8 @@ import {
   removeActiveDmRoomWithName,
 } from "../../../flux/actions/dmRoomsActions";
 
+import { updateCurrentRoom } from "../../../flux/actions/currentRoomActions";
+
 import history from "../../../history";
 
 const UserItem = (props) => {
@@ -46,6 +48,11 @@ const UserItem = (props) => {
   }, [props.currentUser]);
 
   const getActiveClass = () => (room === props.room.name ? "active" : "");
+
+  const roomOpenOnClickHandler = () => {
+    props.updateCurrentRoom(props.room);
+    onCloseContextMenuHandler();
+  };
 
   const onCloseContextMenuHandler = () => {
     setShowUserContextMenu(false);
@@ -103,6 +110,7 @@ const UserItem = (props) => {
       });
     }
 
+    roomOpenOnClickHandler();
     history.push(
       `/chat?room=${dmRoomName}&userType=user&roomType=DM&receiver=${props.user.username}`
     );
@@ -137,7 +145,7 @@ const UserItem = (props) => {
         isCurrentUser={isCurrentUser}
         clientX={clientX}
         clientY={clientY}
-        userId={props.user._id}
+        selectedUser={props.user}
         friends={props.friends}
         onClose={onCloseContextMenuHandler}
         profileOnClick={profileOnClickHandler}
@@ -194,34 +202,32 @@ const UserItem = (props) => {
     );
   };
   const renderComponent = () => {
-    if (props.isLink) {
-      return (
-        <>
-          {renderUserContextMenu()}
-          <Link
-            to={`/chat?room=${dmRoomName}&userType=user&roomType=DM&receiver=${props.user.username}`}
-            className={`user-item-outer-container ${getActiveClass()}`}
-            onContextMenu={userItemOnContextMenuHandler}
-          >
-            {renderContent()}
-          </Link>
-        </>
-      );
-    } else {
-      return (
-        <>
-          {renderUserInfoModal()}
-          {renderUserContextMenu()}
-          <div
-            className="user-item-outer-container"
-            onClick={userItemOnClickHandler}
-            onContextMenu={userItemOnContextMenuHandler}
-          >
-            {renderContent()}
-          </div>
-        </>
-      );
-    }
+    let item = props.isDmLink ? (
+      <Link
+        to={`/chat?room=${dmRoomName}&userType=user&roomType=DM&receiver=${props.user.username}`}
+        className={`user-item-outer-container ${getActiveClass()}`}
+        onContextMenu={userItemOnContextMenuHandler}
+        onClick={roomOpenOnClickHandler}
+      >
+        {renderContent()}
+      </Link>
+    ) : (
+      // it doesn't link to a direct message
+      <div
+        className="user-item-outer-container"
+        onClick={userItemOnClickHandler}
+        onContextMenu={userItemOnContextMenuHandler}
+      >
+        {renderContent()}
+      </div>
+    );
+    return (
+      <>
+        {renderUserInfoModal()}
+        {renderUserContextMenu()}
+        {item}
+      </>
+    );
   };
   return renderComponent();
 };
@@ -236,4 +242,5 @@ export default connect(mapStateToProps, {
   removeActiveDmRoom,
   removeActiveDmRoomWithName,
   addActiveDmRoom,
+  updateCurrentRoom,
 })(UserItem);

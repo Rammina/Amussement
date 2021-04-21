@@ -20,15 +20,20 @@
   background-color: $main-black;
 }
 .room-item-container:hover,
+.room-item-container.selected,
 .room-item-link:hover,
+.room-item-link.selected,
 .room-item-button:hover,
+.room-item-button.selected,
 .room-item-content:hover,
+.room-item-content.selected,
 .room-item-button.selected,
 #home-button-img-container.selected {
   border-radius: 10px;
 }
 
 .room-item-content.no-image:hover,
+.room-item-content.no-image.selected,
 #home-button-img-container:hover,
 #home-button-img-container.selected {
   background-color: $grayblue;

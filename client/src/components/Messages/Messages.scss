@@ -69,7 +69,8 @@
     5px 5px 15px 5px rgba(0, 0, 0, 0);
   box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
   // animation: 0.3s ease-out forwards scroll-down-button-show;
-  // transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out,
+    visibility 0.3s ease-out;
   // 0.3s ease-out
 }
 #messages-container-scroll-down-button:hover {
@@ -77,10 +78,10 @@
 }
 
 #messages-container-scroll-down-button.hide {
-  // transform: translateY(1rem);
-  // opacity: 0;
-  // visibility: hidden;
-  animation: 0.3s ease-out forwards scroll-down-button-hide;
+  transform: translateY(1rem);
+  opacity: 0;
+  visibility: hidden;
+  // animation: 0.3s ease-out forwards scroll-down-button-hide;
 }
 
 #messages-container-scroll-down-img {

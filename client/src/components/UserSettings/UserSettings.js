@@ -28,6 +28,10 @@ const UserSettings = (props) => {
 
   useEffect(() => {
     if (isDesktopWidth && isDesktopHeight) setMyAccountOpened(true);
+
+    return () => {
+      if (props.setShowUserSettings) props.setShowUserSettings(false);
+    };
   }, []);
 
   // function handlers

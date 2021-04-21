@@ -27,14 +27,7 @@ const onInput = (e) => {
   e.preventDefault();
   e.stopPropagation();
 };
-const handleEnterKeyOnField = (e) => {
-  // This prevents submission bugging or refreshing upon pressing enter
-  // in an input field inside a form
-  // if (e.keyCode === 13) {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  // }
-};
+const handleEnterKeyOnField = (e) => {};
 
 const renderInput = ({ input, meta, inputProps, labelProps }) => {
   const errorClass = getErrorClass(meta);
@@ -84,17 +77,18 @@ const EditRoom = (props) => {
 
   // submit handler
   const onSubmit = async (formValues) => {
+    formValues.roomId = room._id;
     const successCb = () => {
       props.actionShowLoader("editRoomModalForm", false);
       props.onClose();
       if (isSelectedRoom)
         history.push(
-          `chat?room=${formValues.name}&userType=user&roomType=public`
+          `chat?room=${formValues.roomId}&userType=user&roomType=public`
         );
     };
     console.log(formValues);
     // check if it succeeded or it produced an error
-    formValues.roomId = room._id;
+
     props.actionShowLoader("editRoomModalForm", true);
     await props.editRoom(formValues, successCb);
   };

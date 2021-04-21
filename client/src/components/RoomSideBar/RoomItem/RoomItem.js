@@ -1,6 +1,12 @@
 import "./RoomItem.scss";
 
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  useLayoutEffect,
+} from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -32,7 +38,7 @@ const RoomItem = (props) => {
   console.log(location);
   // console.log(props.location);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     checkSelectedRoom();
 
     return () => {
@@ -53,7 +59,7 @@ const RoomItem = (props) => {
   const getUserType = () => (props.user ? "user" : "guest");
 
   const checkSelectedRoom = () => {
-    if (!props.room || !props.room.name) {
+    if (!props.room || !props.room._id) {
       setIsSelectedRoom(false);
     }
 
@@ -64,7 +70,7 @@ const RoomItem = (props) => {
     if (!currentRoom) {
       setIsSelectedRoom(false);
     }
-    if (currentRoom === props.room.name) {
+    if (currentRoom === props.room._id) {
       setIsSelectedRoom(true);
     } else {
       setIsSelectedRoom(false);
@@ -104,9 +110,9 @@ const RoomItem = (props) => {
 
   // room actions function handlers
 
-  // const roomOnClickHandler = () => {
-  //   props.updateCurrentRoom(props.room);
-  // };
+  const roomOpenOnClickHandler = () => {
+    props.updateCurrentRoom(props.room);
+  };
 
   const roomSettingsOnClickHandler = () => {
     setShowRoomSettings(true);
@@ -191,7 +197,7 @@ const RoomItem = (props) => {
         return <img className="room-item-content" src={props.room.image_url} />;
       } else {
         return (
-          <span className="room-item-content no-image">
+          <span className={`room-item-content no-image ${getSelectedClass()}`}>
             {props.room.name.charAt(0)}
           </span>
         );
@@ -211,7 +217,7 @@ const RoomItem = (props) => {
           onMouseLeave={onMouseLeaveHandler}
           onContextMenu={onRoomContextMenuHandler}
           to={props.toUrl}
-          // onClick={roomOnClickHandler}
+          onClick={roomOpenOnClickHandler}
         >
           {renderItemContent()}
         </Link>

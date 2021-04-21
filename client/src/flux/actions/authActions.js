@@ -106,11 +106,11 @@ export const loginUser = (formValues) => (dispatch) => {
 
 // Logout User
 export const logout = () => (dispatch) => {
-  history.push("/auth/login");
-  dispatch(clearErrors());
-  return {
+  dispatch({
     type: LOGOUT_SUCCESS,
-  };
+  });
+  dispatch(clearErrors());
+  history.push("/auth/login");
 };
 
 // Setup config/headers and token

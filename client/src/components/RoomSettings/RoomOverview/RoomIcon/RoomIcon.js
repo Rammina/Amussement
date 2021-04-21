@@ -200,6 +200,7 @@ const RoomIcon = (props) => {
         onSubmit={handleSubmitFile}
       >
         <label
+          ref={props.changeIconFormRef || null}
           htmlFor="room-icon-upload"
           className=""
           id="room-icon-upload-label"

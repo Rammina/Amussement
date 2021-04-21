@@ -6,6 +6,7 @@ import {
   EDIT_ACCOUNT_HIDE_LOADER,
   CHANGE_PASSWORD_SHOW_LOADER,
   CHANGE_PASSWORD_HIDE_LOADER,
+  LOGOUT_SUCCESS,
 } from "../actions/types";
 
 const initialState = {};
@@ -24,6 +25,8 @@ export default (state = initialState, action) => {
     case CHANGE_PASSWORD_HIDE_LOADER:
       return { ...state, showChangePasswordLoader: false };
       */
+    case LOGOUT_SUCCESS:
+      return {};
     default:
       return state;
   }

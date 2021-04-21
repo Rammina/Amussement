@@ -224,8 +224,6 @@ export const updateRoomName = (formValues, successCb) => (
           ...res.data,
         },
       });
-      // dispatch(getAllRooms(userId));
-      // history.push(`/users/${userId}/rooms`);
       dispatch(clearErrors());
       if (successCb) successCb();
     })
@@ -305,33 +303,7 @@ export const editRoomIcon = (base64EncodedImage, roomId) => {
   };
 };
 
-/*
-export const removeUserAvatar = (id) => {
-  return async function (dispatch, getState) {
-    const userId = id || getState().user.info._id || getState().user.info.id;
-    try {
-      await cloudinaryRest
-        .patch(`/api/users/${userId}/settings/remove-avatar`, {
-          message: "remove avatar",
-        })
-        .then((res) => {
-          console.log(res.data);
-          dispatch({ type: REMOVE_USER_AVATAR_SUCCESS, payload: res.data });
-        });
-    } catch (err) {
-      console.log(err);
-      dispatch(
-        returnErrors(
-          err.response.data,
-          err.response.status,
-          "REMOVE_USER_AVATAR_FAIL"
-        )
-      );
-      dispatch({ type: REMOVE_USER_AVATAR_FAIL });
-    }
-  };
-};
-*/
+// please add remove image for room
 
 export const deleteRoom = (roomId, successCb) => (dispatch, getState) => {
   const userId = getState().user.info._id || getState().user.info.id;

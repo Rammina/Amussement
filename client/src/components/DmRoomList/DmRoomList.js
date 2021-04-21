@@ -31,7 +31,7 @@ const DmRoomList = (props) => {
       if (member.user._id !== props.user._id) {
         return (
           <UserItem
-            isLink={true}
+            isDmLink={true}
             user={member.user}
             room={room}
             key={room._id || room.name}
@@ -40,15 +40,16 @@ const DmRoomList = (props) => {
       }
     }
   };
-  return rooms.map((room) => {
-    console.log(room.name);
-    console.log(room);
-    console.log(room.members);
-    // get the user that is not the current logged in one
 
-    console.log(room);
-    return getReceiverInDmRoom(room);
-  });
+  const renderComponent = () =>
+    props.user && props.dmRooms.length > 0
+      ? rooms.map((room) => {
+          return getReceiverInDmRoom(room);
+        })
+      : // do not render anything if user and DM room list is not loaded yet
+        null;
+
+  return renderComponent();
 };
 
 const mapStateToProps = (state) => ({

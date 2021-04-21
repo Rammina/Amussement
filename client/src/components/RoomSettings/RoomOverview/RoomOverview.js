@@ -40,6 +40,13 @@ const RoomOverview = (props) => {
 
   //refs
   let inputImageRef = useRef(null);
+  let changeIconFormRef = useRef(null);
+
+  const uploadImageButtonOnClickHandler = () => {
+    if (changeIconFormRef.current !== null) {
+      changeIconFormRef.current.click();
+    }
+  };
 
   const renderDesktopHeading = () => {
     if (!isDesktopWidth) return null;
@@ -72,17 +79,19 @@ const RoomOverview = (props) => {
     const editRoomOnCloseHandler = () => {
       setEditRoomOpened(false);
     };
-    return <EditRoom initialValues={room} onClose={editRoomOnCloseHandler} />;
+    return (
+      <EditRoom
+        initialValues={{ ...room, password: "" }}
+        onClose={editRoomOnCloseHandler}
+      />
+    );
   };
 
   const renderSection = () => {
     return null;
   };
 
-  const hideSection = (sectionName) => {};
-
   // render
-
   return (
     props.user && (
       <div className="settings-page-content-container">
@@ -108,7 +117,7 @@ const RoomOverview = (props) => {
             </h1>
           </div>
           <div className="room-container">
-            <RoomIcon />
+            <RoomIcon changeIconFormRef={changeIconFormRef} />
 
             <div className="" id="room-information-container">
               <label className="room-information label">ROOM NAME</label>
@@ -131,9 +140,7 @@ const RoomOverview = (props) => {
             <button
               className="room-button"
               id="room-upload-button"
-              onClick={() => {
-                // setImageUploadModalOpen(true);
-              }}
+              onClick={uploadImageButtonOnClickHandler}
             >
               Upload Image
             </button>
@@ -146,15 +153,6 @@ const RoomOverview = (props) => {
             >
               Edit Room
             </button>
-            {/*<button
-              className="room-button"
-              id="room-change-password-button"
-              onClick={() => {
-                // setChangePasswordOpened(true);
-              }}
-            >
-              Change Password
-            </button>*/}
           </div>
         </div>
       </div>

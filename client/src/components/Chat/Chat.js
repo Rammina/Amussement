@@ -122,10 +122,10 @@ const Chat = (props) => {
 
       let alreadyAddedToActive = false;
     } else {
+      setRoomType("public");
       // for public chat, the names should be the same
       setRoomName(name);
       setRoomNameforDB(name);
-      setRoomType("public");
     }
 
     if (props.user) {
@@ -156,7 +156,12 @@ const Chat = (props) => {
       console.log("Retreiving room info");
       console.log(props.user);
       if (roomType === "DM") {
-        props.getDmRoom({ room });
+        // compare the names because DM rooms use names (for now)
+        if (
+          !props.currentRoom ||
+          (props.currentRoom && room !== props.currentRoom.name)
+        )
+          props.getDmRoom(room);
       } else {
         props.getRoom(room);
       }
@@ -248,6 +253,7 @@ const Chat = (props) => {
 
   // handles the sending of messages
   const sendMessage = (event) => {
+    const { room } = queryString.parse(props.location.search);
     // prevent page refresh
     event.preventDefault();
     // if message exists, send the event
@@ -260,7 +266,8 @@ const Chat = (props) => {
           roomId,
         },
         () => {
-          if (roomType === "DM") props.moveDmRoomToFront(roomId);
+          // this actually uses room name for DM
+          if (roomType === "DM") props.moveDmRoomToFront(room);
           setMessage("");
         }
       );

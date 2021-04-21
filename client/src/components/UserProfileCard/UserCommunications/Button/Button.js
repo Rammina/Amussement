@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Button = (props) => {
   const onClickHandler = () => {
@@ -7,11 +8,8 @@ const Button = (props) => {
     }
   };
 
-  return (
-    <button
-      className={`user-profile-card-button ${props.className || ""}`}
-      onClick={onClickHandler}
-    >
+  const renderContent = () => (
+    <>
       <div className="user-communication-button-image-container">
         {props.children}
       </div>
@@ -20,6 +18,23 @@ const Button = (props) => {
       >
         {props.text}
       </span>
+    </>
+  );
+
+  return props.isLink ? (
+    <Link
+      className={`user-profile-card-button ${props.className || ""}`}
+      onClick={onClickHandler}
+      to={props.to}
+    >
+      {renderContent()}
+    </Link>
+  ) : (
+    <button
+      className={`user-profile-card-button ${props.className || ""}`}
+      onClick={onClickHandler}
+    >
+      {renderContent()}
     </button>
   );
 };

@@ -59,7 +59,7 @@ const OnlineUsersContainer = ({ users }) => {
             <h1 className="online-users-status">Online -- {users.length}</h1>
             {users.map((user) => (
               <UserItem
-                isLink={false}
+                isDmLink={false}
                 user={user}
                 noCloseButton={true}
                 key={user._id}

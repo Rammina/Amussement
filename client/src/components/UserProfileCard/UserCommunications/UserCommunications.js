@@ -59,18 +59,19 @@ const UserCommunications = (props) => {
   // note: mobile and desktop versions should be different
   return (
     <section className="user-profile-card-section-sub-container buttons-container">
-      <Link
+      <Button
+        text="Message"
         onClick={props.sendMessageOnClickHandler}
+        isLink={true}
         to={`/chat?room=${props.dmRoomName}&userType=user&roomType=DM&receiver=${selectedUser.username}`}
       >
-        <Button text="Message">
-          <img
-            className={`user-profile-card-button-image`}
-            src={ChatIconImg}
-            alt="Chat Bubble Icon"
-          />
-        </Button>
-      </Link>
+        <img
+          className={`user-profile-card-button-image`}
+          src={ChatIconImg}
+          alt="Chat Bubble Icon"
+        />
+      </Button>
+
       {renderFriendButton()}
     </section>
   );

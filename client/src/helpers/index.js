@@ -279,6 +279,20 @@ export const capitalizeFirstLetter = (string) => {
 };
 
 // array functions
+export const sortAlphabeticallyByProp = (property) =>
+  function (a, b) {
+    var textA = a[property].toUpperCase();
+    var textB = b[property].toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
+  };
+
+export const sortAlphabeticallyByNestedProp = (prop1, prop2) =>
+  function (a, b) {
+    var textA = a[prop1][prop2].toUpperCase();
+    var textB = b[prop1][prop2].toUpperCase();
+    return textA < textB ? -1 : textA > textB ? 1 : 0;
+  };
+
 export const replaceAt = (array, index, value) => {
   const ret = array.slice(0);
   ret[index] = value;

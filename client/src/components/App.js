@@ -172,11 +172,17 @@ export const App = (props) => {
   });
 
   const renderUserSettings = () => {
+    if (!props.user) return null;
     if (!isDesktopWidth || !isDesktopHeight)
       return <Route path="/users/:id/settings" component={UserSettings} />;
     if (!showUserSettings) return null;
 
-    return <UserSettings settingsOnCloseHandler={settingsOnCloseHandler} />;
+    return (
+      <UserSettings
+        settingsOnCloseHandler={settingsOnCloseHandler}
+        setShowUserSettings={setShowUserSettings}
+      />
+    );
   };
 
   //note: add chat for logged in users
@@ -210,4 +216,8 @@ export const App = (props) => {
   );
 };
 
-export default connect(null, { loadUser })(App);
+const mapStateToProps = (state) => ({
+  user: state.user.info,
+});
+
+export default connect(mapStateToProps, { loadUser })(App);
