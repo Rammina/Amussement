@@ -35,7 +35,7 @@ const RoomItem = (props) => {
   const [showRoomSettings, setShowRoomSettings] = useState(false);
   const [deleteRoomOpened, setDeleteRoomOpened] = useState(false);
   const location = useLocation();
-  console.log(location);
+  const { room } = queryString.parse(location.search);
   // console.log(props.location);
 
   useLayoutEffect(() => {
@@ -111,7 +111,9 @@ const RoomItem = (props) => {
   // room actions function handlers
 
   const roomOpenOnClickHandler = () => {
-    props.updateCurrentRoom(props.room);
+    if (!props.currentRoom || props.currentRoom._id !== room) {
+      props.updateCurrentRoom(props.room);
+    }
   };
 
   const roomSettingsOnClickHandler = () => {
@@ -239,4 +241,10 @@ const RoomItem = (props) => {
   );
 };
 
-export default connect(null, { leaveRoom, updateCurrentRoom })(RoomItem);
+const mapStateToProps = (state) => ({
+  currentRoom: state.currentRoom,
+});
+
+export default connect(mapStateToProps, { leaveRoom, updateCurrentRoom })(
+  RoomItem
+);

@@ -309,6 +309,11 @@ textarea {
   animation: 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards backdrop-show;
 }
 
+.backdrop.hide {
+  // visibility: visible;
+  animation: 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards backdrop-hide;
+}
+
 // this is the one that is in the public index.html file
 #modal {
   z-index: 100;
@@ -336,7 +341,8 @@ textarea {
 
 .modal.hide,
 .modal.slide-up.hide {
-  display: none;
+  // display: none;
+  animation: 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards modal-hide;
 }
 
 .modal-header {
@@ -595,11 +601,41 @@ textarea {
   }
 }
 
+@keyframes backdrop-hide {
+  0% {
+    opacity: 0.8;
+    visibility: visible;
+  }
+  99% {
+    opacity: 0;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
 @keyframes modal-show {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes modal-hide {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  99% {
+    opacity: 0;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
   }
 }

@@ -191,7 +191,7 @@ const Messages = (props) => {
 
               let content = (
                 <div
-                  key={message._id || message.id}
+                  key={message._id || message.id || i}
                   className="messages messages-inner-container"
                 >
                   <Message

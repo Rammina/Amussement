@@ -50,7 +50,10 @@ const UserItem = (props) => {
   const getActiveClass = () => (room === props.room.name ? "active" : "");
 
   const roomOpenOnClickHandler = () => {
-    props.updateCurrentRoom(props.room);
+    if (!props.currentRoom || props.currentRoom.name !== room) {
+      props.updateCurrentRoom(props.room);
+    }
+
     onCloseContextMenuHandler();
   };
 
@@ -234,6 +237,7 @@ const UserItem = (props) => {
 
 const mapStateToProps = (state) => ({
   currentUser: state.user.info,
+  currentRoom: state.currentRoom,
   friends: state.friends,
   dmRooms: state.dmRooms,
 });

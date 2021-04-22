@@ -26,22 +26,22 @@ const DeleteMessage = (props) => {
     // Note: temporary placeholder
     if (window.innerWidth >= 1200 && window.innerHeight >= 600) {
       return (
-        <div class="delete-message messageContainer justifyStart null">
-          <div class="profile-picture-outer-container message">
-            <div class="profile-picture-inner-container message">
+        <div className="delete-message messageContainer justifyStart null">
+          <div className="profile-picture-outer-container message">
+            <div className="profile-picture-inner-container message">
               <img
-                class="profile-picture-image message"
+                className="profile-picture-image message"
                 src={message.user.image_url}
               />
             </div>
           </div>
-          <div class="message-text-container">
-            <p class="sender-text ">{message.username}</p>
-            <span class="message-timestamp beside-sender">
+          <div className="message-text-container">
+            <p className="sender-text ">{message.username}</p>
+            <span className="message-timestamp beside-sender">
               Today at 6:49 PM
             </span>
-            <div class="messageBox">
-              <p class="message-text">{message.text}</p>
+            <div className="messageBox">
+              <p className="message-text">{message.text}</p>
             </div>
           </div>
         </div>

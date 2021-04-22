@@ -104,6 +104,20 @@ const LeftSideBarContainer = (props) => {
     return leftSideBarShow ? "show" : "hide";
   };
 
+  const getBackdropClass = () => {
+    const { roomType } = queryString.parse(location.search);
+    // should be only at home page
+    if (
+      (location.pathname.includes("/friends") ||
+        location.pathname.includes("/settings") ||
+        location.pathname.includes("/home")) &&
+      !location.pathname.includes("/chat")
+    ) {
+      return "hide";
+    }
+    return leftSideBarShow ? "show" : "hide";
+  };
+
   const getFriendsButtonClass = () => {
     if (!isDesktopWidth || !isDesktopHeight) return "";
     if (
@@ -142,18 +156,24 @@ const LeftSideBarContainer = (props) => {
     return <DmRoomList />;
   };
 
+  const renderBackdrop = () => {
+    return (
+      <div
+        className={`left-sidebar backdrop ${getBackdropClass()}`}
+        onClick={() => {
+          console.log("clicking backdrop");
+          setLeftSideBarShow(false);
+          setMessagesContainerMoveRight(false);
+          setShowFooter(false);
+        }}
+      ></div>
+    );
+  };
+
   return (
     props.user && (
       <React.Fragment>
-        <div
-          className={`left-sidebar backdrop ${getContainerClass()}`}
-          onClick={() => {
-            console.log("clicking backdrop");
-            setLeftSideBarShow(false);
-            setMessagesContainerMoveRight(false);
-            setShowFooter(false);
-          }}
-        ></div>
+        {renderBackdrop()}
         <div className={`left-sidebar-container ${getContainerClass()}`}>
           <RoomSideBar />
           <div className={`left-sidebar-room-information-outer-container`}>

@@ -103,42 +103,43 @@ app.use(flash());
 // triggers when the user connects
 io.on("connect", (socket) => {
   // listen for any user join sent from the client side
-  socket.on("join", ({ user, roomId, messageRetrievalCount = 0 }, callback) => {
-    //const {username}
-    console.log(`roomId is ${roomId}`);
-    const { error, userObject } = addUser({
-      ...user,
-      socketId: socket.id,
-      roomId,
-    });
-    console.log("the current users after adding are:");
-    console.log(getUsersInRoom(roomId));
-
-    if (error) return callback(error);
-
-    // have the user join the room
-    console.log(userObject.roomId);
-    socket.join(userObject.roomId);
-    // this helper function returns messages from a room
-    retrieveMessagesFromDB(userObject.roomId, messageRetrievalCount)
-      .then((messages) => {
-        // console.log(messages);
-        // emit only works for the sender
-        socket.emit("load messages", messages.reverse());
-      })
-      .then(() => {
-        // note: user joining notifications used to be here but removed because it's obnoxious
-        io.to(userObject.roomId).emit("roomData", {
-          roomId: userObject.roomId,
-          users: getUsersInRoom(userObject.roomId),
-        });
+  socket.on(
+    "join",
+    ({ user, roomId, messageRetrievalCount = 0, roomType }, callback) => {
+      //const {username}
+      console.log(`roomId is ${roomId}`);
+      const { error, userObject } = addUser({
+        ...user,
+        socketId: socket.id,
+        roomId,
       });
+      console.log("the current users after adding are:");
+      console.log(getUsersInRoom(roomId));
 
-    callback();
-  });
+      if (error) return callback(error);
+
+      // have the user join the room
+      socket.join(userObject.roomId);
+
+      // this helper function returns messages from a public room using ID (temporarily name for DM )
+      retrieveMessagesFromDB(userObject.roomId, messageRetrievalCount)
+        .then((messages) => {
+          socket.emit("load messages", messages.reverse());
+        })
+        .then(() => {
+          io.to(userObject.roomId).emit("roomData", {
+            roomId: userObject.roomId,
+            users: getUsersInRoom(userObject.roomId),
+          });
+        });
+
+      callback();
+    }
+  );
 
   // listens to an event called "sendMessage" and fires the callback function
   socket.on("sendMessage", ({ message, user, roomId }, callback) => {
+    console.log("watch out if this is sending twice");
     let messageAttributes = {
       text: message,
       username: user.username,
@@ -244,3 +245,9 @@ io.to(user.room).emit("message", {
   createdAt: new Date(),
 });
 */
+
+// 130+
+// note: make the message retrieval behavior different depending on room type
+// if (roomType === "DM") {
+//   // this helper function returns messages from a DM room using name
+// } else {

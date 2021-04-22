@@ -46,6 +46,7 @@ const Chat = (props) => {
     setMessagesContainerMoveRight,
     onlineUsersButtonTouched,
     navMenuButtonTouched,
+    leftSideBarShow,
   } = useContext(NavContext);
   const { setShowFooter } = useContext(FooterContext);
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
@@ -128,15 +129,22 @@ const Chat = (props) => {
       setRoomNameforDB(name);
     }
 
+    // only use room name if it's DM because it has 2 different ids and that can get confusing
+    let chatId = type === "DM" ? name : _id;
+
     if (props.user) {
-      socket.emit("join", { user: props.user, roomId: _id }, (error) => {
-        if (error) {
-          // send a browser alert
-          // note:this should be replaced with redux action for error handling
-          alert(error);
-        } else {
+      socket.emit(
+        "join",
+        { user: props.user, roomId: chatId, roomType: type },
+        (error) => {
+          if (error) {
+            // send a browser alert
+            // note:this should be replaced with redux action for error handling
+            alert(error);
+          } else {
+          }
         }
-      });
+      );
     }
 
     userJoinCount++;
@@ -185,6 +193,36 @@ const Chat = (props) => {
       scrollToBottom("chat-messages-container");
     });
 
+    console.log(props.location.search);
+    console.log("am I attaching a message listener twice?");
+    socket.on("message", (message) => {
+      // non-\ mutational push to the messages array
+      console.log(message);
+      console.log("is this happening twice?");
+      setMessages((messages) => [...messages, message]);
+    });
+
+    socket.on("scrollToBottomAfterSending", () => {
+      scrollToBottom("chat-messages-container");
+    });
+
+    socket.on("deletedMessage", (id) => {
+      setMessages((messages) =>
+        messages.filter((message) => message._id !== id)
+      );
+    });
+
+    socket.on("editedMessage", (id, text) => {
+      setMessages((messages) => {
+        const foundIndex = messages.findIndex((message) => message._id === id);
+        messages[foundIndex].text = text;
+        messages[foundIndex].updatedAt = new Date();
+        // console.log(new Date());
+        // should also update updatedAt property for use in comparisons
+        return [...messages];
+      });
+    });
+
     return () => {
       console.log("disconnected");
 
@@ -212,58 +250,33 @@ const Chat = (props) => {
 
   useEffect(() => {
     // footer related stuff
-    setShowFooter(false);
+    // prevent this if left sidebar is shown
+    if (!leftSideBarShow) {
+      setShowFooter(false);
+    }
+
     window.addEventListener("resize", handleFooterOnResize);
     return () => {
       window.removeEventListener("resize", handleFooterOnResize);
     };
   }, []);
 
-  // attach another listener every time the address/room changes
-  useEffect(() => {
-    if (!socket) return;
-    console.log(props.location.search);
-    socket.on("message", (message) => {
-      // non-\ mutational push to the messages array
-      console.log(message);
-      setMessages((messages) => [...messages, message]);
-    });
-
-    socket.on("scrollToBottomAfterSending", () => {
-      scrollToBottom("chat-messages-container");
-    });
-
-    socket.on("deletedMessage", (id) => {
-      setMessages((messages) =>
-        messages.filter((message) => message._id !== id)
-      );
-    });
-
-    socket.on("editedMessage", (id, text) => {
-      setMessages((messages) => {
-        const foundIndex = messages.findIndex((message) => message._id === id);
-        messages[foundIndex].text = text;
-        messages[foundIndex].updatedAt = new Date();
-        // console.log(new Date());
-        // should also update updatedAt property for use in comparisons
-        return [...messages];
-      });
-    });
-  }, [location.search, socket]);
-
   // handles the sending of messages
   const sendMessage = (event) => {
-    const { room } = queryString.parse(props.location.search);
+    const { room, roomType } = queryString.parse(props.location.search);
+
     // prevent page refresh
     event.preventDefault();
     // if message exists, send the event
     if (message) {
+      console.log("is this also happening twice?");
       socket.emit(
         "sendMessage",
         {
           message,
           user: props.user,
-          roomId,
+          roomId: room,
+          roomType,
         },
         () => {
           // this actually uses room name for DM
@@ -421,4 +434,40 @@ useEffect(() => {
     window.removeEventListener("resize", handleResize);
   };
 }, []);
+*/
+
+/*
+// attach another listener every time the address/room changes
+useEffect(() => {
+  console.log(props.location.search);
+console.log("am I attaching a message listener twice?");
+socket.on("message", (message) => {
+  // non-\ mutational push to the messages array
+  console.log(message);
+  console.log("is this happening twice?");
+  setMessages((messages) => [...messages, message]);
+});
+
+socket.on("scrollToBottomAfterSending", () => {
+  scrollToBottom("chat-messages-container");
+});
+
+socket.on("deletedMessage", (id) => {
+  setMessages((messages) =>
+    messages.filter((message) => message._id !== id)
+  );
+});
+
+socket.on("editedMessage", (id, text) => {
+  setMessages((messages) => {
+    const foundIndex = messages.findIndex((message) => message._id === id);
+    messages[foundIndex].text = text;
+    messages[foundIndex].updatedAt = new Date();
+    // console.log(new Date());
+    // should also update updatedAt property for use in comparisons
+    return [...messages];
+  });
+});
+
+}, [location.search]);
 */

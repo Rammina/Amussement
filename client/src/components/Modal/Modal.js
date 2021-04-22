@@ -14,8 +14,14 @@ const Modal = (props) => {
 
   useEffect(() => {}, []);
 
-  const getModalOpenClass = () => {
-    return modalOpen ? "show" : "hide";
+  const getModalOpenClass = () => (modalOpen ? "show" : "hide");
+
+  const modalOnCloseHandler = () => {
+    setModalOpen(false);
+    setTimeout(() => {
+      console.log("closing modal");
+      props.onModalClose();
+    }, 300);
   };
 
   const getClassName = () => (props.componentClass ? props.componentClass : "");
@@ -35,7 +41,7 @@ const Modal = (props) => {
       <ModalHeader
         componentClass={`${getClassName()}`}
         headerClassName={props.headerClassName}
-        onModalClose={props.onModalClose}
+        onModalClose={modalOnCloseHandler}
         headingText={props.headingText || null}
       />
     );
@@ -46,7 +52,7 @@ const Modal = (props) => {
       <ModalFooter
         componentClass={`${getClassName()}`}
         footerClassName={props.footerClassName}
-        onModalClose={props.onModalClose}
+        onModalClose={modalOnCloseHandler}
         actionButtons={props.actionButtons}
         autoFocusOnCancel={props.autoFocusOnCancel || false}
       />
@@ -57,9 +63,7 @@ const Modal = (props) => {
     <React.Fragment>
       <div
         className={`backdrop ${getModalOpenClass()} ${getClassName()}`}
-        onClick={() => {
-          props.onModalClose();
-        }}
+        onClick={modalOnCloseHandler}
       ></div>
       <div
         className={`modal ${getModalOpenClass()} ${getClassName()} ${getIsSlideUpClass()}`}

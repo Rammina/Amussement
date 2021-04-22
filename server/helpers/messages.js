@@ -1,6 +1,9 @@
 const Message = require("../models/message");
 const { getUsersInRoom } = require("./users");
-const { updateRoomLastActivity } = require("./rooms");
+const {
+  updateRoomLastActivity,
+  updateRoomLastActivityUsingName,
+} = require("./rooms");
 const { MESSAGES_PER_BATCH } = require("../utils/constants.js");
 
 const storeMessageToDb = async (messageAttributes) => {
@@ -17,6 +20,22 @@ const storeMessageToDb = async (messageAttributes) => {
 };
 
 const retrieveMessagesFromDB = async (room, retrievalCount = 0) => {
+  try {
+    // retrieve from the database messages sorted by date
+    console.log("it breaks here");
+    const messages = await Message.find({ room })
+      .populate("user")
+      .sort({ createdAt: -1 })
+      .limit(MESSAGES_PER_BATCH * (retrievalCount + 1));
+    if (!messages) throw Error("Unable to find messages in this room.");
+    return messages;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+//note: I'm in the middle of this
+const retrieveMessagesFromDBUsingName = async (room, retrievalCount = 0) => {
   try {
     // retrieve from the database messages sorted by date
     const messages = await Message.find({ room })

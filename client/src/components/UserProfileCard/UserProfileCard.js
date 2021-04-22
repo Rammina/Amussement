@@ -86,8 +86,10 @@ const UserProfileCard = (props) => {
   };
 
   const ellipsisOnClickHandler = (e) => {
+    console.log("showing user context menu");
     e.preventDefault();
     e.stopPropagation();
+
     setShowUserContextMenu(true);
     setClientX(e.clientX);
     setClientY(e.clientY);
@@ -178,10 +180,17 @@ const UserProfileCard = (props) => {
   const renderUserConnections = () =>
     !isCurrentUser ? <UserConnections /> : null;
 
+  const renderPopupContent = () => (
+    <>
+      {renderUserContextMenu()}
+      {renderRemoveFriendModal()}
+    </>
+  );
+
   // note:this is a mobile version of the profile card
   const renderMobileContent = () => (
     <React.Fragment>
-      {renderRemoveFriendModal()}
+      {renderPopupContent()}
       <Modal
         componentClass={`user-profile-card ${props.componentClass}`}
         noHeader={true}
@@ -259,8 +268,7 @@ const UserProfileCard = (props) => {
     // render desktop content
     return (
       <React.Fragment>
-        {renderUserContextMenu()}
-        {renderRemoveFriendModal()}
+        {renderPopupContent()}
         <Modal
           componentClass={`user-profile-card ${props.componentClass}`}
           noHeader={true}
