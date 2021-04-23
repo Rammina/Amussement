@@ -17,7 +17,7 @@ const HomeButton = (props) => {
   const [isSelected, setIsSelected] = useState(false);
   const location = useLocation();
   console.log(location);
-  // console.log(props.location);
+  // console.log(location);
 
   useEffect(() => {
     checkSelected();

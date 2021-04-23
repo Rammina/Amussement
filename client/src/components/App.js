@@ -171,9 +171,19 @@ export const App = (props) => {
     settingsOnOpenHandler,
     settingsOnCloseHandler,
   });
+  const renderLeftSidebar = () => {
+    if (!props.isAuthenticated) return null;
+    return (
+      <Route path={["/users/:id/home", "/chat"]}>
+        <div className="sidebar-outer-container">
+          <LeftSideBar heading="Direct Messages"></LeftSideBar>
+        </div>
+      </Route>
+    );
+  };
 
   const renderUserSettings = () => {
-    if (!props.user) return null;
+    if (!props.isAuthenticated) return null;
     if (!isDesktopWidth || !isDesktopHeight)
       return <Route path="/users/:id/settings" component={UserSettings} />;
     if (!showUserSettings) return null;
@@ -191,7 +201,7 @@ export const App = (props) => {
     <div id="app-outer-container" data-test="component-app">
       <Router history={history}>
         <WindowContext.Provider value={getWindowContextValue()}>
-          // home page if authenticated, if not, redirect to login
+          {/*home page if authenticated, if not, redirect to login*/}
           <Route path="/" exact>
             <Redirect
               to={
@@ -202,26 +212,27 @@ export const App = (props) => {
             />
           </Route>
           <UnauthenticatedRoute path="/auth/register" exact>
-            <Register />{" "}
+            <Register />
           </UnauthenticatedRoute>
           <UnauthenticatedRoute path="/auth/login" exact>
-            <Login />{" "}
+            <Login />
           </UnauthenticatedRoute>
           {renderUserSettings()}
-          {/*<Route path="/rooms/:id/settings" component={RoomSettings} />*/}
-          {/*note: try to figure out a way to make this one work when selecting/clicking a friend*/}
+
           <AuthenticatedRoute path="/users/:id/friends" exact>
-            <Friends />{" "}
+            <Friends />
           </AuthenticatedRoute>
-          <Route path="/users/:id/friends" component={Friends} />
+
           <UserSettingsContext.Provider value={getUserSettingsContextValue()}>
             <FooterContext.Provider value={getFooterContextValue()}>
               <NavContext.Provider value={getNavContextValue()}>
-                <div className="sidebar-outer-container">
-                  <LeftSideBar heading="Direct Messages"></LeftSideBar>
-                </div>
-                <Route path="/users/:id/home" exact component={Home} />
-                <Route path="/chat" component={Chat} />
+                {renderLeftSidebar()}
+                <AuthenticatedRoute path="/users/:id/home" exact>
+                  <Home />
+                </AuthenticatedRoute>
+                <AuthenticatedRoute path="/chat" exact>
+                  <Chat />
+                </AuthenticatedRoute>
               </NavContext.Provider>
               <Footer />
             </FooterContext.Provider>

@@ -76,7 +76,7 @@ const DirectMessage = (props) => {
 
   const handleUserJoin = () => {
     // note: wondering if userType even matters in direct message
-    const { room, userType } = queryString.parse(props.location.search);
+    const { room, userType } = queryString.parse(location.search);
     // if (userType === "user") {
 
     // wait for props to initialize first before joining
@@ -142,7 +142,7 @@ const DirectMessage = (props) => {
   }, [ENDPOINT, location.search]);
   // re-update the user and users list
   useEffect(() => {
-    console.log(props.location.search);
+    console.log(location.search);
     console.log(props.user);
     console.log("I happened twice");
     if (!props.isloading && props.user) {
@@ -165,7 +165,7 @@ const DirectMessage = (props) => {
 
   // attach another listener every time the address/room changes
   useEffect(() => {
-    console.log(props.location.search);
+    console.log(location.search);
     socket.on("message", (message) => {
       // non-\ mutational push to the messages array
       console.log(message);

@@ -36,7 +36,7 @@ const RoomItem = (props) => {
   const [deleteRoomOpened, setDeleteRoomOpened] = useState(false);
   const location = useLocation();
   const { room } = queryString.parse(location.search);
-  // console.log(props.location);
+  // console.log(location);
 
   useLayoutEffect(() => {
     checkSelectedRoom();

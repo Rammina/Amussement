@@ -103,7 +103,7 @@ const Chat = (props) => {
   };
 
   const handleUserJoin = () => {
-    const { receiver } = queryString.parse(props.location.search);
+    const { receiver } = queryString.parse(location.search);
     const currentRoom = props.currentRoom;
     const { type, name, _id } = currentRoom;
     // note: Replace all the URL based information with redux store information (props.currentRoom)
@@ -152,7 +152,7 @@ const Chat = (props) => {
 
   useEffect(() => {
     // retrieve room information using the room ID on the URL
-    const { room, roomType } = queryString.parse(props.location.search);
+    const { room, roomType } = queryString.parse(location.search);
     console.log("Connecting socket");
     // only get the room details if there is no room yet on the redux store, and if it's a different room  (after swapping)
     if (!props.user) return;
@@ -178,8 +178,8 @@ const Chat = (props) => {
     // note:this may not even be necessary because only ID is used by the server side anyway
     if (!props.currentRoom) return;
     console.log("endpoint and location useEffect");
-    // const { userType } = queryString.parse(props.location.search);
-    // console.log(props.location.search);
+    // const { userType } = queryString.parse(location.search);
+    // console.log(location.search);
     socket = io(ENDPOINT);
     // note: this should be changed once database for room messages is used
     /*temporary stopgap measure to clear messages every time the URL changes*/
@@ -193,7 +193,7 @@ const Chat = (props) => {
       scrollToBottom("chat-messages-container");
     });
 
-    console.log(props.location.search);
+    console.log(location.search);
     console.log("am I attaching a message listener twice?");
     socket.on("message", (message) => {
       // non-\ mutational push to the messages array
@@ -263,7 +263,7 @@ const Chat = (props) => {
 
   // handles the sending of messages
   const sendMessage = (event) => {
-    const { room, roomType } = queryString.parse(props.location.search);
+    const { room, roomType } = queryString.parse(location.search);
 
     // prevent page refresh
     event.preventDefault();
@@ -439,7 +439,7 @@ useEffect(() => {
 /*
 // attach another listener every time the address/room changes
 useEffect(() => {
-  console.log(props.location.search);
+  console.log(location.search);
 console.log("am I attaching a message listener twice?");
 socket.on("message", (message) => {
   // non-\ mutational push to the messages array
