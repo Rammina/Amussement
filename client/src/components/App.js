@@ -6,8 +6,9 @@ import { connect } from "react-redux";
 import { Router, Route, Redirect, Switch } from "react-router-dom";
 import history from "../history";
 
+import AuthenticatedRoute from "./AuthenticatedRoute";
+import UnauthenticatedRoute from "./UnauthenticatedRoute";
 import LeftSideBar from "./LeftSideBar/LeftSideBar";
-
 import Chat from "./Chat/Chat";
 import Join from "./Join/Join";
 import Register from "./Register/Register";
@@ -190,13 +191,28 @@ export const App = (props) => {
     <div id="app-outer-container" data-test="component-app">
       <Router history={history}>
         <WindowContext.Provider value={getWindowContextValue()}>
-          <Route path="/" exact component={Join} />
-          <Route path="/auth/register" exact component={Register} />
-          <Route path="/auth/login" exact component={Login} />
-
+          // home page if authenticated, if not, redirect to login
+          <Route path="/" exact>
+            <Redirect
+              to={
+                props.isAuthenticated
+                  ? `/users/${props.user._id}/home`
+                  : "auth/login"
+              }
+            />
+          </Route>
+          <UnauthenticatedRoute path="/auth/register" exact>
+            <Register />{" "}
+          </UnauthenticatedRoute>
+          <UnauthenticatedRoute path="/auth/login" exact>
+            <Login />{" "}
+          </UnauthenticatedRoute>
           {renderUserSettings()}
           {/*<Route path="/rooms/:id/settings" component={RoomSettings} />*/}
           {/*note: try to figure out a way to make this one work when selecting/clicking a friend*/}
+          <AuthenticatedRoute path="/users/:id/friends" exact>
+            <Friends />{" "}
+          </AuthenticatedRoute>
           <Route path="/users/:id/friends" component={Friends} />
           <UserSettingsContext.Provider value={getUserSettingsContextValue()}>
             <FooterContext.Provider value={getFooterContextValue()}>
@@ -217,6 +233,7 @@ export const App = (props) => {
 };
 
 const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
 });
 

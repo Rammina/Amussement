@@ -306,12 +306,12 @@ textarea {
 
 .backdrop.show {
   visibility: visible;
-  animation: 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards backdrop-show;
+  animation: 0.3s ease-out forwards backdrop-show;
 }
 
 .backdrop.hide {
   // visibility: visible;
-  animation: 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards backdrop-hide;
+  animation: 0.3s ease-out forwards backdrop-hide;
 }
 
 // this is the one that is in the public index.html file
@@ -330,19 +330,28 @@ textarea {
   height: 100vh;
   padding-bottom: 2rem;
   overflow-y: auto;
-  animation: 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards modal-show;
+  animation: 0.3s ease-out forwards modal-show;
 }
 
 .modal.slide-up {
-  // transform: translateY(100vh) translateY(-20rem);
+  transform: translateY(100vh);
+  // opacity: 0;
   min-height: 0;
   height: auto;
+  transition: transform 0.3s ease-out;
 }
 
-.modal.hide,
+// .modal.slide-up {
+//   animation: 0.3s ease-out forwards modal-slide-up-show;
+// }
+
+.modal.hide {
+  animation: 0.3s ease-out forwards modal-hide;
+}
+
 .modal.slide-up.hide {
-  // display: none;
-  animation: 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards modal-hide;
+  // animation: none;
+  animation: 0.3s ease-out forwards modal-slide-up-hide !important;
 }
 
 .modal-header {
@@ -625,6 +634,18 @@ textarea {
   }
 }
 
+/*
+@keyframes modal-slide-up-show {
+  0% {
+    transform: translateY
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+*/
+
 @keyframes modal-hide {
   0% {
     opacity: 1;
@@ -636,6 +657,21 @@ textarea {
   }
   100% {
     opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes modal-slide-up-hide {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 0.7;
+    visibility: visible;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0.7;
     visibility: hidden;
   }
 }

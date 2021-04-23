@@ -32,9 +32,14 @@ const Modal = (props) => {
   const getHideOnDesktopClass = () =>
     props.hideOnDesktop ? "hide-on-desktop" : "";
 
+  // const addModalStyle=() => {
+  // setTimeout(() => {},)
+  // }
+
   // render functions
   const renderButtonLabel = () =>
     props.buttonLabel ? props.buttonLabel : null;
+
   const renderModalHeader = () => {
     if (props.noHeader) return null;
     return (
