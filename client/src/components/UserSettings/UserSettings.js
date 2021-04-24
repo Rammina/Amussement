@@ -3,7 +3,7 @@ import LogoutImg from "../../icons/logout.png";
 import "../SettingsPage.scss";
 
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
 import serverRest from "../../apis/serverRest";
@@ -25,6 +25,7 @@ const UserSettings = (props) => {
   const [appearanceOpened, setAppearanceOpened] = useState(false);
   const [friendsOpened, setFriendsOpened] = useState(false);
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
+  const location = useLocation();
 
   useEffect(() => {
     if (isDesktopWidth && isDesktopHeight) setMyAccountOpened(true);
@@ -156,18 +157,6 @@ const UserSettings = (props) => {
 
         {renderSection()}
 
-        {/*  <button
-          className=""
-          id="settings-page-close-button"
-          onClick={() => {
-            //note: re-\ implement this because it's buggy right now
-            // history.goBack();
-            history.push(`/users/${id}/home`);
-          }}
-        >
-          x
-        </button>
-        */}
         <SettingsCloseButton onClose={props.settingsOnCloseHandler} />
       </div>
     </div>

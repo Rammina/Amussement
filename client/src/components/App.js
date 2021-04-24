@@ -30,8 +30,12 @@ import * as constants from "../utils/constants.js";
 
 export const App = (props) => {
   const { DESKTOP_WIDTH, DESKTOP_HEIGHT } = constants;
-  const [isDesktopWidth, setIsDesktopWidth] = useState(false);
-  const [isDesktopHeight, setIsDesktopHeight] = useState(false);
+  const [isDesktopWidth, setIsDesktopWidth] = useState(
+    window.innerWidth >= DESKTOP_WIDTH
+  );
+  const [isDesktopHeight, setIsDesktopHeight] = useState(
+    window.innerHeight >= DESKTOP_HEIGHT
+  );
 
   const [navMenuButtonRef, setNavMenuButtonRef] = useState(null);
   const [navMenuButtonClass, setNavMenuButtonClass] = useState(null);
@@ -171,6 +175,7 @@ export const App = (props) => {
     settingsOnOpenHandler,
     settingsOnCloseHandler,
   });
+
   const renderLeftSidebar = () => {
     if (!props.isAuthenticated) return null;
     return (
@@ -183,26 +188,37 @@ export const App = (props) => {
   };
 
   const renderUserSettings = () => {
-    if (!props.isAuthenticated) return <Redirect to={"/auth/login"} />;
-    if (!isDesktopWidth || !isDesktopHeight)
-      return <Route path="/users/:id/settings" component={UserSettings} />;
-    if (!showUserSettings) return null;
-
+    // on mobile view
+    if (!isDesktopWidth || !isDesktopHeight) {
+      console.log("rendering user settings on mobile");
+      return (
+        <AuthenticatedRoute path="/users/:id/settings">
+          <UserSettings />
+        </AuthenticatedRoute>
+      );
+    }
+    // on desktop view, it is a modal whose rendering is controlled by showUserSettings
+    if (!showUserSettings) {
+      // redirect from /settings and open on the home page only if authenticated
+      if (
+        props.isAuthenticated &&
+        window.location.pathname.includes("/settings") &&
+        !window.location.pathname.includes("public") &&
+        !window.location.pathname.includes("/chat")
+      ) {
+        history.push(`/users/${props.user._id}/home`);
+        settingsOnOpenHandler();
+      }
+      return null;
+    }
+    // render when showUserSettings is true
     return (
       <>
         <UserSettings
           settingsOnCloseHandler={settingsOnCloseHandler}
+          settingsOnOpenHandler={settingsOnOpenHandler}
           setShowUserSettings={setShowUserSettings}
         />
-        <Route path="/users/:id/settings">
-          <Redirect
-            to={
-              props.isAuthenticated
-                ? `/users/${props.user._id}/home`
-                : "/auth/login"
-            }
-          />
-        </Route>
       </>
     );
   };

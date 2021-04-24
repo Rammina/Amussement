@@ -14,9 +14,6 @@ import DmRoomList from "../DmRoomList/DmRoomList";
 import Friends from "../Friends/Friends";
 
 import { FooterContext, WindowContext } from "../AppContext";
-// import { getAllDmRooms } from "../../flux/actions/dmRoomsActions";
-
-// import { renderError, getErrorClass } from "../../helpers";
 
 const Home = (props) => {
   const { id } = useParams();
@@ -26,7 +23,6 @@ const Home = (props) => {
 
   useEffect(() => {
     if (!isDesktopWidth || !isDesktopHeight) setShowFooter(true);
-    // props.getAllDmRooms(id);
   }, [isDesktopWidth, isDesktopHeight]);
 
   const renderFriendsComponent = () => {
@@ -37,11 +33,7 @@ const Home = (props) => {
   return (
     <React.Fragment>
       <div className="user-home-page-container">
-        <div className="home sidebar-outer-container">
-          {/*<LeftSideBar heading="Direct Messages" alwaysShow={true}>
-            <DmRoomList />
-          </LeftSideBar>*/}
-        </div>
+        <div className="home sidebar-outer-container"></div>
         {renderFriendsComponent()}
       </div>
     </React.Fragment>
