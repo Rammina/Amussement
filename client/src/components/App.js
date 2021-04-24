@@ -183,16 +183,27 @@ export const App = (props) => {
   };
 
   const renderUserSettings = () => {
-    if (!props.isAuthenticated) return null;
+    if (!props.isAuthenticated) return <Redirect to={"/auth/login"} />;
     if (!isDesktopWidth || !isDesktopHeight)
       return <Route path="/users/:id/settings" component={UserSettings} />;
     if (!showUserSettings) return null;
 
     return (
-      <UserSettings
-        settingsOnCloseHandler={settingsOnCloseHandler}
-        setShowUserSettings={setShowUserSettings}
-      />
+      <>
+        <UserSettings
+          settingsOnCloseHandler={settingsOnCloseHandler}
+          setShowUserSettings={setShowUserSettings}
+        />
+        <Route path="/users/:id/settings">
+          <Redirect
+            to={
+              props.isAuthenticated
+                ? `/users/${props.user._id}/home`
+                : "/auth/login"
+            }
+          />
+        </Route>
+      </>
     );
   };
 
@@ -207,7 +218,7 @@ export const App = (props) => {
               to={
                 props.isAuthenticated
                   ? `/users/${props.user._id}/home`
-                  : "auth/login"
+                  : "/auth/login"
               }
             />
           </Route>

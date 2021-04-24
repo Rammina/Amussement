@@ -10,8 +10,7 @@
   min-height: calc(100vh + 0rem);
   width: 100vw;
   height: auto;
-  background-color: $main-black;
-  background-image: url("../icons/pattern.png");
+  background-color: $login-background-color;
 }
 
 #settings-page {
@@ -36,7 +35,7 @@
 #login-form,
 #register-form,
 #join-form {
-  background-color: #333636ee;
+  background-color: $login-form-foreground-color;
   margin: $center-margin;
   min-height: 100vh;
   height: auto;
@@ -66,7 +65,7 @@
 }
 
 .form-button.submit {
-  color: black !important;
+  color: $tertiary-black !important;
   // text-transform: uppercase;
   text-decoration: none;
   background: $light-mint;
@@ -162,8 +161,10 @@
   #join-form {
     padding: 0 1rem;
     // padding-bottom: 2rem;
-    border-radius: 5px;
-    border: 2px solid #777;
+    border-radius: 3px;
+    border: 1px solid #afa6;
+    // box-shadow: 5px 5px 5px -5px #eee;
+    box-shadow: 0 0 4px #efe8;
     // -webkit-box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
     // box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
     max-width: 32rem;

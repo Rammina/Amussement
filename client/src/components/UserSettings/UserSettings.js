@@ -146,38 +146,7 @@ const UserSettings = (props) => {
                     My Account
                   </li>
                 </button>
-                <button
-                  className="settings-page-sidebar-button"
-                  onClick={() => {
-                    setMyAccountOpened(false);
-                    setAppearanceOpened(true);
-                    setFriendsOpened(false);
-                  }}
-                >
-                  <li
-                    className={`settings-page-sidebar-item ${
-                      appearanceOpened ? "selected" : ""
-                    }`}
-                  >
-                    Appearance
-                  </li>
-                </button>
-                <button
-                  className="settings-page-sidebar-button"
-                  onClick={() => {
-                    setMyAccountOpened(false);
-                    setAppearanceOpened(false);
-                    setFriendsOpened(true);
-                  }}
-                >
-                  <li
-                    className={`settings-page-sidebar-item ${
-                      friendsOpened ? "selected" : ""
-                    }`}
-                  >
-                    Friends
-                  </li>
-                </button>
+
                 {renderDesktopLogOut()}
               </ul>
             </div>
