@@ -189,6 +189,15 @@
   }
 
   .friends-section-inner-container {
-    // width: calc(100vw - (1 *#{$sidebarWidth}) - #{$roomSidebarWidth});
+    display: flex;
+    height: calc(100vh - 3rem);
+  }
+
+  .friends-section-items {
+    width: 80%;
+  }
+  #friends-activity-section {
+    background-color: $secondary-black;
+    width: 20%;
   }
 }

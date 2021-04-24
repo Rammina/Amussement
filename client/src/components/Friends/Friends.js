@@ -153,6 +153,7 @@ const Friends = (props) => {
 
           <div className="friends-section-inner-container">
             <ul className="friends-section-items">{renderFriends()}</ul>
+            <div id="friends-activity-section"></div>
           </div>
         </section>
 

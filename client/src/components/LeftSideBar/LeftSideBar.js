@@ -92,7 +92,7 @@ const LeftSideBarContainer = (props) => {
         console.log("This triggers");
         setLeftSideBarShow(false);
         setMessagesContainerMoveRight(false);
-        setShowFooter(false);
+        setShowFooter(true);
       }
     }
   };

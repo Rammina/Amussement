@@ -35,6 +35,9 @@ select:focus {
 }
 
 .sendButton {
+  width: 4rem;
+  height: 3rem;
+  padding: 0.625rem 1.125rem;
   font-family: $textFont;
   color: #fff !important;
   text-transform: uppercase;
@@ -46,7 +49,6 @@ select:focus {
   outline: none;
   border: none;
   // border-top: 2px solid #d3d3d3;
-  width: 4rem;
 }
 
 .sendButton:focus {
@@ -63,6 +65,8 @@ select:focus {
 }
 
 .send-button-image {
+  width: 1.75rem;
+  height: 1.75rem;
   opacity: 1;
   transition: opacity 0.3s ease;
   filter: invert(97%) sepia(3%) saturate(226%) hue-rotate(182deg)
