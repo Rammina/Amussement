@@ -241,25 +241,15 @@ const Chat = (props) => {
     });
   }, [props.isLoading, location.search, props.currentRoom]);
 
-  // remove footer when its desktop mode
-  const handleFooterOnResize = () => {
-    if (isDesktopWidth && isDesktopHeight) {
-      setShowFooter(false);
-    }
-  };
-
   useEffect(() => {
     // footer related stuff
-    // prevent this if left sidebar is shown
-    if (!leftSideBarShow) {
+    if (isDesktopWidth && isDesktopHeight) {
       setShowFooter(false);
+    } else {
+      // still hide the footer if left sidebar isn't shown
+      if (!leftSideBarShow) setShowFooter(false);
     }
-
-    window.addEventListener("resize", handleFooterOnResize);
-    return () => {
-      window.removeEventListener("resize", handleFooterOnResize);
-    };
-  }, []);
+  }, [isDesktopWidth, isDesktopHeight, leftSideBarShow]);
 
   // handles the sending of messages
   const sendMessage = (event) => {

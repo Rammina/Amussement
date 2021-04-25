@@ -52,7 +52,7 @@ const RoomItem = (props) => {
       setRoomMarkerY(findPosY(roomItemRef.current));
     }
     /*return () => {}*/
-  }, [roomItemRef.current]);
+  }, [roomItemRef.current, props.numberOfRooms]);
 
   let isOwnedByCurrentUser = props.room.owner === props.user._id;
 

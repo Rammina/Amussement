@@ -49,7 +49,7 @@ const DeleteRoom = (props) => {
   };
 
   const renderLoader = () => {
-    return <LoadingSpinner showLoader={props.showLoader} />;
+    return <LoadingSpinner className="white" showLoader={props.showLoader} />;
   };
 
   const content = (

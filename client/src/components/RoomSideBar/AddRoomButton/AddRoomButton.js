@@ -26,7 +26,7 @@ const AddRoomButton = (props) => {
       setRoomMarkerY(findPosY(roomItemRef.current));
     }
     /*return () => {}*/
-  }, [roomItemRef.current]);
+  }, [roomItemRef.current, props.numberOfRooms]);
 
   const getSelectedClass = () => (isSelected ? "selected" : true);
 

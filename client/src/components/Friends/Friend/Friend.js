@@ -140,13 +140,13 @@ const Friend = (props) => {
 
     return (
       <UserContextMenu
-        // note: think about how to make this recyclable
+        selectedUser={friend}
         isCurrentUser={false}
         clientX={clientX}
         clientY={clientY}
         userId={friend._id}
         friendStatus={status}
-        // friends={props.friends}
+        friends={props.friends}
         onClose={onCloseContextMenuHandler}
         profileOnClick={profileOnClickHandler}
         sendMessageOnClick={sendMessageOnClickHandler}
@@ -267,6 +267,7 @@ const Friend = (props) => {
 
 const mapStateToProps = (state) => ({
   user: state.user.info,
+  friends: state.friends,
   dmRooms: state.dmRooms,
 });
 

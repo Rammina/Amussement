@@ -37,8 +37,6 @@ export default (state = initialState, action) => {
 
     case GET_ALL_ROOMS_SUCCESS:
       console.log(action.payload);
-      // action.payload is array of rooms
-      // note: should probably sort them alphabetically
       return [...action.payload];
     case CREATE_ROOM_SUCCESS:
     case JOIN_ROOM_SUCCESS:

@@ -134,7 +134,7 @@ button.transparent-bg.danger {
 }
 
 button.transparent-bg.danger:hover {
-  background-color: #0000;
+  background-color: #a001;
   color: $dangerTextColorHover;
   border: 2px solid $dangerTextColorHover;
 }
@@ -537,6 +537,10 @@ textarea {
   right: 0.45rem;
   filter: invert(93%) sepia(11%) saturate(6781%) hue-rotate(297deg)
     brightness(112%) contrast(105%);
+}
+
+#context-menu {
+  z-index: 500;
 }
 
 @media screen and (min-width: 750px) and (min-height: 700px) {

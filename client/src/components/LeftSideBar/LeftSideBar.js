@@ -31,14 +31,6 @@ const LeftSideBarContainer = (props) => {
   const location = useLocation();
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    // do not forget the cleanup function or else there will be errors/inconsistencies
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
     const { roomType } = queryString.parse(location.search);
 
     if (
@@ -79,23 +71,22 @@ const LeftSideBarContainer = (props) => {
     /*return () => {}*/
   }, [location.pathname, location.search, props.currentRoom]);
 
-  const handleResize = () => {
-    console.log("This triggers");
-    console.log(getNavMenuButtonTouched());
-
-    if (!getNavMenuButtonTouched()) {
-      if (window.innerWidth >= 1200) {
-        setLeftSideBarShow(true);
-        setMessagesContainerMoveRight(true);
-        setShowFooter(false);
-      } else {
-        console.log("This triggers");
-        setLeftSideBarShow(false);
-        setMessagesContainerMoveRight(false);
-        setShowFooter(true);
-      }
+  useEffect(() => {
+    if (isDesktopWidth && isDesktopHeight) {
+      setLeftSideBarShow(true);
+      setMessagesContainerMoveRight(true);
+      setShowFooter(false);
+    } else {
+      setLeftSideBarShow(false);
+      setMessagesContainerMoveRight(false);
+      setShowFooter(true);
     }
-  };
+    // window.addEventListener("resize", handleResize);
+    // // do not forget the cleanup function or else there will be errors/inconsistencies
+    // return () => {
+    //   window.removeEventListener("resize", handleResize);
+    // };
+  }, [isDesktopWidth, isDesktopHeight]);
 
   const getContainerClass = () => {
     if (alwaysShow) {
@@ -173,14 +164,17 @@ const LeftSideBarContainer = (props) => {
   return (
     props.user && (
       <React.Fragment>
-        {renderBackdrop()}
-        <div className={`left-sidebar-container ${getContainerClass()}`}>
-          <RoomSideBar />
-          <div className={`left-sidebar-room-information-outer-container`}>
-            {renderFriendsButton()}
-            <h1 className="left-sidebar-heading">{sidebarHeading}</h1>
-            {renderDmRoomList()}
-            {renderUserStatus()}
+        <div className={`sidebar-outer-container ${getContainerClass()}`}>
+          {renderBackdrop()}
+
+          <div className={`left-sidebar-container ${getContainerClass()}`}>
+            <RoomSideBar />
+            <div className={`left-sidebar-room-information-outer-container`}>
+              {renderFriendsButton()}
+              <h1 className="left-sidebar-heading">{sidebarHeading}</h1>
+              {renderDmRoomList()}
+              {renderUserStatus()}
+            </div>
           </div>
         </div>
       </React.Fragment>

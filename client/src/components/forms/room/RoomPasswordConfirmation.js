@@ -63,16 +63,11 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 
 const RoomPasswordConfirmationForm = (props) => {
   const { name, roomId } = props;
-  // URL redirect functions
-  const redirectToRoomAfterJoinCb = (name, roomType = "public") => {
-    history.push(`/chat?room=${name}&userType=user&roomType=${roomType}`);
-  };
 
   // submit handler
   const onSubmit = async (formValues) => {
     const submitRoomPasswordSuccessCb = () => {
       props.onModalClose();
-      redirectToRoomAfterJoinCb(name, "public");
     };
     console.log(formValues);
     // run an action

@@ -1,0 +1,28 @@
+@import "../../utils/variables.scss";
+
+#auth-loader-outer-container {
+  z-index: 600;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: $login-background-color;
+}
+
+#auth-loader-inner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.6rem;
+  color: $textFontColor;
+}
+
+#auth-loader-text {
+  position: relative;
+  top: 0.3rem;
+  left: 0.7rem;
+}

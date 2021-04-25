@@ -8,6 +8,7 @@ import history from "../history";
 
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
+import AuthLoader from "./AuthLoader/AuthLoader";
 import LeftSideBar from "./LeftSideBar/LeftSideBar";
 import Chat from "./Chat/Chat";
 import Join from "./Join/Join";
@@ -176,13 +177,16 @@ export const App = (props) => {
     settingsOnCloseHandler,
   });
 
+  const renderAuthLoader = () => {
+    if (!props.isLoadingUser) return null;
+    return <AuthLoader />;
+  };
+
   const renderLeftSidebar = () => {
     if (!props.isAuthenticated) return null;
     return (
       <Route path={["/users/:id/home", "/chat"]}>
-        <div className="sidebar-outer-container">
-          <LeftSideBar heading="Direct Messages"></LeftSideBar>
-        </div>
+        <LeftSideBar heading="Direct Messages"></LeftSideBar>
       </Route>
     );
   };
@@ -211,6 +215,7 @@ export const App = (props) => {
       }
       return null;
     }
+    if (!props.isAuthenticated) return null;
     // render when showUserSettings is true
     return (
       <>
@@ -227,6 +232,7 @@ export const App = (props) => {
   return (
     <div id="app-outer-container" data-test="component-app">
       <Router history={history}>
+        {renderAuthLoader()}
         <WindowContext.Provider value={getWindowContextValue()}>
           {/*home page if authenticated, if not, redirect to login*/}
           <Route path="/" exact>
@@ -271,6 +277,7 @@ export const App = (props) => {
 };
 
 const mapStateToProps = (state) => ({
+  isLoadingUser: state.auth.isLoading,
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
 });

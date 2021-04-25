@@ -74,17 +74,18 @@ export const createRoom = (formValues, successCb) => (dispatch, getState) => {
   serverRest
     .post(`/api/rooms/`, { ...formValues, senderId: userId })
     .then((res) => {
+      const room = res.data.room;
       dispatch({
         type: CREATE_ROOM_SUCCESS,
         payload: {
-          /*note: think about should be returned from the server as payload*/
-          ...res.data,
+          room,
         },
       });
-      // dispatch(getAllRooms(userId));
-      // history.push(`/users/${userId}/rooms`);
       dispatch(clearErrors());
       if (successCb) successCb();
+      history.push(
+        `/chat?room=${room._id}&userType=user&roomType=${room.type}`
+      );
     })
     .catch((err) => {
       console.log(err);
@@ -117,17 +118,18 @@ export const joinRoom = (formValues, successCb) => (dispatch, getState) => {
         });
         dispatch(clearErrors());
       } else {
+        const room = res.data.room;
         dispatch({
           type: JOIN_ROOM_SUCCESS,
           payload: {
-            /*note: think about should be returned from the server as payload*/
-            ...res.data,
+            room,
           },
         });
-        // dispatch(getAllRooms(userId));
-        // history.push(`/users/${userId}/rooms`);
         dispatch(clearErrors());
         if (successCb) successCb();
+        history.push(
+          `/chat?room=${room._id}&userType=user&roomType=${room.type}`
+        );
       }
     })
     .catch((err) => {
@@ -156,9 +158,13 @@ export const submitRoomPassword = (formValues, successCb) => (
       userId,
     })
     .then((res) => {
-      dispatch({ type: "ROOM_PASSWORD_SUBMIT_SUCCESS", payload: res.data });
+      const room = res.data.room;
+      dispatch({ type: "ROOM_PASSWORD_SUBMIT_SUCCESS", payload: { room } });
       dispatch(clearErrors());
       if (successCb) successCb();
+      history.push(
+        `/chat?room=${room._id}&userType=user&roomType=${room.type}`
+      );
     })
     .catch((err) => {
       console.log(err);
@@ -335,6 +341,6 @@ export const deleteRoom = (roomId, successCb) => (dispatch, getState) => {
       });
     })
     .finally(() => {
-      // dispatch(actionShowLoader("leaveRoomModalForm", false));
+      dispatch(actionShowLoader("deleteRoomForm", false));
     });
 };

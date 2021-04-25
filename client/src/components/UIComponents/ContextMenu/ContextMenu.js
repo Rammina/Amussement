@@ -46,15 +46,20 @@ const ContextMenu = (props) => {
     }
   };
 
+  const handleResize = () => {
+    props.onClose();
+  };
+
   useEffect(() => {
     contextMenuDiv.current.focus();
     document.body.addEventListener("click", handleClick);
     document.body.addEventListener("contextmenu", handleClick);
-
+    window.addEventListener("resize", handleResize);
     // clean up function
     return () => {
       document.body.removeEventListener("click", handleClick);
       document.body.removeEventListener("contextmenu", handleClick);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -65,18 +70,20 @@ const ContextMenu = (props) => {
   }, [contextMenuDiv.current]);
 
   const content = (
-    <div
-      className={`context-menu-outer-container ${props.componentClass}`}
-      style={{
-        left: `${menuLeft || 0}px`,
-        top: `${menuTop || 0}px`,
-      }}
-      tabIndex="0"
-      ref={contextMenuDiv}
-      autoFocus={true}
-    >
-      <div className={`context-menu-inner-container ${props.componentClass}`}>
-        {props.children}
+    <div className={`context-menu-window-container ${props.componentClass}`}>
+      <div
+        className={`context-menu-outer-container ${props.componentClass}`}
+        style={{
+          left: `${menuLeft || 0}px`,
+          top: `${menuTop || 0}px`,
+        }}
+        tabIndex="0"
+        ref={contextMenuDiv}
+        autoFocus={true}
+      >
+        <div className={`context-menu-inner-container ${props.componentClass}`}>
+          {props.children}
+        </div>
       </div>
     </div>
   );

@@ -86,17 +86,18 @@
   margin-right: 0.5rem;
   height: 2.8rem;
   width: 44%;
-  border: none;
-  border-radius: 3px;
+  border: 1px solid $textFontColor;
+  border-radius: 5px;
   outline: none;
-  background-color: $light-mint;
+  background-color: #ffffff0d;
+  color: $textFontColor;
   font-family: $textFont;
   font-size: 1.05rem;
-  // margin-left
 }
 
 .profile-button:hover {
-  background-color: $light-mint-hover;
+  background-color: #ffffff1f;
+  color: $textFontWhite;
 }
 
 .account-management-items {

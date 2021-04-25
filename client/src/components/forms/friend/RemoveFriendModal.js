@@ -31,7 +31,7 @@ const RemoveFriendModal = (props) => {
   };
 
   const renderLoader = () => {
-    return <LoadingSpinner showLoader={props.showLoader} />;
+    return <LoadingSpinner className="white" showLoader={props.showLoader} />;
   };
 
   const renderHeadingText = () => {
@@ -123,7 +123,7 @@ const RemoveFriendModal = (props) => {
           </p>
           <p
             id="remove-friend-description-paragraph"
-            className="modal-paragraph small-text remove-friend"
+            className="modal-paragraph enlarged-text centered remove-friend"
           >
             {props.selectedUser.username}
           </p>

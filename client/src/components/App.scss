@@ -106,9 +106,14 @@
 }
 
 .sidebar-outer-container {
+  z-index: 12;
   position: relative;
   display: flex;
   width: fit-content;
+}
+
+.sidebar-outer-container.hide {
+  visibility: hidden;
 }
 
 .form-submit-loader-container {

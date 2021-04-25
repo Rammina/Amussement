@@ -10,12 +10,16 @@
   padding: 0.5rem;
   // min-height: 10rem;
   background-color: #131518;
-  box-shadow: 1px 1px 0 1px #222;
+  -webkit-box-shadow: 0px 10px 13px -7px #000000,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
+  box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
   border-radius: 3px;
 }
 
 .context-menu-outer-container:focus {
-  box-shadow: 1px 1px 0 1px #222;
+  -webkit-box-shadow: 0px 10px 13px -7px #000000,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
+  box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
 }
 
 .context-menu-inner-container {
@@ -55,6 +59,30 @@
 .context-menu-button.danger:hover {
   color: $textFontWhite;
   background-color: $dangerBackgroundColor;
+}
+
+@media screen and (max-width: 768px) {
+  .context-menu-window-container {
+    z-index: 500;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000c;
+    // opacity: 0.85;
+  }
+
+  .context-menu-outer-container {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    border: 1px solid #efe4 !important;
+    box-shadow: none !important;
+  }
 }
 
 @media screen and (min-width: 1200px) and (min-height: 600px) {

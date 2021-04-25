@@ -62,16 +62,10 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 };
 
 const JoinRoomForm = (props) => {
-  // URL redirect functions
-  const redirectToRoomAfterJoinCb = (name, roomType = "public") => {
-    history.push(`/chat?room=${name}&userType=user&roomType=${roomType}`);
-  };
-
   // submit handler
   const onSubmit = async (formValues) => {
     const joinRoomSuccessCb = () => {
       props.onModalClose();
-      redirectToRoomAfterJoinCb(formValues.name, "public");
     };
     console.log(formValues);
     // run an action

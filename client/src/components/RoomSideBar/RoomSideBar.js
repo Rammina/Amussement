@@ -19,6 +19,7 @@ const RoomSideBar = (props) => {
         room={room}
         user={props.user}
         key={room._id || i}
+        numberOfRooms={props.rooms.length}
       />
     ));
   };
@@ -29,7 +30,7 @@ const RoomSideBar = (props) => {
         <HomeButton user={props.user} />
 
         {renderRoomItems()}
-        <AddRoomButton user={props.user} />
+        <AddRoomButton user={props.user} numberOfRooms={props.rooms.length} />
       </div>
     </React.Fragment>
   );
