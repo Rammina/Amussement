@@ -62,7 +62,10 @@ export const getAllFriends = (id) => (dispatch, getState) => {
     });
 };
 // there should be addfriend using ID and username
-export const addFriendWithUsername = (formValues) => (dispatch, getState) => {
+export const addFriendWithUsername = (formValues, successCb) => (
+  dispatch,
+  getState
+) => {
   console.log("adding a friend ");
   const userId = getState().user.info._id || getState().user.info.id;
   const friendName = formValues.username;
@@ -74,8 +77,8 @@ export const addFriendWithUsername = (formValues) => (dispatch, getState) => {
         type: ADD_FRIEND_SUCCESS,
       });
       dispatch(getAllFriends(userId));
-      history.push(`/users/${userId}/friends`);
       dispatch(clearErrors());
+      if (successCb) successCb();
     })
     .catch((err) => {
       console.log(err);

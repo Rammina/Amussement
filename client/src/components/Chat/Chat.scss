@@ -46,13 +46,13 @@
 
 @media screen and (min-width: 650px) {
   .chat-area-container {
-    transition: none;
+    // transition: none;
     // width: calc(100vw - #{$sidebarWidth});
     // min-width: calc(100vw - #{$sidebarWidth});
     width: calc(100vw);
   }
   .chat-area-container.users-shown {
-    transition: none;
+    // transition: none;
     transform: translate(-$sidebarWidth, 0) translate(-$roomSidebarWidth, 0);
     // width: calc(100vw);min-width: calc(100vw);
     width: calc(100vw - #{$sidebarWidth});
@@ -68,6 +68,7 @@
 
 @media screen and (min-width: 1200px) and (min-height: 600px) {
   .chat-area-container {
+    transition: none;
     width: calc(100vw - (1 *#{$sidebarWidth}) - #{$roomSidebarWidth});
     min-width: calc(100vw - (1 *#{$sidebarWidth}) - #{$roomSidebarWidth});
     transform: translate(0, 0);

@@ -113,7 +113,8 @@
 }
 
 .sidebar-outer-container.hide {
-  visibility: hidden;
+  z-index: 1;
+  // visibility: hidden;
 }
 
 .form-submit-loader-container {

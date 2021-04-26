@@ -11,6 +11,12 @@
   top: 0;
   left: 0;
   background-color: $login-background-color;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+#auth-loader-outer-container.hide {
+  opacity: 0;
 }
 
 #auth-loader-inner-container {

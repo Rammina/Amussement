@@ -178,8 +178,8 @@ export const App = (props) => {
   });
 
   const renderAuthLoader = () => {
-    if (!props.isLoadingUser) return null;
-    return <AuthLoader />;
+    // if (!props.isLoadingUser) return null;
+    return <AuthLoader isLoadingUser={props.isLoadingUser} />;
   };
 
   const renderLeftSidebar = () => {

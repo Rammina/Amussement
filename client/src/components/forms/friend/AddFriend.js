@@ -80,10 +80,14 @@ const AddFriend = (props) => {
 
   // submit handler
   const onSubmit = async (formValues) => {
+    const closeModalOnSuccess = () => {
+      props.actionShowLoader("addFriendForm", false);
+      props.onModalClose();
+    };
     console.log(formValues);
     // run an action
     props.actionShowLoader("addFriendForm", true);
-    await props.addFriendWithUsername(formValues);
+    await props.addFriendWithUsername(formValues, closeModalOnSuccess);
   };
 
   const renderLoader = () => {
@@ -124,7 +128,7 @@ const AddFriend = (props) => {
                   autoComplete: "off",
                   id: "add-friend-username-field",
                   type: "text",
-                  // autoFocus: true
+                  autoFocus: true,
                 },
                 labelProps: {
                   class: "textfield-label",

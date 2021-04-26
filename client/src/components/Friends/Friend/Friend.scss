@@ -114,5 +114,7 @@
 @media screen and (min-width: 750px) {
   .friend-item-div.status {
     display: flex;
+    font-size: 0.95rem;
+    color: $textFontColorSlightDim;
   }
 }

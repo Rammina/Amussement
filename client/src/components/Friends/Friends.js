@@ -66,6 +66,61 @@ const Friends = (props) => {
     return <AddFriend onModalClose={closeAddFriendModalHandler} />;
   };
 
+  const renderAcceptedFriends = () => {
+    const filteredFriends = props.friends.filter((friend) => {
+      return friend.status === "accepted";
+    });
+    if (filteredFriends.length < 1) return null;
+    return (
+      <>
+        <p className="friend-category-description">
+          Friends - {filteredFriends.length}
+        </p>
+        {filteredFriends.map((friend, i) => (
+          <Friend key={i + "-accepted"} friend={friend} />
+        ))}
+      </>
+    );
+  };
+
+  const renderOutgoingFriendRequests = () => {
+    if (isDesktopWidth && isDesktopHeight && category !== "pending")
+      return null;
+    const filteredFriends = props.friends.filter((friend) => {
+      return friend.status === "requested";
+    });
+    if (filteredFriends.length < 1) return null;
+    return (
+      <>
+        <p className="friend-category-description">
+          Outgoing Friend Requests - {filteredFriends.length}
+        </p>
+        {filteredFriends.map((friend, i) => (
+          <Friend key={i + "-requested"} friend={friend} />
+        ))}
+      </>
+    );
+  };
+
+  const renderPendingFriendRequests = () => {
+    if (isDesktopWidth && isDesktopHeight && category !== "pending")
+      return null;
+    const filteredFriends = props.friends.filter((friend) => {
+      return friend.status === "pending";
+    });
+    if (filteredFriends.length < 1) return null;
+    return (
+      <>
+        <p className="friend-category-description">
+          Incoming Friend Requests - {filteredFriends.length}
+        </p>
+        {filteredFriends.map((friend, i) => (
+          <Friend key={i + "-pending"} friend={friend} />
+        ))}
+      </>
+    );
+  };
+
   const renderFriends = () => {
     // category - string
     // check if there are no friends or if the array is undefined
@@ -77,14 +132,21 @@ const Friends = (props) => {
 
     // render everything (especially in the case of All Friends)
     if (!category || category === "")
-      return friends.map((friend, i) => <Friend key={i} friend={friend} />);
+      return (
+        <>
+          {renderPendingFriendRequests()}
+          {renderOutgoingFriendRequests()}
+          {renderAcceptedFriends()}
+        </>
+      );
+    // return friends.map((friend, i) => <Friend key={i} friend={friend} />);
     else if (category === "pending") {
-      const filteredFriends = friends.filter((friend) => {
-        return friend.status === "pending" || friend.status === "requested";
-      });
-      return filteredFriends.map((friend, i) => (
-        <Friend key={i} friend={friend} />
-      ));
+      return (
+        <>
+          {renderPendingFriendRequests()}
+          {renderOutgoingFriendRequests()}
+        </>
+      );
     }
   };
 

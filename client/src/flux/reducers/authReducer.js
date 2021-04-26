@@ -24,7 +24,8 @@ import {
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: false,
-  isLoading: false,
+  // the app will tried to load the user at first anyway, so may as well set it to true
+  isLoading: true,
   userId: null,
 };
 
