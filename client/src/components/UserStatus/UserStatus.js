@@ -14,10 +14,6 @@ import HoverMarker from "../UIComponents/HoverMarker/HoverMarker";
 import { UserSettingsContext } from "../AppContext";
 
 const UserStatus = (props) => {
-  const [settingsMarkerX, setSettingsMarkerX] = useState(-200);
-  const [settingsMarkerY, setSettingsMarkerY] = useState(-200);
-  const [friendsMarkerX, setFriendsMarkerX] = useState(-200);
-  const [friendsMarkerY, setFriendsMarkerY] = useState(-200);
   const [isMouseHoveredOnFriends, setIsMouseHoveredOnFriends] = useState(false);
   const [isMouseHoveredOnSettings, setIsMouseHoveredOnSettings] = useState(
     false

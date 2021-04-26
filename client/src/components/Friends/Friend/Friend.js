@@ -186,7 +186,7 @@ const Friend = (props) => {
           <>
             <RemoveFriend
               friend={friend}
-              text="Cancel Request"
+              text="Cancel"
               status={status}
               onClickHandler={openRemoveFriendModalHandler}
             />

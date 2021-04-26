@@ -113,10 +113,12 @@
 }
 
 .friend-category-description {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: $textFontColorDim;
   margin: 0.3rem;
-  margin-left: 1rem;
+  margin-left: 0.8rem;
+  text-transform: uppercase;
+  // font-weight: bold;
 }
 
 .friends-button-image {

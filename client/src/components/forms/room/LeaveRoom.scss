@@ -1,0 +1,51 @@
+@import "../../../utils/variables.scss";
+
+#leave-room-form {
+  padding-bottom: 1.5rem;
+}
+
+.leave-room.form-content-container.modal-form-content {
+  display: flex;
+  // align-content: center;
+  // align-items: center;
+  padding: 0 1rem;
+  padding-top: 3rem;
+  margin: 0 auto;
+  margin-top: 2rem;
+  max-width: 30rem;
+}
+
+.leave-room.modal-paragraph {
+  position: relative;
+  left: 0.3rem;
+  max-width: 23rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#leave-room-description-paragraph {
+  margin-top: 0.5rem;
+  color: $dangerTextColorLight;
+}
+
+#leave-room-password-container {
+  margin-top: 1rem;
+}
+
+#leave-room-submit {
+}
+
+@media screen and (min-width: 1200px) and (min-height: 600px) {
+  #leave-room-form {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 3rem;
+  }
+  .leave-room.form-content-container.modal-form-content {
+    padding-top: 0;
+  }
+  #leave-room-password-container {
+    margin-top: 2rem;
+    padding: 0;
+  }
+}

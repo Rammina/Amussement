@@ -15,6 +15,7 @@ import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 import RoomContextMenu from "./RoomContextMenu/RoomContextMenu";
 import RoomSettings from "../../RoomSettings/RoomSettings";
 import DeleteRoom from "../../forms/room/DeleteRoom";
+import LeaveRoom from "../../forms/room/LeaveRoom";
 
 import { leaveRoom } from "../../../flux/actions/roomsActions";
 import { updateCurrentRoom } from "../../../flux/actions/currentRoomActions";
@@ -33,6 +34,7 @@ const RoomItem = (props) => {
   const [isSelectedRoom, setIsSelectedRoom] = useState(false);
   const [showRoomContextMenu, setShowRoomContextMenu] = useState(false);
   const [showRoomSettings, setShowRoomSettings] = useState(false);
+  const [leaveRoomOpened, setLeaveRoomOpened] = useState(false);
   const [deleteRoomOpened, setDeleteRoomOpened] = useState(false);
   const location = useLocation();
   const { room } = queryString.parse(location.search);
@@ -129,10 +131,13 @@ const RoomItem = (props) => {
   const leaveRoomOnClickHandler = () => {
     // do not allow leaving of room if user is the owner
     if (!isOwnedByCurrentUser) {
-      props.leaveRoom(props.room._id, redirectToHomeUponRemovalCb);
-      // return null;
+      setLeaveRoomOpened(true);
     }
     onCloseContextMenuHandler();
+  };
+
+  const leaveRoomOnCloseHandler = () => {
+    setLeaveRoomOpened(false);
   };
 
   const deleteRoomOnClickHandler = () => {
@@ -179,7 +184,19 @@ const RoomItem = (props) => {
       </RoomContext.Provider>
     );
   };
-  const renderRoomDeleteModal = () => {
+
+  const renderLeaveRoomModal = () => {
+    if (!leaveRoomOpened) return null;
+    return (
+      <LeaveRoom
+        room={props.room}
+        redirectToHomeUponRemovalCb={redirectToHomeUponRemovalCb}
+        onClose={leaveRoomOnCloseHandler}
+      />
+    );
+  };
+
+  const renderDeleteRoomModal = () => {
     if (!deleteRoomOpened) return null;
     return (
       <DeleteRoom
@@ -211,7 +228,8 @@ const RoomItem = (props) => {
     <React.Fragment>
       {renderRoomSettings()}
       {renderRoomContextMenu()}
-      {renderRoomDeleteModal()}
+      {renderDeleteRoomModal()}
+      {renderLeaveRoomModal()}
       <div className="room-item-container" ref={roomItemRef}>
         <Link
           className="room-item-link"

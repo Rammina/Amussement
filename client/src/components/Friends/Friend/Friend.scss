@@ -19,6 +19,7 @@
   // vertical-align: middle;
   // text-align: left;
   padding: 0.5rem;
+  padding-left: 0.8rem;
   border-top: 1px solid #ffffff15;
   font-size: 1.1rem;
   color: $textFontColor;
@@ -48,6 +49,7 @@
 }
 
 .friend-item-div.actions {
+  position: relative;
   // min-width: 8rem;
   justify-content: flex-end;
 }
@@ -59,6 +61,7 @@
   display: none;
 }
 .friend-item-div-button {
+  position: relative;
   width: 2.5rem;
   height: 2.5rem;
   padding: 0.75rem;
@@ -91,6 +94,20 @@
 .friend-action-button-image.danger:hover {
   filter: invert(71%) sepia(3%) saturate(3986%) hue-rotate(312deg)
     brightness(111%) contrast(103%);
+}
+
+.friend.hover-marker-container {
+  position: absolute;
+  top: -2.5rem;
+  left: -1.2rem;
+}
+
+.accept.friend.hover-marker-container {
+  left: -0.85rem;
+}
+
+.remove.friend.hover-marker-container {
+  left: -0.8rem;
 }
 
 // friend modals
