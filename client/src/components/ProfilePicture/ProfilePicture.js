@@ -1,5 +1,5 @@
 import logo from "../../uploads/rorobot.png";
-import DefaultAvatarImg from "../../images/default-avatar.jpg";
+import DefaultAvatarImg from "../../images/default-avatar.png";
 
 import React from "react";
 

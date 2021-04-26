@@ -7,6 +7,9 @@ import CloseButton from "../buttons/CloseButton";
 import ModalHeader from "./ModalHeader/ModalHeader";
 import ModalFooter from "./ModalFooter/ModalFooter";
 
+import { clearErrors } from "../../flux/actions/errorActions";
+import { connect } from "react-redux";
+
 // import { ModalContext } from "../AppContext";
 
 const Modal = (props) => {
@@ -18,9 +21,12 @@ const Modal = (props) => {
 
   const modalOnCloseHandler = () => {
     setModalOpen(false);
+
     setTimeout(() => {
       console.log("closing modal");
       props.onModalClose();
+      // Remove errors
+      props.clearErrors();
     }, 300);
   };
 
@@ -82,4 +88,4 @@ const Modal = (props) => {
     </React.Fragment>
   );
 };
-export default Modal;
+export default connect(null, { clearErrors })(Modal);

@@ -194,11 +194,22 @@ io.on("connect", (socket) => {
   });
 
   //note: retrieve more messages (should only work on the client side)
-  socket.on("load more messages", ({ roomId, messageRetrievalCount, cb }) => {
-    // this helper function returns messages from a room
-    retrieveMessagesFromDB(roomId, messageRetrievalCount).then((messages) => {
-      cb(messages.reverse());
-    });
+  socket.on("load more messages", (roomId, messageRetrievalCount, cb) => {
+    try {
+      // this helper function returns messages from a room
+      console.log(roomId);
+      console.log(messageRetrievalCount);
+      console.log(cb);
+      retrieveMessagesFromDB(roomId, messageRetrievalCount).then((messages) => {
+        console.log(cb);
+        console.log("the messages retrieved are: ");
+        console.log(messages);
+        cb(messages.reverse());
+      });
+    } catch (e) {
+      // should have proper error handling, state that it failed to store the message
+      console.log(e);
+    }
   });
 
   // listen to a disconnected event and send a message that the user has disconnected

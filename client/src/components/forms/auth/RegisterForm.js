@@ -154,27 +154,7 @@ const RegisterForm = (props) => {
             }}
           />
         </div>
-        <div className="textfield-container">
-          <Field
-            name="date_of_birth"
-            component={renderInput}
-            props={{
-              inputProps: {
-                placeholder: "Date of Birth",
-                className: "textfield",
-                id: "register-form-date_of_birth-field",
-                type: "date",
 
-                required: true,
-              },
-              labelProps: {
-                text: "Date of Birth *",
-                class: "textfield-label",
-                id: "register-form-date_of_birth-label",
-              },
-            }}
-          />
-        </div>
         <div className="form-button-container">
           <button
             className={"form-button submit mt-20"}

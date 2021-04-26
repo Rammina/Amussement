@@ -1,4 +1,4 @@
-import DefaultAvatarImg from "../../images/default-avatar.jpg";
+import DefaultAvatarImg from "../../images/default-avatar.png";
 
 import "./UserAvatar.scss";
 

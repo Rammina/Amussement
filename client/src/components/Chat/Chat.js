@@ -298,33 +298,36 @@ const Chat = (props) => {
     }
   };
 
+  const loadMoreMessagesCb = (retrievedMessages) => {
+    // increase the number of messages to be retrieved next retrieval
+    incrementMessageRetrievalCount();
+    // check if there are no more messages to load (all the messages in a room already retrieved)
+    if (
+      !(retrievedMessages.length % MESSAGES_PER_BATCH === 0) ||
+      messages.length === retrievedMessages.length
+    ) {
+      setNoMoreMessagesToLoad(true);
+    }
+    console.log(retrievedMessages.length);
+    // add the messages to be rendered on the frontend
+    setMessages([...retrievedMessages]);
+    // scroll down to the last message the user was able to view before retrieval
+    scrollTo("firstMessagePreviousBatch", "chat-messages-container");
+    props.actionShowLoader("messagesPrevious", false);
+  };
+
   const loadMoreMessages = () => {
+    const { room, roomType } = queryString.parse(location.search);
     if (noMoreMessagesToLoad) return;
 
     props.actionShowLoader("messagesPrevious", true);
-
-    const loadMoreMessagesCb = (retrievedMessages) => {
-      // increase the number of messages to be retrieved next retrieval
-      incrementMessageRetrievalCount();
-      // check if there are no more messages to load (all the messages in a room already retrieved)
-      if (
-        !(retrievedMessages.length % MESSAGES_PER_BATCH === 0) ||
-        messages.length === retrievedMessages.length
-      ) {
-        setNoMoreMessagesToLoad(true);
-      }
-      // add the messages to be rendered on the frontend
-      setMessages([...retrievedMessages]);
-      // scroll down to the last message the user was able to view before retrieval
-      scrollTo("firstMessagePreviousBatch", "chat-messages-container");
-      props.actionShowLoader("messagesPrevious", false);
-    };
-
-    socket.emit("load more messages", {
-      roomId,
-      messageRetrievalCount: getMessageRetrievalCount(),
-      cb: loadMoreMessagesCb,
-    });
+    const roomIdentifer = roomType === "DM" ? room : roomId;
+    socket.emit(
+      "load more messages",
+      roomIdentifer,
+      getMessageRetrievalCount(),
+      loadMoreMessagesCb
+    );
   };
 
   const getContainerClass = () => {

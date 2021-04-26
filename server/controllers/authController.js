@@ -98,12 +98,12 @@ exports.user_load = async (req, res) => {
 
 // Handle user create/register on POST.
 exports.user_register = async (req, res) => {
-  const { email, username, password, date_of_birth } = req.body;
+  const { email, username, password } = req.body;
   console.log(req.body);
   let errors = [];
 
   // check if any of the following fields are empty
-  if (!username || !email || !password || !date_of_birth) {
+  if (!username || !email || !password) {
     errors.push({ msg: "Please fill in all the fields." });
   }
 
@@ -120,8 +120,13 @@ exports.user_register = async (req, res) => {
     try {
       const emailLowerCase = email.toLowerCase();
       // check if e-mail is already taken
-      const user = await User.findOne({ email: emailLowerCase });
-      if (user) throw Error("Email is already taken.");
+      const userWithSameEmail = await User.findOne({ email: emailLowerCase });
+      if (userWithSameEmail) throw Error("Email is already taken.");
+      // Check if username is already taken
+      const userWithSameUsername = await User.findOne({
+        username,
+      });
+      if (userWithSameUsername) throw Error("Username is already taken.");
       // check if salt generation has any errors
       const salt = await bcrypt.genSalt(10);
       if (!salt)
@@ -135,7 +140,6 @@ exports.user_register = async (req, res) => {
         email: emailLowerCase,
         username,
         password: hash,
-        date_of_birth,
       });
       const savedUser = await newUser.save();
       if (!savedUser) throw Error("Failed to register the user.");
@@ -282,6 +286,23 @@ exports.user_edit_account = async (req, res) => {
       const emailLowerCase = email.toLowerCase();
       const user = await User.findById(req.params.id);
       if (!user) throw Error("User does not exist.");
+      // Check if username is already taken
+      const userWithSameUsername = await User.findOne({
+        username,
+      });
+      if (userWithSameUsername) {
+        if (userWithSameUsername._id != req.params.id)
+          throw Error("Username is already taken.");
+      }
+
+      // Check if email is already taken
+      const userWithSameEmail = await User.findOne({
+        email: emailLowerCase,
+      });
+      if (userWithSameEmail) {
+        if (userWithSameEmail._id != req.params.id)
+          throw Error("Email is already taken.");
+      }
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) throw Error("Invalid credentials.");

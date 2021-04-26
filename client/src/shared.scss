@@ -63,6 +63,7 @@ input:-webkit-autofill::first-line {
   background-color: $main-black;
   min-height: calc(100vh);
   height: auto;
+  overflow-y: hidden;
 }
 
 body h1,
