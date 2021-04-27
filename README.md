@@ -10,6 +10,7 @@ Its design is heavily inspired by [Discord](https://discord.com/).
 
 <hr>
 ### Features
+<br>
 User Authentication
 <ul>
     <li>Register</li>
