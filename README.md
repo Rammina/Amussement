@@ -109,6 +109,17 @@ npm run build
 
 <hr>
 
+## Sample Images
+
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619525380/loginpage.png" width="650"/>
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619525391/chatdemo.png" width="650"/>
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619525371/usersettings.png" width="650"/>
+
+<hr>
+
 ## Dependencies
 
 Server
@@ -169,15 +180,6 @@ Client:
 <br>
 
 <hr>
-
-## Pictures
-
-
-<img src="https://res.cloudinary.com/rammina/image/upload/v1619525380/loginpage.png" width="650"/>
-
-<img src="https://res.cloudinary.com/rammina/image/upload/v1619525391/chatdemo.png" width="650"/>
-
-<img src="https://res.cloudinary.com/rammina/image/upload/v1619525371/usersettings.png" width="650"/>
 
 ## License
 
