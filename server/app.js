@@ -61,7 +61,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 // Cors stuff
-const allowedOrigins = ["http://http://localhost:3000/"];
+const allowedOrigins = ["https://https://localhost:3000/"];
 app.use(cors());
 app.use(router);
 app.use(logger("dev"));

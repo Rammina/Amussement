@@ -308,7 +308,7 @@ export const deleteRoom = (roomId, successCb) => (dispatch, getState) => {
   console.log(roomId);
 
   axios
-    .delete(`http://localhost:5000/api/rooms/${roomId}`, {
+    .delete(`https://amussement-server.herokuapp.com/api/rooms/${roomId}`, {
       data: { roomId, userId },
     })
     .then((res) => {

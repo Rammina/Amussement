@@ -98,6 +98,12 @@ Start the client application in development mode on port 5000 by running:
 npm start
 ```
 
+To run the build process:
+
+```bash
+npm run build
+```
+
 <hr>
 
 ## Dependencies

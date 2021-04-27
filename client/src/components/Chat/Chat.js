@@ -86,7 +86,7 @@ const Chat = (props) => {
       (messageRetrievalCount) => messageRetrievalCount + 1
     );
 
-  const ENDPOINT = "localhost:5000";
+  const ENDPOINT = "https://amussement-server.herokuapp.com/";
 
   const getUserFromProps = () => {
     if (!props.user) return "";

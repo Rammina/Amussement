@@ -185,7 +185,7 @@ export const deleteUserAccount = (formValues) => {
 
     await axios
       .delete(
-        `http://localhost:5000/api/users/${userId}/settings/delete-account`,
+        `https://amussement-server.herokuapp.com/api/users/${userId}/settings/delete-account`,
         // this format is necessary for axios, needs to be in {data: }
         { data: formValues }
       )
