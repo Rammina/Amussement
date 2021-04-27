@@ -227,7 +227,7 @@ const Chat = (props) => {
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-  }, [props.isLoading, location.search, props.currentRoom]);
+  }, [props.isLoading, location.search, props.currentRoom, props.user]);
 
   useEffect(() => {
     // footer related stuff
@@ -272,7 +272,7 @@ const Chat = (props) => {
       let cb = () => {
         console.log("deleting message");
       };
-      socket.emit("deleteMessage", { id, roomId, cb });
+      socket.emit("deleteMessage", id, roomId, cb);
     }
   };
 
@@ -282,7 +282,7 @@ const Chat = (props) => {
       let cb = () => {
         console.log("editing message");
       };
-      socket.emit("editMessage", { id, text, roomId, cb });
+      socket.emit("editMessage", id, text, roomId, cb);
     }
   };
 

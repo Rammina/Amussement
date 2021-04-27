@@ -167,7 +167,7 @@ io.on("connect", (socket) => {
     }
   });
 
-  socket.on("deleteMessage", ({ id, roomId, cb }) => {
+  socket.on("deleteMessage", (id, roomId, cb) => {
     try {
       deleteMessageFromDB(id).then(() => {
         io.to(roomId).emit("deletedMessage", id);
@@ -180,7 +180,7 @@ io.on("connect", (socket) => {
     }
   });
 
-  socket.on("editMessage", ({ id, text, roomId, cb }) => {
+  socket.on("editMessage", (id, text, roomId, cb) => {
     try {
       editMessageOnDB(id, text).then(() => {
         io.to(roomId).emit("editedMessage", id, text);

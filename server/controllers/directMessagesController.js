@@ -2,13 +2,7 @@ require("dotenv").config();
 // import all the mongoose models
 const User = require("../models/user");
 const Room = require("../models/room");
-const Message = require("../models/message");
 
-// const { body, validationResult } = require("express-validator/check");
-// const { sanitizeBody } = require("express-validator/filter");
-
-const async = require("async");
-// const { arrayHasObjectWithPropAndValue, isAddedFriend } = require("../helpers");
 // retrieve rooms list
 exports.get_all_dm_rooms = async (req, res) => {
   console.log("retrieving dm rooms list");
@@ -22,8 +16,6 @@ exports.get_all_dm_rooms = async (req, res) => {
       });
     if (!user) throw Error("User does not exist.");
     // note: for emergency deleting
-    // user.active_dm_rooms = [];
-    // await user.save();
 
     if (user.active_dm_rooms.length >= 2) {
       user.active_dm_rooms.sort(function (a, b) {
@@ -64,7 +56,6 @@ exports.add_active_dm_room = async (req, res) => {
       if (!user) throw Error("Sender does not exist.");
       console.log(user);
       // note: don't use spread (...) operator on mongoose document object, it will most likely break and not work as intended
-      // console.log({ ...user });
 
       const receiver = await User.findById(receiverId).select(
         "username image_url"
@@ -132,7 +123,7 @@ exports.add_active_dm_room = async (req, res) => {
 
         user.active_dm_rooms = [...user.active_dm_rooms, addedRoomObject];
         await user.save();
-        // console.log(user.active_dm_rooms);
+
         res.status(200).json(addedRoomObject);
       }
     } catch (e) {
@@ -176,7 +167,6 @@ exports.remove_active_dm_room = async (req, res) => {
       // note: figure out what's wrong here? I think it's the reducer
       await user.save();
       res.status(200);
-      // res.status(200).json(user.active_dm_rooms);
     } catch (e) {
       console.log(e);
       res.status(400).json({ msg: e.message });
@@ -218,7 +208,6 @@ exports.remove_active_dm_room_with_name = async (req, res) => {
       // note: figure out what's wrong here? I think it's the reducer
       await user.save();
       res.status(200);
-      // res.status(200).json(user.active_dm_rooms);
     } catch (e) {
       console.log(e);
       res.status(400).json({ msg: e.message });

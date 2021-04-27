@@ -1,9 +1,6 @@
 const Message = require("../models/message");
-const { getUsersInRoom } = require("./users");
-const {
-  updateRoomLastActivity,
-  updateRoomLastActivityUsingName,
-} = require("./rooms");
+
+const { updateRoomLastActivity } = require("./rooms");
 const { MESSAGES_PER_BATCH } = require("../utils/constants.js");
 
 const storeMessageToDb = async (messageAttributes) => {

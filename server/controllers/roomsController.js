@@ -6,11 +6,6 @@ const User = require("../models/user");
 const Room = require("../models/room");
 const Message = require("../models/message");
 
-// const { body, validationResult } = require("express-validator/check");
-// const { sanitizeBody } = require("express-validator/filter");
-
-const async = require("async");
-// const { arrayHasObjectWithPropAndValue, isAddedFriend } = require("../helpers");
 // retrieve rooms list
 exports.get_all_rooms = async (req, res) => {
   console.log("retrieving rooms list");
@@ -36,16 +31,17 @@ exports.get_room = async (req, res) => {
     if (!room) throw Error("Unable to find room.");
 
     // check the members of the room and check if user is a member
-    let isMember = false;
-    for (let member of room.members) {
-      if (member.user._id == userId) {
-        isMember = true;
-      }
-    }
-    console.log(userId);
-    console.log(`isMember is ${isMember}`);
-    if (isMember) res.status(200).json(room);
-    else throw Error("User is not a member of this room.");
+    // let isMember = false;
+    // for (let member of room.members) {
+    //   if (member.user._id == userId) {
+    //     isMember = true;
+    //   }
+    // }
+    // console.log(userId);
+    // console.log(`isMember is ${isMember}`);
+    // if (isMember)
+    res.status(200).json(room);
+    // else throw Error("User is not a member of this room.");
   } catch (e) {
     res.status(400).json({ msg: e.message });
   }
@@ -143,7 +139,6 @@ exports.create_room = async (req, res) => {
           image_url: savedRoom.image_url || "",
           requires_approval: savedRoom.requires_approval || false,
         },
-        // user: { rooms: owner.rooms },
       });
     } catch (e) {
       console.log(e);
@@ -302,7 +297,6 @@ exports.leave_room = async (req, res) => {
 
       res.status(200).json({
         rooms: user.rooms,
-        // user: { rooms: user.rooms },
       });
     } catch (e) {
       console.log(e);
@@ -482,16 +476,10 @@ exports.delete_room = async (req, res) => {
     res.status(400).json({ errors });
   } else {
     try {
-      /*
-      const user = await User.findById(userId).populate("rooms");
-      if(!user)throw Error("Unable to find user with that ID.")
-    */
-
       const room = await Room.findById(roomId);
       if (!room) throw Error("Unable to find that room.");
 
       // delete all the messages that belong to this room
-      // Site.deleteMany({ userUID: uid, id: [10, 2, 3, 5]}, function(err)
       await Message.deleteMany({ room: room.name });
       await room.remove();
       res.status(200).json({ roomId });

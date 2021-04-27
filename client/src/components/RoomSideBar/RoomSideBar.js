@@ -26,6 +26,24 @@ const RoomSideBar = (props) => {
         <HomeButton user={props.user} />
 
         {renderRoomItems()}
+        <RoomItem
+          toUrl={`/chat?room=${"6087c5e0b50fd703304ce28b"}&userType=user&roomType=${"public"}`}
+          room={{
+            _id: "6087c5e0b50fd703304ce28b",
+
+            owner: null,
+
+            name: "Testing Room",
+            password: null,
+            type: "public",
+            messages: [],
+
+            image_url: "",
+          }}
+          user={props.user}
+          key="6087c5e0b50fd703304ce28b"
+          numberOfRooms={props.rooms.length}
+        />
         <AddRoomButton user={props.user} numberOfRooms={props.rooms.length} />
       </div>
     </React.Fragment>

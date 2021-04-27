@@ -2,11 +2,7 @@ require("dotenv").config();
 // import all the mongoose models
 const User = require("../models/user");
 
-// const { body, validationResult } = require("express-validator/check");
-// const { sanitizeBody } = require("express-validator/filter");
-
-const async = require("async");
-const { arrayHasObjectWithPropAndValue, isAddedFriend } = require("../helpers");
+const { isAddedFriend } = require("../helpers");
 // retrieve friends list
 exports.get_all_friends = async (req, res) => {
   console.log("retrieving friends list");
@@ -61,7 +57,7 @@ exports.add_friend_with_username = async (req, res) => {
     const sender = await User.findById(req.params.id).select("_id");
     if (!sender) throw Error("Sender of the friend request does not exist.");
     // check if friend is already added/invited
-    // let isFriend = null;
+
     const getFriendsCb = (err, friends) => {
       try {
         if (err) throw Error("Error retrieving friend list.");

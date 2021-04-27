@@ -30,7 +30,7 @@ export const editUserAccount = (formValues) => {
         console.log(res.data);
 
         dispatch({ type: EDIT_USER_ACCOUNT_SUCCESS, payload: res.data });
-        history.push(`/users/${userId}/settings`);
+        // history.push(`/users/${userId}/settings`);
         dispatch(clearErrors());
       })
       .catch((err) => {
@@ -61,7 +61,7 @@ export const changeUserPassword = (formValues) => {
         console.log(res);
         console.log(res.data);
         dispatch({ type: CHANGE_USER_PASSWORD_SUCCESS, payload: res.data });
-        history.push(`/users/${userId}/settings`);
+        // history.push(`/users/${userId}/settings`);
         dispatch(clearErrors());
         return true;
       })

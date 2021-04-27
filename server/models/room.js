@@ -17,18 +17,6 @@ var RoomSchema = new Schema({
   messages: [
     {
       message: { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
-      /*
-        meta: [
-          {
-            user: {
-              type: mongoose.Schema.Types.ObjectId,
-              ref: "User"
-            },
-            delivered: Boolean,
-            read: Boolean
-          }
-        ]
-        */
     },
   ],
   members: [
@@ -51,10 +39,5 @@ var RoomSchema = new Schema({
   muted: { type: Boolean, default: false },
   last_activity: { type: Date, default: new Date() },
 });
-
-// RoomSchema.virtual("user_objects").get(function () {
-//
-// return "/catalog/shoesinstance/" + this._id;
-// });
 
 module.exports = mongoose.model("Room", RoomSchema);
