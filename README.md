@@ -170,7 +170,12 @@ Client:
 
 ## Pictures
 
-<img src="https://github.com/julio22b/facebook-clone-frontend/blob/master/src/images/showcase.png" width="650"/>
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619525380/loginpage.png" width="650"/>
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619525391/chatdemo.png" width="650"/>
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619525371/usersettings.png" width="650"/>
 
 ## License
 
