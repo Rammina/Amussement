@@ -10,6 +10,7 @@ Its design is heavily inspired by [Discord](https://discord.com/).
 <b>LIVE LINK:</b> https://amussement.netlify.app/auth/login
 
 <hr/>
+
 ### Features
 <br/>
 User Authentication
