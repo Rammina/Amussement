@@ -10,7 +10,6 @@ import roomPasswordFormReducer from "./roomPasswordFormReducer.js";
 import dmRoomsReducer from "./dmRoomsReducer.js";
 import modalSubmitReducer from "./modalSubmitReducer.js";
 import loaderReducer from "./loaderReducer.js";
-// import authReducer from "./authReducer.js";
 
 export default combineReducers({
   form: formReducer,

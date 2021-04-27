@@ -1,15 +1,12 @@
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const auth = require("../middleware/auth");
+
 const { cloudinary } = require("../utils/cloudinary");
 const SECRETKEY = process.env.SECRETKEY;
 
 // import all the mongoose models
 const User = require("../models/user");
-
-// const { body, validationResult } = require("express-validator/check");
-// const { sanitizeBody } = require("express-validator/filter");
 
 const async = require("async");
 const multer = require("multer");
@@ -61,8 +58,7 @@ exports.user_load = async (req, res) => {
         path: "active_dm_rooms",
         populate: [{ path: "members", populate: { path: "user" } }],
       });
-    // .populate("active_dm_rooms");
-    // .populate("friends");
+
     if (!user) throw Error("User does not exist");
     User.getFriends(
       user,

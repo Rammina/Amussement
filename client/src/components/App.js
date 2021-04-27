@@ -3,7 +3,7 @@ import "./App.scss";
 
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Router, Route, Redirect, Switch } from "react-router-dom";
+import { Router, Route, Redirect } from "react-router-dom";
 import history from "../history";
 
 import AuthenticatedRoute from "./AuthenticatedRoute";
@@ -11,13 +11,13 @@ import UnauthenticatedRoute from "./UnauthenticatedRoute";
 import AuthLoader from "./AuthLoader/AuthLoader";
 import LeftSideBar from "./LeftSideBar/LeftSideBar";
 import Chat from "./Chat/Chat";
-import Join from "./Join/Join";
+
 import Register from "./Register/Register";
 import Login from "./Login/Login";
 import Home from "./Home/Home";
 import Friends from "./Friends/Friends";
 import UserSettings from "./UserSettings/UserSettings";
-import RoomSettings from "./RoomSettings/RoomSettings";
+
 import Footer from "./Footer/Footer";
 
 import {
@@ -178,7 +178,6 @@ export const App = (props) => {
   });
 
   const renderAuthLoader = () => {
-    // if (!props.isLoadingUser) return null;
     return <AuthLoader isLoadingUser={props.isLoadingUser} />;
   };
 

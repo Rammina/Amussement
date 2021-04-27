@@ -4,19 +4,14 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   GET_ALL_ROOMS_SUCCESS,
-  GET_ALL_ROOMS_FAIL,
   CREATE_ROOM_SUCCESS,
   CREATE_ROOM_FAIL,
   DELETE_ROOM_SUCCESS,
-  DELETE_ROOM_FAIL,
-  // GET_ROOM_SUCCESS,
-  // GET_ROOM_FAIL,
   JOIN_ROOM_SUCCESS,
   JOIN_ROOM_FAIL,
   LEAVE_ROOM_SUCCESS,
   LEAVE_ROOM_FAIL,
   UPDATE_ROOM_NAME_SUCCESS,
-  UPDATE_ROOM_NAME_FAIL,
   EDIT_ROOM_SUCCESS,
   EDIT_ROOM_FAIL,
   EDIT_ROOM_ICON_SUCCESS,
@@ -64,7 +59,6 @@ export default (state = initialState, action) => {
         }
         return room;
       });
-    // return ;
     case EDIT_ROOM_ICON_SUCCESS:
       return state.map((room) => {
         if (room._id === action.payload._id) {
@@ -74,14 +68,6 @@ export default (state = initialState, action) => {
       });
     case DELETE_ROOM_SUCCESS:
       return [...state].filter((room) => room._id !== action.payload.roomId);
-    // case REMOVE_ROOM_SUCCESS:
-    //   return [...state];
-    // case GET_ALL_ROOMS_FAIL:
-
-    // case REMOVE_ROOM_FAIL:
-    //   return state;
-    // case CLEAR_ROOMS_LIST:
-    //   return [];
     case CREATE_ROOM_FAIL:
     case JOIN_ROOM_FAIL:
     case LEAVE_ROOM_FAIL:

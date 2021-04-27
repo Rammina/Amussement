@@ -3,25 +3,21 @@ import AddUserImg from "../../icons/add-user.png";
 import "./Friends.scss";
 
 import React, { useState, useEffect, useContext } from "react";
-import { Route, Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { connect } from "react-redux";
-// import { Field, reduxForm } from "redux-form";
 
-import serverRest from "../../apis/serverRest";
 import history from "../../history";
 
-import Footer from "../Footer/Footer";
 import Friend from "./Friend/Friend";
 import AddFriend from "../forms/friend/AddFriend";
 
 import { getAllFriends } from "../../flux/actions/friendsActions";
 
-import { FooterContext, WindowContext } from "../AppContext";
+import { WindowContext } from "../AppContext";
 
 import { sortAlphabeticallyByNestedProp } from "../../helpers";
 
 const Friends = (props) => {
-  const [friendsList, setFriendsList] = useState(null);
   const [addFriendOpened, setAddFriendOpened] = useState(false);
   const [category, setCategory] = useState("");
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
@@ -139,7 +135,6 @@ const Friends = (props) => {
           {renderAcceptedFriends()}
         </>
       );
-    // return friends.map((friend, i) => <Friend key={i} friend={friend} />);
     else if (category === "pending") {
       return (
         <>

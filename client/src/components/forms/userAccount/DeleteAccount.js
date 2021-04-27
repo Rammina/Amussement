@@ -1,9 +1,7 @@
 import "./DeleteAccount.scss";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-
-import serverRest from "../../../apis/serverRest";
 
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
@@ -14,10 +12,8 @@ import { renderError, getErrorClass } from "../../../helpers";
 
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../Modal/Modal";
-import CancelButton from "../../buttons/CancelButton";
-import LoadingSpinner from "../../loaders/LoadingSpinner";
 
-import history from "../../../history";
+import LoadingSpinner from "../../loaders/LoadingSpinner";
 
 const onInput = (e) => {
   e.preventDefault();

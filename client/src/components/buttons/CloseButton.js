@@ -1,7 +1,7 @@
 import CloseIconImg from "../../icons/close-icon.png";
 import "./CloseButton.scss";
 
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 
 const CloseButton = (props) => {
   useEffect(() => {
@@ -30,8 +30,6 @@ const CloseButton = (props) => {
         className={`close-button-container ${getClassName()} ${getHideOnMobileClass()} ${getHideOnDesktopClass()}`}
       >
         <button
-          // ref={context.setCloseButtonRef}
-
           className={`close-button ${getClassName()} ${getHideOnMobileClass()} ${getHideOnDesktopClass()}`}
           id={`${getButtonId()}`}
           onClick={onClickHandler}

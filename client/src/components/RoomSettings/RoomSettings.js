@@ -3,10 +3,9 @@ import "../SettingsPage.scss";
 import React, { useState, useEffect, useContext } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import { Link, useParams, useLocation } from "react-router-dom";
+
 import { connect } from "react-redux";
 
-import serverRest from "../../apis/serverRest";
 import history from "../../history";
 
 import RoomOverview from "./RoomOverview/RoomOverview";
@@ -15,39 +14,17 @@ import DeleteRoom from "../forms/room/DeleteRoom";
 import SettingsCloseButton from "../buttons/SettingsCloseButton";
 
 import { WindowContext, RoomContext } from "../AppContext";
-// import { renderError, getErrorClass } from "../../helpers";
 
 export const RoomSettings = (props) => {
-  // const { roomId } = useParams();
   const [isSelectedRoom, setIsSelectedRoom] = useState(false);
   const [roomOverviewOpened, setRoomOverviewOpened] = useState(false);
   const [deleteRoomOpened, setDeleteRoomOpened] = useState(false);
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
   const { room, roomSettingsOnCloseHandler } = useContext(RoomContext);
-  const location = useLocation();
 
   useEffect(() => {
     if (isDesktopWidth && isDesktopHeight) setRoomOverviewOpened(true);
   }, []);
-
-  const checkSelectedRoom = () => {
-    if (!room || !room.name) {
-      setIsSelectedRoom(false);
-    }
-
-    let search = location.search;
-    let params = new URLSearchParams(search);
-    let currentRoom = params.get("room");
-
-    if (!currentRoom) {
-      setIsSelectedRoom(false);
-    }
-    if (currentRoom === room.name) {
-      setIsSelectedRoom(true);
-    } else {
-      setIsSelectedRoom(false);
-    }
-  };
 
   // URL redirect functions
   const redirectToHomeUponRemovalCb = () => {
@@ -72,7 +49,6 @@ export const RoomSettings = (props) => {
   // render functions
   const renderSection = () => {
     if (!isDesktopWidth || !isDesktopHeight) {
-      // if(isDesktopWidth) return null;
       if (roomOverviewOpened) {
         return <RoomOverview closeRoomOverview={roomOverviewOnCloseHandler} />;
       }
@@ -98,7 +74,6 @@ export const RoomSettings = (props) => {
   };
 
   const renderRoomDeleteButton = () => {
-    // if (!isDesktopWidth) return null;
     return (
       <button
         className="settings-page-sidebar-button"
@@ -142,16 +117,9 @@ export const RoomSettings = (props) => {
                 >
                   Room Settings
                 </h1>
-                {/*
-                            {renderHeaderLogOut()}
-              */}
               </header>
               <div className="settings-page-sidebar-inner-container">
                 <ul className="settings-page-sidebar-items">
-                  {
-                    // <Link to={`users/${roomId}/settings/account`} className="settings-page-sidebar-link">
-                  }
-
                   <button
                     className="settings-page-sidebar-button"
                     onClick={() => {

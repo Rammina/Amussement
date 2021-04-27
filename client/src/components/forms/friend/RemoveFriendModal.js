@@ -1,22 +1,17 @@
 import "./RemoveFriendModal.scss";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-
-import serverRest from "../../../apis/serverRest";
 
 import { connect } from "react-redux";
 
 import { removeFriend } from "../../../flux/actions/friendsActions";
 import { actionShowLoader } from "../../../flux/actions/loaderActions";
-import { renderError, getErrorClass } from "../../../helpers";
 
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../Modal/Modal";
-import CancelButton from "../../buttons/CancelButton";
-import LoadingSpinner from "../../loaders/LoadingSpinner";
 
-import history from "../../../history";
+import LoadingSpinner from "../../loaders/LoadingSpinner";
 
 const RemoveFriendModal = (props) => {
   const { connectionToUser } = props;
@@ -38,13 +33,13 @@ const RemoveFriendModal = (props) => {
     switch (connectionToUser) {
       case "accepted":
         return "Remove Friend";
-        break;
+
       case "requested":
         return "Cancel Friend Request";
-        break;
+
       case "pending":
         return "Decline Friend Request";
-        break;
+
       default:
         return "Remove Friend";
     }
@@ -54,13 +49,13 @@ const RemoveFriendModal = (props) => {
     switch (connectionToUser) {
       case "accepted":
         return "Remove Friend";
-        break;
+
       case "requested":
         return "Cancel Friend Request";
-        break;
+
       case "pending":
         return "Decline Friend Request";
-        break;
+
       default:
         return "Remove Friend";
     }
@@ -70,13 +65,13 @@ const RemoveFriendModal = (props) => {
     switch (connectionToUser) {
       case "accepted":
         return "Would you like to remove this user from your friend list?";
-        break;
+
       case "requested":
         return "Would you like to cancel your friend request for this user?";
-        break;
+
       case "pending":
         return "Would you like to decline this user's friend request?";
-        break;
+
       default:
         return "Would you like to remove this user from your friend list?";
     }
@@ -139,7 +134,6 @@ const RemoveFriendModal = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  // isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
   showLoader: state.loader.showRemoveFriendModalLoader,
 });

@@ -25,8 +25,6 @@ import {
   EDIT_ROOM_ICON_SUCCESS,
   EDIT_ROOM_ICON_FAIL,
   ROOM_PASSWORD_REQUIRED,
-  ROOM_PASSWORD_SUBMIT_SUCCESS,
-  ROOM_PASSWORD_SUBMIT_FAIL,
 } from "./types";
 
 export const getAllRooms = (id) => (dispatch, getState) => {
@@ -59,7 +57,6 @@ export const getAllRooms = (id) => (dispatch, getState) => {
     .catch((err) => {
       console.log(err);
       console.log(err.response);
-      // dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: GET_ALL_ROOMS_FAIL,
       });
@@ -68,7 +65,6 @@ export const getAllRooms = (id) => (dispatch, getState) => {
 
 export const createRoom = (formValues, successCb) => (dispatch, getState) => {
   const userId = getState().user.info._id || getState().user.info.id;
-  const roomName = formValues.name;
   console.log(formValues);
 
   serverRest
@@ -192,8 +188,7 @@ export const leaveRoom = (roomId, successCb) => (dispatch, getState) => {
           ...res.data,
         },
       });
-      // dispatch(getAllRooms(userId));
-      // history.push(`/users/${userId}/rooms`);
+
       dispatch(clearErrors());
       if (successCb) successCb();
     })
@@ -205,9 +200,7 @@ export const leaveRoom = (roomId, successCb) => (dispatch, getState) => {
         type: LEAVE_ROOM_FAIL,
       });
     })
-    .finally(() => {
-      // dispatch(actionShowLoader("leaveRoomModalForm", false));
-    });
+    .finally(() => {});
 };
 
 export const updateRoomName = (formValues, successCb) => (
@@ -262,8 +255,7 @@ export const editRoom = (formValues, successCb) => (dispatch, getState) => {
           ...res.data,
         },
       });
-      // dispatch(getAllRooms(userId));
-      // history.push(`/users/${userId}/rooms`);
+
       dispatch(clearErrors());
       if (successCb) successCb();
     })
@@ -327,8 +319,7 @@ export const deleteRoom = (roomId, successCb) => (dispatch, getState) => {
           ...res.data,
         },
       });
-      // dispatch(getAllRooms(userId));
-      // history.push(`/users/${userId}/rooms`);
+
       dispatch(clearErrors());
       if (successCb) successCb();
     })

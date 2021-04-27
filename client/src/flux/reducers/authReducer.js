@@ -7,18 +7,8 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  EDIT_USER_ACCOUNT_SUCCESS,
-  EDIT_USER_ACCOUNT_FAIL,
-  EDIT_USER_AVATAR_SUCCESS,
-  EDIT_USER_AVATAR_FAIL,
-  REMOVE_USER_AVATAR_SUCCESS,
-  REMOVE_USER_AVATAR_FAIL,
-  CHANGE_USER_PASSWORD_SUCCESS,
-  CHANGE_USER_PASSWORD_FAIL,
   DISABLE_USER_ACCOUNT_SUCCESS,
-  DISABLE_USER_ACCOUNT_FAIL,
   DELETE_USER_ACCOUNT_SUCCESS,
-  DELETE_USER_ACCOUNT_FAIL,
 } from "../actions/types";
 
 const initialState = {
@@ -30,8 +20,6 @@ const initialState = {
 };
 
 let sanitizedAuthPayload = {};
-
-// const initialState = null;
 
 export default (state = initialState, action) => {
   switch (action.type) {

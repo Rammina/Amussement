@@ -1,16 +1,9 @@
-import LogoutImg from "../../icons/logout.png";
-
 import "./Home.scss";
 
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
 
-import serverRest from "../../apis/serverRest";
-
-import LeftSideBar from "../LeftSideBar/LeftSideBar";
-import DmRoomList from "../DmRoomList/DmRoomList";
 import Friends from "../Friends/Friends";
 
 import { FooterContext, WindowContext } from "../AppContext";

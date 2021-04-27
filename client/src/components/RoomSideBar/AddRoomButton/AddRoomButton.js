@@ -2,10 +2,9 @@ import AddImg from "../../../icons/add.png";
 
 import "./AddRoomButton.scss";
 
-import React, { useContext, useEffect, useState, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
 
-import queryString from "query-string";
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 import AddRoomModal from "../AddRoomModal/AddRoomModal";
 
@@ -18,14 +17,12 @@ const AddRoomButton = (props) => {
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   const [addRoomModalOpened, setAddRoomModalOpened] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     if (roomItemRef.current !== null) {
       setRoomMarkerX(findPosX(roomItemRef.current));
       setRoomMarkerY(findPosY(roomItemRef.current));
     }
-    /*return () => {}*/
   }, [roomItemRef.current, props.numberOfRooms]);
 
   const getSelectedClass = () => (isSelected ? "selected" : true);

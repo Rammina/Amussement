@@ -1,9 +1,8 @@
 import "./ModalFooter.scss";
 
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React from "react";
 
 import CancelButton from "../../buttons/CancelButton";
-// import { ModalContext } from "../../AppContext";
 
 //note: test the use of context, remove props. from the variables
 const ModalFooter = (props) => {

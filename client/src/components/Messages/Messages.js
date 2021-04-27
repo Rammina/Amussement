@@ -2,13 +2,7 @@ import DownArrowImg from "../../icons/down-arrow-2.png";
 
 import "./Messages.scss";
 
-import React, {
-  useState,
-  useContext,
-  useEffect,
-  useRef,
-  useCallback,
-} from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import * as Scroll from "react-scroll";
 
@@ -30,11 +24,7 @@ const Messages = (props) => {
   const { messages, name } = props;
   const [isAtBottom, setIsAtBottom] = useState(true);
   const messagesContainerRef = useRef(null);
-  const {
-    loadMoreMessages,
-    noMoreMessagesToLoad,
-    getMessageRetrievalCount,
-  } = useContext(ChatContext);
+  const { loadMoreMessages, noMoreMessagesToLoad } = useContext(ChatContext);
   let prevMessageSender = null;
   const { MESSAGES_PER_BATCH } = constants;
 
@@ -50,7 +40,6 @@ const Messages = (props) => {
 
     scrollSpy.update();
     // note: should only scroll to bottom when the first batch of messages load
-    // scrollToBottom();
 
     return () => {
       Events.scrollEvent.remove("begin");
@@ -151,9 +140,6 @@ const Messages = (props) => {
 
   const renderMessages = () => {
     let noMessagesNotification = null;
-
-    // if (!props.showInitialLoader && (!messages || messages.length < 1))
-    //   noMessagesNotification = <div>no messages found</div>;
 
     return (
       <div

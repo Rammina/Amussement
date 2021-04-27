@@ -2,10 +2,9 @@ import "./UserProfileCard.scss";
 
 import React, { useRef, useState, useEffect, useContext } from "react";
 import ReactDOM from "react-dom";
-import { Route, Link } from "react-router-dom";
+
 import { connect } from "react-redux";
 
-// import { removeFriend } from "../../../../flux/actions/friendsActions";
 import Modal from "../Modal/Modal";
 import UserIdentity from "./UserIdentity/UserIdentity";
 import UserCommunications from "./UserCommunications/UserCommunications";
@@ -16,7 +15,7 @@ import UserContextMenu from "../UserContextMenu/UserContextMenu";
 
 import { addFriendWithId } from "../../flux/actions/friendsActions";
 import { addActiveDmRoom } from "../../flux/actions/dmRoomsActions";
-import { isFriendsWithUser, getFriendStatusWithUser } from "../../helpers";
+import { getFriendStatusWithUser } from "../../helpers";
 
 import { WindowContext, UserProfileCardContext } from "../AppContext";
 
@@ -38,7 +37,6 @@ const UserProfileCard = (props) => {
     console.log(props.user);
     if (props.user)
       setDmRoomName(`${[props.user._id, selectedUser._id].sort().join("_")}DM`);
-    /*return () => {}*/
   }, [props.user]);
 
   const checkIfUserIsSelf = () => {
@@ -177,9 +175,6 @@ const UserProfileCard = (props) => {
       />
     ) : null;
 
-  const renderUserConnections = () =>
-    !isCurrentUser ? <UserConnections /> : null;
-
   const renderPopupContent = () => (
     <>
       {renderUserContextMenu()}
@@ -246,10 +241,6 @@ const UserProfileCard = (props) => {
     // class names for the buttons
     const getUserInfoButtonClass = () =>
       selectedSection === "userInfo" ? "selected" : null;
-    const getMutualFriendsButtonClass = () =>
-      selectedSection === "mutualFriends" ? "selected" : null;
-    const getMutualServersButtonClass = () =>
-      selectedSection === "mutualServers" ? "selected" : null;
 
     const renderSectionSelectorButtons = () =>
       !isCurrentUser ? (

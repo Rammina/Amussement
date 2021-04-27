@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { getAllDmRooms } from "../../flux/actions/dmRoomsActions";
@@ -19,7 +19,6 @@ const DmRoomList = (props) => {
   };
   useEffect(() => {
     getDmRoomsHandler();
-    /*return () => {}*/
   }, [props.user, location.search]);
 
   // render functions

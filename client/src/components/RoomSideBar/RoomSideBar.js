@@ -1,15 +1,11 @@
-import onlineIcon from "../../icons/onlineIcon.png";
-
 import "./RoomSideBar.scss";
 
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import RoomItem from "./RoomItem/RoomItem";
 import HomeButton from "./HomeButton/HomeButton";
 import AddRoomButton from "./AddRoomButton/AddRoomButton";
-
-import { NavContext } from "../AppContext";
 
 const RoomSideBar = (props) => {
   const renderRoomItems = () => {
@@ -48,19 +44,3 @@ const roomSideBar = connect(mapStateToProps, {
 })(RoomSideBar);
 
 export default roomSideBar;
-
-/* Dummy servers
- <RoomItem
-          toUrl={`/chat?room=${"madMax"}&userType=user`}
-          room={{ name: "madMax" }}
-          user={props.user}
-        />
-        <RoomItem
-          toUrl={`/chat?room=${"IloveEmilia"}&userType=user`}
-          room={{
-            name: "IloveEmilia",
-            image_url: `https://res.cloudinary.com/rammina/image/upload/v1598598880/amussement-avatars/5f423937dd4b511da81e2af1-user-avatar.png`,
-          }}
-          user={props.user}
-        />
-*/

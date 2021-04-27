@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import ContextMenu from "../UIComponents/ContextMenu/ContextMenu";
@@ -20,7 +20,6 @@ const UserContextMenu = (props) => {
 
   const removeFriendOnClickHandler = () => {
     setShowRemoveFriendModal(true);
-    // props.onClose();
   };
 
   const closeRemoveFriendModalHandler = () => {

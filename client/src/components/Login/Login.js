@@ -1,15 +1,8 @@
-import DoorImg from "../../icons/door.png";
-
 import "./Login.scss";
 
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Field, reduxForm } from "redux-form";
+import React from "react";
 
-import serverRest from "../../apis/serverRest";
 import LoginForm from "../forms/auth/LoginForm";
-
-import { renderError, getErrorClass } from "../../helpers";
 
 const Login = () => {
   return (

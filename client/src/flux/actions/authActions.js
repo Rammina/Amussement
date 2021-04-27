@@ -12,10 +12,6 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  DISABLE_USER_ACCOUNT_SUCCESS,
-  DISABLE_USER_ACCOUNT_FAIL,
-  DELETE_USER_ACCOUNT_SUCCESS,
-  DELETE_USER_ACCOUNT_FAIL,
 } from "./types";
 
 // Check token & load user
@@ -30,11 +26,8 @@ export const loadUser = () => (dispatch, getState) => {
         type: USER_LOADED,
         payload: res.data,
       });
-      const userId = getState().user.info._id || getState().user.info.id;
-      // history.push(`/users/${userId}/home`);
     })
     .catch((err) => {
-      // dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: AUTH_ERROR,
       });
@@ -52,7 +45,7 @@ export const registerUser = (formValues) => {
         dispatch({ type: REGISTER_SUCCESS, payload: res.data });
         localStorage.setItem("token", res.data.token);
         // redirect to another page and clear the errors so it doesn't carry over
-        // history.push("/auth/login");
+
         const userId = res.data.user._id;
         history.push(`/users/${userId}/home`);
         dispatch(clearErrors());
@@ -116,7 +109,7 @@ export const logout = () => (dispatch) => {
 // Setup config/headers and token
 export const tokenConfig = (getState) => {
   console.log(localStorage.getItem("token"));
-  // const token = getState().auth.token || localStorage.getItem("token");
+
   const token = getState().auth.token;
   // headers
   const config = { headers: { "Content-type": "application/json" } };

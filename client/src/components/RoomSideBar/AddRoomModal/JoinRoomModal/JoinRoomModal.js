@@ -1,22 +1,13 @@
 import "./JoinRoomModal.scss";
 
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-// import { Link } from "react-router-dom";
 
-import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
 import { joinRoom } from "../../../../flux/actions/roomsActions";
 import { actionShowLoader } from "../../../../flux/actions/loaderActions";
-import {
-  renderError,
-  getErrorClass,
-  arrayHasObjectWithPropAndValue,
-} from "../../../../helpers";
-import history from "../../../../history";
 
-import ErrorNotifications from "../../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../../Modal/Modal";
 import JoinRoom from "../../../forms/room/JoinRoom";
 import RoomPasswordConfirmation from "../../../forms/room/RoomPasswordConfirmation";
@@ -65,7 +56,6 @@ const JoinRoomModal = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  // friends: state.friends,
   user: state.user.info,
   error: state.error,
   showLoader: state.loader.showJoinRoomModalFormLoader,

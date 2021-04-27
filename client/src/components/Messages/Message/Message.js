@@ -10,7 +10,7 @@ import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 import DeleteMessage from "./DeleteMessage/DeleteMessage";
 import EditMessage from "./EditMessage/EditMessage";
 import UserProfileCard from "../../UserProfileCard/UserProfileCard";
-import ContextMenu from "../../UIComponents/ContextMenu/ContextMenu";
+
 import MessageContextMenu from "./MessageContextMenu/MessageContextMenu";
 import UserContextMenu from "../../UserContextMenu/UserContextMenu";
 
@@ -21,8 +21,6 @@ import {
   toChatCustomTimestamp,
   timestampToStandardTime,
   copyToClipboard,
-  getFriendStatusWithUser,
-  isFriendsWithUser,
 } from "../../../helpers";
 
 import { addActiveDmRoom } from "../../../flux/actions/dmRoomsActions";
@@ -52,21 +50,7 @@ const Message = ({
   const [editedMarkerY, setEditedMarkerY] = useState(-200);
   const editedMarkerRef = useRef(null);
 
-  const { deleteMessage, editMessage, chatInputRef } = useContext(ChatContext);
-
-  useEffect(() => {
-    /*
-    if (editedMarkerRef.current) {
-      setEditedMarkerX(
-        editedMarkerRef.current.getBoundingClientRect().left + window.scrollX
-      );
-      setEditedMarkerY(
-        editedMarkerRef.current.getBoundingClientRect().top + window.scrollY
-      );
-    }
-    */
-    /*return () => {}*/
-  }, [editedMarkerRef]);
+  const { chatInputRef } = useContext(ChatContext);
 
   const onCloseContextMenuHandler = () => {
     setShowUserContextMenu(false);
@@ -138,7 +122,6 @@ const Message = ({
 
     if (!alreadyAddedToActive) {
       addActiveDmRoom({
-        // senderId: props.user._id,
         owner: null,
         receiver: message.user,
         receiverId: message.user._id,
@@ -179,7 +162,6 @@ const Message = ({
   const getUserProfileCardContextValue = () => {
     return {
       selectedUser: message.user,
-      // friendStatus: status
     };
   };
 
@@ -236,7 +218,6 @@ const Message = ({
   };
 
   const renderMessageContextMenu = () => {
-    // console.log(isSentByCurrentUser);
     if (!showMessageContextMenu) return null;
     return (
       <MessageContextMenu
@@ -262,14 +243,11 @@ const Message = ({
 
   const renderEditedMarker = () => {
     if (message.createdAt === message.updatedAt) return null;
-    // console.log(editedMarkerRef);
-    // console.log(editedMarkerRef.current);
 
     const getEditedMarkerX = () => editedMarkerX;
 
-    // editedMarkerRef.current.getBoundingClientRect().left;
     const getEditedMarkerY = () => editedMarkerY;
-    // editedMarkerRef.current.getBoundingClientRect().top;
+
     return (
       <>
         <span
@@ -285,8 +263,6 @@ const Message = ({
           <HoverMarker
             customStyle={{
               position: "fixed",
-              // top: `100px`,
-              // left: "0px",
               top: `calc(${getEditedMarkerY() || 0}px - 2.2rem)`,
               left: `calc(${getEditedMarkerX() || 0}px - 4rem)`,
             }}
@@ -342,10 +318,7 @@ const Message = ({
     if (!sameSenderAsPrevMsg) {
       senderImage = (
         <ProfilePicture
-          imageSrc={
-            // message.image_url ||
-            message.user.image_url || ""
-          }
+          imageSrc={message.user.image_url || ""}
           componentClass={`message ${getDeletedClass()}`}
           onClick={userOnClickHandler}
           onContextMenu={userOnContextMenuHandler}

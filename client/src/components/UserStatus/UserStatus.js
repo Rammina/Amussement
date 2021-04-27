@@ -42,8 +42,6 @@ const UserStatus = (props) => {
         <ProfilePicture
           imageSrc={props.user.image_url || ""}
           componentClass={`sidebar`}
-          // onClick={userOnClickHandler}
-          // onContextMenu={userOnContextMenuHandler}
         />
         <span className="user-status-item-text">{props.user.username}</span>
       </div>

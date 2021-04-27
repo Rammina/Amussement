@@ -1,12 +1,6 @@
 import "./RoomItem.scss";
 
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-  useLayoutEffect,
-} from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -38,14 +32,11 @@ const RoomItem = (props) => {
   const [deleteRoomOpened, setDeleteRoomOpened] = useState(false);
   const location = useLocation();
   const { room } = queryString.parse(location.search);
-  // console.log(location);
 
   useLayoutEffect(() => {
     checkSelectedRoom();
 
-    return () => {
-      // setIsSelectedRoom(false);
-    };
+    return () => {};
   }, [location.search]);
 
   useEffect(() => {
@@ -53,12 +44,9 @@ const RoomItem = (props) => {
       setRoomMarkerX(findPosX(roomItemRef.current));
       setRoomMarkerY(findPosY(roomItemRef.current));
     }
-    /*return () => {}*/
   }, [roomItemRef.current, props.numberOfRooms]);
 
   let isOwnedByCurrentUser = props.room.owner === props.user._id;
-
-  const getUserType = () => (props.user ? "user" : "guest");
 
   const checkSelectedRoom = () => {
     if (!props.room || !props.room._id) {
@@ -125,7 +113,6 @@ const RoomItem = (props) => {
 
   const roomSettingsOnCloseHandler = () => {
     setShowRoomSettings(false);
-    // onCloseContextMenuHandler();
   };
 
   const leaveRoomOnClickHandler = () => {
@@ -206,7 +193,7 @@ const RoomItem = (props) => {
       />
     );
   };
-  // const getGuestName=() => {}
+
   const renderItemContent = () => {
     // if there is an image, use the URL in the image tag
     // otherwise, use the first character of the room name

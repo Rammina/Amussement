@@ -3,21 +3,17 @@ import LogoutImg from "../../icons/logout.png";
 import "../SettingsPage.scss";
 
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 
-import serverRest from "../../apis/serverRest";
-import history from "../../history";
-
 import UserInfo from "../UserInfo/UserInfo";
-// import Footer from "../Footer/Footer";
+
 import SettingsCloseButton from "../buttons/SettingsCloseButton";
 
 import { logout } from "../../flux/actions/authActions";
 import { clearFriendsList } from "../../flux/actions/friendsActions";
 
 import { WindowContext } from "../AppContext";
-// import { renderError, getErrorClass } from "../../helpers";
 
 const UserSettings = (props) => {
   const { id } = useParams();
@@ -25,7 +21,6 @@ const UserSettings = (props) => {
   const [appearanceOpened, setAppearanceOpened] = useState(false);
   const [friendsOpened, setFriendsOpened] = useState(false);
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
-  const location = useLocation();
 
   useEffect(() => {
     if (isDesktopWidth && isDesktopHeight) setMyAccountOpened(true);
@@ -44,7 +39,6 @@ const UserSettings = (props) => {
   // render functions
   const renderSection = () => {
     if (!isDesktopWidth || !isDesktopHeight) {
-      // if(isDesktopWidth) return null;
       if (myAccountOpened) {
         console.log("Opening my account");
         return (
@@ -55,10 +49,6 @@ const UserSettings = (props) => {
             }}
           />
         );
-      } else if (appearanceOpened) {
-        // return <UserInfo userId={id} />;
-      } else if (friendsOpened) {
-        // return <UserInfo userId={id} />;
       }
     } else {
       // this is for desktop versions of the components
@@ -108,13 +98,6 @@ const UserSettings = (props) => {
     );
   };
 
-  const renderContent = () => {
-    if (props.content) {
-      return props.content;
-    }
-    return null;
-  };
-
   // render
   return (
     <div className="settings-page-window-container">
@@ -127,10 +110,6 @@ const UserSettings = (props) => {
             </header>
             <div className="settings-page-sidebar-inner-container">
               <ul className="settings-page-sidebar-items">
-                {
-                  // <Link to={`users/${userId}/settings/account`} className="settings-page-sidebar-link">
-                }
-
                 <button
                   className="settings-page-sidebar-button"
                   onClick={() => {
@@ -166,3 +145,11 @@ const UserSettings = (props) => {
 const userSettings = connect(null, { logout, clearFriendsList })(UserSettings);
 
 export default userSettings;
+
+/* 
+else if (appearanceOpened) {
+        // return <UserInfo userId={id} />;
+      } else if (friendsOpened) {
+        // return <UserInfo userId={id} />;
+      }
+*/

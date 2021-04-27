@@ -2,10 +2,9 @@ import HomeImg from "../../../icons/home.png";
 
 import "./HomeButton.scss";
 
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import queryString from "query-string";
 import HoverMarker from "../../UIComponents/HoverMarker/HoverMarker";
 import { findPosX, findPosY } from "../../../helpers";
 
@@ -17,14 +16,11 @@ const HomeButton = (props) => {
   const [isSelected, setIsSelected] = useState(false);
   const location = useLocation();
   console.log(location);
-  // console.log(location);
 
   useEffect(() => {
     checkSelected();
 
-    return () => {
-      // setIsSelected(false);
-    };
+    return () => {};
   }, [location.search]);
 
   useEffect(() => {
@@ -32,7 +28,6 @@ const HomeButton = (props) => {
       setRoomMarkerX(findPosX(roomItemRef.current));
       setRoomMarkerY(findPosY(roomItemRef.current));
     }
-    /*return () => {}*/
   }, [roomItemRef.current]);
 
   console.log(props.user);

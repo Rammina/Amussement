@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-
-import serverRest from "../../../apis/serverRest";
 
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
@@ -13,20 +11,11 @@ import { renderError, getErrorClass, validateEmail } from "../../../helpers";
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 import LoadingSpinner from "../../loaders/LoadingSpinner";
 
-import history from "../../../history";
-
 const onInput = (e) => {
   e.preventDefault();
   e.stopPropagation();
 };
-const handleEnterKeyOnField = (e) => {
-  // This prevents submission bugging or refreshing upon pressing enter
-  // in an input field inside a form
-  // if (e.keyCode === 13) {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  // }
-};
+const handleEnterKeyOnField = (e) => {};
 
 const renderInput = ({ input, meta, inputProps, labelProps }) => {
   const errorClass = getErrorClass(meta);
@@ -59,8 +48,6 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 };
 
 const RegisterForm = (props) => {
-  // const [name, setName] = useState("");
-  // const [room, setRoom] = useState("");
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
     console.log(errorMessage);
@@ -121,7 +108,6 @@ const RegisterForm = (props) => {
                 maxLength: "30",
                 autoComplete: "off",
                 id: "register-form-username-field",
-                // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",
@@ -144,7 +130,6 @@ const RegisterForm = (props) => {
                 autoComplete: "off",
                 type: "password",
                 id: "register-form-password-field",
-                // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",

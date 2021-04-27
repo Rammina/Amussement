@@ -1,10 +1,7 @@
 import "./EditRoom.scss";
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
-import { Link } from "react-router-dom";
-
-import serverRest from "../../../apis/serverRest";
 
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
@@ -13,11 +10,11 @@ import { editRoom } from "../../../flux/actions/roomsActions";
 
 import { modalStatusReset } from "../../../flux/actions/modalActions";
 import { actionShowLoader } from "../../../flux/actions/loaderActions";
-import { renderError, getErrorClass, validateEmail } from "../../../helpers";
+import { renderError, getErrorClass } from "../../../helpers";
 
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../Modal/Modal";
-import CancelButton from "../../buttons/CancelButton";
+
 import LoadingSpinner from "../../loaders/LoadingSpinner";
 
 import { RoomContext } from "../../AppContext";
@@ -152,7 +149,6 @@ const EditRoom = (props) => {
                     autoComplete: "off",
                     type: "password",
                     id: "edit-room-password-field",
-                    // autoFocus: true
                   },
                   labelProps: {
                     class: "textfield-label",

@@ -5,8 +5,6 @@ import {
   REGISTER_SUCCESS,
   GET_ALL_FRIENDS_SUCCESS,
   GET_ALL_FRIENDS_FAIL,
-  GET_FRIEND_SUCCESS,
-  GET_FRIEND_FAIL,
   ADD_FRIEND_SUCCESS,
   ADD_FRIEND_FAIL,
   REMOVE_FRIEND_SUCCESS,
@@ -16,8 +14,6 @@ import {
 
 // Array of objects(friends)
 const initialState = [];
-
-// const initialState = null;
 
 export default (state = initialState, action) => {
   switch (action.type) {

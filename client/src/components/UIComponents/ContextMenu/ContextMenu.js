@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import ReactDOM from "react-dom";
 
 const ContextMenu = (props) => {
-  // const [modalOpen, setContextMenuOpen] = useState(true);
   const [menuLeft, setMenuLeft] = useState(-200);
   const [menuTop, setMenuTop] = useState(-200);
   let contextMenuDiv = useRef(null);
@@ -66,7 +65,6 @@ const ContextMenu = (props) => {
   useEffect(() => {
     if (contextMenuDiv.current === null) return null;
     positionMenu();
-    /*return () => {}*/
   }, [contextMenuDiv.current]);
 
   const content = (

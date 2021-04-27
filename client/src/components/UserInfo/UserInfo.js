@@ -1,16 +1,8 @@
-import LeftArrowImg from "../../icons/left-arrow.png";
-
 import "./UserInfo.scss";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Route, Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
-
-import serverRest from "../../apis/serverRest";
-import cloudinaryRest from "../../apis/cloudinaryRest";
-
-import history from "../../history";
 
 import EditAccount from "../forms/userAccount/EditAccount";
 import ChangeUserPassword from "../forms/userAccount/ChangeUserPassword";
@@ -18,23 +10,15 @@ import DisableAccount from "../forms/userAccount/DisableAccount";
 import DeleteAccount from "../forms/userAccount/DeleteAccount";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import BackButton from "../buttons/BackButton";
-import CloseButton from "../buttons/CloseButton";
 
 import { removeUserAvatar } from "../../flux/actions/settingsActions";
 import { clearErrors } from "../../flux/actions/errorActions";
-import { render } from "react-dom";
 
 const UserInfo = (props) => {
   const [editAccountOpened, setEditAccountOpened] = useState(false);
   const [changePasswordOpened, setChangePasswordOpened] = useState(false);
   const [disableAccountOpened, setDisableAccountOpened] = useState(false);
   const [deleteAccountOpened, setDeleteAccountOpened] = useState(false);
-  const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
-  const [imageUploadName, setImageUploadName] = useState(null);
-  const [fileInputState, setFileInputState] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
-  const { id } = useParams();
 
   useEffect(() => {
     // userinfo needs to get the ID from the parent component
@@ -42,7 +26,6 @@ const UserInfo = (props) => {
   }, []);
 
   //refs
-  let inputImageRef = useRef(null);
 
   const getUsername = () => (props.user ? props.user.username : null);
   const getEmail = () => (props.user ? props.user.email : null);

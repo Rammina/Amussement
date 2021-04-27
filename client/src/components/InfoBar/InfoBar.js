@@ -6,23 +6,18 @@ import UsersImg from "../../icons/users.png";
 import React, { useContext } from "react";
 import { connect } from "react-redux";
 
-import onlineIcon from "../../icons/onlineIcon.png";
-import closeIcon from "../../icons/close-icon.png";
-
 import { NavContext, FooterContext } from "../AppContext";
 
 const InfoBar = ({ roomName }) => {
   const {
     toggleRoomSideBarShow,
-    navMenuButtonTouched,
     setNavMenuButtonTouched,
     toggleOnlineUsersShow,
-    onlineUsersButtonTouched,
     setOnlineUsersButtonTouched,
     onlineUsersShow,
     roomSideBarShow,
   } = useContext(NavContext);
-  const { showFooter, setShowFooter } = useContext(FooterContext);
+  const { setShowFooter } = useContext(FooterContext);
 
   const getRoomsButtonClass = () => {
     return roomSideBarShow ? "active" : "inactive";
@@ -73,7 +68,6 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   user: state.user.info,
   error: state.error,
-  // propsInitialized: true
 });
 
 export default connect(mapStateToProps, {})(InfoBar);

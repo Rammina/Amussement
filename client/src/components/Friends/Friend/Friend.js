@@ -1,18 +1,15 @@
 import "./Friend.scss";
 
 import React, { useState, useEffect } from "react";
-import { Route, Link, useLocation } from "react-router-dom";
-// import { Router, Route, Redirect, Switch } from "react-router-dom";
-import { connect } from "react-redux";
-// import { Field, reduxForm } from "redux-form";
+import { useLocation } from "react-router-dom";
 
-import serverRest from "../../../apis/serverRest";
+import { connect } from "react-redux";
 
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 import AcceptFriend from "./AcceptFriend/AcceptFriend";
 import RemoveFriend from "./RemoveFriend/RemoveFriend";
 import RemoveFriendModal from "../../forms/friend/RemoveFriendModal";
-import CallButton from "./CallButton/CallButton";
+
 import DirectMessage from "./DirectMessage/DirectMessage";
 import UserProfileCard from "../../UserProfileCard/UserProfileCard";
 import UserContextMenu from "../../UserContextMenu/UserContextMenu";
@@ -20,26 +17,20 @@ import { UserProfileCardContext } from "../../AppContext";
 
 import { addActiveDmRoom } from "../../../flux/actions/dmRoomsActions";
 import history from "../../../history";
-// import { renderError, getErrorClass } from "../../helpers";
 
 const Friend = (props) => {
   const [clientX, setClientX] = useState(0);
   const [clientY, setClientY] = useState(0);
   const [showUserContextMenu, setShowUserContextMenu] = useState(false);
-  const [isMouseHoveredOnContainer, setIsMouseHoveredOnContainer] = useState(
-    false
-  );
+
   const [friendInfoModalOpen, setFriendInfoModalOpen] = useState(false);
   const [removeFriendModalOpen, setRemoveFriendModalOpen] = useState(false);
   const [dmRoomName, setDmRoomName] = useState("");
-  // const location = useLocation();
-  // const { room } = queryString.parse(location.search);
 
   useEffect(() => {
     if (props.user) {
       setDmRoomName(`${[props.user._id, friend._id].sort().join("_")}DM`);
     }
-    /*return () => {}*/
   }, [props.user]);
 
   useEffect(() => {
@@ -50,15 +41,10 @@ const Friend = (props) => {
   const { friend, status } = props.friend;
   console.log(props.friend);
   console.log(friend);
-  const location = useLocation();
 
   // get value  of UserProfileCardContext using this function
   const getUserProfileCardContextValue = () => {
     return { selectedUser: friend, friendStatus: status };
-  };
-
-  const getFriendInfoModalClass = () => {
-    return friendInfoModalOpen ? "show" : "hide";
   };
 
   const onCloseContextMenuHandler = () => {
@@ -81,7 +67,6 @@ const Friend = (props) => {
 
     if (!alreadyAddedToActive) {
       props.addActiveDmRoom({
-        // senderId: props.user._id,
         owner: null,
         receiver: friend,
         receiverId: friend._id,
@@ -206,7 +191,6 @@ const Friend = (props) => {
       } else if (status === "accepted") {
         return (
           <>
-            {/* <CallButton /> */}
             {/*note:this should lead to a direct message instance/component*/}
             <DirectMessage
               user={props.user}
@@ -272,6 +256,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  // directMessage,
   addActiveDmRoom,
 })(Friend);

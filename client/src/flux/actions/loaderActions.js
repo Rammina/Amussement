@@ -1,12 +1,4 @@
-import {
-  ACTION_SHOW_LOADER,
-  LOGIN_FORM_SHOW_LOADER,
-  LOGIN_FORM_HIDE_LOADER,
-  EDIT_ACCOUNT_SHOW_LOADER,
-  EDIT_ACCOUNT_HIDE_LOADER,
-  CHANGE_PASSWORD_SHOW_LOADER,
-  CHANGE_PASSWORD_HIDE_LOADER,
-} from "./types";
+import { ACTION_SHOW_LOADER } from "./types";
 
 import { capitalizeFirstLetter } from "../../helpers";
 

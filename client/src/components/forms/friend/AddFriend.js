@@ -1,39 +1,25 @@
 import "./AddFriend.scss";
 
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import { Link } from "react-router-dom";
-
-import serverRest from "../../../apis/serverRest";
 
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
 import { addFriendWithUsername } from "../../../flux/actions/friendsActions";
 import { actionShowLoader } from "../../../flux/actions/loaderActions";
-import {
-  renderError,
-  getErrorClass,
-  arrayHasObjectWithPropAndValue,
-} from "../../../helpers";
+import { renderError, getErrorClass } from "../../../helpers";
 
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../Modal/Modal";
-import CancelButton from "../../buttons/CancelButton";
+
 import LoadingSpinner from "../../loaders/LoadingSpinner";
 
 const onInput = (e) => {
   e.preventDefault();
   e.stopPropagation();
 };
-const handleEnterKeyOnField = (e) => {
-  // This prevents submission bugging or refreshing upon pressing enter
-  // in an input field inside a form
-  /* if (e.keyCode === 13) {
-    e.preventDefault();
-    e.stopPropagation();
-  } */
-};
+const handleEnterKeyOnField = (e) => {};
 
 const renderInput = ({ input, meta, inputProps, labelProps }) => {
   const errorClass = getErrorClass(meta);
@@ -66,8 +52,6 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 };
 
 const AddFriend = (props) => {
-  // const [name, setName] = useState("");
-  // const [room, setRoom] = useState("");
   console.log(props.friends);
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
@@ -161,20 +145,7 @@ const validate = (formValues) => {
   if (!formValues.username) {
     errors.username = "Please input a username.";
   }
-  /*
-  // best to do this in thebackend
-  if (props && props.friends) {
-    if (
-      arrayHasObjectWithPropAndValue(
-        props.friends,
-        "username",
-        formValues.username
-      )
-    ) {
-      errors.username = "This user is already in your friend list";
-    }
-  }
-*/
+
   return errors;
 };
 

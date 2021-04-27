@@ -45,13 +45,11 @@ const Input = ({ setMessage, sendMessage, message }) => {
           setSendButtonDisabled(value === "" ? true : false);
         }}
         onKeyPress={(event) => {
-          // console.log("keypressed on the input field");
           if (event.key === "Enter") {
             console.log("pressed enter on the input field");
             sendMessage(event);
             setSendButtonClass("hide");
           }
-          // event.key === "Enter" ? sendMessage(event) : null;
         }}
       />
       {renderSendButton()}

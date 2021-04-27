@@ -2,17 +2,12 @@ import DefaultAvatarImg from "../../images/default-avatar.png";
 
 import "./UserAvatar.scss";
 
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import ReactDOM from "react-dom";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
-import BackButton from "../buttons/BackButton";
-import CloseButton from "../buttons/CloseButton";
-import Modal from "../Modal/Modal";
 
-import serverRest from "../../apis/serverRest";
-import cloudinaryRest from "../../apis/cloudinaryRest";
+import { connect } from "react-redux";
+
+import Modal from "../Modal/Modal";
 
 import { actionShowLoader } from "../../flux/actions/loaderActions";
 import {
@@ -29,7 +24,7 @@ const UserAvatar = (props) => {
   const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
   const [imageUploadName, setImageUploadName] = useState(null);
   const [fileInputState, setFileInputState] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
+
   const [previewSource, setPreviewSource] = useState("");
   const { isDesktopWidth, isDesktopHeight } = useContext(WindowContext);
 
@@ -42,10 +37,6 @@ const UserAvatar = (props) => {
       }
     }
     return "";
-  };
-
-  const getImageUploadModalClass = () => {
-    return imageUploadModalOpen ? "show" : "hide";
   };
 
   const previewFile = (file) => {
@@ -199,7 +190,6 @@ const UserAvatar = (props) => {
           accept="image/*"
           value={fileInputState}
           onChange={(e) => {
-            // e.stopPropagation();
             console.log("hello");
             setImageUploadModalOpen(true);
             handleImageInputChange(e);

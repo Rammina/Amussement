@@ -4,7 +4,7 @@ import SettingsImg from "../../icons/settings.png";
 
 import "./Footer.scss";
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -14,7 +14,6 @@ const Footer = (props) => {
   const userId = props.user ? props.user._id || props.user.id : null;
   const pathname = useLocation().pathname;
   const { showFooter } = useContext(FooterContext);
-  const { settingsOnOpenHandler } = useContext(UserSettingsContext);
 
   useEffect(() => {}, []);
 
@@ -40,7 +39,6 @@ const Footer = (props) => {
       return null;
     // do not render on higher width breakpoint
     if (window.innerWidth >= 1000) {
-      // return null;
     }
     return (
       <footer className={`${getShowFooterClass()}`} id="user-footer-container">

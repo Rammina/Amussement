@@ -1,13 +1,8 @@
 import CallIconImg from "../../../../icons/call.png";
 
-import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-
-// import serverRest from "../../apis/serverRest";
+import React from "react";
 
 import { connect } from "react-redux";
-
-// import { callButton } from "../../../../flux/actions/friendsActions";
 
 import "./CallButton.scss";
 
@@ -19,8 +14,6 @@ const CallButton = (props) => {
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        // remove this friend
-        // props.callButton(props.friend._id);
       }}
     >
       <img
@@ -36,6 +29,4 @@ const mapStateToProps = (state) => ({
   user: state.user.info,
 });
 
-export default connect(mapStateToProps, {
-  // callButton,
-})(CallButton);
+export default connect(mapStateToProps, {})(CallButton);

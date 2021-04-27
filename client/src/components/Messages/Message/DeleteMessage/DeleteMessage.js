@@ -1,14 +1,13 @@
 import "./DeleteMessage.scss";
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 
-import { connect } from "react-redux";
 import { ChatContext } from "../../../AppContext";
-// import { renderError, getErrorClass } from "../../helpers";
 
 import Modal from "../../../Modal/Modal";
-import CancelButton from "../../../buttons/CancelButton";
+
+import { toChatCustomTimestamp } from "../../../../helpers";
 
 const DeleteMessage = (props) => {
   const { deleteMessage } = useContext(ChatContext);
@@ -21,9 +20,7 @@ const DeleteMessage = (props) => {
     props.onModalClose();
   };
 
-  // {message.text}
   const renderSelectedMessage = () => {
-    // Note: temporary placeholder
     if (window.innerWidth >= 1200 && window.innerHeight >= 600) {
       return (
         <div className="delete-message messageContainer justifyStart null">
@@ -38,7 +35,7 @@ const DeleteMessage = (props) => {
           <div className="message-text-container">
             <p className="sender-text ">{message.username}</p>
             <span className="message-timestamp beside-sender">
-              Today at 6:49 PM
+              {toChatCustomTimestamp(message.createdAt || null) || null}
             </span>
             <div className="messageBox">
               <p className="message-text">{message.text}</p>

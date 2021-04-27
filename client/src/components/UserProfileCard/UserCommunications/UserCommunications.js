@@ -3,7 +3,6 @@ import AddFriendIconImg from "../../../icons/add-user-2.png";
 import ClockIconImg from "../../../icons/clock.png";
 
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
 
 import { UserProfileCardContext } from "../../AppContext";
 
@@ -44,16 +43,7 @@ const UserCommunications = (props) => {
         </Button>
       );
     if (props.connectionToUser === "pending")
-      return (
-        <Button text="Accept Request" onClick={() => {}}>
-          {/*<img
-        className={`user-profile-card-button-image`}
-        src={ClockIconImg}
-        alt="Clock Icon"
-      />
-    */}
-        </Button>
-      );
+      return <Button text="Accept Request" onClick={() => {}}></Button>;
   };
 
   // note: mobile and desktop versions should be different

@@ -1,16 +1,12 @@
 import "./Modal.scss";
 
-import React, { useState, useEffect, useRef, useContext } from "react";
-import ReactDOM from "react-dom";
-import BackButton from "../buttons/BackButton";
-import CloseButton from "../buttons/CloseButton";
+import React, { useState, useEffect } from "react";
+
 import ModalHeader from "./ModalHeader/ModalHeader";
 import ModalFooter from "./ModalFooter/ModalFooter";
 
 import { clearErrors } from "../../flux/actions/errorActions";
 import { connect } from "react-redux";
-
-// import { ModalContext } from "../AppContext";
 
 const Modal = (props) => {
   const [modalOpen, setModalOpen] = useState(true);
@@ -32,19 +28,10 @@ const Modal = (props) => {
 
   const getClassName = () => (props.componentClass ? props.componentClass : "");
   const getModalId = () => (props.modalId ? props.modalId : "");
-  const getButtonId = () => (props.buttonId ? props.buttonId : "");
-  const getImageId = () => (props.imageId ? props.imageId : "");
-  const getIsSlideUpClass = () => (props.isSlideUp ? "slide-up" : "");
-  const getHideOnDesktopClass = () =>
-    props.hideOnDesktop ? "hide-on-desktop" : "";
 
-  // const addModalStyle=() => {
-  // setTimeout(() => {},)
-  // }
+  const getIsSlideUpClass = () => (props.isSlideUp ? "slide-up" : "");
 
   // render functions
-  const renderButtonLabel = () =>
-    props.buttonLabel ? props.buttonLabel : null;
 
   const renderModalHeader = () => {
     if (props.noHeader) return null;

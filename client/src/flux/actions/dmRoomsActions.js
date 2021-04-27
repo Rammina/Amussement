@@ -1,10 +1,6 @@
-import axios from "axios";
 import serverRest from "../../apis/serverRest";
-import history from "../../history";
-import { returnErrors, clearErrors } from "./errorActions";
-import { actionShowLoader } from "./loaderActions";
 
-import { compareValues } from "../../helpers";
+import { returnErrors, clearErrors } from "./errorActions";
 
 import {
   GET_ALL_ACTIVE_DM_ROOMS_SUCCESS,
@@ -13,10 +9,8 @@ import {
   ADD_ACTIVE_DM_ROOM_SUCCESS,
   ADD_ACTIVE_DM_ROOM_FAIL,
   REMOVE_ACTIVE_DM_ROOM,
-  REMOVE_ACTIVE_DM_ROOM_SUCCESS,
   REMOVE_ACTIVE_DM_ROOM_FAIL,
   REMOVE_ACTIVE_DM_ROOM_WITH_NAME,
-  REMOVE_ACTIVE_DM_ROOM_WITH_NAME_SUCCESS,
   REMOVE_ACTIVE_DM_ROOM_WITH_NAME_FAIL,
   MOVE_DM_ROOM_TO_FRONT,
 } from "./types";
@@ -34,14 +28,14 @@ export const getAllDmRooms = (id) => (dispatch, getState) => {
 
       dispatch({
         type: GET_ALL_ACTIVE_DM_ROOMS_SUCCESS,
-        payload: rooms /*|| sortedData*/,
+        payload: rooms,
       });
       dispatch(clearErrors());
     })
     .catch((err) => {
       console.log(err);
       console.log(err.response);
-      // dispatch(returnErrors(err.response.data, err.response.status));
+
       dispatch({
         type: GET_ALL_ACTIVE_DM_ROOMS_FAIL,
       });
@@ -50,7 +44,7 @@ export const getAllDmRooms = (id) => (dispatch, getState) => {
 
 export const addActiveDmRoom = (values, successCb) => (dispatch, getState) => {
   const userId = getState().user.info._id || getState().user.info.id;
-  // const roomName = values.name;
+
   console.log(values);
 
   // if target user is available, add the room to frontend immediately to make it more responsive
@@ -64,7 +58,6 @@ export const addActiveDmRoom = (values, successCb) => (dispatch, getState) => {
   serverRest
     .post(`/api/users/${userId}/activeDmRooms/`, {
       ...values,
-      // senderId: userId,
     })
     .then((res) => {
       // note: temporary stopgap to prevent duplicate addition
@@ -74,8 +67,7 @@ export const addActiveDmRoom = (values, successCb) => (dispatch, getState) => {
           payload: res.data,
         });
       }
-      // dispatch(getAllRooms(userId));
-      // history.push(`/users/${userId}/rooms`);
+
       dispatch(clearErrors());
       if (successCb) successCb();
     })
@@ -87,9 +79,7 @@ export const addActiveDmRoom = (values, successCb) => (dispatch, getState) => {
         type: ADD_ACTIVE_DM_ROOM_FAIL,
       });
     })
-    .finally(() => {
-      // dispatch(actionShowLoader("createRoomModalForm", false));
-    });
+    .finally(() => {});
 };
 
 export const removeActiveDmRoom = (roomId, successCb) => (
@@ -106,13 +96,6 @@ export const removeActiveDmRoom = (roomId, successCb) => (
   serverRest
     .patch(`/api/users/${userId}/activeDmRooms/${roomId}/leave`)
     .then((res) => {
-      // dispatch({
-      //   type: REMOVE_ACTIVE_DM_ROOM_SUCCESS,
-      //   payload: res.data,
-      // });
-
-      // dispatch(getAllRooms(userId));
-      // history.push(`/users/${userId}/rooms`);
       dispatch(clearErrors());
     })
     .catch((err) => {
@@ -123,9 +106,7 @@ export const removeActiveDmRoom = (roomId, successCb) => (
         type: REMOVE_ACTIVE_DM_ROOM_FAIL,
       });
     })
-    .finally(() => {
-      // dispatch(actionShowLoader("removeRoomModalForm", false));
-    });
+    .finally(() => {});
 };
 
 export const removeActiveDmRoomWithName = (name, successCb) => (
@@ -144,13 +125,6 @@ export const removeActiveDmRoomWithName = (name, successCb) => (
       name,
     })
     .then((res) => {
-      // dispatch({
-      //   type: REMOVE_ACTIVE_DM_ROOM_SUCCESS,
-      //   payload: res.data,
-      // });
-
-      // dispatch(getAllRooms(userId));
-      // history.push(`/users/${userId}/rooms`);
       dispatch(clearErrors());
     })
     .catch((err) => {
@@ -161,9 +135,7 @@ export const removeActiveDmRoomWithName = (name, successCb) => (
         type: REMOVE_ACTIVE_DM_ROOM_WITH_NAME_FAIL,
       });
     })
-    .finally(() => {
-      // dispatch(actionShowLoader("removeRoomModalForm", false));
-    });
+    .finally(() => {});
 };
 
 export const moveDmRoomToFront = (name, successCb) => (dispatch) => {

@@ -1,7 +1,6 @@
-import CloseIconImg from "../../icons/close-icon.png";
 import "./CancelButton.scss";
 
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 
 const CancelButton = (props) => {
   useEffect(() => {

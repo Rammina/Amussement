@@ -3,7 +3,6 @@ import ChatIconImg from "../../../../icons/chat.png";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { connect } from "react-redux";
 import HoverMarker from "../../../UIComponents/HoverMarker/HoverMarker";
 
 import "./DirectMessage.scss";
@@ -15,7 +14,6 @@ const DirectMessage = (props) => {
   useEffect(() => {
     if (props.user)
       setRoomName(`${[props.user._id, props.friend._id].sort().join("_")}DM`);
-    /*return () => {}*/
   }, [props.user]);
 
   const onMouseEnterButtonHandler = () => {
@@ -25,8 +23,6 @@ const DirectMessage = (props) => {
   const onMouseLeaveButtonHandler = () => {
     setIsMouseHoveredOnButton(false);
   };
-
-  // let roomName = `${[props.user._id, props.friend._id].sort().join("_")}DM`;
 
   return (
     <>

@@ -7,8 +7,6 @@ import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import queryString from "query-string";
 
-import onlineIcon from "../../icons/onlineIcon.png";
-
 import RoomSideBar from "../RoomSideBar/RoomSideBar";
 import UserStatus from "../UserStatus/UserStatus";
 import DmRoomList from "../DmRoomList/DmRoomList";
@@ -67,8 +65,6 @@ const LeftSideBarContainer = (props) => {
     } else {
       setSidebarHeading("Direct Messages");
     }
-
-    /*return () => {}*/
   }, [location.pathname, location.search, props.currentRoom]);
 
   useEffect(() => {
@@ -81,11 +77,6 @@ const LeftSideBarContainer = (props) => {
       setMessagesContainerMoveRight(false);
       setShowFooter(true);
     }
-    // window.addEventListener("resize", handleResize);
-    // // do not forget the cleanup function or else there will be errors/inconsistencies
-    // return () => {
-    //   window.removeEventListener("resize", handleResize);
-    // };
   }, [isDesktopWidth, isDesktopHeight]);
 
   const getContainerClass = () => {

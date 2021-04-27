@@ -1,10 +1,7 @@
 import "./EditAccount.scss";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import { Link } from "react-router-dom";
-
-import serverRest from "../../../apis/serverRest";
 
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
@@ -16,10 +13,8 @@ import { renderError, getErrorClass, validateEmail } from "../../../helpers";
 
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../Modal/Modal";
-import CancelButton from "../../buttons/CancelButton";
-import LoadingSpinner from "../../loaders/LoadingSpinner";
 
-import history from "../../../history";
+import LoadingSpinner from "../../loaders/LoadingSpinner";
 
 const onInput = (e) => {
   e.preventDefault();
@@ -151,8 +146,6 @@ const EditAccount = (props) => {
                     maxLength: "64",
                     autoComplete: "off",
                     id: "edit-account-email-field",
-
-                    // autoFocus: true
                   },
                   labelProps: {
                     class: "textfield-label",
@@ -176,7 +169,6 @@ const EditAccount = (props) => {
                     autoComplete: "off",
                     type: "password",
                     id: "edit-account-password-field",
-                    // autoFocus: true
                   },
                   labelProps: {
                     class: "textfield-label",

@@ -1,9 +1,6 @@
 import CheckIconImg from "../../../../icons/check.png";
 
 import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-
-// import serverRest from "../../apis/serverRest";
 
 import { connect } from "react-redux";
 

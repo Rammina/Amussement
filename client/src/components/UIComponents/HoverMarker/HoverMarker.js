@@ -1,6 +1,6 @@
 import "./HoverMarker.scss";
 
-import React, { useState } from "react";
+import React from "react";
 
 const HoverMarker = (props) => {
   return (

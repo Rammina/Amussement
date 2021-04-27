@@ -2,15 +2,8 @@ import warningImg from "../icons/warning.png";
 
 import _ from "lodash";
 import React from "react";
-import {
-  format,
-  isToday,
-  isYesterday,
-  endOfYesterday,
-  isBefore,
-} from "date-fns";
+import { format, isToday, isYesterday } from "date-fns";
 import compareAsc from "date-fns/compareAsc";
-// import CryptoJS from "crypto-js";
 
 // Helper functions
 
@@ -115,23 +108,6 @@ export const findPosY = (obj) => {
   else if (obj.y) curtop += obj.y;
   return curtop;
 };
-
-// filetype functions
-/*
-export const checkFileType = (regexp, file, cb) => {
-  // check extension type
-  const extname = regexp.test(path.extname(file.originalname).toLowerCase());
-  // check mimetype
-  const mimetype = regexp.test(file.mimetype);
-
-  // check if both are true
-  if (extname && mimetype) {
-    return true;
-  } else {
-    return false;
-  }
-};
-*/
 
 // styling functions
 export const autoGrow = function (element) {
@@ -334,7 +310,6 @@ export const copyToClipboard = (text) => {
   var dummy = document.createElement("textarea");
   // to avoid breaking orgain page when copying more words
   // cant copy when adding below this code
-  // dummy.style.display = "none";
   document.body.appendChild(dummy);
   //Be careful if you use texarea. setAttribute('value', value), which works with "input" does not work with "textarea". – Eduard
   dummy.value = text;

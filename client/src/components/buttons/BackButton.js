@@ -1,7 +1,7 @@
 import LeftArrowImg from "../../icons/left-arrow.png";
 import "./BackButton.scss";
 
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 
 const BackButton = (props) => {
   useEffect(() => {
@@ -26,7 +26,6 @@ const BackButton = (props) => {
     <React.Fragment>
       {renderButtonLabel()}
       <button
-        // ref={context.setBackButtonRef}
         className={`back-button ${getClassName()} ${getHideOnDesktopClass()}`}
         id={`${getButtonId()}`}
         onClick={onClickHandler}

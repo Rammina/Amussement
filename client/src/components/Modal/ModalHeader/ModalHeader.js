@@ -1,6 +1,6 @@
 import "./ModalHeader.scss";
 
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React from "react";
 
 import BackButton from "../../buttons/BackButton";
 import CloseButton from "../../buttons/CloseButton";
@@ -21,8 +21,6 @@ const ModalHeader = (props) => {
         componentClass={getClassName()}
         hideOnDesktop={true}
         onClickHandler={() => {
-          // this needs to be flexible
-          // setImageUploadModalOpen(false); should be replaced with
           props.onModalClose();
         }}
       />

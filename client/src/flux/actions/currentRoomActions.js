@@ -1,5 +1,5 @@
 import serverRest from "../../apis/serverRest";
-import { actionShowLoader } from "./loaderActions";
+
 import { returnErrors, clearErrors } from "./errorActions";
 
 import {
@@ -33,9 +33,7 @@ export const getRoom = (roomId, successCb) => (dispatch, getState) => {
         type: GET_ROOM_FAIL,
       });
     })
-    .finally(() => {
-      // dispatch(actionShowLoader("ChatForm", false));
-    });
+    .finally(() => {});
 };
 
 export const getDmRoom = (roomName, successCb) => (dispatch, getState) => {
@@ -60,9 +58,7 @@ export const getDmRoom = (roomName, successCb) => (dispatch, getState) => {
         type: GET_DM_ROOM_FAIL,
       });
     })
-    .finally(() => {
-      // dispatch(actionShowLoader("ChatForm", false));
-    });
+    .finally(() => {});
 };
 
 export const updateCurrentRoom = (room) => (dispatch) => {

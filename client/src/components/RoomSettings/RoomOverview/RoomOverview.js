@@ -1,17 +1,9 @@
-import LeftArrowImg from "../../../icons/left-arrow.png";
-
 import "./RoomOverview.scss";
 
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { render } from "react-dom";
-import { Route, Link, useParams } from "react-router-dom";
+
+import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
-
-// import serverRest from "../../apis/serverRest";
-// import cloudinaryRest from "../../apis/cloudinaryRest";
-
-import history from "../../../history";
 
 import EditRoom from "../../forms/room/EditRoom";
 import RoomIcon from "./RoomIcon/RoomIcon";
@@ -24,53 +16,20 @@ import { WindowContext, RoomContext } from "../../AppContext";
 
 const RoomOverview = (props) => {
   const [editRoomOpened, setEditRoomOpened] = useState(false);
-  // const [changePasswordOpened, setChangePasswordOpened] = useState(false);
-  // const [disableRoomOpened, setDisableRoomOpened] = useState(false);
-  // const [deleteRoomOpened, setDeleteRoomOpened] = useState(false);
-  const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
-  const [imageUploadName, setImageUploadName] = useState(null);
-  const [fileInputState, setFileInputState] = useState("");
-  const [selectedFile, setSelectedFile] = useState("");
-  const [previewSource, setPreviewSource] = useState("");
+
   const { isDesktopWidth } = useContext(WindowContext);
   const { room, roomSettingsOnCloseHandler } = useContext(RoomContext);
-  const { id } = useParams();
 
   useEffect(() => {}, []);
 
   //refs
-  let inputImageRef = useRef(null);
+
   let changeIconFormRef = useRef(null);
 
   const uploadImageButtonOnClickHandler = () => {
     if (changeIconFormRef.current !== null) {
       changeIconFormRef.current.click();
     }
-  };
-
-  const renderDesktopHeading = () => {
-    if (!isDesktopWidth) return null;
-    return (
-      <div className="room-overview-section-heading-container desktop">
-        <h1 className="room-overview-section-heading desktop">Room Overview</h1>
-        <CloseButton
-          componentClass="settings-page"
-          buttonId="settings-page-close-button"
-          imageId="settings-page-close-image"
-          buttonLabel={
-            <span className="close-button-label" id="settings-page-close-label">
-              esc
-            </span>
-          }
-          onClickHandler={() => {
-            //note: re-\ implement this because it's buggy right now
-            // history.goBack();
-            // history.push(`/users/${id}/home`);
-            roomSettingsOnCloseHandler();
-          }}
-        />
-      </div>
-    );
   };
 
   const renderEditRoom = () => {
@@ -95,10 +54,6 @@ const RoomOverview = (props) => {
   return (
     props.user && (
       <div className="settings-page-content-container">
-        {/*
-          {renderDesktopHeading()}
-          {renderSection()}
-          */}
         {renderEditRoom()}
         <div className="room-overview-section-container room-info-outer-container">
           <div className="settings-page-content-header">
@@ -127,9 +82,7 @@ const RoomOverview = (props) => {
 
               <button
                 className="room-information room-icon-remove hide-750w"
-                onClick={() => {
-                  // props.removeUserAvatar();
-                }}
+                onClick={() => {}}
               >
                 Remove Image
               </button>
@@ -167,7 +120,6 @@ const mapStateToProps = (state) => ({
 });
 
 const userInfo = connect(mapStateToProps, {
-  // removeRoomIcon
   clearErrors,
 })(RoomOverview);
 

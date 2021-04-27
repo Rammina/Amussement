@@ -1,8 +1,6 @@
 import "./OnlineUsersContainer.scss";
 
-import React, { useState, useContext, useEffect } from "react";
-
-import onlineIcon from "../../icons/onlineIcon.png";
+import React, { useContext, useEffect } from "react";
 
 import { NavContext } from "../AppContext";
 

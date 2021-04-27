@@ -13,7 +13,6 @@ import UserContextMenu from "../../UserContextMenu/UserContextMenu";
 import { UserProfileCardContext } from "../../AppContext";
 
 import {
-  // getAllDmRooms,
   addActiveDmRoom,
   removeActiveDmRoom,
   removeActiveDmRoomWithName,
@@ -44,7 +43,6 @@ const UserItem = (props) => {
       );
       setIsCurrentUser(props.currentUser._id === props.user._id);
     }
-    /*return () => {}*/
   }, [props.currentUser]);
 
   const getActiveClass = () => (room === props.room.name ? "active" : "");
@@ -59,14 +57,6 @@ const UserItem = (props) => {
 
   const onCloseContextMenuHandler = () => {
     setShowUserContextMenu(false);
-  };
-
-  const onMouseEnterContainerHandler = () => {
-    setIsMouseHoveredOnContainer(true);
-  };
-
-  const onMouseLeaveContainerHandler = () => {
-    setIsMouseHoveredOnContainer(false);
   };
 
   const userItemOnClickHandler = () => {
@@ -97,7 +87,6 @@ const UserItem = (props) => {
 
     if (!alreadyAddedToActive) {
       props.addActiveDmRoom({
-        // senderId: props.user._id,
         owner: null,
         receiver: props.user,
         receiverId: props.user._id,
@@ -196,8 +185,6 @@ const UserItem = (props) => {
         <ProfilePicture
           imageSrc={props.user.image_url || ""}
           componentClass={`sidebar`}
-          // onClick={userOnClickHandler}
-          // onContextMenu={userOnContextMenuHandler}
         />
         <span className="user-item-text">{props.user.username}</span>
         {renderCloseButton()}

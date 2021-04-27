@@ -41,11 +41,7 @@ let scrollSpy = Scroll.scrollSpy;
 const Chat = (props) => {
   const {
     messagesContainerMoveLeft,
-    setMessagesContainerMoveLeft,
     messagesContainerMoveRight,
-    setMessagesContainerMoveRight,
-    onlineUsersButtonTouched,
-    navMenuButtonTouched,
     leftSideBarShow,
   } = useContext(NavContext);
   const { setShowFooter } = useContext(FooterContext);
@@ -57,9 +53,7 @@ const Chat = (props) => {
   const [roomNameforDB, setRoomNameforDB] = useState("");
   const [roomId, setRoomId] = useState("");
   const [users, setUsers] = useState("");
-  const [userRetrievalAttempts, setUserRetrievalAttempts] = useState(0);
   const [messageRetrievalCount, setMessageRetrievalCount] = useState(0);
-  // const [messageCount,]=useState();
   const [noMoreMessagesToLoad, setNoMoreMessagesToLoad] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -86,15 +80,12 @@ const Chat = (props) => {
 
   //component variables
   let userJoinCount = 0;
-  // let messageRetrievalCount = 0;
   const getMessageRetrievalCount = () => messageRetrievalCount;
   const incrementMessageRetrievalCount = () =>
     setMessageRetrievalCount(
       (messageRetrievalCount) => messageRetrievalCount + 1
     );
 
-  // let noMoreMessagesToLoad = false;
-  // const ENDPOINT = "https://chika-chat.herokuapp.com/";
   const ENDPOINT = "localhost:5000";
 
   const getUserFromProps = () => {
@@ -178,8 +169,6 @@ const Chat = (props) => {
     // note:this may not even be necessary because only ID is used by the server side anyway
     if (!props.currentRoom) return;
     console.log("endpoint and location useEffect");
-    // const { userType } = queryString.parse(location.search);
-    // console.log(location.search);
     socket = io(ENDPOINT);
     // note: this should be changed once database for room messages is used
     /*temporary stopgap measure to clear messages every time the URL changes*/
@@ -217,7 +206,6 @@ const Chat = (props) => {
         const foundIndex = messages.findIndex((message) => message._id === id);
         messages[foundIndex].text = text;
         messages[foundIndex].updatedAt = new Date();
-        // console.log(new Date());
         // should also update updatedAt property for use in comparisons
         return [...messages];
       });
@@ -347,34 +335,17 @@ const Chat = (props) => {
     loadMoreMessages,
     getMessageRetrievalCount,
     roomType,
-    // messageRetrievalCount,
     noMoreMessagesToLoad,
     chatInputRef,
   });
 
-  const renderLeftSidebarContent = () => {
-    if (roomType === "DM") {
-      return (
-        <LeftSideBar heading="Direct Messages">
-          <DmRoomList />
-        </LeftSideBar>
-      );
-    } else {
-      return <LeftSideBar heading={roomName}></LeftSideBar>;
-    }
-  };
-
   const renderChatContent = () => {
-    // console.log(props.propsInitialized);
     console.log(messages);
     console.log(name);
-    // console.log(props.user.username);
     if (name && roomName) {
       return (
         <React.Fragment>
-          <div className="chat sidebar-outer-container">
-            {/*{renderLeftSidebarContent()}*/}
-          </div>
+          <div className="chat sidebar-outer-container"></div>
           <div className={`chat-area-container ${getContainerClass()}`}>
             <InfoBar roomName={roomName} />
             <ChatContext.Provider value={getChatContextValue()}>

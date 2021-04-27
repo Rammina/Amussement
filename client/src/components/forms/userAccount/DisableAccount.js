@@ -1,9 +1,7 @@
 import "./DisableAccount.scss";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-
-import serverRest from "../../../apis/serverRest";
 
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
@@ -15,10 +13,8 @@ import { renderError, getErrorClass } from "../../../helpers";
 
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../Modal/Modal";
-import CancelButton from "../../buttons/CancelButton";
-import LoadingSpinner from "../../loaders/LoadingSpinner";
 
-import history from "../../../history";
+import LoadingSpinner from "../../loaders/LoadingSpinner";
 
 const onInput = (e) => {
   e.preventDefault();
@@ -178,8 +174,7 @@ const validate = (formValues) => {
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
   error: state.error,
-  // I doubt this matters because you should just link to sign up page after disabling account
-  // disableAccountSubmitSuccess: state.modalSubmit.disableAccountSubmitSuccess,
+
   showLoader: state.loader.showDisableAccountFormLoader,
 });
 

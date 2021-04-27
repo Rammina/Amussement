@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-
-import serverRest from "../../../apis/serverRest";
 
 import { Field, reduxForm, reset } from "redux-form";
 import { connect } from "react-redux";
@@ -12,8 +10,6 @@ import { renderError, getErrorClass, validateEmail } from "../../../helpers";
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 import LoadingSpinner from "../../loaders/LoadingSpinner";
 
-import history from "../../../history";
-
 const onInput = (e) => {
   e.preventDefault();
   e.stopPropagation();
@@ -22,10 +18,6 @@ const handleEnterKeyOnField = (e) => {
   // This prevents submission bugging or refreshing upon pressing enter
   // in an input field inside a form
   if (e.keyCode === 13) {
-    // e.preventDefault();
-    // e.stopPropagation();
-    // onSubmit();
-    // props.handleSubmit(onSubmit);
   }
 };
 
@@ -60,8 +52,6 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 };
 
 const LoginForm = (props) => {
-  // const [showLoader, setShowLoader] = useState(false);
-
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
     if (errorMessage) {
@@ -76,11 +66,9 @@ const LoginForm = (props) => {
   const onSubmit = async (formValues) => {
     console.log(formValues);
     console.log(loginUser);
-    // setShowLoader(true);
+
     props.actionShowLoader("loginForm", true);
     await props.loginUser(formValues);
-    // setShowLoader(false);
-    // props.dispatch(reset("loginForm"));
   };
 
   return (
@@ -125,8 +113,6 @@ const LoginForm = (props) => {
                 autoComplete: "off",
                 type: "password",
                 id: "login-form-password-field",
-
-                // autoFocus: true
               },
               labelProps: {
                 class: "textfield-label",

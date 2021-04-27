@@ -1,12 +1,10 @@
 import EllipsisImg from "../../../icons/ellipsis.png";
 
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import ProfilePicture from "../../ProfilePicture/ProfilePicture";
 
 import { UserProfileCardContext, WindowContext } from "../../AppContext";
-import { addFriendWithId } from "../../../flux/actions/friendsActions";
-import { addActiveDmRoom } from "../../../flux/actions/dmRoomsActions";
 
 const UserIdentity = (props) => {
   const { selectedUser } = useContext(UserProfileCardContext);
@@ -20,13 +18,7 @@ const UserIdentity = (props) => {
     );
   };
   const renderDesktopActionButton = () => {
-    if (
-      !isDesktopWidth ||
-      !isDesktopHeight ||
-      props.isCurrentUser
-      // ||notfriends
-    )
-      return null;
+    if (!isDesktopWidth || !isDesktopHeight || props.isCurrentUser) return null;
 
     if (props.connectionToUser === "accepted") {
       return (
@@ -74,10 +66,7 @@ const UserIdentity = (props) => {
     <section className="user-profile-card-section-sub-container user-identity">
       {renderAvatar("user-profile-card")}
 
-      <h3 id="user-profile-card-username">
-        {selectedUser.username}
-        {/*{props.friend.username}*/}
-      </h3>
+      <h3 id="user-profile-card-username">{selectedUser.username}</h3>
       {renderDesktopActionButton()}
       {renderEllipsisButton()}
     </section>

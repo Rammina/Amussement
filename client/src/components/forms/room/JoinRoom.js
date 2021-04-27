@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
 import { joinRoom } from "../../../flux/actions/roomsActions";
 import { actionShowLoader } from "../../../flux/actions/loaderActions";
-import {
-  renderError,
-  getErrorClass,
-  arrayHasObjectWithPropAndValue,
-} from "../../../helpers";
-import history from "../../../history";
+import { renderError, getErrorClass } from "../../../helpers";
 
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
-// import Form from "../../Form/Form";
+
 import CancelButton from "../../buttons/CancelButton";
 import LoadingSpinner from "../../loaders/LoadingSpinner";
 import ModalFooter from "../../Modal/ModalFooter/ModalFooter";

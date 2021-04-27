@@ -1,36 +1,17 @@
 import "./LeaveRoom.scss";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 
-import serverRest from "../../../apis/serverRest";
-
-import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
 import { leaveRoom } from "../../../flux/actions/roomsActions";
 import { actionShowLoader } from "../../../flux/actions/loaderActions";
-import { renderError, getErrorClass } from "../../../helpers";
 
 import ErrorNotifications from "../../ErrorNotifications/ErrorNotifications";
 import Modal from "../../Modal/Modal";
-import CancelButton from "../../buttons/CancelButton";
+
 import LoadingSpinner from "../../loaders/LoadingSpinner";
-
-import history from "../../../history";
-
-const onInput = (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-};
-const handleEnterKeyOnField = (e) => {
-  // This prevents submission bugging or refreshing upon pressing enter
-  // in an input field inside a form
-  /* if (e.keyCode === 13) {
-    e.preventDefault();
-    e.stopPropagation();
-  } */
-};
 
 const LeaveRoom = (props) => {
   const onSubmitHandler = (e) => {

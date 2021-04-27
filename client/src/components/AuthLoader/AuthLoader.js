@@ -27,7 +27,6 @@ const AuthLoader = (props) => {
 
   useEffect(() => {
     handleLoadingStateChanges();
-    /*return () => {}*/
   }, [props.isLoadingUser]);
 
   const getLoaderContainerClass = () => (fadeLoader ? "hide" : "");

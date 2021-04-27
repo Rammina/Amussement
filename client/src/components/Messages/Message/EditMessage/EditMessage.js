@@ -2,7 +2,6 @@ import "./EditMessage.scss";
 
 import React, { useState, useEffect, useContext, useRef } from "react";
 
-import { connect } from "react-redux";
 import { ChatContext } from "../../../AppContext";
 
 const EditMessage = (props) => {
@@ -13,7 +12,7 @@ const EditMessage = (props) => {
 
   useEffect(() => {
     setMessageText(props.message.text);
-    /*return () => {}*/
+
     // only do this if the textarea exists
     if (textareaRef && textareaRef.current) {
       // Moving cursor to the end

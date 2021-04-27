@@ -5,7 +5,6 @@ import history from "../../history";
 import { returnErrors, clearErrors } from "./errorActions";
 import { actionShowLoader } from "./loaderActions";
 import {
-  AUTH_ERROR,
   EDIT_USER_ACCOUNT_SUCCESS,
   EDIT_USER_ACCOUNT_FAIL,
   EDIT_USER_AVATAR_SUCCESS,
@@ -183,7 +182,7 @@ export const deleteUserAccount = (formValues) => {
     const userId = getState().user.info._id || getState().user.info.id;
     console.log(formValues);
     console.log({ ...formValues });
-    // console.log(...formValues);
+
     await axios
       .delete(
         `http://localhost:5000/api/users/${userId}/settings/delete-account`,

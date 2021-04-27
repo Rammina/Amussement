@@ -18,7 +18,6 @@ import {
 } from "../actions/types";
 
 const initialState = [];
-// const initialState={retrievedAfterUserLoad: false, rooms:}
 
 const sortRoomsByLastActivity = (rooms, order = "ascending") => {
   if (rooms >= 2) {

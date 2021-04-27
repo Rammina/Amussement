@@ -1,23 +1,12 @@
 import serverRest from "../../apis/serverRest";
-import history from "../../history";
+
 import { returnErrors, clearErrors } from "./errorActions";
 import { actionShowLoader } from "./loaderActions";
 
-import {
-  compareValues,
-  comparePriorityValues,
-  compareKeysInProp,
-  objectToArray,
-  // cryptography functions
-  // encrypt,
-  // decrypt,
-  // decryptedMsgToString
-} from "../../helpers";
+import { compareValues } from "../../helpers";
 import {
   GET_ALL_FRIENDS_SUCCESS,
   GET_ALL_FRIENDS_FAIL,
-  GET_FRIEND_SUCCESS,
-  GET_FRIEND_FAIL,
   ADD_FRIEND_SUCCESS,
   ADD_FRIEND_FAIL,
   REMOVE_FRIEND_SUCCESS,
@@ -49,13 +38,11 @@ export const getAllFriends = (id) => (dispatch, getState) => {
         payload: sortedData || friends,
       });
       dispatch(clearErrors());
-
-      // history.push(`/users/${userId}/home`);
     })
     .catch((err) => {
       console.log(err);
       console.log(err.response);
-      // dispatch(returnErrors(err.response.data, err.response.status));
+
       dispatch({
         type: GET_ALL_FRIENDS_FAIL,
       });
@@ -103,7 +90,7 @@ export const addFriendWithId = (friendId) => (dispatch, getState) => {
         type: ADD_FRIEND_SUCCESS,
       });
       dispatch(getAllFriends(userId));
-      // history.push(`/users/${userId}/friends`);
+
       dispatch(clearErrors());
     })
     .catch((err) => {
@@ -129,7 +116,7 @@ export const removeFriend = (friendId, cb) => (dispatch, getState) => {
         type: REMOVE_FRIEND_SUCCESS,
       });
       dispatch(getAllFriends(userId));
-      // history.push(`/users/${userId}/friends`);
+
       dispatch(clearErrors());
       if (cb) cb();
     })

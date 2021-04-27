@@ -6,14 +6,9 @@ import React, { useState, useContext } from "react";
 import ReactDOM from "react-dom";
 import { connect } from "react-redux";
 
-// import { addRoom, joinRoom } from "../../../flux/actions/roomsActions";
-import { actionShowLoader } from "../../../flux/actions/loaderActions";
-
 import Modal from "../../Modal/Modal";
 import CreateRoomModal from "./CreateRoomModal/CreateRoomModal";
 import JoinRoomModal from "./JoinRoomModal/JoinRoomModal";
-import CancelButton from "../../buttons/CancelButton";
-import LoadingSpinner from "../../loaders/LoadingSpinner";
 
 import { WindowContext } from "../../AppContext";
 
@@ -89,7 +84,6 @@ const AddRoomModal = (props) => {
           componentClass="add-room"
           headerClassName="settings-page-sidebar-header"
           headingText="Add a room"
-          // noHeader={true}
           modalId="create-or-join-modal"
           noFooter={true}
           onModalClose={() => {
@@ -127,8 +121,6 @@ const AddRoomModal = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  // friends: state.friends,
-});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, {})(AddRoomModal);
