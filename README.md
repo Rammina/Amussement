@@ -1,16 +1,16 @@
 # Amussement
 
-<hr>
+<hr/>
 ## Overview
 
 Online chat application, and Discord clone, created using React, Sass, Node.js, Express, MongoDB, and Socket.IO.
 Its design is heavily inspired by [Discord](https://discord.com/).
 
-<b>LIVE LINK:</b> (insert link here)
+<b>LIVE LINK:</b> https://amussement.netlify.app/auth/login
 
-<hr>
+<hr/>
 ### Features
-<br>
+<br/>
 User Authentication
 <ul>
     <li>Register</li>
