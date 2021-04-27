@@ -1,6 +1,7 @@
 # Amussement
 
 <hr/>
+
 ## Overview
 
 Online chat application, and Discord clone, created using React, Sass, Node.js, Express, MongoDB, and Socket.IO.
