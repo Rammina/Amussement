@@ -133,7 +133,7 @@ After creating a database, click `CONNECT`, follow the instructions, choose `Con
 - MONGODBNAME
 - MONGOPASS
 
-<img src="https://res.cloudinary.com/rammina/image/upload/v1619599174/connect_auxyi2.png" alt="Connect" height="200"/>
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619599174/connect_auxyi2.png" alt="Connect"/>
 
 #### Cloudinary Setup
 
@@ -143,7 +143,7 @@ To setup Cloudinary, one must first create an account. After registration, check
 - CLOUDINARY_API_SECRET
 - CLOUDINARY_NAME
 
-<img src="https://res.cloudinary.com/rammina/image/upload/v1619599174/cloudinary-api_hy3jku.png" alt="Cloudinary Dashboard" height="200"/>
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619599174/cloudinary-api_hy3jku.png" alt="Cloudinary Dashboard"/>
 
 ### Frontend
 
