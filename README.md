@@ -114,6 +114,8 @@ Registration instructions for both sites can be found in:
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
 - [Cloudinary](https://cloudinary.com/users/register/free)
 
+<hr>
+
 #### MongoDB Atlas Setup
 
 After creating an account, click `New Project` and follow the instructions.
@@ -135,6 +137,8 @@ After creating a database, click `CONNECT`, follow the instructions, choose `Con
 
 <img src="https://res.cloudinary.com/rammina/image/upload/v1619599174/connect_auxyi2.png" alt="Connect"/>
 
+<hr>
+
 #### Cloudinary Setup
 
 To setup Cloudinary, one must first create an account. After registration, check the dashboard for the following information and put them on the .env file:
@@ -144,6 +148,8 @@ To setup Cloudinary, one must first create an account. After registration, check
 - CLOUDINARY_NAME
 
 <img src="https://res.cloudinary.com/rammina/image/upload/v1619599174/cloudinary-api_hy3jku.png" alt="Cloudinary Dashboard"/>
+
+<hr>
 
 ### Frontend
 
@@ -176,12 +182,15 @@ npm run build
 ## Sample Images
 
 Login Page
+<br>
 <img src="https://res.cloudinary.com/rammina/image/upload/v1619525380/loginpage.png" width="650" alt="Login Page"/>
 
 Room Chat
+<br>
 <img src="https://res.cloudinary.com/rammina/image/upload/v1619525391/chatdemo.png" width="650" alt="Chat Demo"/>
 
 User Settings
+<br>
 <img src="https://res.cloudinary.com/rammina/image/upload/v1619525371/usersettings.png" width="650" alt="User Settings"/>
 
 <hr>
