@@ -2,6 +2,20 @@
 
 <hr/>
 
+## Table of Contents
+
+- [Overview](https://github.com/Rammina/Amussement#overview)
+- [Features](https://github.com/Rammina/Amussement#features)
+- [Technologies Used](https://github.com/Rammina/Amussement#technologies-used)
+- [Installation](https://github.com/Rammina/Amussement#installation)
+  - [Back-end](https://github.com/Rammina/Amussement#backend)
+  - [Front-end](https://github.com/Rammina/Amussement#frontend)
+- [Sample Images](https://github.com/Rammina/Amussement#sample-images)
+- [Dependencies](https://github.com/Rammina/Amussement#dependencies)
+- [License](https://github.com/Rammina/Amussement#license)
+
+<hr>
+
 ## Overview
 
 Online chat application, and Discord clone, created using React, Sass, Node.js, Express, MongoDB, and Socket.IO.
@@ -12,6 +26,7 @@ Its design is heavily inspired by [Discord](https://discord.com/).
 <hr/>
 
 ### Features
+
 <br/>
 User Authentication
 <ul>
@@ -81,6 +96,55 @@ Then, start the project's server in development mode on port 5000 by running:
 npm run dev
 ```
 
+The application requires a .env file which contains the following keys:
+
+- CLOUDINARY_API_KEY
+- CLOUDINARY_API_SECRET
+- CLOUDINARY_NAME
+- MONGODBNAME
+- MONGOPASS
+- SECRETKEY
+
+The SECRETKEY is used for JWT auth tokens.
+
+To run the server, one must make an account for both MongoDB Atlas and Cloudinary.
+
+Registration instructions for both sites can be found in:
+
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
+- [Cloudinary](https://cloudinary.com/users/register/free)
+
+#### MongoDB Atlas Setup
+
+After creating an account, click `New Project` and follow the instructions.
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619599174/new-project_syllhh.png" alt="New Project"/>
+
+After creating a project, click `Build a Cluster` and follow the instructions for free tier.
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619599175/build-cluster_zjgjz4.png" alt="Build a Cluster"/>
+
+After creating a cluster, go to `COLLECTIONS` and then choose `Add My Own Data` to create a new database for the server to use.
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619599174/add-my-own-data_gwxwba.png" alt="Add My Own Data"/>
+
+After creating a database, click `CONNECT`, follow the instructions, choose `Connect your application` as the connection method, and then retrieve the following information to put on the .env file:
+
+- MONGODBNAME
+- MONGOPASS
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619599174/connect_auxyi2.png" alt="Connect"/>
+
+#### Cloudinary Setup
+
+To setup Cloudinary, one must first create an account. After registration, check the dashboard for the following information and put them on the .env file:
+
+- CLOUDINARY_API_KEY
+- CLOUDINARY_API_SECRET
+- CLOUDINARY_NAME
+
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619599174/cloudinary-api_hy3jku.png" alt="Cloudinary Dashboard"/>
+
 ### Frontend
 
 To start the client-side application, go to the client folder:
@@ -111,12 +175,14 @@ npm run build
 
 ## Sample Images
 
+Login Page
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619525380/loginpage.png" width="650" alt="Login Page"/>
 
-<img src="https://res.cloudinary.com/rammina/image/upload/v1619525380/loginpage.png" width="650"/>
+Room Chat
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619525391/chatdemo.png" width="650" alt="Chat Demo"/>
 
-<img src="https://res.cloudinary.com/rammina/image/upload/v1619525391/chatdemo.png" width="650"/>
-
-<img src="https://res.cloudinary.com/rammina/image/upload/v1619525371/usersettings.png" width="650"/>
+User Settings
+<img src="https://res.cloudinary.com/rammina/image/upload/v1619525371/usersettings.png" width="650" alt="User Settings"/>
 
 <hr>
 
