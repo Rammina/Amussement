@@ -9,6 +9,8 @@
 - [Technologies Used](https://github.com/Rammina/Amussement#technologies-used)
 - [Installation](https://github.com/Rammina/Amussement#installation)
   - [Back-end](https://github.com/Rammina/Amussement#backend)
+    - [MongoDB Atlas Setup](https://github.com/Rammina/Amussement#mongodb-atlas-setup)
+    - [Cloudinary Setup](https://github.com/Rammina/Amussement#cloudinary-setup)
   - [Front-end](https://github.com/Rammina/Amussement#frontend)
 - [Sample Images](https://github.com/Rammina/Amussement#sample-images)
 - [Dependencies](https://github.com/Rammina/Amussement#dependencies)
