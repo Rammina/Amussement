@@ -167,7 +167,7 @@ Install dependencies by running:
 npm install
 ```
 
-Start the client application in development mode on port 5000 by running:
+Start the client application in development mode on port 3000 by running:
 
 ```bash
 npm start
