@@ -7,7 +7,6 @@ import RegisterForm from "../forms/auth/RegisterForm";
 const Register = () => {
   return (
     <main className="register page-container">
-      <h1 className="heading-title">Amussement</h1>
       <svg
         className="auth wave-page-background"
         xmlns="http://www.w3.org/2000/svg"
