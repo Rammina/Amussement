@@ -48,8 +48,9 @@
 .wave-page-background {
   z-index: 0;
   position: absolute;
-  bottom: 0;
+  bottom: -3rem;
   right: 0;
+  opacity: 0.8;
 }
 
 #login-form,
