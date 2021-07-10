@@ -8,6 +8,8 @@ const Login = () => {
   return (
     <div className="login page-container">
       <h1 className="heading-title">Amussement</h1>
+      <hr className="auth hr" />
+      <h2 className="heading-subtitle">Online Chat App</h2>
       <LoginForm />
     </div>
   );

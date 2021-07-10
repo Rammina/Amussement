@@ -26,6 +26,20 @@
   color: $main-mint;
   font-size: 2.4rem;
   font-family: $headingFont;
+  margin: 0 auto;
+  text-align: center;
+  padding-bottom: 1.2rem;
+}
+
+.heading-subtitle {
+  display: none;
+  margin: 0;
+  color: $main-mint;
+  font-size: 1.1rem;
+  font-family: $headingFont;
+  margin: 0 auto;
+  text-align: center;
+  padding-bottom: 1.2rem;
 }
 
 #login-form,
@@ -144,6 +158,26 @@
   text-transform: uppercase;
 }
 
+.hr {
+  width: 4rem;
+  height: 5px;
+  background-color: #ddd;
+  // border-radius: 5px;
+  font-size: 0;
+  outline: none;
+  outline-color: #0000;
+  border: none;
+  margin: 0.4rem auto;
+  &.subtle {
+    width: 100%;
+    background-color: #0002;
+    height: 1px;
+  }
+  &.auth {
+    display: none;
+  }
+}
+
 @media screen and (min-width: 600px) {
   #register-form,
   #login-form,
@@ -188,13 +222,10 @@
     max-width: 32rem;
   }
 
-  .heading-title {
+  .heading-title,
+  .heading-subtitle,
+  .auth.hr {
     display: block;
-    position: relative;
-    margin: 0 auto;
-    // margin-top: 5rem;
-    text-align: center;
-    padding-bottom: 1.2rem;
   }
 }
 
