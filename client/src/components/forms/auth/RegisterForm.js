@@ -69,7 +69,7 @@ const RegisterForm = (props) => {
 
   return (
     <form id="register-form" autoComplete="off">
-      <div className="register form-content-container">
+      <div className="register auth form-content-container">
         <div className="door-title-container">
           <h2 className="heading">Create an account</h2>
         </div>
