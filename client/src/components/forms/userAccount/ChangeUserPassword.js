@@ -125,7 +125,7 @@ const ChangeUserPassword = (props) => {
               type="password"
               props={{
                 inputProps: {
-                  placeholder: "Current Password",
+                  // placeholder: "Current Password",
                   className: "textfield",
                   maxLength: "30",
                   autoComplete: "off",
@@ -148,7 +148,7 @@ const ChangeUserPassword = (props) => {
               type="password"
               props={{
                 inputProps: {
-                  placeholder: "New Password",
+                  // placeholder: "New Password",
                   className: "textfield",
                   maxLength: "30",
                   autoComplete: "off",
@@ -171,7 +171,7 @@ const ChangeUserPassword = (props) => {
               type="password"
               props={{
                 inputProps: {
-                  placeholder: "Confirm New Password",
+                  // placeholder: "Confirm New Password",
                   className: "textfield",
                   maxLength: "30",
                   autoComplete: "off",

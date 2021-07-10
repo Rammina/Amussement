@@ -120,7 +120,7 @@ const EditRoom = (props) => {
                 type="text"
                 props={{
                   inputProps: {
-                    placeholder: "Name",
+                    // placeholder: "Name",
                     className: "textfield",
                     maxLength: "30",
                     autoComplete: "off",
@@ -143,7 +143,7 @@ const EditRoom = (props) => {
                 type="password"
                 props={{
                   inputProps: {
-                    placeholder: "Room Password",
+                    // placeholder: "Room Password",
                     className: "textfield",
                     maxLength: "30",
                     autoComplete: "off",

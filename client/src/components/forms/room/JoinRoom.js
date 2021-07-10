@@ -91,7 +91,7 @@ const JoinRoomForm = (props) => {
           type="text"
           props={{
             inputProps: {
-              placeholder: "Room Name",
+              // placeholder: "Room Name",
               className: "textfield",
               maxLength: "30",
               autoComplete: "off",

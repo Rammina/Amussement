@@ -106,7 +106,7 @@ const AddFriend = (props) => {
               type="text"
               props={{
                 inputProps: {
-                  placeholder: "Enter a Username",
+                  // placeholder: "Enter a Username",
                   className: "textfield",
                   maxLength: "30",
                   autoComplete: "off",

@@ -124,7 +124,7 @@ const DeleteAccount = (props) => {
                 type="password"
                 props={{
                   inputProps: {
-                    placeholder: "Enter Password for Confirmation",
+                    // placeholder: "Enter Password for Confirmation",
                     className: "textfield",
                     maxLength: "30",
                     autoComplete: "off",

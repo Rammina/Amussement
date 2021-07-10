@@ -119,7 +119,7 @@ const EditAccount = (props) => {
                 type="text"
                 props={{
                   inputProps: {
-                    placeholder: "Username",
+                    // placeholder: "Username",
                     className: "textfield",
                     maxLength: "30",
                     autoComplete: "off",
@@ -141,7 +141,7 @@ const EditAccount = (props) => {
                 type="text"
                 props={{
                   inputProps: {
-                    placeholder: "Email",
+                    // placeholder: "Email",
                     className: "textfield",
                     maxLength: "64",
                     autoComplete: "off",
@@ -163,7 +163,7 @@ const EditAccount = (props) => {
                 type="password"
                 props={{
                   inputProps: {
-                    placeholder: "Enter Password for Confirmation",
+                    // placeholder: "Enter Password for Confirmation",
                     className: "textfield",
                     maxLength: "30",
                     autoComplete: "off",

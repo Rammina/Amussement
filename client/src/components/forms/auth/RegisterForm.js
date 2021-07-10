@@ -81,7 +81,7 @@ const RegisterForm = (props) => {
             type="text"
             props={{
               inputProps: {
-                placeholder: "Email",
+                // placeholder: "Email",
                 className: "textfield",
                 maxLength: "64",
                 autoComplete: "off",
@@ -103,7 +103,7 @@ const RegisterForm = (props) => {
             type="text"
             props={{
               inputProps: {
-                placeholder: "Username",
+                // placeholder: "Username",
                 className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",
@@ -124,7 +124,7 @@ const RegisterForm = (props) => {
             type="password"
             props={{
               inputProps: {
-                placeholder: "Password",
+                // placeholder: "Password",
                 className: "textfield",
                 maxLength: "30",
                 autoComplete: "off",

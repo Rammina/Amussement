@@ -94,7 +94,7 @@ const RoomPasswordConfirmationForm = (props) => {
           type="text"
           props={{
             inputProps: {
-              placeholder: "Room Password",
+              // placeholder: "Room Password",
               className: "textfield",
               maxLength: "30",
               autoComplete: "off",

@@ -113,7 +113,7 @@ const CreateRoomModal = (props) => {
               type="text"
               props={{
                 inputProps: {
-                  placeholder: "Room Name",
+                  // placeholder: "Room Name",
                   className: "textfield",
                   maxLength: "30",
                   autoComplete: "off",
@@ -134,7 +134,7 @@ const CreateRoomModal = (props) => {
               type="text"
               props={{
                 inputProps: {
-                  placeholder: "Room Password",
+                  // placeholder: "Room Password",
                   className: "textfield",
                   maxLength: "30",
                   autoComplete: "off",
