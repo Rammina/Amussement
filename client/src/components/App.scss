@@ -5,6 +5,7 @@
 }
 
 .page-container {
+  position: relative;
   margin: 0;
   display: block;
   min-height: calc(100vh + 0rem);
@@ -21,6 +22,7 @@
 }
 
 .heading-title {
+  z-index: 5;
   display: none;
   margin: 0;
   color: $main-mint;
@@ -32,6 +34,7 @@
 }
 
 .heading-subtitle {
+  z-index: 5;
   display: none;
   margin: 0;
   color: $light-mint;
@@ -39,12 +42,20 @@
   font-family: $headingFont;
   margin: 0 auto;
   text-align: center;
-  padding-bottom: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.wave-page-background {
+  z-index: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 #login-form,
 #register-form,
 #join-form {
+  z-index: 2;
   background-color: $login-form-foreground-color;
   margin: $center-margin;
   min-height: 100vh;
@@ -179,7 +190,7 @@
     margin: 0.1rem auto;
     margin-bottom: 0.15rem;
     width: 9rem;
-    background-color: #faeeffee;
+    background-color: #faeeffdd;
   }
 }
 
