@@ -55,6 +55,7 @@
 #login-form,
 #register-form,
 #join-form {
+  position: relative;
   z-index: 2;
   background-color: $login-form-foreground-color;
   margin: $center-margin;
@@ -241,6 +242,7 @@
   .heading-title,
   .heading-subtitle,
   .auth.hr {
+    position: relative;
     display: block;
   }
 }
