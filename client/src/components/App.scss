@@ -28,7 +28,7 @@
   font-family: $headingFont;
   margin: 0 auto;
   text-align: center;
-  padding-bottom: 1.2rem;
+  padding-bottom: 0rem;
 }
 
 .heading-subtitle {
@@ -175,6 +175,10 @@
   }
   &.auth {
     display: none;
+    height: 2px;
+    margin: 0;
+    width: 8rem;
+    background-color: #654a8788;
   }
 }
 
