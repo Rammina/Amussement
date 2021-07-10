@@ -216,9 +216,9 @@
     padding: 0 1rem;
     // padding-bottom: 2rem;
     border-radius: 3px;
-    border: 1px solid #afa6;
+    border: 1px solid #afa9;
     // box-shadow: 5px 5px 5px -5px #eee;
-    box-shadow: 0 0 4px #efe8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     // -webkit-box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
     // box-shadow: 0px 0px 0px 1px #afffe5, 0px 0px 1px 2px #edd8ff;
     max-width: 32rem;
@@ -251,6 +251,9 @@
 @media screen and (min-width: 1200px) and (min-height: 600px) {
   .heading-title {
     font-size: 2.7rem;
+  }
+  .heading-subtitle {
+    font-size: 1.3rem;
   }
 
   #register-form,
