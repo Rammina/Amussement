@@ -19,7 +19,7 @@
 Online chat application, and Discord clone, created using React, Sass, Node.js, Express, MongoDB, and Socket.IO.
 Its design is heavily inspired by [Discord](https://discord.com/).
 
-<b>LIVE LINK:</b> https://amussement.netlify.app
+<b>LIVE LINK:</b> https://amussement.vercel.app/
 
 ## Features
 
