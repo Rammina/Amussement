@@ -57,7 +57,6 @@ const Friends = (props) => {
   };
 
   const renderAddFriendModal = () => {
-    console.log("rendering add friend");
     if (!addFriendOpened) return null;
     return <AddFriend onModalClose={closeAddFriendModalHandler} />;
   };

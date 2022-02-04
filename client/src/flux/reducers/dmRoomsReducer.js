@@ -34,12 +34,8 @@ export default (state = initialState, action) => {
     case USER_LOADED:
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      // note: should sort them by last activity
-      console.log();
       return sortRoomsByLastActivity([...action.payload.dmRooms]);
-
     case GET_ALL_ACTIVE_DM_ROOMS_SUCCESS:
-      console.log(action.payload);
       return [...action.payload];
     case ADD_ACTIVE_DM_ROOM:
     case ADD_ACTIVE_DM_ROOM_SUCCESS:

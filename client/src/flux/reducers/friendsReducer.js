@@ -20,12 +20,8 @@ export default (state = initialState, action) => {
     case USER_LOADED:
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      console.log(action.payload);
       return [...action.payload.user.friends];
-
     case GET_ALL_FRIENDS_SUCCESS:
-      console.log(action.payload);
-      // note: should probably sort them alphabetically
       return [...action.payload];
     case ADD_FRIEND_SUCCESS:
     case REMOVE_FRIEND_SUCCESS:

@@ -61,7 +61,7 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 const DeleteAccount = (props) => {
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
+
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -74,7 +74,6 @@ const DeleteAccount = (props) => {
 
   // submit handler
   const onSubmit = async (formValues) => {
-    console.log(formValues);
     props.actionShowLoader("deleteAccountForm", true);
     await props.deleteUserAccount(formValues);
   };
@@ -84,7 +83,6 @@ const DeleteAccount = (props) => {
       <Modal
         componentClass="delete-account"
         onModalClose={() => {
-          console.log("closing delete-account modal");
           props.hideSection();
         }}
         headerClassName="settings-page-sidebar-header"
@@ -159,7 +157,6 @@ const DeleteAccount = (props) => {
 };
 
 const validate = (formValues) => {
-  console.log(formValues);
   const errors = {};
   if (!formValues.password) {
     errors.password = "Please input your password.";

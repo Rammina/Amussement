@@ -22,7 +22,6 @@ const LeaveRoom = (props) => {
 
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -38,7 +37,6 @@ const LeaveRoom = (props) => {
       <Modal
         componentClass="leave-room"
         onModalClose={() => {
-          console.log("closing leave-room modal");
           props.onClose();
         }}
         headerClassName="settings-page-sidebar-header"
@@ -96,32 +94,3 @@ export default connect(mapStateToProps, {
   leaveRoom,
   actionShowLoader,
 })(LeaveRoom);
-
-{
-  /* <p
-  id="leave-room-description-paragraph"
-  className="modal-paragraph small-text leave-room"
->
-  Warning: Deleted rooms cannot be restored.
-</p>; */
-}
-
-// // submit handler
-// const onSubmit = async (formValues) => {
-//   console.log(formValues);
-//   props.actionShowLoader("leaveRoomForm", true);
-//   await props.leaveRoom(formValues);
-// };
-
-// const validate = (formValues) => {
-//   console.log(formValues);
-//   const errors = {};
-//   return errors;
-// };
-
-// export default reduxForm({
-//   form: "deleteAccount",
-//   keepDirtyOnReinitialize: true,
-//   enableReinitialize: true,
-//   validate,
-// })(deleteAccount);

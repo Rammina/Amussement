@@ -52,10 +52,8 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 };
 
 const AddFriend = (props) => {
-  console.log(props.friends);
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -68,7 +66,6 @@ const AddFriend = (props) => {
       props.actionShowLoader("addFriendForm", false);
       props.onModalClose();
     };
-    console.log(formValues);
     // run an action
     props.actionShowLoader("addFriendForm", true);
     await props.addFriendWithUsername(formValues, closeModalOnSuccess);
@@ -139,8 +136,6 @@ const AddFriend = (props) => {
 };
 
 const validate = (formValues) => {
-  console.log(formValues);
-
   const errors = {};
   if (!formValues.username) {
     errors.username = "Please input a username.";

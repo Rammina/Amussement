@@ -20,11 +20,6 @@ const UserInfo = (props) => {
   const [disableAccountOpened, setDisableAccountOpened] = useState(false);
   const [deleteAccountOpened, setDeleteAccountOpened] = useState(false);
 
-  useEffect(() => {
-    // userinfo needs to get the ID from the parent component
-    console.log(props.userId);
-  }, []);
-
   //refs
 
   const getUsername = () => (props.user ? props.user.username : null);
@@ -41,7 +36,6 @@ const UserInfo = (props) => {
 
   const renderSection = () => {
     if (editAccountOpened) {
-      console.log("Opening edit account");
       return (
         <EditAccount
           initialValues={props.user}
@@ -51,7 +45,6 @@ const UserInfo = (props) => {
         />
       );
     } else if (changePasswordOpened) {
-      console.log("Opening change password");
       return (
         <ChangeUserPassword
           hideSection={() => {
@@ -60,7 +53,6 @@ const UserInfo = (props) => {
         />
       );
     } else if (disableAccountOpened) {
-      console.log("opening disable account");
       return (
         <DisableAccount
           hideSection={() => {
@@ -69,7 +61,6 @@ const UserInfo = (props) => {
         />
       );
     } else if (deleteAccountOpened) {
-      console.log("opening disable account");
       return (
         <DeleteAccount
           hideSection={() => {
@@ -82,14 +73,8 @@ const UserInfo = (props) => {
   };
 
   const hideSection = (sectionName) => {
-    console.log("hiding section");
-    console.log(props.error.msg);
-    console.log(editAccountOpened);
-
     if (sectionName === "EditAccount" || sectionName === "edit-account") {
-      console.log("hiding edit account section");
       setEditAccountOpened(false);
-      console.log(editAccountOpened);
     } else if (
       sectionName === "ChangeUserPassword" ||
       sectionName === "change-user-password"

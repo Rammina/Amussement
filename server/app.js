@@ -5,18 +5,12 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const flash = require("connect-flash");
 const session = require("express-session");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 
 const createError = require("http-errors");
-
 const logger = require("morgan");
-
 const http = require("http");
-
 const socketio = require("socket.io");
 const cors = require("cors");
-
 const compression = require("compression");
 const helmet = require("helmet");
 
@@ -66,6 +60,8 @@ app.use(cors());
 app.use(router);
 app.use(logger("dev"));
 
+// add the routes that have to do with uploading images ahead of time to increase the limit of the date the size
+// also to allow for urlencoded extended to be true
 app.use(
   "/api/users/:id/settings/upload-avatar",
   express.json({ limit: "50mb" })
@@ -74,7 +70,6 @@ app.use(
   "/api/users/:id/settings/upload-avatar",
   express.urlencoded({ extended: "true" })
 );
-
 app.use("/api/rooms/:id/upload_icon", express.json({ limit: "50mb" }));
 app.use("/api/rooms/:id/upload_icon", express.urlencoded({ extended: "true" }));
 
@@ -85,37 +80,23 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(compression()); // Compress all routes
 
-//note: this might change
 app.use(express.static(path.join(__dirname, "public")));
-
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Connect flash
 app.use(flash());
 
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-// next(createError(404));
-// });
-
+// Socket.io connection and events handling
 // triggers when the user connects
 io.on("connect", (socket) => {
   // listen for any user join sent from the client side
   socket.on(
     "join",
     ({ user, roomId, messageRetrievalCount = 0, roomType }, callback) => {
-      //const {username}
-      console.log(`roomId is ${roomId}`);
       const { error, userObject } = addUser({
         ...user,
         socketId: socket.id,
         roomId,
       });
-      console.log("the current users after adding are:");
-      console.log(getUsersInRoom(roomId));
-
       if (error) return callback(error);
 
       // have the user join the room
@@ -139,7 +120,6 @@ io.on("connect", (socket) => {
 
   // listens to an event called "sendMessage" and fires the callback function
   socket.on("sendMessage", ({ message, user, roomId }, callback) => {
-    console.log("watch out if this is sending twice");
     let messageAttributes = {
       text: message,
       username: user.username,
@@ -147,7 +127,6 @@ io.on("connect", (socket) => {
       image_url: user.image_url,
       room: roomId,
     };
-    console.log(messageAttributes);
 
     const emitMessageCb = (message) => {
       // Sends the message to everyone
@@ -163,60 +142,46 @@ io.on("connect", (socket) => {
       callback();
     } catch (e) {
       // should have proper error handling, state that it failed to store the message
-      console.log(e);
+      console.error(e);
     }
   });
 
-  socket.on("deleteMessage", (id, roomId, cb) => {
+  socket.on("deleteMessage", (id, roomId) => {
     try {
       deleteMessageFromDB(id).then(() => {
         io.to(roomId).emit("deletedMessage", id);
       });
-
-      cb();
     } catch (e) {
       // should have proper error handling, state that it failed to store the message
-      console.log(e);
+      console.error(e);
     }
   });
 
-  socket.on("editMessage", (id, text, roomId, cb) => {
+  socket.on("editMessage", (id, text, roomId) => {
     try {
       editMessageOnDB(id, text).then(() => {
         io.to(roomId).emit("editedMessage", id, text);
       });
-      // do something after the message is sent to the backend frontend
-      cb();
     } catch (e) {
       // should have proper error handling, state that it failed to store the message
-      console.log(e);
+      console.error(e);
     }
   });
 
-  //note: retrieve more messages (should only work on the client side)
   socket.on("load more messages", (roomId, messageRetrievalCount, cb) => {
     try {
       // this helper function returns messages from a room
-      console.log(roomId);
-      console.log(messageRetrievalCount);
-      console.log(cb);
       retrieveMessagesFromDB(roomId, messageRetrievalCount).then((messages) => {
-        console.log(cb);
-        console.log("the messages retrieved are: ");
-        console.log(messages);
         cb(messages.reverse());
       });
     } catch (e) {
       // should have proper error handling, state that it failed to store the message
-      console.log(e);
+      console.error(e);
     }
   });
 
   // listen to a disconnected event and send a message that the user has disconnected
   socket.on("disconnect", () => {
-    console.log("disconnect message:" + socket.id);
-    console.log("the current users in the room are:");
-    console.log(getUsersInRoom());
     const user = removeUser(socket.id);
     if (user) {
       io.to(user.roomId).emit("roomData", {
@@ -234,31 +199,3 @@ app.use("/api/rooms", roomsRoute);
 server.listen(process.env.PORT || 5000, () =>
   console.log(`Server has started.`)
 );
-
-/*
-
-// welcome message upon joining room, sent to all clients
-socket.emit("message", {
-  user: { name: "RoroBot", room: user.room },
-  text: `${user.name}, welcome to room ${user.room}.`,
-  createdAt: new Date(),
-});
-// sends an event to all users in the said room, except the specified user
-socket.broadcast.to(user.room).emit("message", {
-  user: { name: "RoroBot", room: user.room },
-  text: `${user.name} has joined!`,
-  createdAt: new Date(),
-});
-
-io.to(user.room).emit("message", {
-  user: { name: "RoroBot", room: user.room },
-  text: `${user.name} has left.`,
-  createdAt: new Date(),
-});
-*/
-
-// 130+
-// note: make the message retrieval behavior different depending on room type
-// if (roomType === "DM") {
-//   // this helper function returns messages from a DM room using name
-// } else {

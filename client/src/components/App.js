@@ -62,17 +62,13 @@ export const App = (props) => {
   const handleResize = () => {
     if (window.innerWidth >= DESKTOP_WIDTH) {
       setIsDesktopWidth(true);
-      console.log("desktop with");
     } else {
       setIsDesktopWidth(false);
-      console.log("not desktop with");
     }
     if (window.innerHeight >= DESKTOP_HEIGHT) {
       setIsDesktopHeight(true);
-      console.log("desktop height");
     } else {
       setIsDesktopHeight(false);
-      console.log("no desktop height");
     }
   };
 
@@ -110,17 +106,12 @@ export const App = (props) => {
   };
 
   const toggleOnlineUsersShow = () => {
-    console.log(onlineUsersShow);
     if (onlineUsersShow) {
-      console.log(messagesContainerMoveLeft);
       setMessagesContainerMoveLeft(false);
       setOnlineUsersShow(false);
-      console.log(messagesContainerMoveLeft);
     } else {
-      console.log(messagesContainerMoveLeft);
       setMessagesContainerMoveLeft(true);
       setOnlineUsersShow(true);
-      console.log(messagesContainerMoveLeft);
     }
   };
 
@@ -193,7 +184,6 @@ export const App = (props) => {
   const renderUserSettings = () => {
     // on mobile view
     if (!isDesktopWidth || !isDesktopHeight) {
-      console.log("rendering user settings on mobile");
       return (
         <AuthenticatedRoute path="/users/:id/settings">
           <UserSettings />
@@ -227,7 +217,6 @@ export const App = (props) => {
     );
   };
 
-  //note: add chat for logged in users
   return (
     <div id="app-outer-container" data-test="component-app">
       <Router history={history}>

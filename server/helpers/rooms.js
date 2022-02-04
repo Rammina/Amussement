@@ -7,7 +7,7 @@ const updateRoomLastActivity = async (roomId) => {
     room.last_activity = new Date();
     await room.save();
   } catch (e) {
-    console.log(e);
+    
   }
 };
 
@@ -19,7 +19,7 @@ const updateRoomLastActivityUsingName = async (name) => {
     room.last_activity = new Date();
     await room.save();
   } catch (e) {
-    console.log(e);
+    
   }
 };
 

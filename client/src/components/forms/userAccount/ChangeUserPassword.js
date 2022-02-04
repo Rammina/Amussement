@@ -59,7 +59,6 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 
 const ChangeUserPassword = (props) => {
   useEffect(() => {
-    console.log("this runs upon render");
     if (props.changePasswordSubmitSuccess) {
       props.hideSection();
       // reset success status through MODAL_STATUS_RESET
@@ -69,7 +68,6 @@ const ChangeUserPassword = (props) => {
 
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -82,7 +80,6 @@ const ChangeUserPassword = (props) => {
 
   // submit handler
   const onSubmit = async (formValues) => {
-    console.log(formValues);
     props.actionShowLoader("changeUserPasswordForm", true);
     await props.changeUserPassword(formValues);
   };
@@ -100,7 +97,6 @@ const ChangeUserPassword = (props) => {
     <Modal
       componentClass="change-user-password"
       onModalClose={() => {
-        console.log("closing change-user-password modal");
         props.hideSection();
       }}
       headerClassName="settings-page-sidebar-header"
@@ -202,7 +198,6 @@ const ChangeUserPassword = (props) => {
 };
 
 const validate = (formValues) => {
-  console.log(formValues);
   const errors = {};
   if (!formValues.password || formValues.password.length < 6) {
     errors.password = "Please input your current password.";

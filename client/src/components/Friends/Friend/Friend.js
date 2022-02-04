@@ -33,14 +33,10 @@ const Friend = (props) => {
     }
   }, [props.user]);
 
-  useEffect(() => {
-    console.log(props.friend);
-  }, []);
+  useEffect(() => {}, []);
 
   // friend variables from props
   const { friend, status } = props.friend;
-  console.log(props.friend);
-  console.log(friend);
 
   // get value  of UserProfileCardContext using this function
   const getUserProfileCardContextValue = () => {
@@ -164,7 +160,6 @@ const Friend = (props) => {
   };
 
   const renderFriendActionButtons = () => {
-    console.log(status);
     const renderButtons = () => {
       if (status === "requested") {
         return (

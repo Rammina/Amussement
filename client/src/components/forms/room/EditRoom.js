@@ -61,7 +61,6 @@ const EditRoom = (props) => {
   const room = props.initialValues;
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -83,7 +82,6 @@ const EditRoom = (props) => {
           `chat?room=${formValues.roomId}&userType=user&roomType=public`
         );
     };
-    console.log(formValues);
     // check if it succeeded or it produced an error
 
     props.actionShowLoader("editRoomModalForm", true);
@@ -95,7 +93,6 @@ const EditRoom = (props) => {
       <Modal
         componentClass="edit-room"
         onModalClose={() => {
-          console.log("closing edit-room modal");
           props.onClose();
         }}
         headerClassName="settings-page-sidebar-header"
@@ -176,7 +173,6 @@ const EditRoom = (props) => {
 };
 
 const validate = (formValues) => {
-  console.log(formValues);
   const errors = {};
   if (!formValues.name) {
     errors.name = "Please input a room name.";

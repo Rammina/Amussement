@@ -18,7 +18,6 @@ import {
 export const loadUser = () => (dispatch, getState) => {
   // User loading
   dispatch({ type: USER_LOADING });
-  console.log(tokenConfig(getState));
   serverRest
     .get("api/auth/user", tokenConfig(getState))
     .then((res) => {
@@ -40,8 +39,6 @@ export const registerUser = (formValues) => {
     serverRest
       .post("api/auth/register", formValues)
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
         dispatch({ type: REGISTER_SUCCESS, payload: res.data });
         localStorage.setItem("token", res.data.token);
         // redirect to another page and clear the errors so it doesn't carry over
@@ -52,7 +49,6 @@ export const registerUser = (formValues) => {
       })
       .catch((err) => {
         // this needs an error handler action creator and reducer
-        console.log(err);
         dispatch(
           returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
         );
@@ -66,11 +62,9 @@ export const registerUser = (formValues) => {
 
 // Login User
 export const loginUser = (formValues) => (dispatch) => {
-  console.log("logging in the user");
   serverRest
     .post("/api/auth/login", formValues)
     .then((res) => {
-      console.log(res.data);
       const userId = res.data.user._id;
       dispatch({
         type: LOGIN_SUCCESS,
@@ -83,8 +77,6 @@ export const loginUser = (formValues) => (dispatch) => {
       dispatch(clearErrors());
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
       dispatch(
         returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
       );
@@ -108,8 +100,6 @@ export const logout = () => (dispatch) => {
 
 // Setup config/headers and token
 export const tokenConfig = (getState) => {
-  console.log(localStorage.getItem("token"));
-
   const token = getState().auth.token;
   // headers
   const config = { headers: { "Content-type": "application/json" } };

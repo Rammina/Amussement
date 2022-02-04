@@ -65,7 +65,7 @@ const CreateRoomModal = (props) => {
     const createRoomSuccessCb = () => {
       props.onModalClose();
     };
-    console.log(formValues);
+    
     // run an action
     props.actionShowLoader("createRoomModalForm", true);
     await props.createRoom(formValues, createRoomSuccessCb);
@@ -73,7 +73,7 @@ const CreateRoomModal = (props) => {
 
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
+    
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -169,7 +169,7 @@ const CreateRoomModal = (props) => {
 };
 
 const validate = (formValues) => {
-  console.log(formValues);
+  
 
   const errors = {};
   if (!formValues.name) {

@@ -18,7 +18,6 @@ const RemoveFriendModal = (props) => {
 
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -96,7 +95,6 @@ const RemoveFriendModal = (props) => {
       <Modal
         componentClass="remove-friend"
         onModalClose={() => {
-          console.log("closing remove-friend modal");
           props.onModalClose();
         }}
         headerClassName="settings-page-sidebar-header"

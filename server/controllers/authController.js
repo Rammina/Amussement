@@ -9,47 +9,10 @@ const SECRETKEY = process.env.SECRETKEY;
 const User = require("../models/user");
 
 const async = require("async");
-const multer = require("multer");
 const path = require("path");
-
-// set storage engine
-const storage = multer.diskStorage({
-  destination: "./public/uploads",
-  filename: (req, file, callback) => {
-    callback(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
-
-// init upload
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1000000 },
-  fileFilter: function (req, file, cb) {
-    checkFileType(/jpeg|jpg|png|gif/, file, cb);
-  },
-}).single("userImage");
-
-// check file type
-const checkFileType = (regexp, file, cb) => {
-  // check extension type
-  const extname = regexp.test(path.extname(file.originalname).toLowerCase());
-  // check mimetype
-  const mimetype = regexp.test(file.mimetype);
-
-  // check if both are true
-  if (extname && mimetype) {
-    return cb(null, true);
-  } else {
-    cb("Error: Images only!");
-  }
-};
 
 // retrieve user information upon application loading
 exports.user_load = async (req, res) => {
-  console.log("loading user");
   try {
     const user = await User.findById(req.user.id)
       .select("-password")
@@ -69,14 +32,12 @@ exports.user_load = async (req, res) => {
       },
       (err, friends) => {
         if (err) throw Error(err);
-        console.log(friends);
+
         res.status(200).json({
           user: {
             _id: user._id,
             username: user.username,
             friends: friends || [],
-            // rooms: user.rooms || [],
-            // active_dm_rooms: user.active_dm_rooms || [],
             email: user.email,
             image_url: user.image_url || "",
             disabled: false,
@@ -87,7 +48,6 @@ exports.user_load = async (req, res) => {
       }
     );
   } catch (e) {
-    console.log("loading user success");
     res.status(400).json({ msg: e.message });
   }
 };
@@ -95,7 +55,6 @@ exports.user_load = async (req, res) => {
 // Handle user create/register on POST.
 exports.user_register = async (req, res) => {
   const { email, username, password } = req.body;
-  console.log(req.body);
   let errors = [];
 
   // check if any of the following fields are empty
@@ -109,7 +68,7 @@ exports.user_register = async (req, res) => {
   }
 
   // if there are errors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -130,7 +89,6 @@ exports.user_register = async (req, res) => {
       // check if hashing the password has any errors
       const hash = await bcrypt.hash(password, salt);
       if (!hash) throw Error("Something went wrong hashing the password.");
-      console.log(SECRETKEY);
 
       const newUser = new User({
         email: emailLowerCase,
@@ -144,9 +102,6 @@ exports.user_register = async (req, res) => {
       const token = jwt.sign({ id: savedUser._id }, SECRETKEY, {
         expiresIn: 28800,
       });
-      //
-      console.log(token);
-      console.log(savedUser);
       res.status(200).json({
         token,
         user: {
@@ -161,7 +116,6 @@ exports.user_register = async (req, res) => {
         dmRooms: [],
       });
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -201,7 +155,7 @@ exports.user_login = async (req, res) => {
       },
       (err, friends) => {
         if (err) throw Error(err);
-        console.log(friends);
+
         res.status(200).json({
           token,
           user: {
@@ -219,7 +173,6 @@ exports.user_login = async (req, res) => {
       }
     );
   } catch (e) {
-    console.log(e);
     res.status(400).json({ msg: e.message });
   }
 };
@@ -248,7 +201,6 @@ exports.user_upload_avatar = async (req, res) => {
       }
     );
     if (!updatedUser) throw Error("Failed to update the user.");
-    console.log("succeeded in uploading the avatar");
     res.status(200).json({
       user: {
         image_url: avatarUrl,
@@ -262,7 +214,6 @@ exports.user_upload_avatar = async (req, res) => {
 
 exports.user_edit_account = async (req, res) => {
   const { email, username, password } = req.body;
-  console.log(req.body);
   let errors = [];
 
   // check if any of the following fields are empty
@@ -273,8 +224,6 @@ exports.user_edit_account = async (req, res) => {
   if (password.length < 6) {
     errors.push({ msg: "Password must be at least 6 characters" });
   }
-  // if there are errors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -316,7 +265,6 @@ exports.user_edit_account = async (req, res) => {
         }
       );
       if (!updatedUser) throw Error("Failed to update the user.");
-      console.log(updatedUser);
 
       res.status(200).json({
         user: {
@@ -325,7 +273,6 @@ exports.user_edit_account = async (req, res) => {
         },
       });
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -333,7 +280,6 @@ exports.user_edit_account = async (req, res) => {
 
 exports.user_change_password = async (req, res) => {
   const { password, new_password, new_password_2 } = req.body;
-  console.log(req.body);
   let errors = [];
 
   // check if any of the following fields are empty
@@ -356,7 +302,7 @@ exports.user_change_password = async (req, res) => {
   }
 
   // if there are errors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -374,8 +320,6 @@ exports.user_change_password = async (req, res) => {
       // check if hashing the password has any errors
       const hash = await bcrypt.hash(new_password, salt);
       if (!hash) throw Error("Something went wrong hashing the password.");
-      console.log(SECRETKEY);
-
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
         {
@@ -388,12 +332,10 @@ exports.user_change_password = async (req, res) => {
         }
       );
       if (!updatedUser) throw Error("Failed to update the user.");
-      console.log(updatedUser);
       res.status(200).json({
         user: {},
       });
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -413,21 +355,18 @@ exports.user_remove_avatar = async (req, res) => {
       }
     );
     if (!updatedUser) throw Error("Failed to update the user.");
-    console.log(updatedUser);
     res.status(200).json({
       user: {
         image_url: "",
       },
     });
   } catch (e) {
-    console.log(e);
     res.status(400).json({ msg: e.message });
   }
 };
 
 exports.user_disable_account = async (req, res) => {
   const { password } = req.body;
-  console.log(req.body);
   let errors = [];
 
   // check if any of the following fields are empty
@@ -439,7 +378,7 @@ exports.user_disable_account = async (req, res) => {
     errors.push({ msg: "Password must be at least 6 characters" });
   }
   // if there are errors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -464,7 +403,6 @@ exports.user_disable_account = async (req, res) => {
       if (!updatedUser) throw Error("Failed to update the user.");
       res.status(200).json({ success: true });
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -472,23 +410,18 @@ exports.user_disable_account = async (req, res) => {
 
 exports.user_delete_account = async (req, res) => {
   const { password } = req.body;
-  // console.log(req);
-  // console.log(req.data);
-  // console.log(req.body);
-  console.log("430 delete account;");
   let errors = [];
 
   // check if any of the following fields are empty
   if (!password) {
     errors.push({ msg: "Please fill in the password field." });
   }
-  console.log(password);
   // minimum length for the password
   if (password.length < 6) {
     errors.push({ msg: "Password must be at least 6 characters" });
   }
   // if there are errors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -509,7 +442,6 @@ exports.user_delete_account = async (req, res) => {
           res.status(400).json({ msg: e.message });
         });
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }

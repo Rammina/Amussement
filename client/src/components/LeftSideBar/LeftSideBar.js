@@ -143,7 +143,6 @@ const LeftSideBarContainer = (props) => {
       <div
         className={`left-sidebar backdrop ${getBackdropClass()}`}
         onClick={() => {
-          console.log("clicking backdrop");
           setLeftSideBarShow(false);
           setMessagesContainerMoveRight(false);
           setShowFooter(false);

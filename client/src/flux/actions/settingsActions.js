@@ -26,16 +26,12 @@ export const editUserAccount = (formValues) => {
     await serverRest
       .patch(`/api/users/${userId}/settings/edit-account`, formValues)
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
-
         dispatch({ type: EDIT_USER_ACCOUNT_SUCCESS, payload: res.data });
         // history.push(`/users/${userId}/settings`);
         dispatch(clearErrors());
       })
       .catch((err) => {
         // this needs an error handler action creator and reducer
-        console.log(err);
         dispatch(
           returnErrors(
             err.response.data,
@@ -58,8 +54,6 @@ export const changeUserPassword = (formValues) => {
     await serverRest
       .patch(`/api/users/${userId}/settings/change-password`, formValues)
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
         dispatch({ type: CHANGE_USER_PASSWORD_SUCCESS, payload: res.data });
         // history.push(`/users/${userId}/settings`);
         dispatch(clearErrors());
@@ -67,7 +61,6 @@ export const changeUserPassword = (formValues) => {
       })
       .catch((err) => {
         // this needs an error handler action creator and reducer
-        console.log(err);
         dispatch(
           returnErrors(
             err.response.data,
@@ -87,7 +80,7 @@ export const changeUserPassword = (formValues) => {
 export const editUserAvatar = (base64EncodedImage, id) => {
   return async function (dispatch, getState) {
     const userId = id || getState().user.info._id || getState().user.info.id;
-    console.log("hello");
+
     try {
       await cloudinaryRest
         .patch(
@@ -95,11 +88,9 @@ export const editUserAvatar = (base64EncodedImage, id) => {
           JSON.stringify({ data: base64EncodedImage })
         )
         .then((res) => {
-          console.log(res.data);
           dispatch({ type: EDIT_USER_AVATAR_SUCCESS, payload: res.data });
         });
     } catch (err) {
-      console.log(err);
       dispatch(
         returnErrors(
           err.response.data,
@@ -123,11 +114,9 @@ export const removeUserAvatar = (id) => {
           message: "remove avatar",
         })
         .then((res) => {
-          console.log(res.data);
           dispatch({ type: REMOVE_USER_AVATAR_SUCCESS, payload: res.data });
         });
     } catch (err) {
-      console.log(err);
       dispatch(
         returnErrors(
           err.response.data,
@@ -158,8 +147,6 @@ export const disableUserAccount = (formValues) => {
         dispatch(clearErrors());
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.response);
         dispatch(
           returnErrors(
             err.response.data,
@@ -180,8 +167,6 @@ export const disableUserAccount = (formValues) => {
 export const deleteUserAccount = (formValues) => {
   return async function (dispatch, getState) {
     const userId = getState().user.info._id || getState().user.info.id;
-    console.log(formValues);
-    console.log({ ...formValues });
 
     await axios
       .delete(
@@ -190,7 +175,6 @@ export const deleteUserAccount = (formValues) => {
         { data: formValues }
       )
       .then((res) => {
-        console.log(res.data);
         dispatch({
           type: DELETE_USER_ACCOUNT_SUCCESS,
         });
@@ -198,8 +182,6 @@ export const deleteUserAccount = (formValues) => {
         dispatch(clearErrors());
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.response);
         dispatch(
           returnErrors(
             err.response.data,
@@ -216,20 +198,3 @@ export const deleteUserAccount = (formValues) => {
       });
   };
 };
-
-/*
-// Setup config/headers and token
-export const tokenConfig = getState => {
-  console.log(localStorage.getItem("token"));
-  // const token = getState().auth.token || localStorage.getItem("token");
-  const token = getState().auth.token;
-  // headers
-  const config = { headers: { "Content-type": "application/json" } };
-  // if token has a value
-  if (token) {
-    config.headers["x-auth-token"] = token;
-  }
-  return config;
-};
-
-*/

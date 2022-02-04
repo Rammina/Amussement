@@ -42,13 +42,10 @@ const EditMessage = (props) => {
           setMessageText(value);
         }}
         onKeyDown={(e) => {
-          console.log(e.key);
-          console.log(e.keyCode);
           if (e.key === "Enter") {
             e.preventDefault();
             editSubmitHandler(e);
           } else if (e.key === "Escape" || e.key === "Esc") {
-            console.log("escape key was pressed");
             e.preventDefault();
             props.onClose();
             // this should focus back on the input box

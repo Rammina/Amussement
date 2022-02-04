@@ -11,27 +11,21 @@ const storeMessageToDb = async (messageAttributes) => {
       throw Error("Unable to store the message in the database.");
     updateRoomLastActivity(messageAttributes.room);
     return savedMessage;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 const retrieveMessagesFromDB = async (room, retrievalCount = 0) => {
   try {
     // retrieve from the database messages sorted by date
-    console.log("it breaks here");
     const messages = await Message.find({ room })
       .populate("user")
       .sort({ createdAt: -1 })
       .limit(MESSAGES_PER_BATCH * (retrievalCount + 1));
     if (!messages) throw Error("Unable to find messages in this room.");
     return messages;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
-//note: I'm in the middle of this
 const retrieveMessagesFromDBUsingName = async (room, retrievalCount = 0) => {
   try {
     // retrieve from the database messages sorted by date
@@ -41,9 +35,7 @@ const retrieveMessagesFromDBUsingName = async (room, retrievalCount = 0) => {
       .limit(MESSAGES_PER_BATCH * (retrievalCount + 1));
     if (!messages) throw Error("Unable to find messages in this room.");
     return messages;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 const deleteMessageFromDB = async (id) => {
@@ -52,9 +44,7 @@ const deleteMessageFromDB = async (id) => {
     const deletedMessage = await Message.findByIdAndDelete(id);
     if (!deletedMessage) throw Error("Unable to delete the message.");
     return deletedMessage;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 const editMessageOnDB = async (id, text) => {
@@ -72,9 +62,7 @@ const editMessageOnDB = async (id, text) => {
     );
     if (!updatedMessage) throw Error("Unable to update the message.");
     return updatedMessage;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 module.exports = {

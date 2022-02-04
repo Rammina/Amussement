@@ -79,7 +79,8 @@ export const getFilenameFromDir = (string, separator) => {
 
 // regular expression testing
 export const validateEmail = (email) => {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 };
 
@@ -144,13 +145,11 @@ export const getErrorClass = ({ error, touched }) => {
 // This is used for helping sort object based on property names' values
 // key refers to The name of the property, order can either be asc or desc
 export const compareValues = (key, order = "asc") => {
-  console.log("comparing values");
   // if date values are being compared
   if (key === "date") {
     return function innerDateSort(a, b) {
       if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
         // property doesn't exist on either object
-        console.log(`${key} doesn't exist`);
         return 0;
       }
       const dateTimeA = new Date(`${a.date}T${a.time}`);
@@ -163,7 +162,6 @@ export const compareValues = (key, order = "asc") => {
   return function innerSort(a, b) {
     if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
       // property doesn't exist on either object
-      console.log(`${key} doesn't exist`);
       return 0;
     }
 
@@ -175,43 +173,6 @@ export const compareValues = (key, order = "asc") => {
       comparison = 1;
     } else if (varA < varB) {
       comparison = -1;
-    }
-    return order === "desc" ? comparison * -1 : comparison;
-  };
-};
-// // usage: array is sorted by band, in ascending order by default:
-// // //singers.sort(compareValues('band'));
-
-export const comparePriorityValues = (order = "asc") => {
-  console.log("comparing values");
-  // Compare by priority strings
-  return function innerSort(a, b) {
-    if (!a.hasOwnProperty("priority") || !b.hasOwnProperty("priority")) {
-      // property doesn't exist on either object
-      console.log(`priority key doesn't exist`);
-      return 0;
-    }
-    let comparison = 0;
-    if (
-      a.priority === "high" &&
-      (b.priority === "medium" || b.priority === "low")
-    ) {
-      comparison = 1;
-    } else if (a.priority === "high" && b.priority === "high") {
-      comparison = 0;
-    } else if (a.priority === "medium" && b.priority === "low") {
-      comparison = 1;
-    } else if (a.priority === "medium" && b.priority === "medium") {
-      comparison = 0;
-    } else if (a.priority === "medium" && b.priority === "high") {
-      comparison = -1;
-    } else if (
-      a.priority === "low" &&
-      (b.priority === "medium" || b.priority === "high")
-    ) {
-      comparison = -1;
-    } else if (a.priority === "low" && b.priority === "low") {
-      comparison = 0;
     }
     return order === "desc" ? comparison * -1 : comparison;
   };
@@ -294,7 +255,6 @@ export const objectToArray = (
 };
 
 export const arrayHasObjectWithPropAndValue = (array, propName, value) => {
-  console.log(array);
   if (Array.isArray(array)) {
     return false;
   }
@@ -336,57 +296,3 @@ export const getFriendStatusWithUser = (userId, friends) => {
   }
   return null;
 };
-
-/*
-// CryptoJS functions
-const keySize = 256;
-const ivSize = 128;
-const iterations = 1000;
-
-// var message = "Hello World";
-// var password = "Secret Password";
-
-export const encrypt = function encrypt(msg, pass) {
-  const salt = CryptoJS.lib.WordArray.random(128 / 8);
-
-  const key = CryptoJS.PBKDF2(pass, salt, {
-    keySize: keySize / 32,
-    iterations: iterations
-  });
-
-  const iv = CryptoJS.lib.WordArray.random(128 / 8);
-
-  const encrypted = CryptoJS.AES.encrypt(msg, key, {
-    iv: iv,
-    padding: CryptoJS.pad.Pkcs7,
-    mode: CryptoJS.mode.CBC
-  });
-
-  // salt, iv will be hex 32 in length
-  // append them to the ciphertext for use  in decryption
-  const transitmessage = salt.toString() + iv.toString() + encrypted.toString();
-  return transitmessage;
-};
-
-export const decrypt = function decrypt(transitmessage, pass) {
-  const salt = CryptoJS.enc.Hex.parse(transitmessage.substr(0, 32));
-  const iv = CryptoJS.enc.Hex.parse(transitmessage.substr(32, 32));
-  const encrypted = transitmessage.substring(64);
-
-  const key = CryptoJS.PBKDF2(pass, salt, {
-    keySize: keySize / 32,
-    iterations: iterations
-  });
-
-  const decrypted = CryptoJS.AES.decrypt(encrypted, key, {
-    iv: iv,
-    padding: CryptoJS.pad.Pkcs7,
-    mode: CryptoJS.mode.CBC
-  });
-  return decrypted;
-};
-
-export const decryptedMsgToString = decryptedMsg => {
-  return decryptedMsg.toString(CryptoJS.enc.Utf8);
-};
-*/

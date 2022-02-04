@@ -50,7 +50,6 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 const RegisterForm = (props) => {
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -61,8 +60,6 @@ const RegisterForm = (props) => {
 
   // submit handler
   const onSubmit = async (formValues) => {
-    console.log(formValues);
-    console.log(registerUser);
     props.actionShowLoader("registerForm", true);
     await props.registerUser(formValues);
   };
@@ -162,7 +159,6 @@ const RegisterForm = (props) => {
 };
 
 const validate = (formValues) => {
-  console.log(formValues);
   const errors = {};
   if (!formValues.email) {
     errors.email = "Please input an email.";

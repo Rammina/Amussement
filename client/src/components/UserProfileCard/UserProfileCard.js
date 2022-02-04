@@ -34,7 +34,6 @@ const UserProfileCard = (props) => {
 
   const [dmRoomName, setDmRoomName] = useState("");
   useEffect(() => {
-    console.log(props.user);
     if (props.user)
       setDmRoomName(`${[props.user._id, selectedUser._id].sort().join("_")}DM`);
   }, [props.user]);
@@ -84,7 +83,6 @@ const UserProfileCard = (props) => {
   };
 
   const ellipsisOnClickHandler = (e) => {
-    console.log("showing user context menu");
     e.preventDefault();
     e.stopPropagation();
 

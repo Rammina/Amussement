@@ -15,7 +15,6 @@ import {
 } from "./types";
 
 export const getAllFriends = (id) => (dispatch, getState) => {
-  console.log("getting all friends");
   const userId = id || getState().user.info._id || getState().user.info.id;
 
   serverRest
@@ -23,15 +22,13 @@ export const getAllFriends = (id) => (dispatch, getState) => {
     .then((res) => {
       let friends = res.data;
       let sortedData = null;
-      console.log(friends);
 
       // first check if it contains friends
       if (typeof friends !== "undefined" && friends.length > 0) {
         // the array is defined and has at least one element
         let data = null;
-        console.log(friends);
+
         sortedData = friends.sort(compareValues("username"));
-        console.log(sortedData);
       }
       dispatch({
         type: GET_ALL_FRIENDS_SUCCESS,
@@ -40,48 +37,39 @@ export const getAllFriends = (id) => (dispatch, getState) => {
       dispatch(clearErrors());
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
-
       dispatch({
         type: GET_ALL_FRIENDS_FAIL,
       });
     });
 };
 // there should be addfriend using ID and username
-export const addFriendWithUsername = (formValues, successCb) => (
-  dispatch,
-  getState
-) => {
-  console.log("adding a friend ");
-  const userId = getState().user.info._id || getState().user.info.id;
-  const friendName = formValues.username;
+export const addFriendWithUsername =
+  (formValues, successCb) => (dispatch, getState) => {
+    const userId = getState().user.info._id || getState().user.info.id;
+    const friendName = formValues.username;
 
-  serverRest
-    .post(`/api/users/${userId}/friends`, formValues)
-    .then((res) => {
-      dispatch({
-        type: ADD_FRIEND_SUCCESS,
+    serverRest
+      .post(`/api/users/${userId}/friends`, formValues)
+      .then((res) => {
+        dispatch({
+          type: ADD_FRIEND_SUCCESS,
+        });
+        dispatch(getAllFriends(userId));
+        dispatch(clearErrors());
+        if (successCb) successCb();
+      })
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status));
+        dispatch({
+          type: ADD_FRIEND_FAIL,
+        });
+      })
+      .finally(() => {
+        dispatch(actionShowLoader("addFriendForm", false));
       });
-      dispatch(getAllFriends(userId));
-      dispatch(clearErrors());
-      if (successCb) successCb();
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log(err.response);
-      dispatch(returnErrors(err.response.data, err.response.status));
-      dispatch({
-        type: ADD_FRIEND_FAIL,
-      });
-    })
-    .finally(() => {
-      dispatch(actionShowLoader("addFriendForm", false));
-    });
-};
+  };
 
 export const addFriendWithId = (friendId) => (dispatch, getState) => {
-  console.log("adding a friend using friendId");
   const userId = getState().user.info._id || getState().user.info.id;
   serverRest
     .post(`/api/users/${userId}/friends/${friendId}`, friendId)
@@ -94,8 +82,6 @@ export const addFriendWithId = (friendId) => (dispatch, getState) => {
       dispatch(clearErrors());
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: ADD_FRIEND_FAIL,
@@ -107,7 +93,6 @@ export const addFriendWithId = (friendId) => (dispatch, getState) => {
 };
 
 export const removeFriend = (friendId, cb) => (dispatch, getState) => {
-  console.log("removing a friend ");
   const userId = getState().user.info._id || getState().user.info.id;
   serverRest
     .delete(`/api/users/${userId}/friends/${friendId}`)
@@ -121,8 +106,6 @@ export const removeFriend = (friendId, cb) => (dispatch, getState) => {
       if (cb) cb();
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: REMOVE_FRIEND_FAIL,

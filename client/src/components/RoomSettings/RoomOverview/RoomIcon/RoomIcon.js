@@ -45,7 +45,6 @@ const RoomIcon = (props) => {
 
   const handleImageInputChange = (e) => {
     const file = e.target.files[0];
-    console.log(file);
     setImageUploadName(file.name);
     previewFile(file);
   };
@@ -85,8 +84,6 @@ const RoomIcon = (props) => {
   };
 
   const renderImageUploadModal = () => {
-    console.log(imageUploadName);
-    console.log(imageUploadModalOpen);
     // do not render until image is chosen
     if (!imageUploadModalOpen) return null;
     // render a mobile version until desktop dimensions
@@ -96,7 +93,6 @@ const RoomIcon = (props) => {
           <Modal
             componentClass="room-icon"
             onModalClose={() => {
-              console.log("this is automatically closing");
               setImageUploadModalOpen(false);
             }}
             headerClassName="settings-page-sidebar-header"
@@ -148,7 +144,6 @@ const RoomIcon = (props) => {
       <Modal
         componentClass="room-icon"
         onModalClose={() => {
-          console.log("this is automatically closing");
           setImageUploadModalOpen(false);
         }}
         headerClassName="settings-page-sidebar-header"
@@ -204,7 +199,6 @@ const RoomIcon = (props) => {
           accept="image/*"
           value={fileInputState}
           onChange={(e) => {
-            console.log("hello");
             setImageUploadModalOpen(true);
             handleImageInputChange(e);
           }}

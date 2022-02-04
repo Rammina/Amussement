@@ -34,9 +34,7 @@ const OnlineUsersContainer = ({ users }) => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
+  useEffect(() => {}, [users]);
 
   const getContainerClass = () => {
     return onlineUsersShow ? "show" : "hide";
@@ -71,46 +69,3 @@ const OnlineUsersContainer = ({ users }) => {
 };
 
 export default OnlineUsersContainer;
-
-/*
-  <div className="activeContainer">
-              {users.map(({ username }) => (
-                <div key={username} className="activeItem">
-                  <img alt="Online Icon" src={onlineIcon} />
-                  <h2 className={`online-users-username`}>{username}</h2>
-                </div>
-              ))}
-            </div>
-
-
-  const [containerTouched, setContainerTouched] = useState(false);
-  const [disableTabletResizeEffects, setDisableTabletResizeEffects] = useState(
-    false
-  );
-  const [disableMobileResizeEffects, setDisableMobileResizeEffects] = useState(
-    false
-  );
-  */
-
-/*
-useEffect(() => {
-  // const refreshContainerTouchedOnResize = () => {
-  //   setDisableTabletResizeEffects(true);
-  //   if (window.innerWidth >= 650 && !disableTabletResizeEffects) {
-  //     console.log(disableTabletResizeEffects);
-  //     setDisableTabletResizeEffects(true);
-  //     setDisableMobileResizeEffects(false);
-  //     setOnlineUsersShow(true);
-  //
-  //     console.log(disableTabletResizeEffects);
-  //   } else if (window.innerWidth < 650 && !disableMobileResizeEffects) {
-  //     setDisableTabletResizeEffects(false);
-  //     setDisableMobileResizeEffects(true);
-  //     setOnlineUsersShow(false);
-  //   }
-  // };
-  refreshContainerTouchedOnResize();
-  window.addEventListener("resize", refreshContainerTouchedOnResize);
-}, []);
-
-*/

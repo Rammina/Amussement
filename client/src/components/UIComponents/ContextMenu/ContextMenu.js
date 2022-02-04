@@ -38,9 +38,7 @@ const ContextMenu = (props) => {
   };
 
   const handleClick = function (e) {
-    console.log(e.target);
     if (contextMenuDiv && !contextMenuDiv.current.contains(e.target)) {
-      console.log("clicking outside ContextMenu");
       props.onClose();
     }
   };

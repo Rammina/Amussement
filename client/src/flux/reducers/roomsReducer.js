@@ -31,14 +31,11 @@ export default (state = initialState, action) => {
       return [...action.payload.rooms];
 
     case GET_ALL_ROOMS_SUCCESS:
-      console.log(action.payload);
       return [...action.payload];
     case CREATE_ROOM_SUCCESS:
     case JOIN_ROOM_SUCCESS:
     case ROOM_PASSWORD_SUBMIT_SUCCESS:
       // action.payload is an object that contains a room property (object)
-      console.log(action.payload);
-      console.log(action.payload.room);
       return [...state, action.payload.room];
     case LEAVE_ROOM_SUCCESS:
       // action.payload.rooms is array of rooms

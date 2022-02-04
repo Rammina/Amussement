@@ -28,7 +28,6 @@ import {
 } from "./types";
 
 export const getAllRooms = (id) => (dispatch, getState) => {
-  console.log("getting all rooms");
   const userId = id || getState().user.info._id || getState().user.info.id;
 
   serverRest
@@ -36,16 +35,14 @@ export const getAllRooms = (id) => (dispatch, getState) => {
     .then((res) => {
       let rooms = res.data;
       let sortedData = null;
-      console.log(rooms);
 
       // note: think about whether sorting rooms should be up to the user
       // first check if it contains rooms
       if (typeof rooms !== "undefined" && rooms.length > 0) {
         // the array is defined and has at least one element
         let data = null;
-        console.log(rooms);
+
         sortedData = rooms.sort(compareValues("name"));
-        console.log(sortedData);
       }
 
       dispatch({
@@ -55,8 +52,6 @@ export const getAllRooms = (id) => (dispatch, getState) => {
       dispatch(clearErrors());
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
       dispatch({
         type: GET_ALL_ROOMS_FAIL,
       });
@@ -65,7 +60,6 @@ export const getAllRooms = (id) => (dispatch, getState) => {
 
 export const createRoom = (formValues, successCb) => (dispatch, getState) => {
   const userId = getState().user.info._id || getState().user.info.id;
-  console.log(formValues);
 
   serverRest
     .post(`/api/rooms/`, { ...formValues, senderId: userId })
@@ -84,8 +78,6 @@ export const createRoom = (formValues, successCb) => (dispatch, getState) => {
       );
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: CREATE_ROOM_FAIL,
@@ -99,14 +91,12 @@ export const createRoom = (formValues, successCb) => (dispatch, getState) => {
 export const joinRoom = (formValues, successCb) => (dispatch, getState) => {
   const userId = getState().user.info._id || getState().user.info.id;
   const roomName = formValues.name;
-  console.log(formValues);
 
   // note:might want to change this to roomId in the future
   serverRest
     .patch(`/api/rooms/${roomName}/join`, { ...formValues, userId })
     .then((res) => {
       // if the server returns our response indicating that a message is required, ask the user for the password
-      console.log(res.data);
       if (res.data.password_required) {
         dispatch({
           type: ROOM_PASSWORD_REQUIRED,
@@ -129,8 +119,6 @@ export const joinRoom = (formValues, successCb) => (dispatch, getState) => {
       }
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: JOIN_ROOM_FAIL,
@@ -141,41 +129,35 @@ export const joinRoom = (formValues, successCb) => (dispatch, getState) => {
     });
 };
 
-export const submitRoomPassword = (formValues, successCb) => (
-  dispatch,
-  getState
-) => {
-  const userId = getState().user.info._id || getState().user.info.id;
-  console.log(formValues);
+export const submitRoomPassword =
+  (formValues, successCb) => (dispatch, getState) => {
+    const userId = getState().user.info._id || getState().user.info.id;
 
-  serverRest
-    .patch(`/api/rooms/${formValues.roomId}/submit_room_password`, {
-      ...formValues,
-      userId,
-    })
-    .then((res) => {
-      const room = res.data.room;
-      dispatch({ type: "ROOM_PASSWORD_SUBMIT_SUCCESS", payload: { room } });
-      dispatch(clearErrors());
-      if (successCb) successCb();
-      history.push(
-        `/chat?room=${room._id}&userType=user&roomType=${room.type}`
-      );
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log(err.response);
-      dispatch(returnErrors(err.response.data, err.response.status));
-      dispatch({ type: "ROOM_PASSWORD_SUBMIT_FAIL" });
-    })
-    .finally(() => {
-      dispatch(actionShowLoader("roomPasswordConfirmation", false));
-    });
-};
+    serverRest
+      .patch(`/api/rooms/${formValues.roomId}/submit_room_password`, {
+        ...formValues,
+        userId,
+      })
+      .then((res) => {
+        const room = res.data.room;
+        dispatch({ type: "ROOM_PASSWORD_SUBMIT_SUCCESS", payload: { room } });
+        dispatch(clearErrors());
+        if (successCb) successCb();
+        history.push(
+          `/chat?room=${room._id}&userType=user&roomType=${room.type}`
+        );
+      })
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status));
+        dispatch({ type: "ROOM_PASSWORD_SUBMIT_FAIL" });
+      })
+      .finally(() => {
+        dispatch(actionShowLoader("roomPasswordConfirmation", false));
+      });
+  };
 
 export const leaveRoom = (roomId, successCb) => (dispatch, getState) => {
   const userId = getState().user.info._id || getState().user.info.id;
-  console.log(roomId);
 
   // note:might want to change this to roomId in the future
   serverRest
@@ -193,8 +175,6 @@ export const leaveRoom = (roomId, successCb) => (dispatch, getState) => {
       if (successCb) successCb();
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: LEAVE_ROOM_FAIL,
@@ -203,41 +183,37 @@ export const leaveRoom = (roomId, successCb) => (dispatch, getState) => {
     .finally(() => {});
 };
 
-export const updateRoomName = (formValues, successCb) => (
-  dispatch,
-  getState
-) => {
-  const userId = getState().user.info._id || getState().user.info.id;
+export const updateRoomName =
+  (formValues, successCb) => (dispatch, getState) => {
+    const userId = getState().user.info._id || getState().user.info.id;
 
-  // note:might want to change this to roomId in the future
-  serverRest
-    .patch(`/api/rooms/${formValues.roomId}/update_name`, {
-      ...formValues,
-      userId,
-    })
-    .then((res) => {
-      dispatch({
-        type: UPDATE_ROOM_NAME_SUCCESS,
-        payload: {
-          /*note: think about should be returned from the server as payload*/
-          ...res.data,
-        },
+    // note:might want to change this to roomId in the future
+    serverRest
+      .patch(`/api/rooms/${formValues.roomId}/update_name`, {
+        ...formValues,
+        userId,
+      })
+      .then((res) => {
+        dispatch({
+          type: UPDATE_ROOM_NAME_SUCCESS,
+          payload: {
+            /*note: think about should be returned from the server as payload*/
+            ...res.data,
+          },
+        });
+        dispatch(clearErrors());
+        if (successCb) successCb();
+      })
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status));
+        dispatch({
+          type: UPDATE_ROOM_NAME_FAIL,
+        });
+      })
+      .finally(() => {
+        dispatch(actionShowLoader("updateRoomNameModalForm", false));
       });
-      dispatch(clearErrors());
-      if (successCb) successCb();
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log(err.response);
-      dispatch(returnErrors(err.response.data, err.response.status));
-      dispatch({
-        type: UPDATE_ROOM_NAME_FAIL,
-      });
-    })
-    .finally(() => {
-      dispatch(actionShowLoader("updateRoomNameModalForm", false));
-    });
-};
+  };
 
 export const editRoom = (formValues, successCb) => (dispatch, getState) => {
   const userId = getState().user.info._id || getState().user.info.id;
@@ -260,8 +236,6 @@ export const editRoom = (formValues, successCb) => (dispatch, getState) => {
       if (successCb) successCb();
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: EDIT_ROOM_FAIL,
@@ -282,11 +256,9 @@ export const editRoomIcon = (base64EncodedImage, roomId) => {
           JSON.stringify({ data: base64EncodedImage, userId })
         )
         .then((res) => {
-          console.log(res.data);
           dispatch({ type: EDIT_ROOM_ICON_SUCCESS, payload: res.data });
         });
     } catch (err) {
-      console.log(err);
       dispatch(
         returnErrors(
           err.response.data,
@@ -305,7 +277,6 @@ export const editRoomIcon = (base64EncodedImage, roomId) => {
 
 export const deleteRoom = (roomId, successCb) => (dispatch, getState) => {
   const userId = getState().user.info._id || getState().user.info.id;
-  console.log(roomId);
 
   axios
     .delete(`https://amussement-server.herokuapp.com/api/rooms/${roomId}`, {
@@ -324,8 +295,6 @@ export const deleteRoom = (roomId, successCb) => (dispatch, getState) => {
       if (successCb) successCb();
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: DELETE_ROOM_FAIL,

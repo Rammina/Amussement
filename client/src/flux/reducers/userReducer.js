@@ -48,8 +48,6 @@ export default (state = initialState, action) => {
         info: { ...state.info, ...action.payload.user },
         isLoading: false,
       };
-      console.log(sanitizedUserPayload);
-
       return {
         ...state,
         ...sanitizedUserPayload,

@@ -8,38 +8,23 @@ const Message = require("../models/message");
 
 // retrieve rooms list
 exports.get_all_rooms = async (req, res) => {
-  console.log("retrieving rooms list");
-
   try {
     const user = await User.findById(req.params.id).select("rooms");
     if (!user) throw Error("User does not exist.");
 
     res.status(200).json(user.rooms);
   } catch (e) {
-    console.log(e);
     res.status(400).json({ msg: e.message });
   }
 };
 
 exports.get_room = async (req, res) => {
   const { userId } = req.query;
-  console.log(userId);
-  console.log("retrieving a specific room");
   try {
     // use ID search for public rooms
     const room = await Room.findById(req.params.id);
     if (!room) throw Error("Unable to find room.");
 
-    // check the members of the room and check if user is a member
-    // let isMember = false;
-    // for (let member of room.members) {
-    //   if (member.user._id == userId) {
-    //     isMember = true;
-    //   }
-    // }
-    // console.log(userId);
-    // console.log(`isMember is ${isMember}`);
-    // if (isMember)
     res.status(200).json(room);
     // else throw Error("User is not a member of this room.");
   } catch (e) {
@@ -49,8 +34,6 @@ exports.get_room = async (req, res) => {
 
 exports.get_dm_room = async (req, res) => {
   const { userId } = req.query;
-  console.log(userId);
-  console.log("retrieving a specific room");
   try {
     // use ID search for public rooms
     const room = await Room.findOne({ name: req.params.roomName });
@@ -79,7 +62,7 @@ exports.create_room = async (req, res) => {
     errors.push({ msg: "Please provide a name for the room." });
   }
   // if there are errors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -122,9 +105,6 @@ exports.create_room = async (req, res) => {
 
       // update the owner of the room to add the newly created room to their list of rooms
       const owner = await User.findById(senderId);
-      console.log("owner rooms is");
-      console.log(owner);
-      console.log(owner.rooms);
       owner.rooms = [...owner.rooms, savedRoom];
       await owner.save();
 
@@ -141,7 +121,6 @@ exports.create_room = async (req, res) => {
         },
       });
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -157,7 +136,7 @@ exports.join_room = async (req, res) => {
     errors.push({ msg: "Please provide a name for the room." });
   }
   // if there are errors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -197,7 +176,6 @@ exports.join_room = async (req, res) => {
       }
       l;
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -219,7 +197,7 @@ exports.submit_room_password = async (req, res) => {
     errors.push({ msg: "No room ID provided." });
   }
   // if there are errors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -251,7 +229,6 @@ exports.submit_room_password = async (req, res) => {
         // user: { rooms: user.rooms },
       });
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -269,7 +246,7 @@ exports.leave_room = async (req, res) => {
     errors.push({ msg: "Unauthorized user." });
   }
   // if there areerrors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -285,7 +262,6 @@ exports.leave_room = async (req, res) => {
       room.members = room.members.filter(
         (member) => member.user._id !== userId
       );
-      console.log(room.members);
       await room.save();
       // update the user's room list'
       user.rooms = user.rooms.filter((userRoom) => {
@@ -299,7 +275,6 @@ exports.leave_room = async (req, res) => {
         rooms: user.rooms,
       });
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -322,7 +297,7 @@ exports.update_room_name = async (req, res) => {
     });
   }
   // if there are errors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -350,7 +325,6 @@ exports.update_room_name = async (req, res) => {
         throw Error("Unauthorized action.");
       }
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -411,7 +385,7 @@ exports.edit_room = async (req, res) => {
     });
   }
   // if there are errors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -446,14 +420,11 @@ exports.edit_room = async (req, res) => {
           room.password = hash;
         }
         await room.save();
-        console.log("294");
-        console.log(room);
         res.status(200).json(room);
       } else {
         throw Error("Unauthorized action.");
       }
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -471,7 +442,7 @@ exports.delete_room = async (req, res) => {
     errors.push({ msg: "Unauthorized user." });
   }
   // if there areerrors, re-\ render the page but with the values that were filled in
-  // note: figure out how to send errors to thefrontend
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
   } else {
@@ -484,7 +455,6 @@ exports.delete_room = async (req, res) => {
       await room.remove();
       res.status(200).json({ roomId });
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }

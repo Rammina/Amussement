@@ -30,13 +30,9 @@ const Messages = (props) => {
 
   useEffect(() => {
     // note: figure things out slowly about the library
-    Events.scrollEvent.register("begin", function (to, element) {
-      console.log("begin", arguments);
-    });
+    Events.scrollEvent.register("begin", function (to, element) {});
 
-    Events.scrollEvent.register("end", function (to, element) {
-      console.log("end", arguments);
-    });
+    Events.scrollEvent.register("end", function (to, element) {});
 
     scrollSpy.update();
     // note: should only scroll to bottom when the first batch of messages load
@@ -49,7 +45,6 @@ const Messages = (props) => {
 
   // handle loading previous messages upon scrolling to the top
   const handleScroll = () => {
-    console.log(messagesContainerRef.current.scrollTop);
     // load more messages after scrolling to the top of the messages container
     // note: it only works once, because of outdated closure
     if (messagesContainerRef.current.scrollTop === 0) {
@@ -155,7 +150,6 @@ const Messages = (props) => {
           : noMessagesNotification ||
             messages.map((message, i) => {
               let sameSenderAsPrevMsg = false;
-              console.log(message.user);
               // guard against deleted references (deleted user)
               if (!message.user) {
                 message.user = {
@@ -229,64 +223,6 @@ const mapStateToProps = (state) => ({
   error: state.error,
   showInitialLoader: state.loader.showMessagesInitialLoader,
   showPreviousLoader: state.loader.showMessagesPreviousLoader,
-  // propsInitialized: true
 });
 
 export default connect(mapStateToProps, { actionShowLoader })(Messages);
-
-/* scroll to bottom library stuff
-import ScrollToBottom, {
-  useAtTop,
-  useObserveScrollPosition,
-} from "react-scroll-to-bottom";
-import { css } from "@emotion/css";
-
-const [atTop] = useAtTop();
-
-const scrollObserver = useCallback(({ scrollTop }) => {
-  console.log(scrollTop);
-}, []);
-
-useObserveScrollPosition(scrollObserver);
-
-// styling for messages container
-.react-scroll-to-bottom--css-kqhhe-1n7m0yu {
-    height: 100%;
-    overflow-y: auto;
-    width: 100%;
-}
-
-// styling for scroll to bottom button
-const scrollToBottomCss = css({
-  backgroundColor: "#07050f",
-  width: "2.25rem",
-  height: "2.25rem",
-  bottom: "1rem",
-  right: "2rem",
-  borderRadius: "50%",
-  backgroundImage: `url(${DownArrowImg})`,
-  backgroundSize: "1.5rem",
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "center",
-  "&:hover": {
-    backgroundColor: "#14121c",
-  },
-});
-
-<ScrollToBottom
-  className="messages messages-container"
-  followButtonClassName={scrollToBottomCss}
->
-*/
-
-/*
-  const renderLoadMoreMessagesButton = () => {
-    if (noMoreMessagesToLoad) return <div>all messages have been loaded</div>;
-
-    return (
-      <button onClick={loadMoreMessages} id="load-more-messages-button">
-        Load More Messages
-      </button>
-    );
-  };
-*/

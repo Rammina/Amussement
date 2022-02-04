@@ -15,7 +15,6 @@ const HomeButton = (props) => {
   const [isMouseHovered, setIsMouseHovered] = useState(false);
   const [isSelected, setIsSelected] = useState(false);
   const location = useLocation();
-  console.log(location);
 
   useEffect(() => {
     checkSelected();
@@ -29,8 +28,6 @@ const HomeButton = (props) => {
       setRoomMarkerY(findPosY(roomItemRef.current));
     }
   }, [roomItemRef.current]);
-
-  console.log(props.user);
 
   const checkSelected = () => {
     if (

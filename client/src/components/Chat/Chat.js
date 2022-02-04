@@ -137,23 +137,19 @@ const Chat = (props) => {
         }
       );
     }
-
     userJoinCount++;
   };
 
   useEffect(() => {
     // retrieve room information using the room ID on the URL
     const { room, roomType } = queryString.parse(location.search);
-    console.log("Connecting socket");
     // only get the room details if there is no room yet on the redux store, and if it's a different room  (after swapping)
     if (!props.user) return;
     if (
       !props.currentRoom ||
       (props.currentRoom && room != props.currentRoom._id)
     ) {
-      // note: change retreival behaivor depending on room type
-      console.log("Retreiving room info");
-      console.log(props.user);
+      // change retreival behaivor depending on room type
       if (roomType === "DM") {
         // compare the names because DM rooms use names (for now)
         if (
@@ -166,9 +162,7 @@ const Chat = (props) => {
       }
     }
     // do not connect socket until the room information is retrieved
-    // note:this may not even be necessary because only ID is used by the server side anyway
     if (!props.currentRoom) return;
-    console.log("endpoint and location useEffect");
     socket = io(ENDPOINT);
     // note: this should be changed once database for room messages is used
     /*temporary stopgap measure to clear messages every time the URL changes*/
@@ -182,12 +176,8 @@ const Chat = (props) => {
       scrollToBottom("chat-messages-container");
     });
 
-    console.log(location.search);
-    console.log("am I attaching a message listener twice?");
     socket.on("message", (message) => {
       // non-\ mutational push to the messages array
-      console.log(message);
-      console.log("is this happening twice?");
       setMessages((messages) => [...messages, message]);
     });
 
@@ -211,9 +201,8 @@ const Chat = (props) => {
       });
     });
 
+    // close the socket connection when cleaning up the component
     return () => {
-      console.log("disconnected");
-
       socket.close();
     };
   }, [ENDPOINT, location.search, props.currentRoom, props.user]);
@@ -247,7 +236,6 @@ const Chat = (props) => {
     event.preventDefault();
     // if message exists, send the event
     if (message) {
-      console.log("is this also happening twice?");
       socket.emit(
         "sendMessage",
         {
@@ -269,20 +257,14 @@ const Chat = (props) => {
   const deleteMessage = (id) => {
     // if message exists, send the event
     if (id) {
-      let cb = () => {
-        console.log("deleting message");
-      };
-      socket.emit("deleteMessage", id, roomId, cb);
+      socket.emit("deleteMessage", id, roomId);
     }
   };
 
   const editMessage = (id, text) => {
     // if message exists, send the event
     if (id && text) {
-      let cb = () => {
-        console.log("editing message");
-      };
-      socket.emit("editMessage", id, text, roomId, cb);
+      socket.emit("editMessage", id, text, roomId);
     }
   };
 
@@ -296,7 +278,6 @@ const Chat = (props) => {
     ) {
       setNoMoreMessagesToLoad(true);
     }
-    console.log(retrievedMessages.length);
     // add the messages to be rendered on the frontend
     setMessages([...retrievedMessages]);
     // scroll down to the last message the user was able to view before retrieval
@@ -340,8 +321,6 @@ const Chat = (props) => {
   });
 
   const renderChatContent = () => {
-    console.log(messages);
-    console.log(name);
     if (name && roomName) {
       return (
         <React.Fragment>
@@ -384,54 +363,3 @@ export default connect(mapStateToProps, {
   getRoom,
   getDmRoom,
 })(Chat);
-
-/*
-const handleResize = () => {
-  if (isDesktopWidth && isDesktopHeight) setShowFooter(false);
-};
-
-useEffect(() => {
-  window.addEventListener("resize", handleResize);
-  handleResize();
-  // cleanup function
-  return () => {
-    window.removeEventListener("resize", handleResize);
-  };
-}, []);
-*/
-
-/*
-// attach another listener every time the address/room changes
-useEffect(() => {
-  console.log(location.search);
-console.log("am I attaching a message listener twice?");
-socket.on("message", (message) => {
-  // non-\ mutational push to the messages array
-  console.log(message);
-  console.log("is this happening twice?");
-  setMessages((messages) => [...messages, message]);
-});
-
-socket.on("scrollToBottomAfterSending", () => {
-  scrollToBottom("chat-messages-container");
-});
-
-socket.on("deletedMessage", (id) => {
-  setMessages((messages) =>
-    messages.filter((message) => message._id !== id)
-  );
-});
-
-socket.on("editedMessage", (id, text) => {
-  setMessages((messages) => {
-    const foundIndex = messages.findIndex((message) => message._id === id);
-    messages[foundIndex].text = text;
-    messages[foundIndex].updatedAt = new Date();
-    // console.log(new Date());
-    // should also update updatedAt property for use in comparisons
-    return [...messages];
-  });
-});
-
-}, [location.search]);
-*/

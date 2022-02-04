@@ -64,7 +64,6 @@ const RoomPasswordConfirmationForm = (props) => {
     const submitRoomPasswordSuccessCb = () => {
       props.onModalClose();
     };
-    console.log(formValues);
     // run an action
     props.actionShowLoader("roomPasswordConfirmation", true);
     const values = { ...formValues, roomId };
@@ -73,7 +72,6 @@ const RoomPasswordConfirmationForm = (props) => {
 
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -129,8 +127,6 @@ const RoomPasswordConfirmationForm = (props) => {
 };
 
 const validate = (formValues) => {
-  console.log(formValues);
-
   const errors = {};
   if (!formValues.password) {
     errors.password = "Please input the password for this room.";

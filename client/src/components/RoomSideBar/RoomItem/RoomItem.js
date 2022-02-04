@@ -71,11 +71,9 @@ const RoomItem = (props) => {
 
   const onMouseEnterHandler = (e) => {
     setIsMouseHovered(true);
-    console.log("hovered over room");
   };
   const onMouseLeaveHandler = () => {
     setIsMouseHovered(false);
-    console.log("hovered out of room");
   };
 
   const onCloseContextMenuHandler = () => {

@@ -39,14 +39,12 @@ const Input = ({ setMessage, sendMessage, message }) => {
         autoFocus={true}
         value={message}
         onChange={({ target: { value } }) => {
-          console.log(value);
           setMessage(value);
           setSendButtonClass(value === "" ? "hide" : "show");
           setSendButtonDisabled(value === "" ? true : false);
         }}
         onKeyPress={(event) => {
           if (event.key === "Enter") {
-            console.log("pressed enter on the input field");
             sendMessage(event);
             setSendButtonClass("hide");
           }

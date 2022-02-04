@@ -25,9 +25,8 @@ import history from "../../../history";
 const UserItem = (props) => {
   const [userInfoModalOpen, setUserInfoModalOpen] = useState(false);
   const [showUserContextMenu, setShowUserContextMenu] = useState(false);
-  const [isMouseHoveredOnContainer, setIsMouseHoveredOnContainer] = useState(
-    false
-  );
+  const [isMouseHoveredOnContainer, setIsMouseHoveredOnContainer] =
+    useState(false);
   const [clientX, setClientX] = useState(0);
   const [clientY, setClientY] = useState(0);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
@@ -36,7 +35,6 @@ const UserItem = (props) => {
   const { room } = queryString.parse(location.search);
 
   useEffect(() => {
-    console.log(props.currentUser);
     if (props.currentUser) {
       setDmRoomName(
         `${[props.currentUser._id, props.user._id].sort().join("_")}DM`
@@ -153,7 +151,6 @@ const UserItem = (props) => {
       e.preventDefault();
       e.stopPropagation();
       const removeActiveDmRoomSuccessCb = () => {
-        console.log(!room === props.room.name);
         if (!room === props.room.name) return null;
 
         // redirect to Home if inside DM that is being removed

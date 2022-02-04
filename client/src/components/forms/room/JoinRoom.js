@@ -62,7 +62,6 @@ const JoinRoomForm = (props) => {
     const joinRoomSuccessCb = () => {
       props.onModalClose();
     };
-    console.log(formValues);
     // run an action
     props.actionShowLoader("joinRoomForm", true);
     await props.joinRoom(formValues, joinRoomSuccessCb);
@@ -70,7 +69,6 @@ const JoinRoomForm = (props) => {
 
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -126,8 +124,6 @@ const JoinRoomForm = (props) => {
 };
 
 const validate = (formValues) => {
-  console.log(formValues);
-
   const errors = {};
   if (!formValues.name) {
     errors.name = "Please input a room name.";

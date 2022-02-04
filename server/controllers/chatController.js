@@ -9,7 +9,7 @@ const message_store = (messageAttributes, cb) => {
       cb();
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
     });
 };
 

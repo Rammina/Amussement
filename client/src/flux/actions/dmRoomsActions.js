@@ -16,7 +16,6 @@ import {
 } from "./types";
 
 export const getAllDmRooms = (id) => (dispatch, getState) => {
-  console.log("getting all rooms");
   //note: temporary solution to prevent frequent get requests (should have a way of checking if it already loaded once)
   if (getState().dmRooms.length > 0) return null;
   const userId = id || getState().user.info._id || getState().user.info.id;
@@ -33,9 +32,6 @@ export const getAllDmRooms = (id) => (dispatch, getState) => {
       dispatch(clearErrors());
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
-
       dispatch({
         type: GET_ALL_ACTIVE_DM_ROOMS_FAIL,
       });
@@ -44,8 +40,6 @@ export const getAllDmRooms = (id) => (dispatch, getState) => {
 
 export const addActiveDmRoom = (values, successCb) => (dispatch, getState) => {
   const userId = getState().user.info._id || getState().user.info.id;
-
-  console.log(values);
 
   // if target user is available, add the room to frontend immediately to make it more responsive
   if (values.receiver) {
@@ -72,8 +66,6 @@ export const addActiveDmRoom = (values, successCb) => (dispatch, getState) => {
       if (successCb) successCb();
     })
     .catch((err) => {
-      console.log(err);
-      console.log(err.response);
       dispatch(returnErrors(err.response.data, err.response.status));
       dispatch({
         type: ADD_ACTIVE_DM_ROOM_FAIL,
@@ -82,61 +74,53 @@ export const addActiveDmRoom = (values, successCb) => (dispatch, getState) => {
     .finally(() => {});
 };
 
-export const removeActiveDmRoom = (roomId, successCb) => (
-  dispatch,
-  getState
-) => {
-  const userId = getState().user.info._id || getState().user.info.id;
-  dispatch({
-    type: REMOVE_ACTIVE_DM_ROOM,
-    payload: roomId,
-  });
-  if (successCb) successCb();
-  // note:might want to change this to roomId in the future
-  serverRest
-    .patch(`/api/users/${userId}/activeDmRooms/${roomId}/leave`)
-    .then((res) => {
-      dispatch(clearErrors());
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log(err.response);
-      dispatch(returnErrors(err.response.data, err.response.status));
-      dispatch({
-        type: REMOVE_ACTIVE_DM_ROOM_FAIL,
-      });
-    })
-    .finally(() => {});
-};
+export const removeActiveDmRoom =
+  (roomId, successCb) => (dispatch, getState) => {
+    const userId = getState().user.info._id || getState().user.info.id;
+    dispatch({
+      type: REMOVE_ACTIVE_DM_ROOM,
+      payload: roomId,
+    });
+    if (successCb) successCb();
+    // note:might want to change this to roomId in the future
+    serverRest
+      .patch(`/api/users/${userId}/activeDmRooms/${roomId}/leave`)
+      .then((res) => {
+        dispatch(clearErrors());
+      })
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status));
+        dispatch({
+          type: REMOVE_ACTIVE_DM_ROOM_FAIL,
+        });
+      })
+      .finally(() => {});
+  };
 
-export const removeActiveDmRoomWithName = (name, successCb) => (
-  dispatch,
-  getState
-) => {
-  const userId = getState().user.info._id || getState().user.info.id;
-  dispatch({
-    type: REMOVE_ACTIVE_DM_ROOM_WITH_NAME,
-    payload: name,
-  });
-  // there is a consistency bug in which it will show the deleted object
-  if (successCb) successCb();
-  serverRest
-    .patch(`/api/users/${userId}/activeDmRooms/${name}/leave_with_name`, {
-      name,
-    })
-    .then((res) => {
-      dispatch(clearErrors());
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log(err.response);
-      dispatch(returnErrors(err.response.data, err.response.status));
-      dispatch({
-        type: REMOVE_ACTIVE_DM_ROOM_WITH_NAME_FAIL,
-      });
-    })
-    .finally(() => {});
-};
+export const removeActiveDmRoomWithName =
+  (name, successCb) => (dispatch, getState) => {
+    const userId = getState().user.info._id || getState().user.info.id;
+    dispatch({
+      type: REMOVE_ACTIVE_DM_ROOM_WITH_NAME,
+      payload: name,
+    });
+    // there is a consistency bug in which it will show the deleted object
+    if (successCb) successCb();
+    serverRest
+      .patch(`/api/users/${userId}/activeDmRooms/${name}/leave_with_name`, {
+        name,
+      })
+      .then((res) => {
+        dispatch(clearErrors());
+      })
+      .catch((err) => {
+        dispatch(returnErrors(err.response.data, err.response.status));
+        dispatch({
+          type: REMOVE_ACTIVE_DM_ROOM_WITH_NAME_FAIL,
+        });
+      })
+      .finally(() => {});
+  };
 
 export const moveDmRoomToFront = (name, successCb) => (dispatch) => {
   try {
@@ -145,7 +129,5 @@ export const moveDmRoomToFront = (name, successCb) => (dispatch) => {
       payload: name,
     });
     if (successCb) successCb();
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };

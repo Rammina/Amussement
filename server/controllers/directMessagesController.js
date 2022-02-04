@@ -5,8 +5,6 @@ const Room = require("../models/room");
 
 // retrieve rooms list
 exports.get_all_dm_rooms = async (req, res) => {
-  console.log("retrieving dm rooms list");
-
   try {
     const user = await User.findById(req.params.id)
       .select("active_dm_rooms")
@@ -26,7 +24,6 @@ exports.get_all_dm_rooms = async (req, res) => {
     }
     res.status(200).json(user.active_dm_rooms);
   } catch (e) {
-    console.log(e);
     res.status(400).json({ msg: e.message });
   }
 };
@@ -54,14 +51,11 @@ exports.add_active_dm_room = async (req, res) => {
           populate: [{ path: "members", populate: { path: "user" } }],
         });
       if (!user) throw Error("Sender does not exist.");
-      console.log(user);
-      // note: don't use spread (...) operator on mongoose document object, it will most likely break and not work as intended
 
       const receiver = await User.findById(receiverId).select(
         "username image_url"
       );
       if (!receiver) throw Error("Sender does not exist.");
-      console.log(receiver);
 
       // look for the room first and check if it exists
       const room = await Room.findOne({ name });
@@ -84,7 +78,6 @@ exports.add_active_dm_room = async (req, res) => {
       }
 
       let addNothing = false;
-      console.log(user.active_dm_rooms);
       for (let activeRoom of user.active_dm_rooms) {
         if (activeRoom.name === name) {
           addNothing = true;
@@ -115,11 +108,6 @@ exports.add_active_dm_room = async (req, res) => {
             roles: ["member"],
           },
         ];
-        console.log("132");
-        console.log(addedRoomObject.members);
-        console.log(addedRoomObject);
-        console.log([addedRoomObject]);
-        console.log(user.active_dm_rooms);
 
         user.active_dm_rooms = [...user.active_dm_rooms, addedRoomObject];
         await user.save();
@@ -127,7 +115,6 @@ exports.add_active_dm_room = async (req, res) => {
         res.status(200).json(addedRoomObject);
       }
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -168,7 +155,6 @@ exports.remove_active_dm_room = async (req, res) => {
       await user.save();
       res.status(200);
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -209,7 +195,6 @@ exports.remove_active_dm_room_with_name = async (req, res) => {
       await user.save();
       res.status(200);
     } catch (e) {
-      console.log(e);
       res.status(400).json({ msg: e.message });
     }
   }
@@ -230,7 +215,7 @@ exports.remove_active_dm_room_with_name = async (req, res) => {
     //   populate: { path: "user" },
     // })
     // note: figure out the syntax for this
-    // console.log(rooms);
+    //
     // if (!room) throw Error("Could not find any active DM.");
 
 */

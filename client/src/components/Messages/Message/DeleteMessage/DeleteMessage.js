@@ -14,8 +14,6 @@ const DeleteMessage = (props) => {
   const { message } = props;
 
   const deleteMessageHandler = () => {
-    // note: cannot remove messages sent from thefrontend because they have no ._id
-    console.log("Deleting " + message._id);
     deleteMessage(message._id);
     props.onModalClose();
   };

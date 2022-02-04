@@ -61,7 +61,6 @@ const renderInput = ({ input, meta, inputProps, labelProps }) => {
 
 const EditAccount = (props) => {
   useEffect(() => {
-    console.log("this runs upon render");
     if (props.editAccountSubmitSuccess) {
       props.hideSection();
       // reset success status through MODAL_STATUS_RESET
@@ -71,7 +70,7 @@ const EditAccount = (props) => {
 
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
+
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -83,7 +82,6 @@ const EditAccount = (props) => {
   };
   // submit handler
   const onSubmit = async (formValues) => {
-    console.log(formValues);
     // check if it succeeded or it produced an error
     props.actionShowLoader("editAccountForm", true);
     await props.editUserAccount(formValues);
@@ -94,7 +92,6 @@ const EditAccount = (props) => {
       <Modal
         componentClass="edit-account"
         onModalClose={() => {
-          console.log("closing edit-account modal");
           props.hideSection();
         }}
         headerClassName="settings-page-sidebar-header"
@@ -195,7 +192,6 @@ const EditAccount = (props) => {
 };
 
 const validate = (formValues) => {
-  console.log(formValues);
   const errors = {};
   if (!formValues.email) {
     errors.email = "Please input an email.";

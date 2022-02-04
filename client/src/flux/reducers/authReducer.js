@@ -29,8 +29,6 @@ export default (state = initialState, action) => {
         isLoading: true,
       };
     case USER_LOADED:
-      console.log(`loading user, here is the payload `);
-      console.log(action.payload);
       sanitizedAuthPayload = {
         isAuthenticated: true,
         isLoading: false,
@@ -42,8 +40,6 @@ export default (state = initialState, action) => {
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      console.log(`loading user, here is the payload `);
-      console.log(action.payload);
       // put the token here and set is authenticated to true
       sanitizedAuthPayload = {
         ...action.payload,
@@ -51,7 +47,6 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         isLoading: false,
       };
-      console.log(sanitizedAuthPayload);
       return {
         ...state,
         ...sanitizedAuthPayload,

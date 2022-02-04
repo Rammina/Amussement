@@ -66,7 +66,7 @@ const DisableAccount = (props) => {
 
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
+
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -79,7 +79,6 @@ const DisableAccount = (props) => {
 
   // submit handler
   const onSubmit = async (formValues) => {
-    console.log(formValues);
     props.actionShowLoader("disableAccountForm", true);
     await props.disableUserAccount(formValues);
   };
@@ -89,7 +88,6 @@ const DisableAccount = (props) => {
       <Modal
         componentClass="disable-account"
         onModalClose={() => {
-          console.log("closing disable-account modal");
           props.hideSection();
         }}
         headerClassName="settings-page-sidebar-header"
@@ -163,7 +161,6 @@ const DisableAccount = (props) => {
 };
 
 const validate = (formValues) => {
-  console.log(formValues);
   const errors = {};
   if (!formValues.password) {
     errors.password = "Please input your password.";

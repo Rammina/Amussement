@@ -22,7 +22,6 @@ const DeleteRoom = (props) => {
 
   const renderErrorNotifications = () => {
     const errorMessage = props.error.msg;
-    console.log(errorMessage);
     if (errorMessage) {
       return <ErrorNotifications message={errorMessage.msg || null} />;
     }
@@ -38,7 +37,6 @@ const DeleteRoom = (props) => {
       <Modal
         componentClass="delete-room"
         onModalClose={() => {
-          console.log("closing delete-room modal");
           props.onClose();
         }}
         headerClassName="settings-page-sidebar-header"
@@ -102,23 +100,3 @@ export default connect(mapStateToProps, {
   deleteRoom,
   actionShowLoader,
 })(DeleteRoom);
-
-// // submit handler
-// const onSubmit = async (formValues) => {
-//   console.log(formValues);
-//   props.actionShowLoader("deleteRoomForm", true);
-//   await props.deleteRoom(formValues);
-// };
-
-// const validate = (formValues) => {
-//   console.log(formValues);
-//   const errors = {};
-//   return errors;
-// };
-
-// export default reduxForm({
-//   form: "deleteAccount",
-//   keepDirtyOnReinitialize: true,
-//   enableReinitialize: true,
-//   validate,
-// })(deleteAccount);

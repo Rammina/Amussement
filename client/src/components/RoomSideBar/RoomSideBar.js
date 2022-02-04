@@ -19,7 +19,7 @@ const RoomSideBar = (props) => {
       />
     ));
   };
-  console.log(props.user);
+
   return (
     <React.Fragment>
       <div className="room-sidebar-outer-container">

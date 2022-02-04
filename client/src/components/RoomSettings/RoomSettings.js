@@ -55,7 +55,6 @@ export const RoomSettings = (props) => {
     } else {
       // this is for desktop versions of the components
       if (roomOverviewOpened) {
-        console.log("Opening my account on desktop with");
         return <RoomOverview closeRoomOverview={roomOverviewOnCloseHandler} />;
       }
     }

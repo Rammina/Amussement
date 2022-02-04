@@ -19,7 +19,6 @@ const Modal = (props) => {
     setModalOpen(false);
 
     setTimeout(() => {
-      console.log("closing modal");
       props.onModalClose();
       // Remove errors
       props.clearErrors();

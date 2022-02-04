@@ -64,9 +64,6 @@ const LoginForm = (props) => {
 
   // submit handler
   const onSubmit = async (formValues) => {
-    console.log(formValues);
-    console.log(loginUser);
-
     props.actionShowLoader("loginForm", true);
     await props.loginUser(formValues);
   };
@@ -145,7 +142,6 @@ const LoginForm = (props) => {
 };
 
 const validate = (formValues) => {
-  console.log(formValues);
   const errors = {};
   if (!formValues.email) {
     errors.email = "Please input an email.";

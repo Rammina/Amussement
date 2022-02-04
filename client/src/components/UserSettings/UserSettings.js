@@ -40,7 +40,6 @@ const UserSettings = (props) => {
   const renderSection = () => {
     if (!isDesktopWidth || !isDesktopHeight) {
       if (myAccountOpened) {
-        console.log("Opening my account");
         return (
           <UserInfo
             userId={id}
@@ -53,7 +52,6 @@ const UserSettings = (props) => {
     } else {
       // this is for desktop versions of the components
       if (myAccountOpened || (!appearanceOpened && !friendsOpened)) {
-        console.log("Opening my account on desktop with");
         return (
           <UserInfo
             isDesktopWidth={true}
@@ -146,7 +144,7 @@ const userSettings = connect(null, { logout, clearFriendsList })(UserSettings);
 
 export default userSettings;
 
-/* 
+/*
 else if (appearanceOpened) {
         // return <UserInfo userId={id} />;
       } else if (friendsOpened) {

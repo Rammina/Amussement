@@ -87,27 +87,3 @@ const AddRoomButton = (props) => {
 };
 
 export default AddRoomButton;
-
-/*
-
-useEffect(() => {
-  // checkSelected();
-
-  return () => {
-    // setIsSelected(false);
-  };
-}, [location.search]);
-
-console.log(props.user);
-
-const checkSelected = () => {
-  if (
-    location.pathname.includes("/users") &&
-    location.pathname.includes("/home")
-  ) {
-    setIsSelected(true);
-  } else {
-    setIsSelected(false);
-  }
-};
-*/
